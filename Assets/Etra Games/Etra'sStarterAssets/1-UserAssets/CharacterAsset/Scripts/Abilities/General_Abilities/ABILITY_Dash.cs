@@ -23,7 +23,7 @@ public class ABILITY_Dash : EtraAbilityBaseClass
     public override void abilityUpdate()
     {
 
-        if (!enabled)
+        if (!enabled || !abilityEnabled)
         {
             return;
         }
@@ -48,7 +48,7 @@ public class ABILITY_Dash : EtraAbilityBaseClass
             EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(transform.forward, dashRange);
             _dashTimeoutDelta = dashCooldown;
             cooling = true;
-           
+
         }
 
 
