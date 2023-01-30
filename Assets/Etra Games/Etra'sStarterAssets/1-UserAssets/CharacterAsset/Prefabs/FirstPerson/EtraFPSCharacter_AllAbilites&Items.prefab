@@ -786,6 +786,7 @@ GameObject:
   - component: {fileID: 3188731723328723223}
   - component: {fileID: 3188731723328723222}
   - component: {fileID: 3188731723328723217}
+  - component: {fileID: 8556283586867326135}
   m_Layer: 0
   m_Name: EtraAbilityManager
   m_TagString: Untagged
@@ -827,6 +828,7 @@ MonoBehaviour:
   - {fileID: 3188731723328723223}
   - {fileID: 3188731723328723222}
   - {fileID: 3188731723328723217}
+  - {fileID: 8556283586867326135}
 --- !u!114 &3188731723328723227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,6 +963,25 @@ MonoBehaviour:
   crouchedMovementSpeed: 1
   CrouchType: 0
   timeToCrouch: 0.25
+--- !u!114 &8556283586867326135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3188731723328723219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de5be9da2baf1c3b6fe4621cd026ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityEnabled: 1
+  pickUpRange: 5
+  maxMass: 5
+  springJointForce: 200
+  springJointDamper: 10
+  temporaryParent: {fileID: 0}
+  pickedUpDrag: 10
 --- !u!1 &3188731723368053356
 GameObject:
   m_ObjectHideFlags: 0
