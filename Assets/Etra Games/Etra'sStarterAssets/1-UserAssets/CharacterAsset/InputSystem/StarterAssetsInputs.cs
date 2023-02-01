@@ -15,7 +15,7 @@ namespace StarterAssets
         public bool aim;
         public bool shoot;
         public bool crouch;
-        public bool dash;
+        public bool interact;
 
 
 
@@ -80,9 +80,9 @@ namespace StarterAssets
             CrouchInput(value.isPressed);
         }
 
-        public void OnDash(InputValue value)
+        public void OnInteract(InputValue value)
         {
-            DashInput(value.isPressed);
+            InteractInput(value.isPressed);
         }
 
         public void OnMouseWheelInventoryScroll(InputValue value)
@@ -239,9 +239,9 @@ namespace StarterAssets
 
         }
 
-        public void DashInput(bool newDashState)
+        public void InteractInput(bool newInteractState)
         {
-            dash = newDashState;
+            interact = newInteractState;
         }
 
 

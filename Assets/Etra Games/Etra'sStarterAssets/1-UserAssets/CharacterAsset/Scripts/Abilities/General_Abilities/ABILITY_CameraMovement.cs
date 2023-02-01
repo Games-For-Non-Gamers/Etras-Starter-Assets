@@ -51,8 +51,9 @@ public class ABILITY_CameraMovement : EtraAbilityBaseClass
     private float camModY = 1;
 
     //References 
+    [HideInInspector]
+    public GameObject playerCameraRoot;
     private StarterAssetsInputs _input;
-    private GameObject CinemachineCameraTarget;
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -77,7 +78,7 @@ public class ABILITY_CameraMovement : EtraAbilityBaseClass
         }
 
         aimColliderMask = LayerMask.GetMask("Default");
-        CinemachineCameraTarget = GameObject.Find("EtraPlayerCameraRoot");
+        playerCameraRoot = GameObject.Find("EtraPlayerCameraRoot");
         OnValidate();
     }
 
@@ -86,9 +87,9 @@ public class ABILITY_CameraMovement : EtraAbilityBaseClass
         //Check OnValidate and x&y locks and set usedCameraSensitivity
         OnValidate();
         //Get references
-        CinemachineCameraTarget = GameObject.Find("EtraPlayerCameraRoot");
+        playerCameraRoot = GameObject.Find("EtraPlayerCameraRoot");
         _input = GetComponentInParent<StarterAssetsInputs>();
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        playerCameraRoot.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
 
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponentInParent<PlayerInput>();
@@ -162,7 +163,7 @@ public class ABILITY_CameraMovement : EtraAbilityBaseClass
         _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
         // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
+        playerCameraRoot.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
 
     }
 

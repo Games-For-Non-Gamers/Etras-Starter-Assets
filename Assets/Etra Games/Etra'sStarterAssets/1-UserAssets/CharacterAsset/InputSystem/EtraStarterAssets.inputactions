@@ -1,5 +1,5 @@
 {
-    "name": "StarterAssets",
+    "name": "EtraStarterAssets",
     "maps": [
         {
             "name": "Player",
@@ -69,10 +69,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "Button",
+                    "name": "Interact",
+                    "type": "PassThrough",
                     "id": "05d42062-c8cb-48bc-8b5a-e4045fcf481a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -436,7 +436,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Dash",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -447,7 +447,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Dash",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
