@@ -35,7 +35,7 @@ public class ABILITY_Dash : EtraAbilityBaseClass
         else if (_dashTimeoutDelta < 0.0f && cooling)
         {
             cooling = false;
-            _inputs.interact = false;
+            _inputs.dash = false;
         }
 
         if (cooling)
@@ -43,7 +43,7 @@ public class ABILITY_Dash : EtraAbilityBaseClass
             return;
         }
 
-        if (_inputs.interact)
+        if (_inputs.dash)
         {
             EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(transform.forward, dashRange);
             _dashTimeoutDelta = dashCooldown;
