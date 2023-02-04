@@ -1,5 +1,5 @@
 {
-    "name": "StarterAssets",
+    "name": "EtraStarterAssets",
     "maps": [
         {
             "name": "Player",
@@ -27,6 +27,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "8c4abdf8-4099-493a-aa1a-129acec7c3df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "e03a18b2-3331-4683-9e0d-4a92ebbe90d4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -69,10 +78,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "Button",
+                    "name": "Interact",
+                    "type": "PassThrough",
                     "id": "05d42062-c8cb-48bc-8b5a-e4045fcf481a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -436,7 +445,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Dash",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -447,7 +456,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Dash",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -635,6 +644,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "SelectItem9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a24c0469-f065-422a-9aa9-83f281da9de1",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fe655b2-785f-4426-a7e8-c41f533bd245",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
