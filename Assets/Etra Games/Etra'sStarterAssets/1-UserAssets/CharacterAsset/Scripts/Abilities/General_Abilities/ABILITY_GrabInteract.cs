@@ -58,7 +58,7 @@ public class ABILITY_GrabInteract : EtraAbilityBaseClass
             return;
         }
 
-        if(interactHeld && starterAssetsInputs.interact == false)
+        if(interactHeld && !starterAssetsInputs.interact)
         {
             interactHeld = false;
         }
@@ -66,12 +66,18 @@ public class ABILITY_GrabInteract : EtraAbilityBaseClass
         if (pickedUpObject == null)
         {
             // if we press E while looking at a rigidbody we raycast to, we will pick it up
+
+            // check e is held
             if (starterAssetsInputs.interact && !interactHeld)
             {
                 interactHeld = true;
+
+                // check if object is being looked at, and is in range to be picked up
                 if (pickUpRange > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, camMoveScript.pointCharacterIsLookingAt))
                 {
                     GameObject objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
+
+                    // if rigid body, and not too big, pick up object
                     if (objectThatIsLookedAt.GetComponent<Rigidbody>() != null)
                     {
                         if (objectThatIsLookedAt.GetComponent<Rigidbody>().mass <= maxMass)
