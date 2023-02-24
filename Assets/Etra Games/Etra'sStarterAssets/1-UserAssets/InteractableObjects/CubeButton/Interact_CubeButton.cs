@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Interact_CubeButton : MonoBehaviour
 {
+    private int numObjects = 0;
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(numObjects);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,12 +19,14 @@ public class Interact_CubeButton : MonoBehaviour
 
         if (other.gameObject.tag == "Player")
         {
-            doorScript.SetOpened(true);
+            numObjects++;
+            if (numObjects == 1) doorScript.SetOpened(true);
         }
         
-        else if (other.GetComponent<Rigidbody>() != null)
+        else if (other.GetComponent<Rigidbody>() != null && numObjects == 0)
         {
-            doorScript.SetOpened(true);
+            numObjects++;
+            if (numObjects == 1) doorScript.SetOpened(true);
         }
     }
 
@@ -31,13 +34,14 @@ public class Interact_CubeButton : MonoBehaviour
     {
         GameObject door = transform.parent.parent.GetChild(0).gameObject;
         SciFiDoor doorScript = door.GetComponent<SciFiDoor>();
+        if (numObjects >= 1) numObjects--;
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && numObjects == 0)
         {
             doorScript.SetOpened(false);
         }
 
-        else if (other.GetComponent<Rigidbody>() != null)
+        else if (other.GetComponent<Rigidbody>() != null && numObjects == 0)
         {
             doorScript.SetOpened(false);
         }

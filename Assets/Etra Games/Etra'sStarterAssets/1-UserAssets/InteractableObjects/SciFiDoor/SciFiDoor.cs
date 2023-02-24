@@ -13,6 +13,6 @@ public class SciFiDoor : MonoBehaviour
 
     public void ToggleOpened()
     {
-        animator.SetBool("Opened", !animator.GetBool("Opened"));
+        SetOpened(!animator.GetBool("Opened"));
     }
 }
