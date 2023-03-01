@@ -1,12 +1,11 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
-using StarterAssets;
 using UnityEngine;
 
-public class ABILITY_ModelSwap : EtraAbilityBaseClass
+public class VoxelAnimator : MonoBehaviour
 {
-    //Abilty created by: CodeyCantEatThis
-
+    EtraCharacterMainController mainController;
     StarterAssetsInputs starterAssetsInputs;
 
     [SerializeField]
@@ -25,20 +24,16 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
 
     bool grounded;
 
-    public override void abilityStart()
+    public void Start()
     {
-        starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
-        mainController = GetComponentInParent<EtraCharacterMainController>();
+        mainController = EtraCharacterMainController.Instance;
+        starterAssetsInputs = mainController.GetComponent<StarterAssetsInputs>();
     }
 
-    public override void abilityUpdate()
+    public void Update()
     {
-        if(!enabled)
-        {
-            return;
-        }
 
-        if(!mainController.Grounded)                        // if character is not grounded; use jumpMeshes or fallMeshes
+        if (!mainController.Grounded)                        // if character is not grounded; use jumpMeshes or fallMeshes
         {
             grounded = false;
 
@@ -68,7 +63,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
 
             if (jumping)                                     // use jump meshes; after iterating through all jump meshes, switch to fall meshes until landing
             {
-                if(updateMeshTimer > updateMeshTimerMax)
+                if (updateMeshTimer > updateMeshTimerMax)
                 {
                     meshIndex++;
                     updateMeshTimer = 0;
@@ -78,7 +73,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                     updateMeshTimer += Time.deltaTime;
                 }
 
-                if(meshIndex >= jumpMeshes.Length)
+                if (meshIndex >= jumpMeshes.Length)
                 {
                     meshFilter.mesh = fallMeshes[0];
                     jumping = false;
@@ -89,7 +84,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                     meshFilter.mesh = jumpMeshes[meshIndex];
                 }
             }
-            else if(falling)                                // use fall meshes
+            else if (falling)                                // use fall meshes
             {
                 if (updateMeshTimer > updateMeshTimerMax)
                 {
@@ -109,13 +104,13 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                 meshFilter.mesh = fallMeshes[meshIndex];
             }
         }
-        else if(mainController.Grounded)                    // character is grounded; use idleMeshes or walkMeshes
+        else if (mainController.Grounded)                    // character is grounded; use idleMeshes or walkMeshes
         {
-            if(!grounded)                                   // if character was in the ungrounded state, reset the animation to be a grounded animation
+            if (!grounded)                                   // if character was in the ungrounded state, reset the animation to be a grounded animation
             {
                 grounded = true;
 
-                if(starterAssetsInputs.move.magnitude > 0)
+                if (starterAssetsInputs.move.magnitude > 0)
                 {
                     meshFilter.mesh = walkMeshes[0];
                     meshIndex = 0;
@@ -127,9 +122,9 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                 }
             }
 
-            if(starterAssetsInputs.move.magnitude > 0)     // use walk meshes
+            if (starterAssetsInputs.move.magnitude > 0)     // use walk meshes
             {
-                if(starterAssetsInputs.sprint)
+                if (starterAssetsInputs.sprint)
                 {
                     updateMeshTimerMax = updateTimerMaxSprint;
                 }
@@ -138,7 +133,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                     updateMeshTimerMax = updateTimerMaxWalk;
                 }
 
-                if(updateMeshTimer > updateMeshTimerMax)
+                if (updateMeshTimer > updateMeshTimerMax)
                 {
                     meshIndex++;
                     updateMeshTimer = 0;
@@ -148,7 +143,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
                     updateMeshTimer += Time.deltaTime;
                 }
 
-                if(meshIndex >= walkMeshes.Length)
+                if (meshIndex >= walkMeshes.Length)
                 {
                     meshIndex = 0;
                 }
@@ -157,7 +152,7 @@ public class ABILITY_ModelSwap : EtraAbilityBaseClass
             }
             else                                           // use idle meshes
             {
-                if(updateMeshTimerMax == updateTimerMaxSprint)
+                if (updateMeshTimerMax == updateTimerMaxSprint)
                 {
                     updateMeshTimerMax = updateTimerMaxWalk;
                 }

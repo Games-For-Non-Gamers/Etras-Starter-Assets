@@ -115,4 +115,17 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
 
     #endregion
 
+
+    public static bool TryGetComponentInChildren<T>(Transform parentObject)
+    {
+        if (parentObject.GetComponentInChildren<T>() != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

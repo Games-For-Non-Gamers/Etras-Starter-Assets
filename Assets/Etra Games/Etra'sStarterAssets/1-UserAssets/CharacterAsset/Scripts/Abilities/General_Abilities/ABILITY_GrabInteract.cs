@@ -46,11 +46,12 @@ public class ABILITY_GrabInteract : EtraAbilityBaseClass
         otherRB.useGravity = false;
         otherRB.mass = 2000f; // this helps certain components understand that this is a static object
 
-        otherRB.transform.parent = Camera.main.transform;
+        otherRB.transform.parent = GameObject.Find("EtraPlayerCameraRoot").transform;
         otherRB.transform.localPosition = new Vector3(0, 0, pickedUpObjectDistanceFromPlayer);
     }
 
     bool interactHeld;
+    bool secondInteractCheck = false;
     public override void abilityUpdate()
     {
         if (!enabled)
@@ -63,12 +64,17 @@ public class ABILITY_GrabInteract : EtraAbilityBaseClass
             interactHeld = false;
         }
 
+        if (!starterAssetsInputs.interact)
+        {
+            secondInteractCheck = false;
+        }
+
         if (pickedUpObject == null)
         {
             // if we press E while looking at a rigidbody we raycast to, we will pick it up
 
             // check e is held
-            if (starterAssetsInputs.interact && !interactHeld)
+            if (starterAssetsInputs.interact && !interactHeld && !secondInteractCheck)
             {
                 interactHeld = true;
 
@@ -117,8 +123,11 @@ public class ABILITY_GrabInteract : EtraAbilityBaseClass
                 pickedUpObject.angularDrag = originalAngularDrag;
                 pickedUpObject.drag = originalDrag;
                 pickedUpObject = null;
+                secondInteractCheck = true;
             }
+
         }
+
     }
 
 

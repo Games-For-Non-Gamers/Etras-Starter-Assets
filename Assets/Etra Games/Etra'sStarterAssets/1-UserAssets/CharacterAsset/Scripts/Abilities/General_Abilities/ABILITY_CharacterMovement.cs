@@ -57,7 +57,9 @@ public class ABILITY_CharacterMovement : EtraAbilityBaseClass
 		{
 			_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		}
-        _hasAnimator = transform.parent.TryGetComponent(out _animator);
+        _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(EtraCharacterMainController.Instance.modelParent);
+        if (_hasAnimator) { _animator = EtraCharacterMainController.Instance.modelParent.GetComponentInChildren<Animator>(); }
+
         _controller = GetComponentInParent<CharacterController>();
         _input = GetComponentInParent<StarterAssetsInputs>();
         _animIDSpeed = Animator.StringToHash("Speed");

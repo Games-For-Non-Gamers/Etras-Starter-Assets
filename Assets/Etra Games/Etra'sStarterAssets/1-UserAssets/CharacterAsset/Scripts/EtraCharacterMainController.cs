@@ -35,6 +35,7 @@ namespace StarterAssets
         {
             DefaultArmature,
             Capsule,
+            Voxel,
             None
         }
         //These public variables let you select what gameplay type you want
@@ -45,9 +46,11 @@ namespace StarterAssets
         //This is space for the "Apply Gameplay Changes" button generated in UnityEditorForEtraCharacterMainController.cs
         [Space(40)]
 
-
+  
         public EtraAbilityManager abilityManager;
+        public Transform modelParent;
 
+        [Header("Gravity and Ground")]
         //************************
         //Gravity and floor collision variables
         //************************
@@ -83,9 +86,9 @@ namespace StarterAssets
         //************************
         //References
         //************************
+        private bool _hasAnimator;
         private Animator _animator;
         private CharacterController _controller;
-        private bool _hasAnimator;
 
         //************************
         //Externally called function variables
@@ -323,6 +326,8 @@ namespace StarterAssets
             AssignAnimationIDs();
             //Set reference variables
             _hasAnimator = TryGetComponent(out _animator);
+            _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(modelParent);
+            if (_hasAnimator) { _animator = modelParent.GetComponentInChildren<Animator>(); }
             _controller = GetComponent<CharacterController>();
         }
 

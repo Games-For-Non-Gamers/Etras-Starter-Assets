@@ -23,7 +23,7 @@ public class ABILITY_Jump : EtraAbilityBaseClass
     //References
     private Animator _animator;
 	private StarterAssetsInputs _input;
-	private bool _hasAnimator;
+	public bool _hasAnimator;
 	private int _animIDJump;
     private int _animIDFreeFall;
 
@@ -33,8 +33,9 @@ public class ABILITY_Jump : EtraAbilityBaseClass
         _jumpTimeoutDelta = JumpTimeout;
 		//Get references
         mainController = GetComponentInParent<EtraCharacterMainController>();
-		_hasAnimator = transform.parent.TryGetComponent(out _animator);
-		_input = GetComponentInParent<StarterAssetsInputs>();
+        _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(EtraCharacterMainController.Instance.modelParent);
+        if (_hasAnimator) { _animator = EtraCharacterMainController.Instance.modelParent.GetComponentInChildren<Animator>(); }
+        _input = GetComponentInParent<StarterAssetsInputs>();
 		_animIDJump = Animator.StringToHash("Jump");
 		_animIDFreeFall = Animator.StringToHash("FreeFall");
 	}

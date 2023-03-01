@@ -294,6 +294,9 @@ public class EtraCharacterCreator : EditorWindow
                 characterTypeSelection = (EtraCharacterCreator.CharacterTypeSelection)EditorGUILayout.EnumPopup(characterTypeSelection);
                 GUILayout.Space(10);
 
+                GUILayout.Space(10);
+
+
                 if (GUILayout.Button("Next"))
                 {
                     switch (characterTypeSelection)
@@ -307,7 +310,7 @@ public class EtraCharacterCreator : EditorWindow
                             break;
                     }
                 }
-
+                
                 break;
 
             //~~~FPS PAGE~~~
