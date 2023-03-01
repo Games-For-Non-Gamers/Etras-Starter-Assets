@@ -175,20 +175,30 @@ namespace StarterAssets
                     break;
             }
 
+            
+            //Destroy the current character model
+            foreach (Transform child in modelParent)
+            {
+                DestroyImmediate(child.gameObject);
+            }
+            GameObject model;
             //Select correct character model
             switch (appliedCharacterModel)
             {
+
                 case EtraCharacterMainController.Model.DefaultArmature:
-                    GetComponentInChildren<ModelOptionsList>().armature.SetActive(true);
-                    GetComponentInChildren<ModelOptionsList>().capsule.SetActive(false);
+                    model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("DefaultArmatureCharacterModel", modelParent, false, Vector3.zero);
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("DefaultArmatureCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.Capsule:
-                    GetComponentInChildren<ModelOptionsList>().armature.SetActive(false);
-                    GetComponentInChildren<ModelOptionsList>().capsule.SetActive(true);
+                    model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("CapsuleCharacterModel", modelParent, false, Vector3.zero);
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("CapsuleCharacterModel").transform.localPosition;
+                    break;
+                case EtraCharacterMainController.Model.Voxel:
+                    model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("VoxelCharacterModel", modelParent, false, Vector3.zero);
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("VoxelCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.None:
-                    GetComponentInChildren<ModelOptionsList>().armature.SetActive(false);
-                    GetComponentInChildren<ModelOptionsList>().capsule.SetActive(false);
                     break;
             }
         }

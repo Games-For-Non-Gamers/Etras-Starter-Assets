@@ -21,9 +21,18 @@ public class EtraCharacterCreator : EditorWindow
         Third_Person_Character,
     }
 
+    enum CharacterModelSelection
+    {
+        DefaultArmature,
+        Capsule,
+        Voxel,
+        None
+    }
+
     //Selectable enum variable instances
     CharacterCreatorPage characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
     CharacterTypeSelection characterTypeSelection = EtraCharacterCreator.CharacterTypeSelection.First_Person_Character;
+    CharacterModelSelection characterModelSelection = EtraCharacterCreator.CharacterModelSelection.DefaultArmature;
 
     #region Text Style Types Variables and Functions
     bool m_Initialized;
@@ -356,6 +365,11 @@ public class EtraCharacterCreator : EditorWindow
                 {
                     characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities;
                 }
+
+
+                GUILayout.Label("Select your Character Model...", m_HeadingStyle);
+                characterModelSelection = (EtraCharacterCreator.CharacterModelSelection)EditorGUILayout.EnumPopup(characterModelSelection);
+                GUILayout.Space(10);
 
 
                 GUILayout.Label("Select your Character's FPS Items...", m_HeadingStyle);
