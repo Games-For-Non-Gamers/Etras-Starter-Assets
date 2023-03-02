@@ -3,6 +3,7 @@ using UnityEditor;
 using StarterAssets;
 using System.Collections.Generic;
 using System;
+using static StarterAssets.EtraCharacterMainController;
 
 public class EtraCharacterCreator : EditorWindow
 {
@@ -15,24 +16,15 @@ public class EtraCharacterCreator : EditorWindow
         ThirdPersonAbilities,
         FirstPersonItems
     }
-    enum CharacterTypeSelection
-    {
-        First_Person_Character,
-        Third_Person_Character,
-    }
-
-    enum CharacterModelSelection
-    {
-        DefaultArmature,
-        Capsule,
-        Voxel,
-        None
-    }
 
     //Selectable enum variable instances
     CharacterCreatorPage characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
-    CharacterTypeSelection characterTypeSelection = EtraCharacterCreator.CharacterTypeSelection.First_Person_Character;
-    CharacterModelSelection characterModelSelection = EtraCharacterCreator.CharacterModelSelection.DefaultArmature;
+  //  CharacterTypeSelection characterTypeSelection = EtraCharacterCreator.CharacterTypeSelection.First_Person_Character;
+   // CharacterModelSelection characterModelSelection = EtraCharacterCreator.CharacterModelSelection.DefaultArmature;
+
+    EtraCharacterMainController.GameplayType gameplayType = EtraCharacterMainController.GameplayType.FirstPerson;
+    EtraCharacterMainController.Model model = EtraCharacterMainController.Model.DefaultArmature;
+
 
     #region Text Style Types Variables and Functions
     bool m_Initialized;
@@ -300,7 +292,7 @@ public class EtraCharacterCreator : EditorWindow
                 GUILayout.Space(10);
 
                 GUILayout.Label("Select your Character Type...", m_HeadingStyle);
-                characterTypeSelection = (EtraCharacterCreator.CharacterTypeSelection)EditorGUILayout.EnumPopup(characterTypeSelection);
+                gameplayType = (EtraCharacterMainController.GameplayType)EditorGUILayout.EnumPopup(gameplayType);
                 GUILayout.Space(10);
 
                 GUILayout.Space(10);
@@ -308,13 +300,13 @@ public class EtraCharacterCreator : EditorWindow
 
                 if (GUILayout.Button("Next"))
                 {
-                    switch (characterTypeSelection)
+                    switch (gameplayType)
                     {
-                        case EtraCharacterCreator.CharacterTypeSelection.First_Person_Character:
+                        case EtraCharacterMainController.GameplayType.FirstPerson:
                             characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities;
                             break;
 
-                        case EtraCharacterCreator.CharacterTypeSelection.Third_Person_Character:
+                        case EtraCharacterMainController.GameplayType.ThirdPerson:
                             characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.ThirdPersonAbilities;
                             break;
                     }
@@ -358,6 +350,8 @@ public class EtraCharacterCreator : EditorWindow
             //~~~FPS ITEMS~~~
             case EtraCharacterCreator.CharacterCreatorPage.FirstPersonItems:
 
+                model = EtraCharacterMainController.Model.Capsule;
+
                 GUILayout.Label("Etra Character Creator:", TitleStyle);
                 GUILayout.Space(5);
 
@@ -365,12 +359,6 @@ public class EtraCharacterCreator : EditorWindow
                 {
                     characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities;
                 }
-
-
-                GUILayout.Label("Select your Character Model...", m_HeadingStyle);
-                characterModelSelection = (EtraCharacterCreator.CharacterModelSelection)EditorGUILayout.EnumPopup(characterModelSelection);
-                GUILayout.Space(10);
-
 
                 GUILayout.Label("Select your Character's FPS Items...", m_HeadingStyle);
 
@@ -395,6 +383,8 @@ public class EtraCharacterCreator : EditorWindow
             //~~~TPS PAGE~~~
             case EtraCharacterCreator.CharacterCreatorPage.ThirdPersonAbilities:
 
+                model = EtraCharacterMainController.Model.DefaultArmature;
+
                 GUILayout.Label("Etra Character Creator:", TitleStyle);
                 GUILayout.Space(5);
 
@@ -402,6 +392,11 @@ public class EtraCharacterCreator : EditorWindow
                 {
                     characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
                 }
+
+
+                GUILayout.Label("Select your Character Model...", m_HeadingStyle);
+                model = (EtraCharacterMainController.Model)EditorGUILayout.EnumPopup(model);
+                GUILayout.Space(10);
 
                 GUILayout.Label("Select your Character's TPS Abilities...", m_HeadingStyle);
 
@@ -453,10 +448,11 @@ public class EtraCharacterCreator : EditorWindow
             iterator++;
         }
 
+
         //Set character up correctly.
-        switch (characterTypeSelection)
+        switch (gameplayType)
         {
-            case EtraCharacterCreator.CharacterTypeSelection.First_Person_Character:
+            case EtraCharacterMainController.GameplayType.FirstPerson:
 
                 //Add FPS Abilities 
                 iterator = 0;
@@ -503,14 +499,10 @@ public class EtraCharacterCreator : EditorWindow
                     }
                 }
 
-
-
-
-
-                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(EtraCharacterMainController.GameplayType.FirstPerson, EtraCharacterMainController.Model.Capsule);
+                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(gameplayType, model);
                 break;
 
-            case EtraCharacterCreator.CharacterTypeSelection.Third_Person_Character:
+            case EtraCharacterMainController.GameplayType.ThirdPerson:
 
                 //Add TPS Abilities maybe
                 iterator = 0;
@@ -524,9 +516,9 @@ public class EtraCharacterCreator : EditorWindow
                     iterator++;
                 }
 
-               
 
-                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(EtraCharacterMainController.GameplayType.ThirdPerson, EtraCharacterMainController.Model.DefaultArmature);
+
+                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(gameplayType, model);
                 break;
         }
 
