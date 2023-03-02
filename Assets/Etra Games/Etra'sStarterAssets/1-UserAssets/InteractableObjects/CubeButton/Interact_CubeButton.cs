@@ -4,46 +4,50 @@ using UnityEngine;
 
 public class Interact_CubeButton : MonoBehaviour
 {
-    private int numObjects = 0;
+    public SciFiDoor door;
+    private Transform buttonMain;
+    Vector3 buttonStartPos = new Vector3(0, -0.94f, 0);
+    Vector3 buttonEndPos = new Vector3(0, -1.32f, 0);
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        Debug.Log(numObjects);
+        buttonMain = transform.GetChild(0);
+        Vector3 buttonStartPos = buttonMain.transform.position;
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject door = transform.parent.parent.GetChild(0).gameObject;
-        SciFiDoor doorScript = door.GetComponent<SciFiDoor>();
-
+        Debug.Log(other.name);
         if (other.gameObject.tag == "Player")
         {
-            numObjects++;
-            if (numObjects == 1) doorScript.SetOpened(true);
+            buttonPressed();
         }
-        
-        else if (other.GetComponent<Rigidbody>() != null && numObjects == 0)
+        else if (other.GetComponent<Rigidbody>() != null)
         {
-            numObjects++;
-            if (numObjects == 1) doorScript.SetOpened(true);
+            buttonPressed();
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject door = transform.parent.parent.GetChild(0).gameObject;
-        SciFiDoor doorScript = door.GetComponent<SciFiDoor>();
-        if (numObjects >= 1) numObjects--;
 
-        if (other.gameObject.tag == "Player" && numObjects == 0)
-        {
-            doorScript.SetOpened(false);
-        }
+            buttonReleased();
 
-        else if (other.GetComponent<Rigidbody>() != null && numObjects == 0)
-        {
-            doorScript.SetOpened(false);
-        }
+    }
+
+
+    private void buttonPressed()
+    {
+         door.SetOpened(true);
+        LeanTween.moveLocal(buttonMain.gameObject, buttonEndPos, 0.15f);
+    }
+
+    private void buttonReleased()
+    {
+        door.SetOpened(false);
+        LeanTween.moveLocal(buttonMain.gameObject, buttonStartPos, 0.15f);
     }
 }

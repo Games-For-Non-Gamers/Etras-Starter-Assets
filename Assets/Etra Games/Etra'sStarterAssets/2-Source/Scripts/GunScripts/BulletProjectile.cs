@@ -21,10 +21,7 @@ public class BulletProjectile : MonoBehaviour
         Invoke("DestoryAfterTime", 10f);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(gameObject);
-    }
+
 
     void DestoryAfterTime()
     {
