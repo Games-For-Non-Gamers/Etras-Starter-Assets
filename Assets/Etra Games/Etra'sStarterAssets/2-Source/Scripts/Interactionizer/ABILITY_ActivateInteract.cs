@@ -32,7 +32,7 @@ public class ABILITY_ActivateInteract : EtraAbilityBaseClass
             return;
         }
         //If the object is in range
-        if (interactDistance > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, camMoveScript.pointCharacterIsLookingAt)) 
+        if (interactDistance > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, camMoveScript.pointCharacterIsLookingAt))
         {
             if (camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>()) //Check if the object has the ObjectInteraction script
             {
@@ -60,14 +60,14 @@ public class ABILITY_ActivateInteract : EtraAbilityBaseClass
 
                     if (starterAssetsInputs.interact)
                     {
-                        holdingInteract= true;
+                        holdingInteract = true;
                         buttonPressed = true;
                         // Interact with the object
                         objectThatIsLookedAt.transform.gameObject.GetComponent<ObjectInteraction>().Interact();
                     }
-                    else  
+                    else
                     {
-                        holdingInteract= false;
+                        holdingInteract = false;
                     }
 
                     if (buttonPressed == true && holdingInteract == false)
@@ -104,3 +104,5 @@ public class ABILITY_ActivateInteract : EtraAbilityBaseClass
         }
     }
 }
+
+

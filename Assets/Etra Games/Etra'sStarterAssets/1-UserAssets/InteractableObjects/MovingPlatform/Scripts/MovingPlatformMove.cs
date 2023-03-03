@@ -13,13 +13,15 @@ public class MovingPlatformMove : MonoBehaviour
     public Transform startPos;
     public Transform endPos;
 
-    // Start is called before the first frame update
+    // Set the start position
     void Start()
     {
         platform.transform.position = startPos.position;
         StartCoroutine(moveToEnd());
     }
 
+
+    //Run couroutines with LeanTween to move the platforms position from startPos to endPos/
     IEnumerator moveToStart()
     {
         LeanTween.move(platform, startPos, howLongToMove);

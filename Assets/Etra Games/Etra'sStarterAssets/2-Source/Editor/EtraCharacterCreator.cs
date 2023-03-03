@@ -19,9 +19,6 @@ public class EtraCharacterCreator : EditorWindow
 
     //Selectable enum variable instances
     CharacterCreatorPage characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
-  //  CharacterTypeSelection characterTypeSelection = EtraCharacterCreator.CharacterTypeSelection.First_Person_Character;
-   // CharacterModelSelection characterModelSelection = EtraCharacterCreator.CharacterModelSelection.DefaultArmature;
-
     EtraCharacterMainController.GameplayType gameplayType = EtraCharacterMainController.GameplayType.FirstPerson;
     EtraCharacterMainController.Model model = EtraCharacterMainController.Model.DefaultArmature;
 
@@ -277,6 +274,7 @@ public class EtraCharacterCreator : EditorWindow
         {
             //~~~INTRO PAGE~~~
             case EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities:
+                model = EtraCharacterMainController.Model.DefaultArmature;
 
                 GUILayout.Label("Etra Character Creator:", TitleStyle);
                 GUILayout.Space(5);
@@ -382,8 +380,6 @@ public class EtraCharacterCreator : EditorWindow
 
             //~~~TPS PAGE~~~
             case EtraCharacterCreator.CharacterCreatorPage.ThirdPersonAbilities:
-
-                model = EtraCharacterMainController.Model.DefaultArmature;
 
                 GUILayout.Label("Etra Character Creator:", TitleStyle);
                 GUILayout.Space(5);

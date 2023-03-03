@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7449406887297584630}
   - component: {fileID: 4484909176612478994}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: OffsetAndSwayAnimations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 2835717266462403937}
   - component: {fileID: 1222065672421499588}
   - component: {fileID: 3968041845567591950}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: SwordModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8670025090755503131}
   - component: {fileID: 1116863876863832826}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FPSSwordBasePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &1116863876863832826
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -188,10 +188,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &7553328860832279285
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7553328860832279286}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FPSSwordGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

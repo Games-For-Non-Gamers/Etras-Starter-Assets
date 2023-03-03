@@ -11,6 +11,7 @@ public class MovingPlatformAttach : MonoBehaviour
             savedParent = other.transform.parent;
             other.transform.SetParent(transform);
         }
+
     }
 
     void OnTriggerExit(Collider other)
@@ -20,6 +21,7 @@ public class MovingPlatformAttach : MonoBehaviour
         {
             other.transform.SetParent(savedParent);
         }
+
     }
 
 

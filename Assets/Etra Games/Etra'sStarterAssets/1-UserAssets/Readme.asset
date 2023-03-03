@@ -53,10 +53,10 @@ MonoBehaviour:
     linkText: 
     url: 
   - heading: Dependencies
-    text: "The Etra\u2019s Starter Assets package requires the Cinemachine package
-      to work.  It is highly recommended that you download the Input System package.
-      Partial support for Unity\u2019s default input system is included in the StarterAssetsInputs.cs
-      script. "
+    text: "The Etra\u2019s Starter Assets package requires the Cinemachine and TextMeshPro
+      packages to work.  It is highly recommended that you download the Input System
+      package. Partial support for Unity\u2019s default input system is included
+      in the StarterAssetsInputs.cs script. "
     linkText: 
     url: 
   - heading: Render Pipelines

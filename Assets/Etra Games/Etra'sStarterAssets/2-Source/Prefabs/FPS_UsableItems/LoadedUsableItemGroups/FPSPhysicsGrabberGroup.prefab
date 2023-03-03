@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7707407456234513489}
   - component: {fileID: 8986069010453055013}
   - component: {fileID: 6142654866929518783}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7449406887297584630}
   - component: {fileID: 4484909176612478994}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: OffsetAndSwayAnimations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 1784780649265719756}
   - component: {fileID: 5293476300347441819}
   - component: {fileID: 6541916731658330779}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 9112131163364349160}
   - component: {fileID: 8939673042914709861}
   - component: {fileID: 4652045362420340600}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Torus.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3550589993434241419}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: physicsGrabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,9 +326,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4183257348930011953}
-  m_LocalRotation: {x: -0.04653437, y: 0.6612884, z: -0.048034657, w: 0.7471445}
-  m_LocalPosition: {x: 0.26107773, y: -0.27987874, z: 0.79324245}
-  m_LocalScale: {x: 0.105133034, y: 0.105133034, z: 0.105133034}
+  m_LocalRotation: {x: -0.047198877, y: 0.6508183, z: -0.047381878, w: 0.7562822}
+  m_LocalPosition: {x: 0.171, y: -0.241, z: 0.426}
+  m_LocalScale: {x: 0.07297739, y: 0.09435795, z: 0.09435795}
   m_Children:
   - {fileID: 375941010884739822}
   - {fileID: 1037799465505875917}
@@ -339,7 +339,7 @@ Transform:
   - {fileID: 9112131163364349160}
   m_Father: {fileID: 7449406887297584630}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.344, y: 83.046, z: -7.662}
+  m_LocalEulerAnglesHint: {x: -0.557, y: 81.464, z: -7.649}
 --- !u!1 &4413774170216401924
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 375941010884739822}
   - component: {fileID: 8992225878818960496}
   - component: {fileID: 706150488554891439}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 7732481277368298673}
   - component: {fileID: 1138005514907840113}
   - component: {fileID: 6119654075588663002}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 8654160906144661081}
   - component: {fileID: 2236823970775650736}
   - component: {fileID: 4636923012288600493}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 1037799465505875917}
   - component: {fileID: 1985114189956679136}
   - component: {fileID: 6734259601237548145}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7553328860832279286}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FPSPhysicsGrabberGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

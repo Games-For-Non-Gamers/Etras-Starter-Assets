@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7449406887297584630}
   - component: {fileID: 4484909176612478994}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: OffsetAndSwayAnimations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7257324332398578091}
   - component: {fileID: 3409843954881926754}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FlashlightLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7553328860832279286}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FPSFlashlightGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 233895164676486138}
   - component: {fileID: 8916799951963273710}
   - component: {fileID: 7340286579317276391}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FlashlightSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 5456936978472080446}
   - component: {fileID: 7808705247913009396}
   - component: {fileID: 4178967912836814199}
-  m_Layer: 11
+  m_Layer: 3
   m_Name: FlashLightModelPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &4178967912836814199
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -364,7 +364,8 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0

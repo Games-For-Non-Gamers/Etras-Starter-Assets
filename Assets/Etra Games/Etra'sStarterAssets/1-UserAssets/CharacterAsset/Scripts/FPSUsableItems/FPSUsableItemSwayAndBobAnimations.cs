@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FPSUsableItemSwayAndBobAnimations : MonoBehaviour
 {
-
     //From BuffaLou
     //https://www.youtube.com/watch?v=DR4fTllQnXg
     /*
