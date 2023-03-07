@@ -2,7 +2,7 @@ using StarterAssets;
 using UnityEngine;
 public class Treadmill_Interactable : MonoBehaviour
 {
-    //From JustKris#0001
+    //From Just Kris#0001
     /*
     The MIT License (MIT)
     Copyright 2023 Krissy

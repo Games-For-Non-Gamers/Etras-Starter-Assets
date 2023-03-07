@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Interactable_WeightedButton : MonoBehaviour
 {
-    //From JustKris#0001
+    //From Just Kris#0001
     /*
     The MIT License (MIT)
     Copyright 2023 Krissy
@@ -18,6 +18,7 @@ public class Interactable_WeightedButton : MonoBehaviour
     //Variables
     Vector3 buttonStartPos = new Vector3(0, -0.94f, 0);
     Vector3 buttonEndPos = new Vector3(0, -1.32f, 0);
+    int numObjects = 0; // Track the number of objects on the button
 
     //Set buttonStartPos
     private void Start()
@@ -31,18 +32,27 @@ public class Interactable_WeightedButton : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            numObjects++; // New object on button
             buttonPressed();
         }
         else if (other.GetComponent<Rigidbody>() != null)
         {
-            buttonPressed();
+            // To-Do: Figure out the Destroy conundrum.
+            if (other.name != "ExampleProjectile(Clone)")
+            {
+                numObjects++; // New object on button
+                buttonPressed();
+            }
         }
-
     }
 
     private void OnTriggerExit(Collider other)
     {
-            buttonReleased();
+        if (other.name != "ExampleProjectile(Clone)")
+        {
+            numObjects--; // One less object on button
+            if (numObjects == 0) buttonReleased();
+        }
     }
 
 
