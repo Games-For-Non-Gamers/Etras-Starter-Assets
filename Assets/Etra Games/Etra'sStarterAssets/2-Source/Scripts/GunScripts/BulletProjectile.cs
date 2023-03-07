@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
+    private List<Collider> colliders = new List<Collider>();
+
     private Rigidbody bulletRigidbody;
     public float bulletSpeed=10;
     // Start is called before the first frame update
@@ -21,11 +23,36 @@ public class BulletProjectile : MonoBehaviour
         Invoke("DestoryAfterTime", 10f);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Add to list when in trigger
+        if(!colliders.Contains(other)) { colliders.Add(other); }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        // Remove from list when out of trigger
+        colliders.Remove(other);
+    }
 
     void DestoryAfterTime()
     {
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        // For every object currently collided with...
+        foreach( var x in colliders )
+        {
+            // ...if the name of the object is the same as the weighted button...
+            if (x.name == "ButtonColliderAndCode")
+            {
+                // ...close the door when projectile destroyed!
+                x.GetComponent<Interactable_WeightedButton>().removeObject();
+                x.GetComponent<Interactable_WeightedButton>().doorClose();
+            }
+        }
     }
 
 }

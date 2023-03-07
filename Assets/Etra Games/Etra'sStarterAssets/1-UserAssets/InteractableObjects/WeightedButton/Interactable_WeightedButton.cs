@@ -37,33 +37,35 @@ public class Interactable_WeightedButton : MonoBehaviour
         }
         else if (other.GetComponent<Rigidbody>() != null)
         {
-            // To-Do: Figure out the Destroy conundrum.
-            if (other.name != "ExampleProjectile(Clone)")
-            {
-                numObjects++; // New object on button
-                buttonPressed();
-            }
+            numObjects++; // New object on button
+            buttonPressed();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.name != "ExampleProjectile(Clone)")
-        {
-            numObjects--; // One less object on button
-            if (numObjects == 0) buttonReleased();
-        }
+        doorClose();
     }
 
+    public void removeObject()
+    {
+        numObjects--;
+    }
 
-    private void buttonPressed()
+    public void doorClose()
+    {
+        numObjects--;
+        if (numObjects == 0) buttonReleased();
+    }
+
+    public void buttonPressed()
     {
          door.SetOpened(true);
         //Use LeanTween to play basic animations
         LeanTween.moveLocal(buttonMain.gameObject, buttonEndPos, 0.15f);
     }
 
-    private void buttonReleased()
+    public void buttonReleased()
     {
         door.SetOpened(false);
         //Use LeanTween to play basic animations
