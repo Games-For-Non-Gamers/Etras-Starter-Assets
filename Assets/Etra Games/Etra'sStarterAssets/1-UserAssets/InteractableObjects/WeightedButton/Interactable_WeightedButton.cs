@@ -54,7 +54,7 @@ public class Interactable_WeightedButton : MonoBehaviour
 
     public void doorClose()
     {
-        numObjects--;
+        removeObject();
         if (numObjects == 0) buttonReleased();
     }
 
