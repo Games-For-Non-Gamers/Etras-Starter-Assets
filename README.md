@@ -7,14 +7,10 @@ This package is an expanded combination of the lightweight Unity First Person an
 Unity Version for this Github Root:
 2020.3.44f1
 
-Unity Asset Store Page:
-https://assetstore.unity.com/packages/essentials/tutorial-projects/etra-s-starter-assets-first-person-third-person-character-contro-239262
+[Unity Asset Store Page](https://assetstore.unity.com/packages/essentials/tutorial-projects/etra-s-starter-assets-first-person-third-person-character-contro-239262)
 
-Overview Video:
-https://youtu.be/lwq9pl-ldp4
+[Overview Video](https://youtu.be/lwq9pl-ldp4)
 
-Modding Video:
-https://youtu.be/okOk8vS8D2w
+[Modding Video](https://youtu.be/okOk8vS8D2w)
 
-Trello of Requested Features:
-https://trello.com/b/aBFuOFzh/etras-starter-assets-feature-requests
+[Trello of Requested Features](https://trello.com/b/aBFuOFzh/etras-starter-assets-feature-requests)
