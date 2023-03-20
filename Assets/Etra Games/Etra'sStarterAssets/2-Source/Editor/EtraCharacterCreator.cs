@@ -16,6 +16,8 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
 {
     const int PAGE_LIMIT = 4;
     const string PAGE_SESSION_KEY = "etra_character_creator_page";
+    const float DEFAULT_WINDOW_WIDTH = 400f;
+    const float DEFAULT_WINDOW_HEIGHT = 600f;
 
     int? _page = null;
     int Page
@@ -76,7 +78,6 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
     {
         menu.AddItem(new GUIContent("Prefs/Keep Opened"), Preferences.KeepOpened, () => Preferences.KeepOpened = !Preferences.KeepOpened);
         menu.AddItem(new GUIContent("Prefs/Log"), Preferences.Log, () => Preferences.Log = !Preferences.Log);
-        menu.AddItem(new GUIContent("Initialize"), false, Initialize);
     }
 
     private void OnHierarchyChange()
@@ -93,8 +94,17 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
         //Set Window size and name
         EtraCharacterCreator window = GetWindow<EtraCharacterCreator>();
         window.titleContent = new GUIContent("Character Creator");
-        window.minSize = new Vector2(400, 400);
-        window.maxSize = new Vector2(800, 800);
+
+        if (!Preferences.FirstTime)
+        {
+            DebugLog("Window oppened for the first time");
+            Preferences.FirstTime = true;
+            window.minSize = new Vector2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+            window.maxSize = new Vector2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+        }
+
+        window.minSize = new Vector2(400f, 400f);
+        window.maxSize = new Vector2(800f, 800f);
 
         window.Page = 0;
 
@@ -778,6 +788,24 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
             {
                 _log = value;
                 EditorPrefs.SetBool(_LOG_KEY, value);
+            }
+        }
+
+        private const string _FIRST_TIME = "etra_character_creator_first";
+        private static bool? _firstTime = null;
+        public static bool FirstTime
+        {
+            get
+            {
+                if (_firstTime == null)
+                    _firstTime = EditorPrefs.GetBool(_FIRST_TIME, false);
+
+                return _firstTime ?? false;
+            }
+            set
+            {
+                _firstTime = value;
+                EditorPrefs.SetBool(_FIRST_TIME, value);
             }
         }
     }
