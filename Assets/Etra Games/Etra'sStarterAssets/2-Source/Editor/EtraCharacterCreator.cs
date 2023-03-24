@@ -88,7 +88,7 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
     #endregion
 
     #region Generic
-    [MenuItem("Window/Etra'sStarterAssets/EtraCharacterCreator")]
+    [MenuItem("Window/Etra's Starter Assets/Etra Character Creator")]
     public static void ShowWindow()
     {
         //Set Window size and name
@@ -610,6 +610,11 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
                             EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraFPSUsableItemManagerPrefab", _target.transform)
                             .GetComponent<EtraFPSUsableItemManager>();
 
+                        var itemsToDelete = itemManager.usableItems;
+
+                        foreach (var item in itemsToDelete)
+                            DestroyImmediate(item.script, true);
+
                         itemManager.Reset();
 
                         foreach (var item in fpsItems)
@@ -636,10 +641,19 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
                 break;
 
             case GameplayType.ThirdPerson:
+                var usableItemManager = FindObjectOfType<EtraFPSUsableItemManager>();
+                if (usableItemManager != null)
+                    DestroyImmediate(usableItemManager.gameObject, true);
+
+                var itemCamera = GameObject.Find("EtraPlayerCameraRoot");
+                if (itemCamera != null)
+                    DestroyImmediate(itemCamera.gameObject, true);
+
+
                 AddAbilities(abilityManager, tpAbilities, log: "Adding third person ability");
                 _target.applyGameplayChanges(_gameplayType, _model);
                 break;
-        }   
+        }
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         Selection.objects = new UObject[] { group };

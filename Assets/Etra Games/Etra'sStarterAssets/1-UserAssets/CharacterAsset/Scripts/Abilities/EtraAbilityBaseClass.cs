@@ -8,4 +8,6 @@ public abstract class EtraAbilityBaseClass : MonoBehaviour
     public virtual void abilityStart() { }
     public virtual void abilityUpdate() { }
     public virtual void abilityLateUpdate() { }
+
+    public virtual EtraCharacterMainController.GameplayTypeFlags GameplayType { get; } = EtraCharacterMainController.GameplayTypeFlags.All;
 }
