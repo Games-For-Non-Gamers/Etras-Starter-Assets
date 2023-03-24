@@ -276,7 +276,7 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
                     Application.OpenURL(linkIndex switch
                     {
                         0 => "Assets\\Etra Games\\Etra'sStarterAssets\\1-UserAssets\\Etra'sStarterAssets_Documentation.pdf",
-                        1 => "https://discord.gg/DTRXMBYmQq",
+                        1 => "https://discord.gg/d3AzQDGj4C",
                         2 => "https://www.youtube.com/playlist?list=PLvmCfejZtwhO7w1sI0DAMHWqrr6JMABpD",
                         _ => string.Empty,
                     });
@@ -284,7 +284,7 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
                 EditorGUILayout.Space(2f);
 
                 using (new GUILayout.VerticalScope(s_descriptionBackground))
-                    GUILayout.Label("Welcome to Etra’s Character Creator! This setup wizard will allow you to create and modify the character controller, along with its different abilities. Every setting is dynamically generated, so your own abilities/items will also show up here. \nIf you feel stuck at any point, you can ask for help on our discord server (link above).", s_wrappedLabel);
+                    GUILayout.Label("Welcome to EtraÂ’s Character Creator! This setup wizard will allow you to create and modify the character controller, along with its different abilities. Every setting is dynamically generated, so your own abilities/items will also show up here. \nIf you feel stuck at any point, you can ask for help on our discord server (link above).", s_wrappedLabel);
                 
                 break;
             case 1:
