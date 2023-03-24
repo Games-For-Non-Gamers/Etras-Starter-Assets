@@ -11,6 +11,7 @@ using static StarterAssets.EtraCharacterMainController;
 using static EtraFPSUsableItemManager;
 
 using UObject = UnityEngine.Object;
+using System.Reflection;
 
 public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
 {
@@ -533,11 +534,11 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
             .ToList();
 
         fpAbilities = generalAbilities
-            .Where(x => x.type.Name.ToLower().Split('_').Contains("fps"))
+            .Where(x => CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
             .ToList();
 
         tpAbilities = generalAbilities
-            .Where(x => x.type.Name.ToLower().Split('_').Contains("tps"))
+            .Where(x => CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
             .ToList();
 
         generalAbilities = generalAbilities
@@ -661,6 +662,8 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
         if (!Preferences.KeepOpened)
             CloseWindow();
     }
+
+
     #endregion
 
     #region Utility
@@ -680,6 +683,16 @@ public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
     {
         if (Preferences.Log)
             Debug.Log($"[Etra Character Creator] {text}");
+    }
+
+    static bool CheckForUsage(Type type, GameplayTypeFlags gameplayType)
+    {
+        var attribute = type.GetCustomAttribute<AbilityUsage>();
+        if (attribute == null)
+            return gameplayType == GameplayTypeFlags.All;
+
+        return attribute.GameplayType.HasFlag(gameplayType) &&
+            attribute.GameplayType != GameplayTypeFlags.All;
     }
 
     void AddAbilities(EtraAbilityManager abilityManager, List<Ability> abilities, bool assignScripts = true, string log = "Adding generic ability")
