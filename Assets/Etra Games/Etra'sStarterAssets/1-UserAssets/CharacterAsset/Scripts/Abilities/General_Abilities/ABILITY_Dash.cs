@@ -1,8 +1,7 @@
 using StarterAssets;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
 public class ABILITY_Dash : EtraAbilityBaseClass
 {
     public float dashRange = 50.0f;

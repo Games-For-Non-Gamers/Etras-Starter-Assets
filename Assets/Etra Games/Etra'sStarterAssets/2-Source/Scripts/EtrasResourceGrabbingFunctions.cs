@@ -7,17 +7,15 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
 {
 
     #region getPrefabFromAssetsByName and Overloads
-    public static GameObject getPrefabFromAssetsByName(string prefabName)
+    public static GameObject getPrefabFromResourcesByName(string prefabName)
     {
-        string[] filePaths;
-        filePaths = AssetDatabase.FindAssets(prefabName);
-        if (filePaths.Length == 0 || filePaths[0] == null)
+        GameObject foundObject;
+        if (Resources.Load<GameObject>(prefabName) == null)
         {
             Debug.LogError(prefabName + " not found in assets. Please restore the prefab.");
             return null;
         }
-        GameObject foundObject = (GameObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filePaths[0]), typeof(GameObject));
-
+        foundObject = Resources.Load<GameObject>(prefabName);
         return foundObject;
     }
 
@@ -25,7 +23,7 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
     #endregion
 
     #region addPrefabFromAssetsByName and Overloads
-    public static GameObject addPrefabFromAssetsByName(string prefabName)
+    public static GameObject addPrefabFromResourcesByName(string prefabName)
     {
         return addPrefabFromAssetsByName(prefabName, null);
     }
@@ -48,23 +46,20 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
             }
         }
 
+        GameObject addedObject = getPrefabFromResourcesByName(prefabName);
+        if (addedObject == null) { return null;}
 
-        string[] filePaths;
-        filePaths = AssetDatabase.FindAssets(prefabName);
-        if (filePaths.Length == 0 || filePaths[0] == null) { 
-            Debug.LogError(prefabName + " not found in assets. Please restore the prefab.");
-            return null; 
-        }
-        GameObject addedObject = (GameObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filePaths[0]), typeof(GameObject));
+
         addedObject = Instantiate(addedObject, Vector3.zero, Quaternion.identity);
+    #if UNITY_EDITOR
         PrefabUtility.InstantiatePrefab(addedObject);
-
+    #endif
         if (!allowDuplicates)
         {
             addedObject.name = prefabName;
         }
 
-        if (parent !=null)
+        if (parent != null)
         {
             addedObject.transform.SetParent(parent);
         }
@@ -99,8 +94,10 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
     #endregion
 
     #region GetComponentFromAssetsByName
-    public static Type GetComponentFromAssetsByName(string name)
+    //NOTE This function only works in the Unity Editor. Attempts to make it work in a built version of Unity will not function. Instead use GetComponentFromResourcesByName
+    public static Type getComponentFromAssetsByName(string name)
     {
+    #if UNITY_EDITOR
         foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             foreach (Type type in assembly.GetTypes())
@@ -111,11 +108,17 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
         }
         Debug.LogError("Component " + name + " not found in any asset folder.");
         return null;
+    #else
+        Debug.LogError("Cannot use the GetComponentFromAssetsByName function outside of the Unity Editor.");
+        return null;
+    #endif
     }
+
 
     #endregion
 
 
+    #region TryGetComponentInChildren
     public static bool TryGetComponentInChildren<T>(Transform parentObject)
     {
         if (parentObject.GetComponentInChildren<T>() != null)
@@ -127,6 +130,7 @@ public class EtrasResourceGrabbingFunctions : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
 
 

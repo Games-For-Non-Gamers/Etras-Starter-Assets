@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
+
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
 public class ABILITY_Jump : EtraAbilityBaseClass
 {
 	[Header("Basics")]

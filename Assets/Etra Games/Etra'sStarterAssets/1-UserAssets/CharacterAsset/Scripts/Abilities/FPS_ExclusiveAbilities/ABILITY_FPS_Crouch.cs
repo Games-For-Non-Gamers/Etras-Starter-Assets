@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(ABILITY_CharacterMovement))]
 
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.FirstPerson)]
 public class ABILITY_FPS_Crouch : EtraAbilityBaseClass
 {
     //This script is functional and as is for now. Will rework in the future.

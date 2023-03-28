@@ -2,7 +2,6 @@ using StarterAssets;
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
-using static UnityEditor.Progress;
 
 
 public class EtraFPSUsableItemManager : MonoBehaviour
@@ -14,6 +13,8 @@ public class EtraFPSUsableItemManager : MonoBehaviour
     [Header("The Items Will Be Selected In This Order:")]
     public usableItemScriptAndPrefab[] usableItems;
 
+
+#if UNITY_EDITOR
 
     #region Functions to update The characterAbilityUpdateOrder Array
     EtraFPSUsableItemManager()
@@ -71,7 +72,7 @@ public class EtraFPSUsableItemManager : MonoBehaviour
 
 
 
-  
+
     }
 
     private void removeNullItemSlots()
@@ -153,7 +154,7 @@ public class EtraFPSUsableItemManager : MonoBehaviour
 
     #endregion
 
-
+#endif
 
 
     //Not in Inspector
@@ -171,25 +172,25 @@ public class EtraFPSUsableItemManager : MonoBehaviour
     public class usableItemScriptAndPrefab
     {
         public EtraFPSUsableItemBaseClass script;
-        [HideInInspector]public GameObject prefab;
+        [HideInInspector] public GameObject prefab;
 
         public usableItemScriptAndPrefab(EtraFPSUsableItemBaseClass passedScript)
         {
             script = passedScript;
-            prefab = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName(script.getNameOfPrefabToLoad());
+            prefab = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName(script.getNameOfPrefabToLoad());
         }
     }
 
-    
 
+#if UNITY_EDITOR
     //Reset is ran by the character creator adding this component
     public void Reset()
     {
         updateUsableItemsArray();
         //Add usable FPS item camera if it does not exist
-        GameObject FPSUsableItemsCamera = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("FPSUsableItemsCamera" , GameObject.Find("EtraPlayerCameraRoot").transform, false, Vector3.zero);
+        GameObject FPSUsableItemsCamera = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("FPSUsableItemsCamera", GameObject.Find("EtraPlayerCameraRoot").transform, false, Vector3.zero);
         //Add usable FPS item camera script to the camera to check for the FPSUsableItem Layer
-        if (FPSUsableItemsCamera !=null && FPSUsableItemsCamera.GetComponent<FPS_Item_Cam_Checks>() == null) { FPSUsableItemsCamera.AddComponent<FPS_Item_Cam_Checks>(); }
+        if (FPSUsableItemsCamera != null && FPSUsableItemsCamera.GetComponent<FPS_Item_Cam_Checks>() == null) { FPSUsableItemsCamera.AddComponent<FPS_Item_Cam_Checks>(); }
     }
 
 
@@ -199,11 +200,13 @@ public class EtraFPSUsableItemManager : MonoBehaviour
         //go through usable items.
         //load all items in game object prefabs so searching does not have to be done.
     }
-
+#endif
 
     private void Awake()
     {
+#if UNITY_EDITOR
         removeNullItemSlots();
+#endif
         cameraRoot = GameObject.Find("EtraPlayerCameraRoot");
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
 
@@ -260,7 +263,7 @@ public class EtraFPSUsableItemManager : MonoBehaviour
 
         if (starterAssetsInputs.item2Select)
         {
-            if (activeItemNum != 2 && usableItems.Length > 2 )
+            if (activeItemNum != 2 && usableItems.Length > 2)
             {
                 StartCoroutine(equipItem(2));
             }
@@ -347,7 +350,7 @@ public class EtraFPSUsableItemManager : MonoBehaviour
 
             if (itemToMoveTo < 0)
             {
-                itemToMoveTo = usableItems.Length -1;
+                itemToMoveTo = usableItems.Length - 1;
             }
             StartCoroutine(equipItem(itemToMoveTo));
 
@@ -388,7 +391,7 @@ public class EtraFPSUsableItemManager : MonoBehaviour
         setInputsToDefault();
         isEquipping = false;
 
-        
+
     }
 
     void setInputsToDefault()

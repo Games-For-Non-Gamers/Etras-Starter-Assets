@@ -1,6 +1,7 @@
 using StarterAssets;
 using UnityEngine;
 
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
 public class ABILITY_CharacterMovement : EtraAbilityBaseClass
 {
     [Header("Basics")]

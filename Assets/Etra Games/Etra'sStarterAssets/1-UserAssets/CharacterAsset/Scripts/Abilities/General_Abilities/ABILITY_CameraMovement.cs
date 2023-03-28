@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
 public class ABILITY_CameraMovement : EtraAbilityBaseClass
 {
 

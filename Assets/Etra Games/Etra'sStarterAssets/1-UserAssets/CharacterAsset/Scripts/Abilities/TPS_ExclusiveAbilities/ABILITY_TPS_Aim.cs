@@ -1,11 +1,14 @@
 using Cinemachine;
 using StarterAssets;
-using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(ABILITY_CameraMovement))]
+
+[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
 public class ABILITY_TPS_Aim : EtraAbilityBaseClass
 {
+
+
     [Header("Basics")]
     [SerializeField] private float aimSensitivity = 0.5f;
 

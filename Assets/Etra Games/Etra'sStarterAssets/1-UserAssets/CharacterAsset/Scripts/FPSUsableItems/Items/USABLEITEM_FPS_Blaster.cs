@@ -28,7 +28,7 @@ public class USABLEITEM_FPS_Blaster : EtraFPSUsableItemBaseClass
     private void Reset()
     {
         // Set example projectile default when this component is added
-        launchedBullet = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("ExampleProjectile"); 
+        launchedBullet = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("ExampleProjectile"); 
     }
 
     private void Awake()

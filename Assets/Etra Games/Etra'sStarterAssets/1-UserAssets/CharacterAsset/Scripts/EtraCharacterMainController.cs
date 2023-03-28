@@ -197,15 +197,15 @@ namespace StarterAssets
 
                 case EtraCharacterMainController.Model.DefaultArmature:
                     model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("DefaultArmatureCharacterModel", modelParent, false, Vector3.zero);
-                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("DefaultArmatureCharacterModel").transform.localPosition;
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("DefaultArmatureCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.Capsule:
                     model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("CapsuleCharacterModel", modelParent, false, Vector3.zero);
-                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("CapsuleCharacterModel").transform.localPosition;
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("CapsuleCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.Voxel:
                     model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("VoxelCharacterModel", modelParent, false, Vector3.zero);
-                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromAssetsByName("VoxelCharacterModel").transform.localPosition;
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("VoxelCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.None:
                     break;
@@ -221,16 +221,21 @@ namespace StarterAssets
 
         private void setUpCinemachineScreenShakeNoiseProfile()
         {
-
             //Set up cinemachine screen shake profile
-            string[] filePaths;
-            filePaths = AssetDatabase.FindAssets("6DShake");
-            if (filePaths[0] == null) { Debug.LogError("6DShake Cinemachine Noise Settings not found."); return; }
-            shake = (NoiseSettings)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filePaths[0]), typeof(NoiseSettings));
+            if (Resources.Load<NoiseSettings>("6DShake") == null)
+            {
+                Debug.LogError("6DShake Cinemachine Noise Settings not found.");
+                return;
+            }
+            shake = Resources.Load<NoiseSettings>("6DShake");
 
-            filePaths = AssetDatabase.FindAssets("HandheldNormal");
-            if (filePaths[0] == null) { Debug.LogError("HandheldNormal Cinemachine Noise Settings not found."); return; }
-            handheldNormal = (NoiseSettings)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filePaths[0]), typeof(NoiseSettings));
+
+            if (Resources.Load<NoiseSettings>("HandheldNormal") == null)
+            {
+                Debug.LogError("HandheldNormal Cinemachine Noise Settings not found.");
+                return;
+            }
+            handheldNormal = Resources.Load<NoiseSettings>("HandheldNormal");
 
             etraFollowCam = GameObject.Find("Etra'sStarterAssetsFollowCamera");
             etraFollowCam.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = shake;
@@ -251,19 +256,6 @@ namespace StarterAssets
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
             //Vector3 spherePosition = new Vector3(characterController.center.x, characterController.center.y - GroundedOffset, transform.position.z);
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-
-            //Ignore objects with the player tag cause layers are not usable for a package
-            //To fix this we need player to manually add a player layer. 
-            int maxColliders = 1;
-            Collider[] hitColliders = new Collider[maxColliders];
-            int numColliders = Physics.OverlapSphereNonAlloc(spherePosition, GroundedRadius, hitColliders);
-            if (hitColliders.Length == 1 && hitColliders[0] != null)
-            {
-                if (hitColliders[0].gameObject.tag == "Player")
-                {
-                    Grounded = false;
-                }
-            }
 
             // update animator if using character
             if (_hasAnimator)

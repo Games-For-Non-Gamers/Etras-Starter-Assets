@@ -5,6 +5,9 @@ public class EtraAbilityManager : MonoBehaviour
 {
     [Header("The Abilities Will Start(), Update(), and LateUpdate() in The Following Order:")]
     public EtraAbilityBaseClass[] characterAbilityUpdateOrder;
+
+
+#if UNITY_EDITOR
     #region Functions to update The characterAbilityUpdateOrder Array
     EtraAbilityManager()
     {
@@ -14,7 +17,7 @@ public class EtraAbilityManager : MonoBehaviour
         EditorApplication.quitting -= OnEditorQuiting;
         EditorApplication.quitting += OnEditorQuiting;
     }
-    private  void HandleComponentAdded(UnityEngine.Component obj)
+    private void HandleComponentAdded(UnityEngine.Component obj)
     {
         updateCharacterAbilityArray();
     }
@@ -25,12 +28,12 @@ public class EtraAbilityManager : MonoBehaviour
         //I understand this is Big O^2 however, it only runs on validate. What's more important is navigation of the final structure (an array) is as fast as possible.
         EtraAbilityBaseClass[] grabbedAbilities;
 
-        if(this == null)
+        if (this == null)
         {
             return;
         }
 
-        if(GetComponent<EtraAbilityBaseClass>() != null)
+        if (GetComponent<EtraAbilityBaseClass>() != null)
         {
             grabbedAbilities = GetComponents<EtraAbilityBaseClass>();
         }
@@ -62,13 +65,13 @@ public class EtraAbilityManager : MonoBehaviour
 
     private void removeNullAbilitySlots()
     {
-        
+
         if (characterAbilityUpdateOrder.Length == 0)
         {
             return;
         }
 
-        bool slotsNeedRemoved = true; 
+        bool slotsNeedRemoved = true;
         while (slotsNeedRemoved)
         {
             slotsNeedRemoved = false;
@@ -95,7 +98,7 @@ public class EtraAbilityManager : MonoBehaviour
 
     private EtraAbilityBaseClass[] removeElementFromArray(int elementToSkip)
     {
-        EtraAbilityBaseClass[] shortenedArray = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length-1];
+        EtraAbilityBaseClass[] shortenedArray = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length - 1];
 
         int iterator = 0;
         for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
@@ -142,11 +145,13 @@ public class EtraAbilityManager : MonoBehaviour
     }
 
     #endregion
-
+#endif
     private void Awake()
     {
+#if UNITY_EDITOR
         //This is ran to remove any null array elements
         removeNullAbilitySlots();
+#endif
     }
 
     //Run the EtraAbilityBaseClass functions in the order defined above
@@ -172,6 +177,24 @@ public class EtraAbilityManager : MonoBehaviour
             characterAbilityUpdateOrder[i].abilityLateUpdate();
         }
     }
+
+
+    public void disableAllAbilities()
+    {
+        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+        {
+            characterAbilityUpdateOrder[i].abilityEnabled = false;
+        }
+    }
+
+    public void enableAllAbilities()
+    {
+        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+        {
+            characterAbilityUpdateOrder[i].abilityEnabled = true;
+        }
+    }
+
 
 }
 

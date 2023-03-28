@@ -25,7 +25,7 @@ public class EtraStarterAssetSetup : AssetPostprocessor
     [InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
-
+        addLayer("Player");
         addLayer("EtraFPSUsableItem");
 
     }
