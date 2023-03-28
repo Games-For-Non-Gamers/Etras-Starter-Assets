@@ -1,528 +1,839 @@
-using UnityEngine;
-using UnityEditor;
 using StarterAssets;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
+using UnityEditor.SceneManagement;
+
 using static StarterAssets.EtraCharacterMainController;
+using static EtraFPSUsableItemManager;
 
-public class EtraCharacterCreator : EditorWindow
+using UObject = UnityEngine.Object;
+using System.Reflection;
+
+public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
 {
+    const int PAGE_LIMIT = 4;
+    const string PAGE_SESSION_KEY = "etra_character_creator_page";
+    const float DEFAULT_WINDOW_WIDTH = 400f;
+    const float DEFAULT_WINDOW_HEIGHT = 600f;
 
-    //Make enum variables
-    enum CharacterCreatorPage
+    int? _page = null;
+    int Page
     {
-        IntroAndGeneralAbilities,
-        FirstPersonAbilities,
-        ThirdPersonAbilities,
-        FirstPersonItems
+        get
+        {
+            if (_page == null)
+                _page = SessionState.GetInt(PAGE_SESSION_KEY, 0);
+            return _page ?? 0;
+        }
+        set
+        {
+            _page = value;
+            SessionState.SetInt(PAGE_SESSION_KEY, value); 
+        }
     }
 
-    //Selectable enum variable instances
-    CharacterCreatorPage characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
-    EtraCharacterMainController.GameplayType gameplayType = EtraCharacterMainController.GameplayType.FirstPerson;
-    EtraCharacterMainController.Model model = EtraCharacterMainController.Model.DefaultArmature;
+    GameplayType _gameplayType = GameplayType.FirstPerson;
+    Model _model = Model.DefaultArmature;
+    Vector2 _scroll;
+
+    [NonSerialized] bool _init = false;
 
 
-    #region Text Style Types Variables and Functions
-    bool m_Initialized;
+    List<Ability> generalAbilities = new List<Ability>();
+    List<Ability> fpAbilities = new List<Ability>();
+    List<Ability> tpAbilities = new List<Ability>();
+    List<Ability> fpsItems = new List<Ability>();
 
-    GUIStyle LinkStyle { get { return m_LinkStyle; } }
-    [SerializeField] GUIStyle m_LinkStyle;
+    EtraCharacterMainController _target;
 
-    GUIStyle TitleStyle { get { return m_TitleStyle; } }
-    [SerializeField] GUIStyle m_TitleStyle;
+    GUIStyle s_barSpace;
+    GUIStyle s_title;
+    GUIStyle s_descriptionBackground;
+    GUIStyle s_wrappedLabel;
+    GUIStyle s_header;
+    GUIStyle s_modelPopup;
 
-    GUIStyle HeadingStyle { get { return m_HeadingStyle; } }
-    [SerializeField] GUIStyle m_HeadingStyle;
+    Texture2D fpImage;
+    Texture2D tpImage;
 
-    GUIStyle BodyStyle { get { return m_BodyStyle; } }
-    [SerializeField] GUIStyle m_BodyStyle;
-
-    GUIStyle ToggleBox { get { return m_ToggleBox; } }
-    [SerializeField] GUIStyle m_ToggleBox;
-
-    void setUpTextStyleTypes()
+    private static Dictionary<Model, string> _modelDescriptions = new Dictionary<Model, string>()
     {
-        if (m_Initialized)
-            return;
+        [Model.DefaultArmature] = "Default humanoid model with animations",
+        [Model.Capsule] = "Default Unity capsule without animations",
+        [Model.Voxel] = "Stylized voxel model with animations",
+        [Model.None] = "No model",
+    };
 
-        m_BodyStyle = new GUIStyle(EditorStyles.label);
-        m_BodyStyle.wordWrap = true;
-        m_BodyStyle.fontSize = 14;
-        m_BodyStyle.richText = true;
+    Texture2D _defaultModelImage;
+    private static Dictionary<Model, Texture2D> _modelImages = new Dictionary<Model, Texture2D>();
 
-        m_TitleStyle = new GUIStyle(m_BodyStyle);
-        m_TitleStyle.fontSize = 26;
-        m_TitleStyle.fontStyle = FontStyle.Bold;
-        m_TitleStyle.normal.background = MakeTex(600, 1, new Color(0.1f, 0.1f, 0.1f, 1.0f));
+    Rect r_modelPopup;
 
 
-        m_HeadingStyle = new GUIStyle(m_BodyStyle);
-        m_HeadingStyle.fontSize = 18;
-
-        m_LinkStyle = new GUIStyle(m_BodyStyle);
-        m_LinkStyle.wordWrap = false;
-        // Match selection color which works nicely for both light and dark skins
-        m_LinkStyle.normal.textColor = new Color(0x00 / 255f, 0x78 / 255f, 0xDA / 255f, 1f);
-        m_LinkStyle.stretchWidth = false;
-
-        m_ToggleBox = new GUIStyle(m_BodyStyle);
-        m_ToggleBox.alignment = TextAnchor.UpperRight;
-
-        m_Initialized = true;
+    #region Inherited
+    public void AddItemsToMenu(GenericMenu menu)
+    {
+        menu.AddItem(new GUIContent("Prefs/Keep Opened"), Preferences.KeepOpened, () => Preferences.KeepOpened = !Preferences.KeepOpened);
+        menu.AddItem(new GUIContent("Prefs/Log"), Preferences.Log, () => Preferences.Log = !Preferences.Log);
     }
 
-
-    private Texture2D MakeTex(int width, int height, Color col)
+    private void OnHierarchyChange()
     {
-        Color[] pix = new Color[width * height];
-
-        for (int i = 0; i < pix.Length; i++)
-            pix[i] = col;
-
-        Texture2D result = new Texture2D(width, height);
-        result.SetPixels(pix);
-        result.Apply();
-
-        return result;
+        RefreshTarget();
+        Repaint();
     }
-
-
-    #endregion
-    #region Dynamic Ability List Setup Variables and Functions
-
-    //Variables for ability list setup
-    bool listSetup = false;
-
-    string[] abilityStringArray;
-    bool[] basicAbilityBools;
-    string[] FPSAbilityStringArray;
-    bool[] FPSAbilityBools;
-    string[] FPSItemsStringArray;
-    bool[] FPSItemsBools;
-    string[] TPSAbilityStringArray;
-    bool[] TPSAbilityBools;
-
-    private void setUpAbilityLists()
-    {
-        if (listSetup) { return; }
-
-
-        List<string> basicAbilityFilePathStrings = new List<string>();
-        List<string> FPSAbilityFilePathStrings = new List<string>();
-        List<string> TPSAbilityFilePathStrings = new List<string>();
-
-        List<string> FPSItemsFilePathStrings = new List<string>();
-
-
-        string[] filePaths;
-        filePaths = AssetDatabase.FindAssets("ABILITY_");
-        foreach (string abilityGUID in filePaths)
-        {
-            string abilityPath = AssetDatabase.GUIDToAssetPath(abilityGUID);
-            if (abilityPath.Contains("_FPS_"))
-            {
-                FPSAbilityFilePathStrings.Add(abilityPath);
-            }
-            else if (abilityPath.Contains("_TPS_"))
-            {
-                TPSAbilityFilePathStrings.Add(abilityPath);
-            }
-            else
-            {
-                basicAbilityFilePathStrings.Add(abilityPath);
-            }
-        }
-
-        filePaths = AssetDatabase.FindAssets("USABLEITEM_");
-        foreach (string abilityGUID in filePaths)
-        {
-            string abilityPath = AssetDatabase.GUIDToAssetPath(abilityGUID);
-            if (abilityPath.Contains("_FPS_"))
-            {
-                FPSItemsFilePathStrings.Add(abilityPath);
-            }
-            //Add TPS Items here eventually
-        }
-
-
-
-
-        basicAbilityBools = new bool[basicAbilityFilePathStrings.Count];
-        FPSAbilityBools = new bool[FPSAbilityFilePathStrings.Count];
-        TPSAbilityBools = new bool[TPSAbilityFilePathStrings.Count];
-
-        FPSItemsBools = new bool[FPSItemsFilePathStrings.Count];
-
-        abilityStringArray = basicAbilityFilePathStrings.ToArray();
-        FPSAbilityStringArray = FPSAbilityFilePathStrings.ToArray();
-        TPSAbilityStringArray = TPSAbilityFilePathStrings.ToArray();
-
-        FPSItemsStringArray= FPSItemsFilePathStrings.ToArray();
-
-        listSetup = true;
-    }
-
-
-
-    string getAbilityNameFromFilePath(string abilityFilePath)
-    {
-        //Check if FPS or TPA and account for that
-        String finalAbiltyName = "";
-
-        if (abilityFilePath.Contains("_FPS_"))
-        {
-            finalAbiltyName += "FPS ";
-        }
-        else if (abilityFilePath.Contains("_TPS_"))
-        {
-            finalAbiltyName += "TPS ";
-        }
-
-
-        int charCounter = 0;
-        int startingPoint = 0;
-        for (int i = abilityFilePath.Length - 1; i >= 0; i--)
-        {
-            if (abilityFilePath[i].Equals('_'))
-            {
-                startingPoint = i;
-                i = 0;
-            }
-            else
-            {
-                charCounter++;
-            }
-        }
-
-        string abilityNameAsOneWord = abilityFilePath.Substring(startingPoint + 1, charCounter - 3);
-
-
-
-        for (int i = 0; i < abilityNameAsOneWord.Length; i++)
-        {
-            if (Char.IsUpper(abilityNameAsOneWord[i]))
-            {
-                finalAbiltyName += " ";
-                finalAbiltyName += abilityNameAsOneWord[i];
-            }
-            else
-            {
-                finalAbiltyName += abilityNameAsOneWord[i];
-            }
-        }
-
-        return finalAbiltyName;
-
-    }
-
-
-    string getScriptNameFromFilePath(string abilityFilePath)
-    {
-
-        int charCounter = 0;
-        int startingPoint = 0;
-        for (int i = abilityFilePath.Length - 1; i >= 0; i--)
-        {
-            if (abilityFilePath[i].Equals('/'))
-            {
-                startingPoint = i;
-                i = 0;
-            }
-            else
-            {
-                charCounter++;
-            }
-
-
-        }
-        string scriptName = abilityFilePath.Substring(startingPoint + 1, charCounter - 3);
-        return scriptName;
-    }
-
-
     #endregion
 
-    [MenuItem("Window/Etra'sStarterAssets/EtraCharacterCreator")]
-    public static void ShowWindow() //Functionally Start();
+    #region Generic
+    [MenuItem("Window/Etra's Starter Assets/Etra Character Creator")]
+    public static void ShowWindow()
     {
         //Set Window size and name
-        EtraCharacterCreator window = (EtraCharacterCreator)GetWindow(typeof(EtraCharacterCreator));
-        window.minSize = new Vector2(400, 400);
-        window.maxSize = new Vector2(400, 400); //default start size
-        GetWindow<EtraCharacterCreator>("Etra Character Creator");
-        window.maxSize = new Vector2(800, 800); //true max size
-    }
+        EtraCharacterCreator window = GetWindow<EtraCharacterCreator>();
+        window.titleContent = new GUIContent("Character Creator");
 
-
-    private void OnGUI() //Functionally Update();
-    {
-        //Set up functions that should only run once with their internal checks
-        setUpTextStyleTypes();
-        setUpAbilityLists();
-
-        //Function that is updated each frame
-        constructAndDisplayCorrectPage();
-
-    }
-
-    void constructAndDisplayCorrectPage()
-    {
-
-        int iterator = 0;
-        switch (characterCreatorPage)
+        if (!Preferences.FirstTime)
         {
-            //~~~INTRO PAGE~~~
-            case EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities:
-                model = EtraCharacterMainController.Model.DefaultArmature;
+            DebugLog("Window oppened for the first time");
+            Preferences.FirstTime = true;
+            window.minSize = new Vector2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+            window.maxSize = new Vector2(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+        }
 
-                GUILayout.Label("Etra Character Creator:", TitleStyle);
-                GUILayout.Space(5);
-                GUILayout.Label("Select your Character's GENERAL Abilities...", m_HeadingStyle);
+        window.minSize = new Vector2(400f, 400f);
+        window.maxSize = new Vector2(800f, 800f);
 
-                iterator = 0;
-                foreach (string filePath in abilityStringArray)
-                {
-                    basicAbilityBools[iterator] = EditorGUILayout.Toggle(getAbilityNameFromFilePath(filePath), basicAbilityBools[iterator]);
-                    iterator++;
-                }
+        window.Page = 0;
 
-                GUILayout.Space(10);
+        window.RefreshTarget();
+        window.GenerateAbilitiesAndItems();
+        window.RemoveStates();
+        window.CreateStatesFromPlayer();
 
-                GUILayout.Label("Select your Character Type...", m_HeadingStyle);
-                gameplayType = (EtraCharacterMainController.GameplayType)EditorGUILayout.EnumPopup(gameplayType);
-                GUILayout.Space(10);
+        window.Show();
 
-                GUILayout.Space(10);
+        DebugLog("Window Opened");
+    }
 
+    public void CloseWindow()
+    {
+        RemoveStates();
+        Close();
+    }
 
-                if (GUILayout.Button("Next"))
-                {
-                    switch (gameplayType)
+    void Initialize()
+    {
+        //Styles
+        s_barSpace = new GUIStyle()
+        {
+            margin = new RectOffset(4, 4, 4, 4)
+        };
+
+        s_title = new GUIStyle(EditorStyles.label)
+        {
+            fontSize = 34,
+            fontStyle = FontStyle.Bold,
+            margin = new RectOffset(4, 4, 4, 0),
+            alignment = TextAnchor.MiddleCenter,
+            fixedHeight = 120f,
+        };
+
+        s_title.normal.background = EtraGUIUtility.GenerateColorTexture(new Color(0, 0.66f, 1f));
+        s_title.normal.textColor = Color.white;
+
+        s_descriptionBackground = new GUIStyle(EditorStyles.helpBox)
+        {
+            padding = new RectOffset(8, 8, 8, 8),
+        };
+
+        s_wrappedLabel = new GUIStyle(EditorStyles.label)
+        {
+            wordWrap = true,
+            fontSize = 13,
+        };
+
+        s_header = new GUIStyle(EditorStyles.whiteLargeLabel)
+        {
+            fontSize = 18,
+        };
+
+        s_modelPopup = new GUIStyle(EditorStyles.popup)
+        {
+            fixedHeight = 32f,
+        };
+
+        //Images
+        fpImage = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorFP");
+        tpImage = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorTP");
+
+        _defaultModelImage = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorModelNone");
+        _modelImages = new Dictionary<Model, Texture2D>()
+        {
+            [Model.DefaultArmature] = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorModelArmature"),
+            [Model.Capsule] = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorModelCapsule"),
+            [Model.Voxel] =  Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorModelVoxel"),
+            [Model.None] = Resources.Load<Texture2D>("Etra's Starter Assets/CharacterCreatorModelNone"),
+        };
+
+        //Get target
+        RefreshTarget();
+
+        GenerateAbilitiesAndItems();
+        LoadStates();
+
+        _init = true;
+        DebugLog("Initialized");
+    }
+    #endregion
+
+    #region GUI
+    private void OnGUI()
+    {
+        if (!_init)
+            Initialize();
+
+        using (var scope = new GUILayout.ScrollViewScope(_scroll))
+        {
+            using (var change = new EditorGUI.ChangeCheckScope())
+            { 
+                ContentGUI();
+
+                if (change.changed)
+                    SaveStates();
+            }
+
+            GUILayout.FlexibleSpace();
+
+            _scroll = scope.scrollPosition;
+        }
+
+        EtraGUIUtility.HorizontalLineLayout();
+
+        using (new GUILayout.VerticalScope())
+        {
+            using (new GUILayout.HorizontalScope())
+            {
+                GUILayout.Label($"Page {Page + 1}/{PAGE_LIMIT}", GUILayout.Width(60f));
+                BarGUI();
+            }
+
+            //Skip buttons
+            using (new GUILayout.VerticalScope(GUILayout.Height(26f)))
+                GUILayout.FlexibleSpace();
+
+            Rect spaceRect = GUILayoutUtility.GetLastRect()
+                .Border(2f, 2f, 0f, 2f);
+            Rect previousButtonRect = new Rect(spaceRect)
+                .ResizeToLeft(spaceRect.width / 2f - 2f);
+            Rect nextButtonRect = new Rect(spaceRect)
+                .ResizeToRight(spaceRect.width / 2f - 2f);
+
+            using (new EditorGUI.DisabledScope(Page <= 0))
+                if (GUI.Button(previousButtonRect, "<< Previous"))
+                    SkipPage(-1);
+
+            switch (Page + 1 < PAGE_LIMIT)
+            {
+                case true:
+                    if (GUI.Button(nextButtonRect, "Next >>"))
+                        SkipPage(1);
+                    break;
+                case false:
+                    using (new EditorGUI.DisabledScope(Application.isPlaying))
+                        if (GUI.Button(nextButtonRect, _target == null ? "Create" : "Modify"))
+                            CreateOrModify();
+                    break;
+            }
+        }
+    }
+
+    void BarGUI()
+    {
+        GUILayout.BeginVertical(s_barSpace, GUILayout.Height(14f));
+        GUILayout.FlexibleSpace();
+        GUILayout.EndVertical();
+
+        Rect barRect = GUILayoutUtility.GetLastRect();
+
+        EditorGUI.ProgressBar(barRect, (float)Page / (PAGE_LIMIT - 1), string.Empty);
+    }
+
+    void ContentGUI()
+    {
+        switch (Page)
+        {
+            case 0:
+                GUILayout.Label("Etra Character Creator", s_title);
+
+                int linkIndex = GUILayout.SelectionGrid(-1, new string[] { "Documentation", "Discord", "Tutorials" }, 3);
+
+                //This will definetely not work on Unity 2019
+                if (linkIndex != -1)
+                    Application.OpenURL(linkIndex switch
                     {
-                        case EtraCharacterMainController.GameplayType.FirstPerson:
-                            characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities;
-                            break;
+                        0 => "Assets\\Etra Games\\Etra'sStarterAssets\\1-UserAssets\\Etra'sStarterAssets_Documentation.pdf",
+                        1 => "https://discord.gg/d3AzQDGj4C",
+                        2 => "https://www.youtube.com/playlist?list=PLvmCfejZtwhO7w1sI0DAMHWqrr6JMABpD",
+                        _ => string.Empty,
+                    });
 
-                        case EtraCharacterMainController.GameplayType.ThirdPerson:
-                            characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.ThirdPersonAbilities;
-                            break;
-                    }
-                }
+                EditorGUILayout.Space(2f);
+
+                using (new GUILayout.VerticalScope(s_descriptionBackground))
+                    GUILayout.Label("Welcome to Etras Character Creator! This setup wizard will allow you to create and modify the character controller, along with its different abilities. Every setting is dynamically generated, so your own abilities/items will also show up here. \nIf you feel stuck at any point, you can ask for help on our discord server (link above).", s_wrappedLabel);
                 
                 break;
-
-            //~~~FPS PAGE~~~
-            case EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities:
-
-                GUILayout.Label("Etra Character Creator:", TitleStyle);
-                GUILayout.Space(5);
-
-                if (GUILayout.Button("Back"))
+            case 1:
+                GUIStyle buttonStyle = new GUIStyle("Button");
+                GUIStyle labelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
                 {
-                    characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
-                }
+                    alignment = TextAnchor.MiddleCenter,
+                    fontSize = 14,
+                };
 
+                GUILayout.Label("Character Type", s_header);
 
-                GUILayout.Label("Select your Character's FPS Abilities...", m_HeadingStyle);
+                Rect startRect = GUILayoutUtility.GetAspectRect(2f/1f)
+                    .Border(4f);
 
-                iterator = 0;
-                foreach (string filePath in FPSAbilityStringArray)
+                GUILayout.Space(8f);
+
+                startRect = startRect
+                    .SetHeight(startRect.width * 0.5f - 2f)
+                    .BorderBottom(-14f);
+
+                Rect fpRect = startRect
+                    .ResizeToLeft(startRect.width * 0.5f)
+                    .BorderRight(2f);
+
+                Rect tpRect = startRect
+                    .ResizeToRight(startRect.width * 0.5f)
+                    .BorderLeft(2f);
+
+                Rect fpTextRect = fpRect
+                    .ResizeToBottom(18f)
+                    .MoveY(-2f);
+
+                Rect tpTextRect = tpRect
+                    .ResizeToBottom(18f)
+                    .MoveY(-2f);
+
+                Rect fpImageRect = fpRect
+                    .ResizeToTop(fpRect.width)
+                    .Border(8f);
+
+                Rect tpImageRect = tpRect
+                    .ResizeToTop(tpRect.width)
+                    .Border(8f);
+
+                if (GUI.Toggle(fpRect, _gameplayType == GameplayType.FirstPerson, GUIContent.none, buttonStyle))
+                    _gameplayType = GameplayType.FirstPerson;
+
+                if (GUI.Toggle(tpRect, _gameplayType == GameplayType.ThirdPerson, GUIContent.none, buttonStyle))
+                    _gameplayType = GameplayType.ThirdPerson;
+
+                GUI.DrawTexture(fpImageRect, fpImage);
+                GUI.DrawTexture(tpImageRect, tpImage);
+
+                GUI.Label(fpTextRect, "First Person", labelStyle);
+                GUI.Label(tpTextRect, "Third Person", labelStyle);
+
+                if (_gameplayType == GameplayType.ThirdPerson)
                 {
-                    FPSAbilityBools[iterator] = EditorGUILayout.Toggle(getAbilityNameFromFilePath(filePath), FPSAbilityBools[iterator]);
-                    iterator++;
+                    EditorGUILayout.Space(8f);
+                    GUILayout.Label("Model", s_header);
+
+                    using (new GUILayout.HorizontalScope(GUILayout.MinHeight(position.width * 0.4f)))
+                    {
+                        GUILayout.Space(4f);
+
+                        GUILayout.Space(position.width * 0.4f);
+
+                        Rect imageRect = GUILayoutUtility.GetLastRect();
+                        imageRect = imageRect
+                            .SetHeight(imageRect.width);
+
+                        GUI.Label(imageRect, GUIContent.none, buttonStyle);
+                        GUI.DrawTexture(imageRect.Border(4f), _modelImages.ContainsKey(_model) ? _modelImages[_model] : _defaultModelImage);
+
+                        GUILayout.Space(4f);
+
+                        using (new GUILayout.VerticalScope())
+                        {
+                            //DIY popup, because the built in one didn't want to expand vertically
+                            if (GUILayout.Button(_model.ToString(), s_modelPopup))
+                            {
+                                GenericMenu menu = new GenericMenu();
+                                foreach (var type in Enum.GetValues(typeof(Model)))
+                                {
+                                    menu.AddItem(new GUIContent(type.ToString()), _model == (Model)type, () => _model = (Model)type);
+                                }
+
+                                menu.DropDown(r_modelPopup);
+
+                            }
+
+                            if (Event.current.type == EventType.Repaint)
+                                r_modelPopup = GUILayoutUtility.GetLastRect();
+
+                            GUILayout.Label(_modelDescriptions.ContainsKey(_model) ? _modelDescriptions[_model] : string.Empty, EditorStyles.helpBox);
+                        }
+                    }
                 }
-
-
-                GUILayout.Space(10);
-
-                if (GUILayout.Button("Next"))
-                {
-                    characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonItems;
-                }
-
-
                 break;
-
-
-            //~~~FPS ITEMS~~~
-            case EtraCharacterCreator.CharacterCreatorPage.FirstPersonItems:
-
-                model = EtraCharacterMainController.Model.Capsule;
-
-                GUILayout.Label("Etra Character Creator:", TitleStyle);
-                GUILayout.Space(5);
-
-                if (GUILayout.Button("Back"))
-                {
-                    characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.FirstPersonAbilities;
-                }
-
-                GUILayout.Label("Select your Character's FPS Items...", m_HeadingStyle);
-
-
-                iterator = 0;
-                foreach (string filePath in FPSItemsStringArray)
-                {
-                    FPSItemsBools[iterator] = EditorGUILayout.Toggle(getAbilityNameFromFilePath(filePath), FPSItemsBools[iterator]);
-                    iterator++;
-                }
-
-                GUILayout.Space(10);
-
-                if (GUILayout.Button("CREATE"))
-                {
-                    createEtraCharacter();
-                }
-
+            case 2:
+                GUILayout.Label("General Abilities", s_header);
+                foreach (var item in generalAbilities)
+                    item.AbilityGUI();
                 break;
-
-
-            //~~~TPS PAGE~~~
-            case EtraCharacterCreator.CharacterCreatorPage.ThirdPersonAbilities:
-
-                GUILayout.Label("Etra Character Creator:", TitleStyle);
-                GUILayout.Space(5);
-
-                if (GUILayout.Button("Back"))
+            case 3:
+                string header = _gameplayType switch
                 {
-                    characterCreatorPage = EtraCharacterCreator.CharacterCreatorPage.IntroAndGeneralAbilities;
-                }
+                    GameplayType.FirstPerson => "First Person Abilities",
+                    GameplayType.ThirdPerson => "Third Person Abilities",
+                    _ => "Abilities",
+                };
 
-
-                GUILayout.Label("Select your Character Model...", m_HeadingStyle);
-                model = (EtraCharacterMainController.Model)EditorGUILayout.EnumPopup(model);
-                GUILayout.Space(10);
-
-                GUILayout.Label("Select your Character's TPS Abilities...", m_HeadingStyle);
-
-                iterator = 0;
-                foreach (string filePath in TPSAbilityStringArray)
+                var specificAbilities = _gameplayType switch
                 {
-                    TPSAbilityBools[iterator] = EditorGUILayout.Toggle(getAbilityNameFromFilePath(filePath), TPSAbilityBools[iterator]);
-                    iterator++;
-                }
+                    GameplayType.FirstPerson => fpAbilities,
+                    GameplayType.ThirdPerson => tpAbilities,
+                    _ => new List<Ability>(),
+                };
 
+                GUILayout.Label(header, s_header);
+                foreach (var item in specificAbilities)
+                    item.AbilityGUI();
 
-                GUILayout.Space(10);
-
-                if (GUILayout.Button("CREATE"))
+                if (_gameplayType == GameplayType.FirstPerson)
                 {
-                    createEtraCharacter();
+                    EditorGUILayout.Space();
+
+                    GUILayout.Label("First Person Items", s_header);
+                    foreach (var item in fpsItems)
+                        item.AbilityGUI();
                 }
 
                 break;
         }
     }
+    #endregion
 
-    void createEtraCharacter()
+    #region State
+    const string _WINDOW_STATE_KEY_PREFIX = "etra_character_creator_";
+    const string _WINDOW_STATE_GAMEPLAY_TYPE_KEY = "etra_character_creator_gameplay_type";
+    const string _WINDOW_STATE_MODEL_KEY = "etra_character_creator_model";
+
+    /// <summary>Creates session states from the target</summary>
+    /// <param name="loadStates">Should the data be loaded?</param>
+    void CreateStatesFromPlayer(bool loadStates = true)
     {
-
-        if (GameObject.Find("EtraCharacterAssetBase"))
-        {
-            Debug.LogWarning("Please delete the first EtraCharacterAssetGroup in the scene before adding another one.");
+        if (_target == null)
             return;
-        }
 
+        SessionState.SetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, (int)_target.appliedGameplayType);
+        SessionState.SetInt(_WINDOW_STATE_MODEL_KEY, (int)(_target.appliedGameplayType == GameplayType.ThirdPerson ?
+            _target.appliedCharacterModel :
+            Model.DefaultArmature));
 
-        EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraCharacterAssetGroup");
+        //Abilities
+        var addedAbilities = _target.abilityManager.characterAbilityUpdateOrder
+            .Where(x => x != null)
+            .Select(x => x.GetType())
+            .ToList();
 
-        GameObject assetBase = GameObject.Find("EtraCharacterAssetBase");
-        GameObject abilityManager = GameObject.Find("EtraAbilityManager");
+        foreach (var item in generalAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", addedAbilities.Contains(item.type));
 
+        foreach (var item in fpAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", addedAbilities.Contains(item.type));
+
+        foreach (var item in tpAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", addedAbilities.Contains(item.type));
+
+        //Items
+        var addedItems = FindObjectOfType<EtraFPSUsableItemManager>()?.usableItems
+            .Where(x => x?.script != null)
+            .Select(x => x.script.GetType())
+            .ToList() ?? new List<Type>();
+
+        foreach (var item in fpsItems)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", addedItems.Contains(item.type));
+
+        if (loadStates)
+            LoadStates();
+    }
+
+    /// <summary>Loads window data from session state</summary>
+    void LoadStates()
+    {
+        _gameplayType = (GameplayType)SessionState.GetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, 0);
+        _model = (Model)SessionState.GetInt(_WINDOW_STATE_MODEL_KEY, 0);
+
+        foreach (var item in generalAbilities)
+            item.state = SessionState.GetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", false);
+
+        foreach (var item in fpAbilities)
+            item.state = SessionState.GetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", false);
+
+        foreach (var item in tpAbilities)
+            item.state = SessionState.GetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", false);
+
+        foreach (var item in fpsItems)
+            item.state = SessionState.GetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", false);
+    }
+
+    void SaveStates() 
+    {
+        SessionState.SetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, (int)_gameplayType);
+        SessionState.SetInt(_WINDOW_STATE_MODEL_KEY, (int)_model);
+
+        foreach (var item in generalAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", item.state);
+
+        foreach (var item in fpAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", item.state);
+
+        foreach (var item in tpAbilities)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", item.state);
+
+        foreach (var item in fpsItems)
+            SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", item.state);
+    }
+
+    /// <summary>Clears out window data from session state</summary>
+    void RemoveStates()
+    {
+        SessionState.EraseInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY);
+        SessionState.EraseInt(_WINDOW_STATE_MODEL_KEY);
+
+        foreach (var item in generalAbilities)
+            SessionState.EraseBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}");
+
+        foreach (var item in fpAbilities)
+            SessionState.EraseBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}");
+
+        foreach (var item in tpAbilities)
+            SessionState.EraseBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}");
+
+        foreach (var item in fpsItems)
+            SessionState.EraseBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}");
+    }
+    #endregion
+
+    #region Actions
+    void GenerateAbilitiesAndItems()
+    {
+        //Initialize abilities
+        generalAbilities = FindAllTypes<EtraAbilityBaseClass>()
+            .Select(x => new Ability(x))
+            .ToList();
+
+        fpAbilities = generalAbilities
+            .Where(x => CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
+            .ToList();
+
+        tpAbilities = generalAbilities
+            .Where(x => CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
+            .ToList();
+
+        generalAbilities = generalAbilities
+            .Except(fpAbilities)
+            .Except(tpAbilities)
+            .ToList();
+
+        //Initialize items
+        fpsItems = FindAllTypes<EtraFPSUsableItemBaseClass>()
+            .Select(x => new Ability(x))
+            .ToList();
+    }
+
+    void RefreshTarget()
+    {
+        _target = FindObjectOfType<EtraCharacterMainController>();
+    }
+
+    void SkipPage(int amount)
+    {
+        Page += amount;
+        Page = Mathf.Clamp(Page, 0, PAGE_LIMIT);
+    }
+
+    public void CreateOrModify()
+    {
+        GameObject group = _target == null ?
+            EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraCharacterAssetGroup") :
+            GetRootParent(_target.transform).gameObject;
+
+        if (_target == null)
+            _target = group.GetComponentInChildren<EtraCharacterMainController>();
+
+        var abilityManager = _target.abilityManager;
+
+        var selectAbilityScriptTypes = generalAbilities
+            .Concat(_gameplayType switch
+            {
+                GameplayType.FirstPerson => fpAbilities,
+                GameplayType.ThirdPerson => tpAbilities,
+                _ => new List<Ability>(),
+            })
+            .Select(x => x.type)
+            .ToList();
+
+        foreach (var item in abilityManager.characterAbilityUpdateOrder)
+            if (item != null && !selectAbilityScriptTypes.Contains(item.GetType()))
+                DestroyImmediate(item, true);
+
+        abilityManager.characterAbilityUpdateOrder = new EtraAbilityBaseClass[0];
 
         //Add base abilities
-        int iterator;
-        iterator= 0;
-        foreach (string filePath in abilityStringArray)
+        AddAbilities(abilityManager, generalAbilities, false);
+
+        switch (_gameplayType)
         {
-            if (basicAbilityBools[iterator])
-            {
-                EtraAbilityBaseClass abilityToAdd = (EtraAbilityBaseClass)AssetDatabase.LoadAssetAtPath(filePath, typeof(EtraAbilityBaseClass));
-                abilityManager.AddComponent(EtrasResourceGrabbingFunctions.GetComponentFromAssetsByName(getScriptNameFromFilePath(filePath)));
-            }
-            iterator++;
-        }
-
-
-        //Set character up correctly.
-        switch (gameplayType)
-        {
-            case EtraCharacterMainController.GameplayType.FirstPerson:
-
-                //Add FPS Abilities 
-                iterator = 0;
-                foreach (string filePath in FPSAbilityStringArray)
-                {
-                    if (FPSAbilityBools[iterator])
-                    {
-                        abilityManager.AddComponent(EtrasResourceGrabbingFunctions.GetComponentFromAssetsByName(getScriptNameFromFilePath(filePath)));
-                    }
-                    iterator++;
-                }
-
+            case GameplayType.FirstPerson:
+                AddAbilities(abilityManager, fpAbilities, log: "Adding first person ability");
 
                 //Add FPS Items
+                bool requiresItems = fpsItems
+                    .Where(x => x.state)
+                    .Count() > 0;
 
-                //Check if any FPS ITems are added
-                bool itemsAddedToCharacter = false;
-                for (int i = 0; i < FPSItemsBools.Length; i++)
+                switch (requiresItems)
                 {
-                    if (FPSItemsBools[i] == true)
-                    {
-                        itemsAddedToCharacter = true;
-                        i = FPSItemsBools.Length;
-                    }
-                }
+                    case true:
+                        //TODO: don't
+                        var itemManager = FindObjectOfType<EtraFPSUsableItemManager>() ??
+                            EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraFPSUsableItemManagerPrefab", _target.transform)
+                            .GetComponent<EtraFPSUsableItemManager>();
 
-                if (itemsAddedToCharacter)
-                {
-                    //Add Usable Item Manager 
-                    GameObject FPSUsableItemManager  =  EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraFPSUsableItemManagerPrefab", assetBase.transform);
+                        var itemsToDelete = itemManager.usableItems;
 
+                        foreach (var item in itemsToDelete)
+                            DestroyImmediate(item.script, true);
 
-                    FPSUsableItemManager.GetComponent<EtraFPSUsableItemManager>().Reset();
+                        itemManager.Reset();
 
-                    //Add correct usable items
-                    iterator = 0;
-                    foreach (string filePath in FPSItemsStringArray)
-                    {
-                        if (FPSItemsBools[iterator])
+                        foreach (var item in fpsItems)
                         {
-                            FPSUsableItemManager.AddComponent(EtrasResourceGrabbingFunctions.GetComponentFromAssetsByName(getScriptNameFromFilePath(filePath)));
+                            if (!item.state) continue;
+                            var component = (EtraFPSUsableItemBaseClass)itemManager.gameObject.AddComponent(item.type);
+                            itemManager.usableItems = itemManager.usableItems
+                                .Concat(new usableItemScriptAndPrefab[] { new usableItemScriptAndPrefab(component) })
+                                .ToArray();
+
+                            DebugLog($"Adding item '{item.name}'");
                         }
-                        iterator++;
-                    }
+
+                        break;
+                    case false:
+                        var manager = FindObjectOfType<EtraFPSUsableItemManager>();
+
+                        if (manager != null)
+                            DestroyImmediate(manager.gameObject, true);
+                        break;
                 }
 
-                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(gameplayType, model);
+                _target.applyGameplayChanges(_gameplayType, Model.None);
                 break;
 
-            case EtraCharacterMainController.GameplayType.ThirdPerson:
+            case GameplayType.ThirdPerson:
+                var usableItemManager = FindObjectOfType<EtraFPSUsableItemManager>();
+                if (usableItemManager != null)
+                    DestroyImmediate(usableItemManager.gameObject, true);
 
-                //Add TPS Abilities maybe
-                iterator = 0;
-                foreach (string filePath in TPSAbilityStringArray)
-                {
-                    if (TPSAbilityBools[iterator])
-                    {
-                        EtraAbilityBaseClass abilityToAdd = (EtraAbilityBaseClass)AssetDatabase.LoadAssetAtPath(filePath, typeof(EtraAbilityBaseClass));
-                        abilityManager.AddComponent(EtrasResourceGrabbingFunctions.GetComponentFromAssetsByName( getScriptNameFromFilePath(filePath)));
-                    }
-                    iterator++;
-                }
+                var itemCamera = GameObject.Find("EtraPlayerCameraRoot");
+                if (itemCamera != null)
+                    DestroyImmediate(itemCamera.gameObject, true);
 
 
-
-                abilityManager.transform.parent.transform.GetComponent<EtraCharacterMainController>().applyGameplayChanges(gameplayType, model);
+                AddAbilities(abilityManager, tpAbilities, log: "Adding third person ability");
+                _target.applyGameplayChanges(_gameplayType, _model);
                 break;
         }
 
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        Selection.objects = new UObject[] { group };
 
+        if (!Preferences.KeepOpened)
+            CloseWindow();
     }
 
 
+    #endregion
 
+    #region Utility
+    public static List<Type> FindAllTypesList<T>() =>
+        FindAllTypes<T>()
+            .ToList();
 
+    public static IEnumerable<Type> FindAllTypes<T>()
+    {
+        var type = typeof(T);
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(t => t != type && type.IsAssignableFrom(t));
+    }
 
+    static void DebugLog(string text)
+    {
+        if (Preferences.Log)
+            Debug.Log($"[Etra Character Creator] {text}");
+    }
+
+    static bool CheckForUsage(Type type, GameplayTypeFlags gameplayType)
+    {
+        var attribute = type.GetCustomAttribute<AbilityUsage>();
+        if (attribute == null)
+            return gameplayType == GameplayTypeFlags.All;
+
+        return attribute.GameplayType.HasFlag(gameplayType) &&
+            attribute.GameplayType != GameplayTypeFlags.All;
+    }
+
+    void AddAbilities(EtraAbilityManager abilityManager, List<Ability> abilities, bool assignScripts = true, string log = "Adding generic ability")
+    {
+        foreach (var item in abilities)
+        {
+            if (!item.state || abilityManager.gameObject.GetComponent(item.type)) continue;
+
+            abilityManager.gameObject.AddComponent(item.type);
+
+            DebugLog($"{log} '{item.name}'");
+        }
+
+        if (assignScripts)
+            abilityManager.characterAbilityUpdateOrder = abilityManager.gameObject.GetComponents<EtraAbilityBaseClass>();
+    }
+
+    Transform GetRootParent(Transform trans)
+    {
+        if (trans == null)
+            return trans;
+
+        while (true)
+        {
+            if (trans.parent == null)
+                return trans;
+
+            trans = trans.parent;
+        }
+    }
+    #endregion
+
+    class Ability
+    {
+        public Ability(Type type)
+        {
+            this.type = type;
+            state = false;
+            GenerateName();
+        }
+
+        public Type type;
+        public string name;
+        public bool state;
+
+        public void GenerateName()
+        {
+            name = type.Name
+                .Split('_')
+                .Last();
+
+            name = Regex.Replace(name, "([a-z])([A-Z])", "$1 $2");
+        }
+
+        public void AbilityGUI()
+        {
+            using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
+            {
+                GUILayout.Label(name);
+
+                DrawToggleButton(false);
+                DrawToggleButton(true);
+            }
+        }
+
+        /// <param name="type">If <see langword="true"/>, the button will display "On"; If <see langword="false"/>, the button will display "Off"</param>
+        void DrawToggleButton(bool type)
+        {
+            using (var change = new EditorGUI.ChangeCheckScope())
+            {
+                var color = GUI.backgroundColor;
+                if (state == type)
+                    GUI.backgroundColor = type ? Color.green : Color.red;
+
+                bool toggle = GUILayout.Toggle(state == type, 
+                    type ? "On" : "Off", 
+                    type ? EditorStyles.miniButtonRight : EditorStyles.miniButtonLeft, 
+                    GUILayout.Width(40f));
+
+                GUI.backgroundColor = color;
+
+                if (change.changed && toggle)
+                    state = type;
+            }
+        }
+    }
+
+    private static class Preferences
+    {
+        private const string _KEEP_OPENED_KEY = "etra_character_creator_keep_opened";
+        private static bool? _keepOpened = null;
+        public static bool KeepOpened
+        {
+            get
+            {
+                if (_keepOpened == null)
+                    _keepOpened = EditorPrefs.GetBool(_KEEP_OPENED_KEY, false);
+
+                return _keepOpened ?? false;
+            }
+            set
+            {
+                _keepOpened = value;
+                EditorPrefs.SetBool(_KEEP_OPENED_KEY, value);
+            }
+        }
+
+        private const string _LOG_KEY = "etra_character_creator_log";
+        private static bool? _log = null;
+        public static bool Log
+        {
+            get
+            {
+                if (_log == null)
+                    _log = EditorPrefs.GetBool(_LOG_KEY, false);
+
+                return _log ?? false;
+            }
+            set
+            {
+                _log = value;
+                EditorPrefs.SetBool(_LOG_KEY, value);
+            }
+        }
+
+        private const string _FIRST_TIME = "etra_character_creator_first";
+        private static bool? _firstTime = null;
+        public static bool FirstTime
+        {
+            get
+            {
+                if (_firstTime == null)
+                    _firstTime = EditorPrefs.GetBool(_FIRST_TIME, false);
+
+                return _firstTime ?? false;
+            }
+            set
+            {
+                _firstTime = value;
+                EditorPrefs.SetBool(_FIRST_TIME, value);
+            }
+        }
+    }
 }

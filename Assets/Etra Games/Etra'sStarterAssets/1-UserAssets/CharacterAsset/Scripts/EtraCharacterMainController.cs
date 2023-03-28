@@ -30,6 +30,15 @@ namespace StarterAssets
             FirstPerson,
             ThirdPerson
         }
+
+        [System.Flags]
+        public enum GameplayTypeFlags
+        {
+            All = 3,
+            FirstPerson = 1,
+            ThirdPerson = 2
+        }
+
         [HideInInspector]
         public enum Model
         {
