@@ -16,7 +16,7 @@ public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
     public void PushRigidBodies(ControllerColliderHit hit)
     {
 
-        if (!enabled)
+        if (!abilityEnabled)
         {
             return;
         }

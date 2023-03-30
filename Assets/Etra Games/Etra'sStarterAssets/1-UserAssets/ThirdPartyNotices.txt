@@ -70,6 +70,13 @@ aMySour
     Copyright (c) 2023 amysour
     The MIT License
 
+Dock Frankenstein
+    Contributions:
+    -Standing Button Model
+    Licence:
+    https://www.youtube.com/channel/UCq_7pbSyOvrurXLAMi_Ss1w
+    Copyright (c) 2023 Dock Frankenstein
+    The MIT License
 
 ~~APPENDIX - REFERENCED LICENSES:~~ 
 
