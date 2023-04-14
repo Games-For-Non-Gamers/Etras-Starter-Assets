@@ -1,201 +1,200 @@
 using UnityEditor;
 using UnityEngine;
-
-public class EtraAbilityManager : MonoBehaviour
-{
-    [Header("The Abilities Will Start(), Update(), and LateUpdate() in The Following Order:")]
-    public EtraAbilityBaseClass[] characterAbilityUpdateOrder;
+namespace EtrasStarterAssets{
+    public class EtraAbilityManager : MonoBehaviour
+    {
+        [Header("The Abilities Will Start(), Update(), and LateUpdate() in The Following Order:")]
+        public EtraAbilityBaseClass[] characterAbilityUpdateOrder;
 
 
 #if UNITY_EDITOR
-    #region Functions to update The characterAbilityUpdateOrder Array
-    EtraAbilityManager()
-    {
-        ObjectFactory.componentWasAdded -= HandleComponentAdded;
-        ObjectFactory.componentWasAdded += HandleComponentAdded;
-
-        EditorApplication.quitting -= OnEditorQuiting;
-        EditorApplication.quitting += OnEditorQuiting;
-    }
-    private void HandleComponentAdded(UnityEngine.Component obj)
-    {
-        updateCharacterAbilityArray();
-    }
-
-    private void updateCharacterAbilityArray()
-    {
-        removeNullAbilitySlots();
-        //I understand this is Big O^2 however, it only runs on validate. What's more important is navigation of the final structure (an array) is as fast as possible.
-        EtraAbilityBaseClass[] grabbedAbilities;
-
-        if (this == null)
+        #region Functions to update The characterAbilityUpdateOrder Array
+        EtraAbilityManager()
         {
-            return;
+            ObjectFactory.componentWasAdded -= HandleComponentAdded;
+            ObjectFactory.componentWasAdded += HandleComponentAdded;
+
+            EditorApplication.quitting -= OnEditorQuiting;
+            EditorApplication.quitting += OnEditorQuiting;
+        }
+        private void HandleComponentAdded(UnityEngine.Component obj)
+        {
+            updateCharacterAbilityArray();
         }
 
-        if (GetComponent<EtraAbilityBaseClass>() != null)
+        private void updateCharacterAbilityArray()
         {
-            grabbedAbilities = GetComponents<EtraAbilityBaseClass>();
-        }
-        else
-        {
-            grabbedAbilities = new EtraAbilityBaseClass[0];
-        }
+            removeNullAbilitySlots();
+            //I understand this is Big O^2 however, it only runs on validate. What's more important is navigation of the final structure (an array) is as fast as possible.
+            EtraAbilityBaseClass[] grabbedAbilities;
 
-
-
-        foreach (EtraAbilityBaseClass ability in grabbedAbilities)
-        {
-            bool abilityFound = false;
-
-            foreach (EtraAbilityBaseClass setAbility in characterAbilityUpdateOrder)
+            if (this == null)
             {
-                if (ability.Equals(setAbility))
+                return;
+            }
+
+            if (GetComponent<EtraAbilityBaseClass>() != null)
+            {
+                grabbedAbilities = GetComponents<EtraAbilityBaseClass>();
+            }
+            else
+            {
+                grabbedAbilities = new EtraAbilityBaseClass[0];
+            }
+
+
+
+            foreach (EtraAbilityBaseClass ability in grabbedAbilities)
+            {
+                bool abilityFound = false;
+
+                foreach (EtraAbilityBaseClass setAbility in characterAbilityUpdateOrder)
                 {
-                    abilityFound = true;
+                    if (ability.Equals(setAbility))
+                    {
+                        abilityFound = true;
+                    }
+                }
+
+                if (!abilityFound)
+                {
+                    increaseAbilityArrayWithNewElement(ability);
                 }
             }
+        }
 
-            if (!abilityFound)
+        private void removeNullAbilitySlots()
+        {
+
+            if (characterAbilityUpdateOrder.Length == 0)
             {
-                increaseAbilityArrayWithNewElement(ability);
+                return;
             }
+
+            bool slotsNeedRemoved = true;
+            while (slotsNeedRemoved)
+            {
+                slotsNeedRemoved = false;
+                int elementToPass = 0;
+                for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+                {
+                    if (characterAbilityUpdateOrder[i] == null)
+                    {
+                        slotsNeedRemoved = true;
+                        elementToPass = i;
+                        i = characterAbilityUpdateOrder.Length;
+                    }
+                }
+
+                if (slotsNeedRemoved)
+                {
+                    characterAbilityUpdateOrder = removeElementFromArray(elementToPass);
+                }
+
+            }
+
+
         }
-    }
 
-    private void removeNullAbilitySlots()
-    {
-
-        if (characterAbilityUpdateOrder.Length == 0)
+        private EtraAbilityBaseClass[] removeElementFromArray(int elementToSkip)
         {
-            return;
-        }
+            EtraAbilityBaseClass[] shortenedArray = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length - 1];
 
-        bool slotsNeedRemoved = true;
-        while (slotsNeedRemoved)
-        {
-            slotsNeedRemoved = false;
-            int elementToPass = 0;
+            int iterator = 0;
             for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
             {
-                if (characterAbilityUpdateOrder[i] == null)
+                if (i != elementToSkip)
                 {
-                    slotsNeedRemoved = true;
-                    elementToPass = i;
-                    i = characterAbilityUpdateOrder.Length;
+                    shortenedArray[iterator] = characterAbilityUpdateOrder[i];
+                    iterator++;
                 }
             }
 
-            if (slotsNeedRemoved)
+            return shortenedArray;
+        }
+
+        private void increaseAbilityArrayWithNewElement(EtraAbilityBaseClass abilityToAdd)
+        {
+            EtraAbilityBaseClass[] temp = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length + 1];
+
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
             {
-                characterAbilityUpdateOrder = removeElementFromArray(elementToPass);
+                temp[i] = characterAbilityUpdateOrder[i];
             }
 
+            temp[characterAbilityUpdateOrder.Length] = abilityToAdd;
+
+
+            characterAbilityUpdateOrder = temp;
         }
 
-
-    }
-
-    private EtraAbilityBaseClass[] removeElementFromArray(int elementToSkip)
-    {
-        EtraAbilityBaseClass[] shortenedArray = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length - 1];
-
-        int iterator = 0;
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+        private void OnEditorQuiting()
         {
-            if (i != elementToSkip)
-            {
-                shortenedArray[iterator] = characterAbilityUpdateOrder[i];
-                iterator++;
-            }
+            ObjectFactory.componentWasAdded -= HandleComponentAdded;
+            EditorApplication.quitting -= OnEditorQuiting;
         }
 
-        return shortenedArray;
-    }
-
-    private void increaseAbilityArrayWithNewElement(EtraAbilityBaseClass abilityToAdd)
-    {
-        EtraAbilityBaseClass[] temp = new EtraAbilityBaseClass[characterAbilityUpdateOrder.Length + 1];
-
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+        private void Reset()
         {
-            temp[i] = characterAbilityUpdateOrder[i];
+            updateCharacterAbilityArray();
         }
 
-        temp[characterAbilityUpdateOrder.Length] = abilityToAdd;
+        private void OnValidate()
+        {
+            updateCharacterAbilityArray();
+        }
 
-
-        characterAbilityUpdateOrder = temp;
-    }
-
-    private void OnEditorQuiting()
-    {
-        ObjectFactory.componentWasAdded -= HandleComponentAdded;
-        EditorApplication.quitting -= OnEditorQuiting;
-    }
-
-    private void Reset()
-    {
-        updateCharacterAbilityArray();
-    }
-
-    private void OnValidate()
-    {
-        updateCharacterAbilityArray();
-    }
-
-    #endregion
+        #endregion
 #endif
-    private void Awake()
-    {
+        private void Awake()
+        {
 #if UNITY_EDITOR
-        //This is ran to remove any null array elements
-        removeNullAbilitySlots();
+            //This is ran to remove any null array elements
+            removeNullAbilitySlots();
 #endif
-    }
+        }
 
-    //Run the EtraAbilityBaseClass functions in the order defined above
-    private void Start()
-    {
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+        //Run the EtraAbilityBaseClass functions in the order defined above
+        private void Start()
         {
-            characterAbilityUpdateOrder[i].abilityStart();
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            {
+                characterAbilityUpdateOrder[i].abilityStart();
+            }
+        }
+        private void Update()
+        {
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            {
+                characterAbilityUpdateOrder[i].abilityUpdate();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            {
+                characterAbilityUpdateOrder[i].abilityLateUpdate();
+            }
+        }
+
+
+        public void disableAllAbilities()
+        {
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            {
+                characterAbilityUpdateOrder[i].abilityEnabled = false;
+            }
+        }
+
+        public void enableAllAbilities()
+        {
+            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            {
+                characterAbilityUpdateOrder[i].abilityEnabled = true;
+            }
         }
     }
-    private void Update()
-    {
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
-        {
-            characterAbilityUpdateOrder[i].abilityUpdate();
-        }
-    }
-
-    private void LateUpdate()
-    {
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
-        {
-            characterAbilityUpdateOrder[i].abilityLateUpdate();
-        }
-    }
-
-
-    public void disableAllAbilities()
-    {
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
-        {
-            characterAbilityUpdateOrder[i].abilityEnabled = false;
-        }
-    }
-
-    public void enableAllAbilities()
-    {
-        for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
-        {
-            characterAbilityUpdateOrder[i].abilityEnabled = true;
-        }
-    }
-
-
 }
 
 

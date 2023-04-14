@@ -1,24 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleSystemMultiPlayer : MonoBehaviour
-{
-    public ParticleSystem[] particleSystems;
-
-    public void Play()
+namespace EtrasStarterAssets{
+    public class ParticleSystemMultiPlayer : MonoBehaviour
     {
-        foreach (ParticleSystem particleSystem in particleSystems)
+        public ParticleSystem[] particleSystems;
+
+        public void Play()
         {
-            particleSystem.Play();
+            foreach (ParticleSystem particleSystem in particleSystems)
+            {
+                particleSystem.Play();
+            }
         }
-    }
 
-    public void Stop()
-    {
-        foreach (ParticleSystem particleSystem in particleSystems)
+        public void Stop()
         {
-            particleSystem.Stop();
+            foreach (ParticleSystem particleSystem in particleSystems)
+            {
+                particleSystem.Stop();
+            }
         }
     }
 }

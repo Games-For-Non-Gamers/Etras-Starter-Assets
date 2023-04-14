@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaySoundOnce : MonoBehaviour
+namespace EtrasStarterAssets
 {
-    public AudioClip sound;
-
-    public void PlaySound()
+    public class PlaySoundOnce : MonoBehaviour
     {
-        AudioSource.PlayClipAtPoint(sound, transform.position);
+        public AudioClip sound;
+
+        public void PlaySound()
+        {
+            AudioSource.PlayClipAtPoint(sound, transform.position);
+        }
     }
 }

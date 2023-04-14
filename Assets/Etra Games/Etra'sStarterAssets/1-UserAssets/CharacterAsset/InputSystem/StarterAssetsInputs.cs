@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
-{
+namespace EtrasStarterAssets{
     public class StarterAssetsInputs : MonoBehaviour
     {
         [Header("Character Input Values")]

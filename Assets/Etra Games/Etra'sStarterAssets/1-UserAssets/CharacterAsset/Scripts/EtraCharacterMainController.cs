@@ -1,12 +1,10 @@
 using Cinemachine;
 using UnityEngine;
-using UnityEditor;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
-{
+namespace EtrasStarterAssets{
     [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]

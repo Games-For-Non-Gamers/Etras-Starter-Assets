@@ -1,47 +1,44 @@
-using StarterAssets;
 using UnityEngine;
 
-[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
-public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
-{
-
-    public LayerMask pushLayers = new LayerMask();
-    [Range(0.5f, 5f)] public float strength = 1.1f;
-
-    public void Reset()
-    {
-        pushLayers = LayerMask.GetMask("Default");
-    }
-
-    public void PushRigidBodies(ControllerColliderHit hit)
+namespace EtrasStarterAssets{
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
     {
 
-        if (!abilityEnabled)
+        public LayerMask pushLayers = new LayerMask();
+        [Range(0.5f, 5f)] public float strength = 1.1f;
+
+        public void Reset()
         {
-            return;
+            pushLayers = LayerMask.GetMask("Default");
         }
 
-        // https://docs.unity3d.com/ScriptReference/CharacterController.OnControllerColliderHit.html
+        public void PushRigidBodies(ControllerColliderHit hit)
+        {
 
-        // make sure we hit a non kinematic rigidbody
-        Rigidbody body = hit.collider.attachedRigidbody;
-        if (body == null || body.isKinematic) return;
+            if (!abilityEnabled)
+            {
+                return;
+            }
 
-        // make sure we only push desired layer(s)
-        var bodyLayerMask = 1 << body.gameObject.layer;
-        if ((bodyLayerMask & pushLayers.value) == 0) return;
+            // https://docs.unity3d.com/ScriptReference/CharacterController.OnControllerColliderHit.html
 
-        // We dont want to push objects below us
-        if (hit.moveDirection.y < -0.3f) return;
+            // make sure we hit a non kinematic rigidbody
+            Rigidbody body = hit.collider.attachedRigidbody;
+            if (body == null || body.isKinematic) return;
 
-        // Calculate push direction from move direction, horizontal motion only
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
+            // make sure we only push desired layer(s)
+            var bodyLayerMask = 1 << body.gameObject.layer;
+            if ((bodyLayerMask & pushLayers.value) == 0) return;
 
-        // Apply the push and take strength into account
-        body.AddForce(pushDir * strength, ForceMode.Impulse);
+            // We dont want to push objects below us
+            if (hit.moveDirection.y < -0.3f) return;
+
+            // Calculate push direction from move direction, horizontal motion only
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.0f, hit.moveDirection.z);
+
+            // Apply the push and take strength into account
+            body.AddForce(pushDir * strength, ForceMode.Impulse);
+        }
     }
-
-
-
-
 }

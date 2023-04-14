@@ -1,30 +1,30 @@
-using StarterAssets;
 using UnityEngine;
 
-[RequireComponent(typeof(ABILITY_CharacterMovement))]
+namespace EtrasStarterAssets{
+    [RequireComponent(typeof(ABILITY_CharacterMovement))]
 
-[AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
-public class ABILITY_Sprint : EtraAbilityBaseClass
-{
-    //This script is just a contaiiner for the sprint speed variable.
-    //On Validate it will set the public var sprintSpeed to Character_Movement's sprint speed.
-    public float sprintSpeed = 6;
-    ABILITY_CharacterMovement movementAbility;
-
-    public override void abilityStart()
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    public class ABILITY_Sprint : EtraAbilityBaseClass
     {
-        OnValidate();
-    }
+        //This script is just a contaiiner for the sprint speed variable.
+        //On Validate it will set the public var sprintSpeed to Character_Movement's sprint speed.
+        public float sprintSpeed = 6;
+        ABILITY_CharacterMovement movementAbility;
 
-    private void Reset()
-    {
-        OnValidate();
-    }
+        public override void abilityStart()
+        {
+            OnValidate();
+        }
 
-    private void OnValidate()
-    {
-        movementAbility = GetComponent<ABILITY_CharacterMovement>();
-        movementAbility.sprintSpeed = sprintSpeed;
-    }
+        private void Reset()
+        {
+            OnValidate();
+        }
 
+        private void OnValidate()
+        {
+            movementAbility = GetComponent<ABILITY_CharacterMovement>();
+            movementAbility.sprintSpeed = sprintSpeed;
+        }
+    }
 }
