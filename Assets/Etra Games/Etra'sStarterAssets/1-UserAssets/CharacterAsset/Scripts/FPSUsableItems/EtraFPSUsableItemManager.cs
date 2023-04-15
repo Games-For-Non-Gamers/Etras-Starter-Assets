@@ -12,24 +12,9 @@ namespace EtrasStarterAssets{
         [Header("The Items Will Be Selected In This Order:")]
         public usableItemScriptAndPrefab[] usableItems;
 
-
-#if UNITY_EDITOR
-
-        #region Functions to update The characterAbilityUpdateOrder Array
-        EtraFPSUsableItemManager()
-        {
-            ObjectFactory.componentWasAdded -= HandleComponentAdded;
-            ObjectFactory.componentWasAdded += HandleComponentAdded;
-
-            EditorApplication.quitting -= OnEditorQuiting;
-            EditorApplication.quitting += OnEditorQuiting;
-        }
-        private void HandleComponentAdded(UnityEngine.Component obj)
-        {
-            updateUsableItemsArray();
-        }
-
-        private void updateUsableItemsArray()
+        #region Functions to update The usableItems Array
+        //Run this function whenever an item is added
+        public void updateUsableItemsArray()
         {
             removeNullItemSlots();
             //I understand this is Big O^2 however, it only runs on validate. What's more important is navigation of the final structure (an array) is as fast as possible.
@@ -67,10 +52,6 @@ namespace EtrasStarterAssets{
                     increaseAbilityArrayWithNewElement(newItem);
                 }
             }
-
-
-
-
 
         }
 
@@ -144,17 +125,37 @@ namespace EtrasStarterAssets{
             usableItems = temp;
         }
 
+
+        //Editor exclusive functions
+        #if UNITY_EDITOR
+        EtraFPSUsableItemManager()
+        {
+            ObjectFactory.componentWasAdded -= HandleComponentAdded;
+            ObjectFactory.componentWasAdded += HandleComponentAdded;
+
+            EditorApplication.quitting -= OnEditorQuiting;
+            EditorApplication.quitting += OnEditorQuiting;
+        }
+        private void HandleComponentAdded(UnityEngine.Component obj)
+        {
+            updateUsableItemsArray();
+            if (Application.isPlaying)
+            {
+                Debug.LogWarning("In the EDITOR PLAY MODE, you can add items by adding components to the FPS Usable Item Manager.\n" +
+                    "However, this will not work in a built game witout an additional step. Everytime you add a component to\n" +
+                    "the item manager, run the updateUsableItemsArray() function to add the new item to the correct array.\n");
+            }
+        }
+
         private void OnEditorQuiting()
         {
             ObjectFactory.componentWasAdded -= HandleComponentAdded;
             EditorApplication.quitting -= OnEditorQuiting;
         }
 
+        #endif
 
         #endregion
-
-#endif
-
 
         //Not in Inspector
         private int activeItemNum = 0;
@@ -181,7 +182,7 @@ namespace EtrasStarterAssets{
         }
 
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //Reset is ran by the character creator adding this component
         public void Reset()
         {
@@ -199,13 +200,13 @@ namespace EtrasStarterAssets{
             //go through usable items.
             //load all items in game object prefabs so searching does not have to be done.
         }
-#endif
+        #endif
 
         private void Awake()
         {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
             removeNullItemSlots();
-#endif
+        #endif
             cameraRoot = GameObject.Find("EtraPlayerCameraRoot");
             starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
 

@@ -7,21 +7,7 @@ namespace EtrasStarterAssets{
         public EtraAbilityBaseClass[] characterAbilityUpdateOrder;
 
 
-#if UNITY_EDITOR
         #region Functions to update The characterAbilityUpdateOrder Array
-        EtraAbilityManager()
-        {
-            ObjectFactory.componentWasAdded -= HandleComponentAdded;
-            ObjectFactory.componentWasAdded += HandleComponentAdded;
-
-            EditorApplication.quitting -= OnEditorQuiting;
-            EditorApplication.quitting += OnEditorQuiting;
-        }
-        private void HandleComponentAdded(UnityEngine.Component obj)
-        {
-            updateCharacterAbilityArray();
-        }
-
         private void updateCharacterAbilityArray()
         {
             removeNullAbilitySlots();
@@ -127,31 +113,54 @@ namespace EtrasStarterAssets{
 
             characterAbilityUpdateOrder = temp;
         }
+            #if UNITY_EDITOR
+            EtraAbilityManager()
+            {
+                ObjectFactory.componentWasAdded -= HandleComponentAdded;
+                ObjectFactory.componentWasAdded += HandleComponentAdded;
 
-        private void OnEditorQuiting()
-        {
-            ObjectFactory.componentWasAdded -= HandleComponentAdded;
-            EditorApplication.quitting -= OnEditorQuiting;
-        }
+                EditorApplication.quitting -= OnEditorQuiting;
+                EditorApplication.quitting += OnEditorQuiting;
+            }
+            private void HandleComponentAdded(UnityEngine.Component obj)
+            {
+                updateCharacterAbilityArray();
 
-        private void Reset()
-        {
-            updateCharacterAbilityArray();
-        }
+                if (Application.isPlaying)
+                {
+                    Debug.LogWarning("In the EDITOR PLAY MODE, you can add abilities by adding components to the ability manager.\n" +
+                        "However, this will not work in a built game witout an additional step. Everytime you add a component to\n" +
+                        "the ability manager, run the updateCharacterAbilityArray() function to add the new item to the correct array.\n" +
+                        "Regardless of possibility though, we reccomend adding all your abilities before play and use the abilityEnable\n" +
+                        "variable to enable or disable ability scripts.");
+                }
 
-        private void OnValidate()
-        {
-            updateCharacterAbilityArray();
-        }
+            }
 
-        #endregion
-#endif
+            private void OnEditorQuiting()
+            {
+                ObjectFactory.componentWasAdded -= HandleComponentAdded;
+                EditorApplication.quitting -= OnEditorQuiting;
+            }
+
+            private void Reset()
+            {
+                updateCharacterAbilityArray();
+            }
+
+            private void OnValidate()
+            {
+                updateCharacterAbilityArray();
+            }
+            #endif
+    #endregion
+
         private void Awake()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             //This is ran to remove any null array elements
             removeNullAbilitySlots();
-#endif
+            #endif
         }
 
         //Run the EtraAbilityBaseClass functions in the order defined above
