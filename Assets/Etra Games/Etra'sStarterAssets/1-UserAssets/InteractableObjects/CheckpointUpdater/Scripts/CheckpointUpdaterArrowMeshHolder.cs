@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckpointUpdaterArrowMeshHolder : MonoBehaviour
+namespace EtrasStarterAssets
 {
-
-    public MeshRenderer arrowBase;
-    public MeshRenderer arrowRight;
-    public MeshRenderer arrowLeft;
-
-    public void disableMeshes()
+    public class CheckpointUpdaterArrowMeshHolder : MonoBehaviour
     {
-        arrowBase.enabled= false;
-        arrowRight.enabled = false;
-        arrowLeft.enabled = false;
-    }
 
-    public void enableMeshes()
-    {
-        arrowBase.enabled = true;
-        arrowRight.enabled = true;
-        arrowLeft.enabled = true;
-    }
+        public MeshRenderer arrowBase;
+        public MeshRenderer arrowRight;
+        public MeshRenderer arrowLeft;
 
+        public void disableMeshes()
+        {
+            arrowBase.enabled = false;
+            arrowRight.enabled = false;
+            arrowLeft.enabled = false;
+        }
+
+        public void enableMeshes()
+        {
+            arrowBase.enabled = true;
+            arrowRight.enabled = true;
+            arrowLeft.enabled = true;
+        }
+
+    }
 }

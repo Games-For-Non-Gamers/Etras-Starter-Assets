@@ -5,19 +5,19 @@ namespace EtrasStarterAssets
     public class CheckpointUpdaterHitbox : MonoBehaviour
     {
         public CheckpointUpdater parent;
-        [HideInInspector]public MeshRenderer renderer;
+        [HideInInspector]public MeshRenderer meshRenderer;
 
         private void Reset()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
         private void OnValidate()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
         private void Awake()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
 
         private void OnTriggerEnter(Collider other)

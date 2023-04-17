@@ -93,14 +93,11 @@ namespace EtrasStarterAssets
                 etraCameraMovement.playerCameraRoot.transform.rotation = checkPointRotation;
 
                 etraCameraMovement._cinemachineTargetPitch = checkPointRotation.eulerAngles.x;
-                Debug.Log(checkPointRotation.eulerAngles.y);
-                
                 etraCameraMovement._cinemachineTargetYaw = checkPointRotation.eulerAngles.y;
             }
 
             if (teleportToGround)
             {
-                Debug.Log("Here");
                 etraCharacterMainController.Grounded = false;
                 while (etraCharacterMainController.Grounded != true)
                 {
