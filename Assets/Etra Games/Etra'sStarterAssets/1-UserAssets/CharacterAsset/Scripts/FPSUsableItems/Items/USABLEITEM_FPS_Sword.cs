@@ -43,6 +43,11 @@ namespace EtrasStarterAssets{
         Rigidbody hitBody;
         public void Update()
         {
+            if (inputsLocked)
+            {
+                starterAssetsInputs.shoot = false;
+                return;
+            }
 
             if (_swordTimeoutDelta > 0.0f)
             {

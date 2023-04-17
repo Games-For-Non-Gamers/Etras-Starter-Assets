@@ -531,7 +531,7 @@ namespace EtrasStarterAssets
                 _target.appliedGameplayType == GameplayType.ThirdPerson ? _target.appliedCharacterModel : Model.DefaultArmature));
 
             //Abilities
-            var addedAbilities = _target.abilityManager.characterAbilityUpdateOrder
+            var addedAbilities = _target.etraAbilityManager.characterAbilityUpdateOrder
                 .Where(x => x != null)
                 .Select(x => x.GetType())
                 .ToList();
@@ -662,7 +662,7 @@ namespace EtrasStarterAssets
             if (_target == null)
                 _target = group.GetComponentInChildren<EtraCharacterMainController>();
 
-            var abilityManager = _target.abilityManager;
+            var abilityManager = _target.etraAbilityManager;
 
             var selectAbilityScriptTypes = generalAbilities
                 .Concat(_gameplayType switch

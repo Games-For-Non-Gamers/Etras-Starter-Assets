@@ -1,10 +1,10 @@
 using UnityEngine;
 
 namespace EtrasStarterAssets{
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsage.AbilityTypeFlag.Passive)]
     public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
     {
-
+        [Header("Basics")]
         public LayerMask pushLayers = new LayerMask();
         [Range(0.5f, 5f)] public float strength = 1.1f;
 

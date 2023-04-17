@@ -69,6 +69,12 @@ namespace EtrasStarterAssets{
 
         public void Update()
         {
+            if(inputsLocked)
+            {
+                starterAssetsInputs.shoot = false;
+                return;
+            }
+
             if (starterAssetsInputs.shoot && !isAnimating)
             {
                 changeFlashlightState();

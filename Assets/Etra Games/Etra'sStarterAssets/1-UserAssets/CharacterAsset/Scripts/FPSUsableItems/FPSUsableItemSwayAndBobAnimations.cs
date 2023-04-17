@@ -18,6 +18,7 @@ namespace EtrasStarterAssets {
         public bool swayRotation = true;
         public bool bobOffset = true;
         public bool bobSway = true;
+        [HideInInspector]public bool lockInput;
 
         public float controllerLookAnimationReduction = 250f;
 
@@ -48,7 +49,11 @@ namespace EtrasStarterAssets {
         // Update is called once per frame
         void Update()
         {
-            GetInput();
+            if (!lockInput)
+            {
+                GetInput();
+            }
+            
             Sway();
             SwayRotation();
             BobOffset();

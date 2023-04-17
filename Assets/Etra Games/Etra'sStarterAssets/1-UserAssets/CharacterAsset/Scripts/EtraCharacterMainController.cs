@@ -51,13 +51,8 @@ namespace EtrasStarterAssets{
         [HideInInspector] public GameplayType appliedGameplayType = EtraCharacterMainController.GameplayType.FirstPerson;
         [HideInInspector] public Model appliedCharacterModel = EtraCharacterMainController.Model.Capsule;
         //This is space for the "Apply Gameplay Changes" button generated in UnityEditorForEtraCharacterMainController.cs
-        [Space(40)]
+        [Space(50)]
 
-  
-        public EtraAbilityManager abilityManager;
-        public Transform modelParent;
-
-        [Header("Gravity and Ground")]
         //************************
         //Gravity and floor collision variables
         //************************
@@ -68,11 +63,13 @@ namespace EtrasStarterAssets{
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
         public bool Grounded = true;
         [Tooltip("Useful for rough ground")]
-        public float GroundedOffset = -0.14f;
+        public float GroundedOffset = -0.2f;
         [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float GroundedRadius = 0.28f;
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
+
+
         [HideInInspector]
         public float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
@@ -102,6 +99,15 @@ namespace EtrasStarterAssets{
         //************************
         private const int APPLIED_FORCES_AMOUNT = 6;
         private Vector3[] appliedForces = new Vector3[APPLIED_FORCES_AMOUNT]; //Up to six forces can be applied to the character in a single frame. Adjust this to change.
+
+
+        //************************
+        //Variables of child objects
+        //************************
+        [HideInInspector] public Transform modelParent;
+        [HideInInspector] public StarterAssetsCanvas starterAssetCanvas;
+        [HideInInspector] public EtraAbilityManager etraAbilityManager;
+        [HideInInspector] public EtraFPSUsableItemManager etraFPSUsableItemManager;
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //SETUP FUNCTIONS
@@ -215,6 +221,19 @@ namespace EtrasStarterAssets{
         private void Reset()
         {
             GroundLayers = LayerMask.GetMask("Default");
+            setChildObjects();
+        }
+
+        private void setChildObjects()
+        {
+            modelParent = GetComponentInChildren<ModelParent>().gameObject.transform;
+            starterAssetCanvas = GetComponentInChildren<StarterAssetsCanvas>();
+            etraAbilityManager = GetComponentInChildren<EtraAbilityManager>();
+
+            if (GetComponentInChildren<EtraFPSUsableItemManager>() != null)
+            {
+                etraFPSUsableItemManager = GetComponentInChildren<EtraFPSUsableItemManager>();
+            }
         }
 
         private void setUpCinemachineScreenShakeNoiseProfile()
@@ -326,6 +345,8 @@ namespace EtrasStarterAssets{
             {
                 Instance = this;
             }
+
+            setChildObjects();
         }
 
         private void Start()
@@ -373,9 +394,9 @@ namespace EtrasStarterAssets{
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (abilityManager.GetComponent<ABILITY_RigidbodyPush>())
+            if (etraAbilityManager.GetComponent<ABILITY_RigidbodyPush>())
             {
-                abilityManager.GetComponent<ABILITY_RigidbodyPush>().PushRigidBodies(hit);
+                etraAbilityManager.GetComponent<ABILITY_RigidbodyPush>().PushRigidBodies(hit);
             }
         }
 
@@ -423,6 +444,18 @@ namespace EtrasStarterAssets{
             direction.Normalize();
             if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
             impact += direction.normalized * force / 3.0f;
+        }
+
+        public void disableAllActiveAbilities()
+        {
+            etraAbilityManager.disableAllActiveAbilities();
+            etraFPSUsableItemManager.disableFPSItemInputs();
+        }
+
+        public void enableAllActiveAbilities()
+        {
+            etraAbilityManager.enableAllActiveAbilities();
+            etraFPSUsableItemManager.enableFPSItemInputs();
         }
 
     }

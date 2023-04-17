@@ -39,8 +39,8 @@ namespace EtrasStarterAssets{
         public float CameraAngleOverride = 0.0f;
         //Misc
         private const float _threshold = 0.01f;
-        private float _cinemachineTargetYaw;
-        private float _cinemachineTargetPitch;
+        [HideInInspector]public float _cinemachineTargetYaw;
+        [HideInInspector] public float _cinemachineTargetPitch;
 
 
         //X & Y Locks
@@ -98,11 +98,7 @@ namespace EtrasStarterAssets{
 
         public override void abilityUpdate()
         {
-            //Return if this ability is disabled
-            if (!abilityEnabled)
-            {
-                return;
-            }
+
 
             //Shoot a ray towards the center of the screen
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -120,6 +116,11 @@ namespace EtrasStarterAssets{
                 objectHit = false;
                 pointCharacterIsLookingAt = ray.GetPoint(distanceToTargetIfNoObjectIsHitByRay);
 
+            }
+            //Return if this ability is disabled
+            if (!abilityEnabled)
+            {
+                return;
             }
 
             //If debug is active, teleport debugTransform to pointCharacterIsLookingAt 

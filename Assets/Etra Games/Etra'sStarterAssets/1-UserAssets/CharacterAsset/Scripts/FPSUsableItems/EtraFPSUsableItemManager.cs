@@ -165,7 +165,7 @@ namespace EtrasStarterAssets{
         //References
         StarterAssetsInputs starterAssetsInputs;
         GameObject cameraRoot;
-
+        private bool inputsLocked = false;
 
 
         [System.Serializable]
@@ -237,6 +237,12 @@ namespace EtrasStarterAssets{
         // Update is called once per frame
         void Update()
         {
+            if (inputsLocked)
+            {
+                setInputsToDefault();
+                return;
+            }
+
             //Some sort of check that were not moving to same item
             if (isEquipping)
             {
@@ -409,5 +415,27 @@ namespace EtrasStarterAssets{
             starterAssetsInputs.item8Select = false;
             starterAssetsInputs.item9Select = false;
         }
+
+        public void disableFPSItemInputs()
+        {
+            inputsLocked = true;
+            usableItems[activeItemNum].script.inputsLocked = true;
+            if (EtraCharacterMainController.Instance.GetComponentInChildren<FPSUsableItemSwayAndBobAnimations>())
+            {
+                EtraCharacterMainController.Instance.GetComponentInChildren<FPSUsableItemSwayAndBobAnimations>().lockInput = true;
+            }
+
+        }
+
+        public void enableFPSItemInputs()
+        {
+            inputsLocked = false;
+            usableItems[activeItemNum].script.inputsLocked = false;
+            if (EtraCharacterMainController.Instance.GetComponentInChildren<FPSUsableItemSwayAndBobAnimations>())
+            {
+                EtraCharacterMainController.Instance.GetComponentInChildren<FPSUsableItemSwayAndBobAnimations>().lockInput = false;
+            }
+        }
+
     }
 }

@@ -1,5 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
+using static EtrasStarterAssets.AbilityUsage;
+using static EtrasStarterAssets.EtraCharacterMainController;
+
 namespace EtrasStarterAssets{
     public class EtraAbilityManager : MonoBehaviour
     {
@@ -188,19 +196,41 @@ namespace EtrasStarterAssets{
         }
 
 
-        public void disableAllAbilities()
+        List<EtraAbilityBaseClass> activatedAbilitiesBeforeFreeze;
+        public void disableAllActiveAbilities()
         {
+            activatedAbilitiesBeforeFreeze = new List<EtraAbilityBaseClass>();
+
+            //Save a list of what abilities are currently active
             for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
             {
-                characterAbilityUpdateOrder[i].abilityEnabled = false;
+                if (characterAbilityUpdateOrder[i].abilityEnabled)
+                {
+                    activatedAbilitiesBeforeFreeze.Add(characterAbilityUpdateOrder[i]);
+                }
             }
+
+            //Disable all those active abilities
+            foreach (EtraAbilityBaseClass ability in activatedAbilitiesBeforeFreeze)
+            {
+                AbilityUsage a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                if (a != null && a.AbilityType == AbilityTypeFlag.Active)
+                {
+                    ability.abilityEnabled = false;
+                }
+            }
+
         }
 
-        public void enableAllAbilities()
+        public void enableAllActiveAbilities()
         {
-            for (int i = 0; i < characterAbilityUpdateOrder.Length; i++)
+            foreach (EtraAbilityBaseClass ability in activatedAbilitiesBeforeFreeze)
             {
-                characterAbilityUpdateOrder[i].abilityEnabled = true;
+                AbilityUsage a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                if (a != null && a.AbilityType == AbilityTypeFlag.Active)
+                {
+                    ability.abilityEnabled = true;
+                }
             }
         }
     }

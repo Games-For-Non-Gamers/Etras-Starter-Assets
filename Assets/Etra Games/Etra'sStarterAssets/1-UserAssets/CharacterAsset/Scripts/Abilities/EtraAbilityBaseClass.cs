@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace EtrasStarterAssets{
@@ -8,5 +9,10 @@ namespace EtrasStarterAssets{
         public virtual void abilityStart() { }
         public virtual void abilityUpdate() { }
         public virtual void abilityLateUpdate() { }
+
+        public static explicit operator Type(EtraAbilityBaseClass v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

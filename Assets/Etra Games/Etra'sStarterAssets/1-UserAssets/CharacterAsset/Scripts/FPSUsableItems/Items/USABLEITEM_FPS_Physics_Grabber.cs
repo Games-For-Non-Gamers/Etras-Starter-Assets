@@ -58,6 +58,13 @@ namespace EtrasStarterAssets{
 
         public void Update()
         {
+            if (inputsLocked)
+            {
+                starterAssetsInputs.shoot = false;
+                starterAssetsInputs.aim = false;
+                return;
+            }
+
             if (starterAssetsInputs.aim)
             {
                 starterAssetsInputs.aim = false;

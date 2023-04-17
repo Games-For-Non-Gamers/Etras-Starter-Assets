@@ -5,6 +5,8 @@ namespace EtrasStarterAssets{
     public abstract class EtraFPSUsableItemBaseClass : MonoBehaviour
     {
         public abstract string getNameOfPrefabToLoad(); //Require the name of loaded prefab in all scripts
+        public bool inputsLocked = false;
+
 
         #region Default Equip and Unequip Animations
 
