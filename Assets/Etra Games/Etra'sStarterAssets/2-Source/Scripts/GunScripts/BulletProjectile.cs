@@ -42,9 +42,17 @@ namespace EtrasStarterAssets{
 
         private void OnDestroy()
         {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
             // For every object currently collided with...
             foreach (var x in colliders)
             {
+                if (!Application.isPlaying)
+                {
+                    return;
+                }
                 // ...if the name of the object is the same as the weighted button...
                 if (x.name == "ButtonColliderAndCode")
                 {

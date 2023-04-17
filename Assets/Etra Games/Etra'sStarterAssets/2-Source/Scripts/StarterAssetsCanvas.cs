@@ -6,7 +6,8 @@ namespace EtrasStarterAssets {
     {
         //Get the child objects
         public RectTransform reticle;
-        public RectTransform screenWiper;
+        public GameObject screenWiper;
+        private RectTransform screenWiperRect;
         public Vector3 screenWipeStart = new Vector3 (1600,0,0);
         public Vector3 screenWipeEnd = new Vector3(-1600, 0, 0);
 
@@ -15,9 +16,15 @@ namespace EtrasStarterAssets {
             //Hide the screen swiper at the start of the game if it exists
             if (screenWiper != null)
             {
-                screenWiper.gameObject.gameObject.SetActive(false);
-                LeanTween.move(screenWiper, screenWipeStart, 0);
+                setInitialScreenPosition();
             } 
+        }
+
+        public void setInitialScreenPosition()
+        {
+            screenWiperRect = screenWiper.GetComponent<RectTransform>();
+            screenWiper.gameObject.SetActive(false);
+            screenWiperRect.localPosition = screenWipeStart;
         }
 
         bool screenWipeIsAnimating = false;
@@ -33,10 +40,10 @@ namespace EtrasStarterAssets {
 
         IEnumerator screenWipeAnimation(float time)
         {
-            LeanTween.move(screenWiper, screenWipeEnd, time).setEaseInOutSine();
+            LeanTween.move(screenWiperRect, screenWipeEnd, time).setEaseInOutSine();
             yield return new WaitForSeconds(time);
             screenWiper.gameObject.gameObject.SetActive(false);
-            LeanTween.move(screenWiper, screenWipeStart, 0);
+            screenWiperRect.localPosition = screenWipeStart;
             screenWipeIsAnimating =false;
         }
     }

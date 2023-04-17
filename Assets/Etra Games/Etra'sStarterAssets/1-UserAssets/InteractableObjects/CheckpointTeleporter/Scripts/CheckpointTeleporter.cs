@@ -4,6 +4,22 @@ namespace EtrasStarterAssets
 {
     public class CheckpointTeleporter : MonoBehaviour
     {
+        [Header("Rendering")]
+        public bool showInEditor = true;
+        public bool showInGame = false;
+
+        private void Reset()
+        {
+            GetComponent<Renderer>().enabled = showInEditor;
+        }
+        private void OnValidate()
+        {
+            GetComponent<Renderer>().enabled= showInEditor;
+        }
+        private void Start()
+        {
+            GetComponent<Renderer>().enabled = showInGame;
+        }
 
         private void OnTriggerEnter(Collider other)
         {

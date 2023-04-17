@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
@@ -25,10 +26,19 @@ namespace EtrasStarterAssets
 
         EtraCharacterMainController etraCharacterMainController;
         ABILITY_CameraMovement etraCameraMovement;
+
+        public void Reset()
+        {
+            transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
+            GameObject spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", this.gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
+            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
+            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenPosition();
+        }
+
         public void Start()
         {
             etraCharacterMainController = EtraCharacterMainController.Instance;
-            etraCameraMovement = etraCharacterMainController.GetComponent<ABILITY_CameraMovement>();
+            etraCameraMovement = etraCharacterMainController.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
         }
 
         bool animating = false;
@@ -81,15 +91,22 @@ namespace EtrasStarterAssets
                 etraCharacterMainController.transform.forward = Vector3.right;
                 etraCharacterMainController.gameObject.transform.rotation = checkPointRotation;
                 etraCameraMovement.playerCameraRoot.transform.rotation = checkPointRotation;
-                etraCameraMovement._cinemachineTargetPitch = 0;
-                etraCameraMovement._cinemachineTargetYaw = 0;
+
+                etraCameraMovement._cinemachineTargetPitch = checkPointRotation.eulerAngles.x;
+                Debug.Log(checkPointRotation.eulerAngles.y);
+                
+                etraCameraMovement._cinemachineTargetYaw = checkPointRotation.eulerAngles.y;
             }
 
             if (teleportToGround)
             {
+                Debug.Log("Here");
+                etraCharacterMainController.Grounded = false;
                 while (etraCharacterMainController.Grounded != true)
                 {
-                    etraCharacterMainController.transform.position += moveDown;
+                    etraCharacterMainController.gameObject.transform.position += moveDown;
+                    //force a grounded check
+                    etraCharacterMainController.GroundedCheck();
                 }
             }
 

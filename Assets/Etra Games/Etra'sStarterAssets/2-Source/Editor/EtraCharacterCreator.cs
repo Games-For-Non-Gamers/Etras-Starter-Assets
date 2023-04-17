@@ -655,6 +655,7 @@ namespace EtrasStarterAssets
 
         public void CreateOrModify()
         {
+            _target.setChildObjects();
             GameObject group = _target == null ?
                 EtrasResourceGrabbingFunctions.addPrefabFromResourcesByName("EtraCharacterAssetGroup") :
                 GetRootParent(_target.transform).gameObject;

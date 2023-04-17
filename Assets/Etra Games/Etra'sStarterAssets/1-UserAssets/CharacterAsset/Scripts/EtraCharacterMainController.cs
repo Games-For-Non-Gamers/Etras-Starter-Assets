@@ -220,11 +220,11 @@ namespace EtrasStarterAssets{
         #region Setup, Reset, and OnValidate functions
         private void Reset()
         {
-            GroundLayers = LayerMask.GetMask("Default");
             setChildObjects();
+            GroundLayers = LayerMask.GetMask("Default");
         }
 
-        private void setChildObjects()
+        public void setChildObjects()
         {
             modelParent = GetComponentInChildren<ModelParent>().gameObject.transform;
             starterAssetCanvas = GetComponentInChildren<StarterAssetsCanvas>();
@@ -266,7 +266,7 @@ namespace EtrasStarterAssets{
         }
         #endregion
         #region Grounded and Gravity Functions
-        private void GroundedCheck()
+        public void GroundedCheck()
         {
 
             // set sphere position, with offset
@@ -449,13 +449,20 @@ namespace EtrasStarterAssets{
         public void disableAllActiveAbilities()
         {
             etraAbilityManager.disableAllActiveAbilities();
-            etraFPSUsableItemManager.disableFPSItemInputs();
+            if (etraFPSUsableItemManager != null)
+            {
+                etraFPSUsableItemManager.disableFPSItemInputs();
+            }
         }
 
         public void enableAllActiveAbilities()
         {
             etraAbilityManager.enableAllActiveAbilities();
-            etraFPSUsableItemManager.enableFPSItemInputs();
+            if (etraFPSUsableItemManager != null)
+            {
+                etraFPSUsableItemManager.enableFPSItemInputs();
+            }
+            
         }
 
     }
