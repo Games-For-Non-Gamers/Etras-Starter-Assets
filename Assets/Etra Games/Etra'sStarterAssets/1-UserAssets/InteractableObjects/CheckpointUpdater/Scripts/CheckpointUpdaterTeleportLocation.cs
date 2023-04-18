@@ -4,19 +4,19 @@ namespace EtrasStarterAssets
 {
     public class CheckpointUpdaterTeleportLocation : MonoBehaviour
     {
-        public MeshRenderer renderer;
+        public MeshRenderer meshRenderer;
 
         private void Reset()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
         private void OnValidate()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
         private void Awake()
         {
-            renderer = GetComponent<MeshRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
         }
     }
 }

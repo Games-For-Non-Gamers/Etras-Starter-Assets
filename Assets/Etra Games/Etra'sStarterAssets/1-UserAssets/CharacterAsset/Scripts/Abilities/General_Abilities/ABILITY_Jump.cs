@@ -48,7 +48,8 @@ namespace EtrasStarterAssets{
 			//If ability is disabled do not take jump input
 			if (!abilityEnabled)
 			{
-				alteredJumpInput = false;
+				_input.jump = false;
+                alteredJumpInput = false;
 			}
 
 			if (mainController.Grounded)

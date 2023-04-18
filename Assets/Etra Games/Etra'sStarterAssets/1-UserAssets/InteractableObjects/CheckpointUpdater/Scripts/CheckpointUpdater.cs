@@ -50,14 +50,14 @@ namespace EtrasStarterAssets
         private void hideRenderers()
         {
             checkpointHitbox.meshRenderer.enabled = false;
-            teleportLocation.renderer.enabled= false;
+            teleportLocation.meshRenderer.enabled= false;
             arrowMeshHolder.disableMeshes();
         }
 
         private void showRenderers()
         {
             checkpointHitbox.meshRenderer.enabled = true;
-            teleportLocation.renderer.enabled = true;
+            teleportLocation.meshRenderer.enabled = true;
             if (setRotationToCheckpointRotation)
             {
                 arrowMeshHolder.enableMeshes();

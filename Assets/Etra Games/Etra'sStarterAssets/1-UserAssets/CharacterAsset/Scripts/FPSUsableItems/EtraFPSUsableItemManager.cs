@@ -364,6 +364,11 @@ namespace EtrasStarterAssets{
 
         }
 
+        public void equipLastItem()
+        {
+            StartCoroutine(equipItem(usableItems.Length-1));
+        }
+
         IEnumerator equipItem(int newItemNum)
         {
 

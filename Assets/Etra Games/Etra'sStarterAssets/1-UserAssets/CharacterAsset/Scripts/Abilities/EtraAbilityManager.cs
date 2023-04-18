@@ -16,7 +16,7 @@ namespace EtrasStarterAssets{
 
 
         #region Functions to update The characterAbilityUpdateOrder Array
-        private void updateCharacterAbilityArray()
+        public void updateCharacterAbilityArray()
         {
             removeNullAbilitySlots();
             //I understand this is Big O^2 however, it only runs on validate. What's more important is navigation of the final structure (an array) is as fast as possible.
