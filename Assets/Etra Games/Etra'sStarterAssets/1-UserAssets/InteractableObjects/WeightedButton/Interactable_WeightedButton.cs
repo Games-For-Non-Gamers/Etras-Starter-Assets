@@ -19,7 +19,7 @@ namespace EtrasStarterAssets{
         //Variables
         Vector3 buttonStartPos = new Vector3(0, -0.94f, 0);
         Vector3 buttonEndPos = new Vector3(0, -1.32f, 0);
-        int numObjects = 0; // Track the number of objects on the button
+        //int numObjects = 0; // Track the number of objects on the button
 
         //Set buttonStartPos
         private void Start()
@@ -33,12 +33,12 @@ namespace EtrasStarterAssets{
         {
             if (other.gameObject.tag == "Player")
             {
-                numObjects++; // New object on button
+                //numObjects++; // New object on button
                 buttonPressed();
             }
             else if (other.GetComponent<Rigidbody>() != null)
             {
-                numObjects++; // New object on button
+              //  numObjects++; // New object on button
                 buttonPressed();
             }
         }
@@ -50,13 +50,14 @@ namespace EtrasStarterAssets{
 
         public void removeObject()
         {
-            numObjects--;
+         //   numObjects--;
         }
 
         public void doorClose()
         {
             removeObject();
-            if (numObjects == 0) buttonReleased();
+          //  if (numObjects == 0)
+             buttonReleased();
         }
 
         public void buttonPressed()

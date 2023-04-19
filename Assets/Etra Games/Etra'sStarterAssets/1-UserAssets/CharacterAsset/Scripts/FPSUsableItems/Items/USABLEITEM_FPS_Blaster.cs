@@ -34,6 +34,10 @@ namespace EtrasStarterAssets{
         private void Awake()
         {
             this.enabled = false;
+            if (launchedBullet == null)
+            {
+                launchedBullet = (GameObject)Resources.Load("ExampleProjectile");
+            }
         }
 
         public void OnEnable()

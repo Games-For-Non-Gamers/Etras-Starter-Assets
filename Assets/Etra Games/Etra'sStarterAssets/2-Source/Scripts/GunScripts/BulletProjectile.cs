@@ -5,7 +5,7 @@ namespace EtrasStarterAssets{
     public class BulletProjectile : MonoBehaviour
     {
         private List<Collider> colliders = new List<Collider>();
-
+        public int projectileDamage = 1;
         private Rigidbody bulletRigidbody;
         public float bulletSpeed = 10;
         // Start is called before the first frame update
@@ -25,8 +25,13 @@ namespace EtrasStarterAssets{
 
         private void OnTriggerEnter(Collider other)
         {
-            // Add to list when in trigger
-            if (!colliders.Contains(other)) { colliders.Add(other); }
+            
+            IDamageable<int> isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
+            if (isDamageableCheck != null)
+            {
+                isDamageableCheck.TakeDamage(projectileDamage);
+                Destroy(gameObject);
+            }
         }
 
         private void OnTriggerExit(Collider other)
@@ -40,19 +45,13 @@ namespace EtrasStarterAssets{
             Destroy(gameObject);
         }
 
+        /*
         private void OnDestroy()
         {
-            if (!Application.isPlaying)
-            {
-                return;
-            }
+            
             // For every object currently collided with...
             foreach (var x in colliders)
             {
-                if (!Application.isPlaying)
-                {
-                    return;
-                }
                 // ...if the name of the object is the same as the weighted button...
                 if (x.name == "ButtonColliderAndCode")
                 {
@@ -61,6 +60,8 @@ namespace EtrasStarterAssets{
                     x.GetComponent<Interactable_WeightedButton>().doorClose();
                 }
             }
+            
         }
+        */
     }
 }

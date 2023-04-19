@@ -212,6 +212,8 @@ namespace EtrasStarterAssets{
                     model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("VoxelCharacterModel").transform.localPosition;
                     break;
                 case EtraCharacterMainController.Model.None:
+                    model = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("InvisibleCapsuleModel", modelParent, false, Vector3.zero);
+                    model.transform.localPosition = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("InvisibleCapsuleModel").transform.localPosition;
                     break;
             }
         }
