@@ -655,13 +655,15 @@ namespace EtrasStarterAssets
 
         public void CreateOrModify()
         {
-            _target.setChildObjects();
+            
             GameObject group = _target == null ?
                 EtrasResourceGrabbingFunctions.addPrefabFromResourcesByName("EtraCharacterAssetGroup") :
                 GetRootParent(_target.transform).gameObject;
 
             if (_target == null)
                 _target = group.GetComponentInChildren<EtraCharacterMainController>();
+
+            _target.setChildObjects();
 
             var abilityManager = _target.etraAbilityManager;
 
