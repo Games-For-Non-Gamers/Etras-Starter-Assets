@@ -25,6 +25,7 @@ namespace EtrasStarterAssets{
 
             if (!enabled || !abilityEnabled)
             {
+                _inputs.dash = false;
                 return;
             }
 

@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+//All this enemy class currently incorporates is a health variable
 namespace EtrasStarterAssets
 {
     public class Enemy : MonoBehaviour

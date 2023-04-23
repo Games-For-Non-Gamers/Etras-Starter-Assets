@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 namespace EtrasStarterAssets{
-    [CustomEditor(typeof(INTERACTABLE_Target))]
+    [CustomEditor(typeof(Target))]
     public class UnityEditorForInteractableTarget : Editor
     {
        
@@ -10,7 +10,7 @@ namespace EtrasStarterAssets{
         {
             DrawDefaultInspector();
             //Create Apply Gameplay Settings button under public enum variables
-            INTERACTABLE_Target tgt = target as INTERACTABLE_Target;
+            Target tgt = target as Target;
             tgt.updateRopes();
             
             

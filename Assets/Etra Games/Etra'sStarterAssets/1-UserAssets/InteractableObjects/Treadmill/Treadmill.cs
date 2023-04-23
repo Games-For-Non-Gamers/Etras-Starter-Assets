@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace EtrasStarterAssets{
-    public class Treadmill_Interactable : MonoBehaviour
+    public class Treadmill : MonoBehaviour
     {
         //From Just Kris#0001
         /*

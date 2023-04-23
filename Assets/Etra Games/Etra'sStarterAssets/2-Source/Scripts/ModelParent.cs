@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ModelParent : MonoBehaviour
+namespace EtrasStarterAssets
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ModelParent : MonoBehaviour
     {
-        
+        //This class exists so the model parent is easily grabbable by Etra Main Character Controller
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

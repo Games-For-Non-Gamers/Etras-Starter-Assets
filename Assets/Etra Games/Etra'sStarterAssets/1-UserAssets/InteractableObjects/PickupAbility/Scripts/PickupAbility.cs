@@ -15,10 +15,14 @@ namespace EtrasStarterAssets
         public string Ability_To_Activate;
         private List<Ability> generalAbilities;
         EtraAbilityBaseClass selectedAbility;
+
+        //Set the correct selected ability
         private void Start()
         {
             GetAllAbilities();
             Type abilityType = generalAbilities.ElementAt(abilityShortenedNames.IndexOf(Ability_To_Activate)).type;
+
+            //If the ability is not on the player, it cannot be activated or deactivated
             if ((EtraAbilityBaseClass)EtraCharacterMainController.Instance.etraAbilityManager.GetComponent(abilityType) == null)
             {
                 Debug.LogWarning("PickupAbility.cs cannot activate the " + Ability_To_Activate + " ability on your character because your character does not have the " +  Ability_To_Activate + " script attached to its ability manager.");
@@ -29,10 +33,12 @@ namespace EtrasStarterAssets
             }
         }
 
+        //If the player collides with the pickup...
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
+                //enable the ability and destroy the pickup
                 selectedAbility.abilityEnabled = true;
                 Destroy(this.gameObject);
             }
@@ -43,6 +49,7 @@ namespace EtrasStarterAssets
         #region AbilityListDisplay
         public List<String> GetAllAbilities()
         {
+            //Get all EtraAbilityBaseClass
             generalAbilities = new List<Ability>();
             generalAbilities = FindAllTypes<EtraAbilityBaseClass>().Select(x => new Ability(x)).ToList();
 
@@ -51,12 +58,10 @@ namespace EtrasStarterAssets
             {
                 temp.Add(ability.shortenedName.ToString());
             }
-
-           // temp.Sort();
-            //generalAbilities.Sort();
             return temp;
         }
 
+        //Update the list every frame on editor selection "functionally"
         public void OnBeforeSerialize()
         {
             abilityShortenedNames = GetAllAbilities();
@@ -68,6 +73,7 @@ namespace EtrasStarterAssets
 
         }
 
+        //Helper function to find all EtraAbilityBaseClass scripts
         public static IEnumerable<Type> FindAllTypes<T>()
         {
             var type = typeof(T);
@@ -76,7 +82,7 @@ namespace EtrasStarterAssets
                 .Where(t => t != type && type.IsAssignableFrom(t));
         }
 
-
+        //Helper class to find all EtraAbilityBaseClass scripts
         class Ability
         {
             public Ability(Type type)

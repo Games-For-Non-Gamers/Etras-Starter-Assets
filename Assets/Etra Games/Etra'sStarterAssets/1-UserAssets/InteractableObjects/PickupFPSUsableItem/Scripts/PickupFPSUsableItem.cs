@@ -15,6 +15,8 @@ namespace EtrasStarterAssets
         public string Item_To_Add;
         private List<Item> fpsItems;
         Item itemType;
+
+        //Set the correct selected item
         private void Start()
         {
             GetAllItems();
@@ -25,22 +27,27 @@ namespace EtrasStarterAssets
             }
         }
 
+        //If player runs into pickup...
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
+                //Add the script to the item manager
                 EtraCharacterMainController.Instance.etraFPSUsableItemManager.gameObject.AddComponent(itemType.type);
+                //Update the items array
                 EtraCharacterMainController.Instance.etraFPSUsableItemManager.updateUsableItemsArray();
+                //Equip the new item
                 EtraCharacterMainController.Instance.etraFPSUsableItemManager.equipLastItem();
+                //Destory this pickup
                 Destroy(this.gameObject);
             }
             
         }
 
-
         #region ItemListDisplay
         public List<String> GetAllItems()
         {
+            //Get all EtraFPSUsableItemBaseClass
             fpsItems = new List<Item>();
             fpsItems = FindAllTypes<EtraFPSUsableItemBaseClass>().Select(x => new Item(x)).ToList();
 
@@ -49,12 +56,10 @@ namespace EtrasStarterAssets
             {
                 temp.Add(ability.shortenedName.ToString());
             }
-
-            // temp.Sort();
-            //generalAbilities.Sort();
             return temp;
         }
 
+        //Update the list every frame on editor selection "functionally"
         public void OnBeforeSerialize()
         {
             itemShortenedNames = GetAllItems();
@@ -66,6 +71,7 @@ namespace EtrasStarterAssets
 
         }
 
+        //Helper function to find all EtraFPSUsableItemBaseClass scripts
         public static IEnumerable<Type> FindAllTypes<T>()
         {
             var type = typeof(T);
@@ -74,7 +80,7 @@ namespace EtrasStarterAssets
                 .Where(t => t != type && type.IsAssignableFrom(t));
         }
 
-
+        //Helper class to find all EtraFPSUsableItemBaseClass scripts
         class Item
         {
             public Item(Type type)
@@ -93,8 +99,6 @@ namespace EtrasStarterAssets
             public void GenerateName()
             {
                 shortenedName = type.Name.Split('_').Last();
-
-
                 shortenedName = Regex.Replace(shortenedName, "([a-z])([A-Z])", "$1 $2");
             }
         }
