@@ -14,7 +14,7 @@ public class RopePoint : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (target != null)
         {
-            target.OnBeforeSerialize();
+           target.OnValidate();
         }
     }
 

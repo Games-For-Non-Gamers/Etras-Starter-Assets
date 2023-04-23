@@ -25,7 +25,6 @@ namespace EtrasStarterAssets{
 
         private void OnTriggerEnter(Collider other)
         {
-            
             IDamageable<int> isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
             if (isDamageableCheck != null)
             {
