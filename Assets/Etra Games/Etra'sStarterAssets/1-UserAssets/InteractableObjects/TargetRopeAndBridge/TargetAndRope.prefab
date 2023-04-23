@@ -648,9 +648,9 @@ MonoBehaviour:
   center: {fileID: 8995709944440236725}
   lrPoint: {fileID: 7703727601158964728}
   animScaler: {fileID: 9186796950036471300}
-  activated: 0
   sparker: {fileID: 9186796949038456977}
   ropeLine: {fileID: 8684504524245461289}
+  activated: 0
 --- !u!1 &8133933756354979718
 GameObject:
   m_ObjectHideFlags: 0
