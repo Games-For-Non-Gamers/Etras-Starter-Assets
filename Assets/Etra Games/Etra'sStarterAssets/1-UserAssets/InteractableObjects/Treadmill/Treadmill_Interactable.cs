@@ -3,7 +3,7 @@ using UnityEngine;
 namespace EtrasStarterAssets{
     public class Treadmill_Interactable : MonoBehaviour
     {
-        //From Just Kris#0001
+        //From Krissy#1337
         /*
         The MIT License (MIT)
         Copyright 2023 Krissy
