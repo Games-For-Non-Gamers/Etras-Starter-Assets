@@ -3,6 +3,7 @@ using UnityEngine;
 namespace EtrasStarterAssets{
     public class Treadmill : MonoBehaviour
     {
+    
         //From Just Kris#0001
         /*
         The MIT License (MIT)
