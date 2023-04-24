@@ -119,6 +119,8 @@ namespace EtrasStarterAssets{
                     pickedUpObject.angularDrag = originalAngularDrag;
                     pickedUpObject.drag = originalDrag;
 
+                    ThrownObjectDamageSender damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
+                    damageSender.objectDamage = (int)pickedUpObject.GetComponent<Rigidbody>().mass;
                     pickedUpObject.AddForce(Camera.main.transform.forward * 1000f);
 
                     pickedUpObject = null;

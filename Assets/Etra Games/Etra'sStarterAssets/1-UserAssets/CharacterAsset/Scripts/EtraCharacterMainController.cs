@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -394,12 +395,25 @@ namespace EtrasStarterAssets{
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //COLLISIONS
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        bool damageOnCollisionBool = false;
+        int damageOnCollisionValue;
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             if (etraAbilityManager.GetComponent<ABILITY_RigidbodyPush>())
             {
                 etraAbilityManager.GetComponent<ABILITY_RigidbodyPush>().PushRigidBodies(hit);
             }
+
+            if (damageOnCollisionBool)
+            {
+                IDamageable<int> isDamageableCheck = hit.gameObject.GetComponent<IDamageable<int>>();
+                if (isDamageableCheck != null)
+                {
+                    isDamageableCheck.TakeDamage(damageOnCollisionValue);
+                    damageOnCollisionBool = false;
+                }
+            }
+
         }
 
 
@@ -447,6 +461,26 @@ namespace EtrasStarterAssets{
             if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
             impact += direction.normalized * force / 3.0f;
         }
+
+
+        public void addImpulseForceWithDamageToEtraCharacter(Vector3 direction, float force, int damage, float cooldown)
+        {
+            direction.Normalize();
+            if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
+            impact += direction.normalized * force / 3.0f;
+
+            damageOnCollisionValue = damage;
+            damageOnCollisionBool = true;
+            StartCoroutine(damageOnCollisionCooldown(cooldown));
+
+        }
+
+        IEnumerator damageOnCollisionCooldown(float cooldown)
+        {
+            yield return new WaitForSeconds(cooldown);
+            damageOnCollisionBool = false;
+        }
+
 
         public void disableAllActiveAbilities()
         {

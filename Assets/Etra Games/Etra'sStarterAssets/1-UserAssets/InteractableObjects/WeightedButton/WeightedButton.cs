@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace EtrasStarterAssets{
-    public class Interactable_WeightedButton : MonoBehaviour
+    public class WeightedButton : MonoBehaviour
     {
         //From Krissy#1337
         /*

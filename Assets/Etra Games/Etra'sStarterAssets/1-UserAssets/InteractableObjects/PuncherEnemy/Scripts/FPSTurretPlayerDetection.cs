@@ -3,17 +3,10 @@
 namespace EtrasStarterAssets{
     public class FPSTurretPlayerDetection : MonoBehaviour
     {
+        //Simply call a function and flip variables if player is visible
         public FPSTurret parentScript;
         public bool playerVisible = false;
         public bool playerInRange = false;
-
-        //Time to commit a sin
-        private void Update()
-        {
-
-
-        }
-
 
         private void OnTriggerEnter(Collider other)
         {
@@ -23,9 +16,6 @@ namespace EtrasStarterAssets{
                 playerInRange = true;
             }
         }
-
-
-
 
         private void OnTriggerExit(Collider other)
         {

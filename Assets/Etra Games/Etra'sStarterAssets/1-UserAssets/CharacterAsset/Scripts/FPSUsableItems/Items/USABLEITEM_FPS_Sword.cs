@@ -12,6 +12,7 @@ namespace EtrasStarterAssets{
         public float swordRange = 2.5f;
         public float swordKnockback = 5;
         public float swordCooldown = 1f;
+        public int swordDamage =3;
         public Vector2 hitCamShake = new Vector2(1f, 0.1f);
 
         //Private Variables
@@ -40,7 +41,7 @@ namespace EtrasStarterAssets{
             camMoveScript = GameObject.Find("EtraAbilityManager").GetComponent<ABILITY_CameraMovement>();
         }
 
-        Rigidbody hitBody;
+        GameObject hitObject;
         public void Update()
         {
             if (inputsLocked)
@@ -72,11 +73,8 @@ namespace EtrasStarterAssets{
 
                 if (camMoveScript.objectHit)
                 {
-                    if (camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>() != null)
-                    {
-                        hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
-                        StartCoroutine(addForceMidSwing());
-                    }
+                    hitObject = camMoveScript.raycastHit.transform.gameObject;
+                    StartCoroutine(addForceMidSwing());
                 }
 
 
@@ -87,12 +85,28 @@ namespace EtrasStarterAssets{
         {
             yield return new WaitForSeconds(0.25f);
 
-            if (hitBody.isKinematic == false && Vector3.Distance(Camera.main.transform.position, camMoveScript.pointCharacterIsLookingAt) < swordRange)
+            if (hitObject != null)
             {
-                CharacterController charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
-                hitBody.AddForce(charController.transform.forward * swordKnockback, ForceMode.Impulse);
-                CinemachineShake.Instance.ShakeCamera(hitCamShake);
+                IDamageable<int> isDamageableCheck = hitObject.GetComponent<IDamageable<int>>();
+                if (isDamageableCheck != null)
+                {
+                    isDamageableCheck.TakeDamage(swordDamage);
+                }
+
+
+                if (hitObject != null && hitObject.GetComponent<Rigidbody>() != null)
+                {
+                    Rigidbody hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
+                    if (hitBody.isKinematic == false && Vector3.Distance(Camera.main.transform.position, camMoveScript.pointCharacterIsLookingAt) < swordRange)
+                    {
+                        CharacterController charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
+                        hitBody.AddForce(charController.transform.forward * swordKnockback, ForceMode.Impulse);
+                        CinemachineShake.Instance.ShakeCamera(hitCamShake);
+                    }
+
+                }
             }
+
         }
     }
 }

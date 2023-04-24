@@ -6,6 +6,7 @@ namespace EtrasStarterAssets{
     {
         public float dashRange = 50.0f;
         public float dashCooldown = 1f;
+        public int damageFromDash = 2;
 
         private float _dashTimeoutDelta = 0;
         private bool cooling;
@@ -24,6 +25,7 @@ namespace EtrasStarterAssets{
 
             if (!enabled || !abilityEnabled)
             {
+                _inputs.dash = false;
                 return;
             }
 
@@ -44,7 +46,8 @@ namespace EtrasStarterAssets{
 
             if (_inputs.dash)
             {
-                EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(transform.forward, dashRange);
+                EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown/2);
+
                 _dashTimeoutDelta = dashCooldown;
                 cooling = true;
 

@@ -120,6 +120,10 @@ namespace EtrasStarterAssets{
                 // if we press E while holding an object, we will drop it
                 if (starterAssetsInputs.interact && !interactHeld || Vector3.Distance(pickedUpObject.transform.position, camMoveScript.playerCameraRoot.transform.position) > dropDistance)
                 {
+
+                    ThrownObjectDamageSender damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
+                    damageSender.objectDamage = (int)pickedUpObject.GetComponent<Rigidbody>().mass;
+
                     Destroy(springJoint);
                     pickedUpObject.angularDrag = originalAngularDrag;
                     pickedUpObject.drag = originalDrag;
