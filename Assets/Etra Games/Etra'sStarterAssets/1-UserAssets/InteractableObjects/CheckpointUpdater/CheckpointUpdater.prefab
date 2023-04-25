@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 4082332788365930109}
-  meshRenderer: {fileID: 4082332788704887459}
+  renderer: {fileID: 4082332788704887459}
 --- !u!1 &4082332789033251005
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76de267a2c7609649a5943069024938d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 4082332789033251008}
+  renderer: {fileID: 4082332789033251008}
 --- !u!1 &4082332789345311964
 GameObject:
   m_ObjectHideFlags: 0
