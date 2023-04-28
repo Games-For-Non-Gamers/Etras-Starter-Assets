@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //All this enemy class currently incorporates is a health variable
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables.Enemies
 {
     public class Enemy : MonoBehaviour
     {

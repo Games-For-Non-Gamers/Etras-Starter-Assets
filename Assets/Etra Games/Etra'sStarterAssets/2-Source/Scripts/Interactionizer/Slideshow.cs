@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Interactions
+{
     public class Slideshow : MonoBehaviour
     {
         // Slideshow has an array of GameObjects.

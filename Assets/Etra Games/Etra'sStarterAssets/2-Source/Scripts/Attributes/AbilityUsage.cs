@@ -1,7 +1,7 @@
 ﻿using System;
-using static EtrasStarterAssets.EtraCharacterMainController;
+using static Etra.StarterAssets.EtraCharacterMainController;
 
-namespace EtrasStarterAssets {
+namespace Etra.StarterAssets {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class AbilityUsage : Attribute
     {

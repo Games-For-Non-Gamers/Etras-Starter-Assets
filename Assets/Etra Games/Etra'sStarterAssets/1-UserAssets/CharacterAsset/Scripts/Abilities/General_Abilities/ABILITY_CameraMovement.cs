@@ -1,9 +1,11 @@
+using Etra.StarterAssets.Input;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_CameraMovement : EtraAbilityBaseClass
     {
@@ -39,7 +41,7 @@ namespace EtrasStarterAssets{
         public float CameraAngleOverride = 0.0f;
         //Misc
         private const float _threshold = 0.01f;
-        [HideInInspector]public float _cinemachineTargetYaw;
+        [HideInInspector] public float _cinemachineTargetYaw;
         [HideInInspector] public float _cinemachineTargetPitch;
 
 
@@ -102,7 +104,7 @@ namespace EtrasStarterAssets{
 
             //Shoot a ray towards the center of the screen
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+            var ray = Camera.main.ScreenPointToRay(screenCenterPoint);
             if (Physics.Raycast(ray, out raycastHit, 999f, aimColliderMask))
             {
                 //If the ray hits a layer that the ray can collide with, set the hit location as the pointCharacterIsLookingAt
@@ -132,9 +134,9 @@ namespace EtrasStarterAssets{
             //If the boolean is checked, set the players forward to where the player is facing
             if (setForwardToPlayerLookDirection)
             {
-                Vector3 worldAimTarget = pointCharacterIsLookingAt;
+                var worldAimTarget = pointCharacterIsLookingAt;
                 worldAimTarget.y = transform.position.y;
-                Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+                var aimDirection = (worldAimTarget - transform.position).normalized;
                 transform.parent.forward = Vector3.Lerp(transform.parent.forward, aimDirection, Time.deltaTime * rotateTowardsCharacterLookPointSpeed);
             }
 

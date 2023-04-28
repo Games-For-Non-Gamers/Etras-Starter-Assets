@@ -1,6 +1,9 @@
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_GrabInteract : EtraAbilityBaseClass
     {
@@ -82,7 +85,7 @@ namespace EtrasStarterAssets{
                     // check if object is being looked at, and is in range to be picked up
                     if (pickUpRange > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, camMoveScript.pointCharacterIsLookingAt))
                     {
-                        GameObject objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
+                        var objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
 
                         // if rigid body, and not too big, pick up object
                         if (objectThatIsLookedAt.GetComponent<Rigidbody>() != null)
@@ -121,7 +124,7 @@ namespace EtrasStarterAssets{
                 if (starterAssetsInputs.interact && !interactHeld || Vector3.Distance(pickedUpObject.transform.position, camMoveScript.playerCameraRoot.transform.position) > dropDistance)
                 {
 
-                    ThrownObjectDamageSender damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
+                    var damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
                     damageSender.objectDamage = (int)pickedUpObject.GetComponent<Rigidbody>().mass;
 
                     Destroy(springJoint);

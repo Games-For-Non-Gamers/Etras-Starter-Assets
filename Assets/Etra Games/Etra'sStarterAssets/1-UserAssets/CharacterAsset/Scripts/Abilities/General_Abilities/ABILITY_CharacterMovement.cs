@@ -1,6 +1,10 @@
+using Etra.StarterAssets.Abilities.FirstPerson;
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_CharacterMovement : EtraAbilityBaseClass
     {
@@ -71,9 +75,9 @@ namespace EtrasStarterAssets{
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
             //Set Sprint speed if Sprint is an attached script
-            if (this.gameObject.GetComponent<ABILITY_Sprint>() != null)
+            if (gameObject.GetComponent<ABILITY_Sprint>() != null)
             {
-                sprintSource = this.gameObject.GetComponent<ABILITY_Sprint>();
+                sprintSource = gameObject.GetComponent<ABILITY_Sprint>();
                 sprintSource.sprintSpeed = sprintSpeed;
             }
             else { sprintSpeed = moveSpeed; }
@@ -167,7 +171,7 @@ namespace EtrasStarterAssets{
 
 
             // normalise input direction
-            Vector3 inputDirection = new Vector3(inputX, 0.0f, inputY).normalized;
+            var inputDirection = new Vector3(inputX, 0.0f, inputY).normalized;
 
 
 
@@ -177,7 +181,7 @@ namespace EtrasStarterAssets{
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, rotateTowardMoveDirectionSpeed);
-                Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+                var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
                 // if there is a move input rotate player when the player is moving
                 if (rotateTowardMoveDirection)

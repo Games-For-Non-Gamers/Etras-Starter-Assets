@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public abstract class EtraFPSUsableItemBaseClass : MonoBehaviour
     {
         public abstract string getNameOfPrefabToLoad(); //Require the name of loaded prefab in all scripts

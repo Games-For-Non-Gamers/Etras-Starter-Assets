@@ -1,11 +1,11 @@
-using EtrasStarterAssets;
+using Etra.StarterAssets.Abilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.Android;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class ChasePlayer : MonoBehaviour
     {
@@ -80,7 +80,7 @@ namespace EtrasStarterAssets
         {
             if (Vector3.Distance(transform.position, Player.position) < viewDistance)
             {
-                Vector3 directionToPlayer = (Player.position - transform.position).normalized;
+                var directionToPlayer = (Player.position - transform.position).normalized;
                 float angleBetweenGuardAndPlayer = Vector3.Angle(transform.forward, directionToPlayer);
                 Debug.DrawRay(transform.position, directionToPlayer * viewDistance, Color.green);
                 if (angleBetweenGuardAndPlayer < viewAngle / 2)
@@ -102,7 +102,7 @@ namespace EtrasStarterAssets
         {
             if (Vector3.Distance(transform.position, Player.position) < viewDistance)
             {
-                Vector3 directionToPlayer = (Player.position - transform.position).normalized;
+                var directionToPlayer = (Player.position - transform.position).normalized;
                 float angleBetweenGuardAndPlayer = Vector3.Angle(transform.forward, directionToPlayer);
                 Debug.DrawRay(transform.position, directionToPlayer * viewDistance, Color.green);
                 if (angleBetweenGuardAndPlayer < viewAngle / 2)

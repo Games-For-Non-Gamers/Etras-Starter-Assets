@@ -1,9 +1,9 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-using System.Reflection;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source
+{
     public class EtrasResourceGrabbingFunctions : MonoBehaviour
     {
 
@@ -47,7 +47,7 @@ namespace EtrasStarterAssets{
                 }
             }
 
-            GameObject addedObject = getPrefabFromResourcesByName(prefabName);
+            var addedObject = getPrefabFromResourcesByName(prefabName);
             if (addedObject == null) { return null; }
 
 
@@ -70,7 +70,7 @@ namespace EtrasStarterAssets{
 
         public static GameObject addPrefabFromAssetsByName(string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos)
         {
-            GameObject addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates);
+            var addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates);
             if (addedObject == null) { return null; }
             addedObject.transform.localPosition = localPos;
             return addedObject;
@@ -78,7 +78,7 @@ namespace EtrasStarterAssets{
 
         public static GameObject addPrefabFromAssetsByName(string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot)
         {
-            GameObject addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates, localPos);
+            var addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates, localPos);
             if (addedObject == null) { return null; }
             addedObject.transform.localRotation = localRot;
             return addedObject;
@@ -86,7 +86,7 @@ namespace EtrasStarterAssets{
 
         public static GameObject addPrefabFromAssetsByName(string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
-            GameObject addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates, localPos, localRot);
+            var addedObject = addPrefabFromAssetsByName(prefabName, parent, allowDuplicates, localPos, localRot);
             if (addedObject == null) { return null; }
             addedObject.transform.localScale = localScale;
             return addedObject;
@@ -99,9 +99,9 @@ namespace EtrasStarterAssets{
         public static Type getComponentFromAssetsByName(string name)
         {
 #if UNITY_EDITOR
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+                foreach (var type in assembly.GetTypes())
                 {
                     if (type.Name == name)
                         return type;

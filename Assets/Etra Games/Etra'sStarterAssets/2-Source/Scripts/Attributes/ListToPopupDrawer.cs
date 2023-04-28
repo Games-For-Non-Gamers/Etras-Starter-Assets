@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets
 {
     public class ListToPopupAttribute : PropertyAttribute
     {

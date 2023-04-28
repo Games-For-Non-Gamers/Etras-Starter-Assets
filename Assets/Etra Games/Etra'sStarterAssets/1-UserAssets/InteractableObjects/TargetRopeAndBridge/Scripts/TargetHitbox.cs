@@ -1,6 +1,7 @@
+using Etra.StarterAssets.Interactables.Enemies;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class TargetHitbox : MonoBehaviour, IDamageable<int>
     {
@@ -15,4 +16,3 @@ namespace EtrasStarterAssets
 
     }
 }
-

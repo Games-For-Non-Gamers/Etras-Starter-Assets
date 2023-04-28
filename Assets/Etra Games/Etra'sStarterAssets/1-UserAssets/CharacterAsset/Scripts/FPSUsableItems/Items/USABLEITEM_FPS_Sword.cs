@@ -1,7 +1,12 @@
+using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Interactables.Enemies;
+using Etra.StarterAssets.Source.Camera;
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public class USABLEITEM_FPS_Sword : EtraFPSUsableItemBaseClass
     {
         //Name of Prefab to load and required function
@@ -12,7 +17,7 @@ namespace EtrasStarterAssets{
         public float swordRange = 2.5f;
         public float swordKnockback = 5;
         public float swordCooldown = 1f;
-        public int swordDamage =3;
+        public int swordDamage = 3;
         public Vector2 hitCamShake = new Vector2(1f, 0.1f);
 
         //Private Variables
@@ -29,7 +34,7 @@ namespace EtrasStarterAssets{
 
         private void Awake()
         {
-            this.enabled = false;
+            enabled = false;
         }
 
         public void OnEnable()
@@ -87,7 +92,7 @@ namespace EtrasStarterAssets{
 
             if (hitObject != null)
             {
-                IDamageable<int> isDamageableCheck = hitObject.GetComponent<IDamageable<int>>();
+                var isDamageableCheck = hitObject.GetComponent<IDamageable<int>>();
                 if (isDamageableCheck != null)
                 {
                     isDamageableCheck.TakeDamage(swordDamage);
@@ -96,10 +101,10 @@ namespace EtrasStarterAssets{
 
                 if (hitObject != null && hitObject.GetComponent<Rigidbody>() != null)
                 {
-                    Rigidbody hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
+                    var hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
                     if (hitBody.isKinematic == false && Vector3.Distance(Camera.main.transform.position, camMoveScript.pointCharacterIsLookingAt) < swordRange)
                     {
-                        CharacterController charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
+                        var charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
                         hitBody.AddForce(charController.transform.forward * swordKnockback, ForceMode.Impulse);
                         CinemachineShake.Instance.ShakeCamera(hitCamShake);
                     }

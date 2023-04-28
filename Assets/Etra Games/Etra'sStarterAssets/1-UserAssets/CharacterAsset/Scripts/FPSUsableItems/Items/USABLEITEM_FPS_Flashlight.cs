@@ -1,7 +1,9 @@
+using Etra.StarterAssets.Input;
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public class USABLEITEM_FPS_Flashlight : EtraFPSUsableItemBaseClass
     {
         //Name of Prefab to load and required function
@@ -41,14 +43,14 @@ namespace EtrasStarterAssets{
 
         private void Awake()
         {
-            this.enabled = false;
+            enabled = false;
         }
 
         public void OnEnable()
         {
             //Set references WHEN THIS SCRIPT IS ENABLED
             starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
-            GameObject flashLightReference = GetComponent<EtraFPSUsableItemManager>().activeItemPrefab;
+            var flashLightReference = GetComponent<EtraFPSUsableItemManager>().activeItemPrefab;
             flashlightAnimator = flashLightReference.GetComponentInChildren<Animator>();
             flashlightLight = flashLightReference.GetComponentInChildren<Light>();
             setPublicFlashlightValues();
@@ -69,7 +71,7 @@ namespace EtrasStarterAssets{
 
         public void Update()
         {
-            if(inputsLocked)
+            if (inputsLocked)
             {
                 starterAssetsInputs.shoot = false;
                 return;

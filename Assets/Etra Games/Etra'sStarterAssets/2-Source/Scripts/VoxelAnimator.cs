@@ -1,6 +1,8 @@
+using Etra.StarterAssets.Input;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source
+{
     public class VoxelAnimator : MonoBehaviour
     {
         //From CodyCantEatThis

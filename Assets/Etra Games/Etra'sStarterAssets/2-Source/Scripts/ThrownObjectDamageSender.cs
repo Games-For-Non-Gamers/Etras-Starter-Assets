@@ -1,6 +1,7 @@
+using Etra.StarterAssets.Interactables.Enemies;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Source
 {
     //This script will be attached to moving objects that have not yet touched the ground and will deal damagte to hit objects
     public class ThrownObjectDamageSender : MonoBehaviour
@@ -10,7 +11,7 @@ namespace EtrasStarterAssets
         private void OnCollisionEnter(Collision collision)
         {
             //If IDamageable is noticed, add damage
-            IDamageable<int> isDamageableCheck = collision.gameObject.GetComponent<IDamageable<int>>();
+            var isDamageableCheck = collision.gameObject.GetComponent<IDamageable<int>>();
             if (isDamageableCheck != null)
             {
                 isDamageableCheck.TakeDamage(objectDamage);

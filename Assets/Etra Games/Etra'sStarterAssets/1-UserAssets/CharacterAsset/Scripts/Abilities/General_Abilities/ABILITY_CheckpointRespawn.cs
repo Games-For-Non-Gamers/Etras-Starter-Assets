@@ -1,8 +1,9 @@
 using Cinemachine;
+using Etra.StarterAssets.Source;
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Abilities
 {
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsage.AbilityTypeFlag.Passive)]
 
@@ -30,7 +31,7 @@ namespace EtrasStarterAssets
         public void Reset()
         {
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
-            GameObject spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", this.gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
+            var spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenPosition();
         }
@@ -65,18 +66,20 @@ namespace EtrasStarterAssets
         IEnumerator teleportToCheckpointAnimation()
         {
 
-            if(abilityLockTiming != AbilityLockTiming.DontLockActiveAbilities){
+            if (abilityLockTiming != AbilityLockTiming.DontLockActiveAbilities)
+            {
                 etraCharacterMainController.disableAllActiveAbilities();
             }
             etraCharacterMainController.starterAssetCanvas.screenWipe(animationTime);
             yield return new WaitForSeconds(animationTime / 2);
             teleportToLocation();
             if (abilityLockTiming == AbilityLockTiming.lockActiveAbilitiesTillTeleport)
-            {  etraCharacterMainController.enableAllActiveAbilities();
+            {
+                etraCharacterMainController.enableAllActiveAbilities();
             }
             else
             {
-                yield return new WaitForSeconds(animationTime/2);
+                yield return new WaitForSeconds(animationTime / 2);
                 etraCharacterMainController.enableAllActiveAbilities();
             }
             animating = false;

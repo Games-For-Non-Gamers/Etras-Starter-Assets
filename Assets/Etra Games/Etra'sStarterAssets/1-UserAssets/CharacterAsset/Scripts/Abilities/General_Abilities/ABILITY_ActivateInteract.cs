@@ -1,6 +1,9 @@
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source.Interactions;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     public class ABILITY_ActivateInteract : EtraAbilityBaseClass
     {
 
@@ -37,7 +40,7 @@ namespace EtrasStarterAssets{
                 if (camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>()) //Check if the object has the ObjectInteraction script
                 {
                     //interactDistance
-                    ObjectInteraction interaction = camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>(); // Get the object's interaction script
+                    var interaction = camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>(); // Get the object's interaction script
 
                     if (interaction.isInteractable)
                     {
@@ -56,7 +59,7 @@ namespace EtrasStarterAssets{
 
                         previousObject = interaction; // Set the previous object to the current object
 
-                        GameObject objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
+                        var objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
 
                         if (starterAssetsInputs.interact)
                         {

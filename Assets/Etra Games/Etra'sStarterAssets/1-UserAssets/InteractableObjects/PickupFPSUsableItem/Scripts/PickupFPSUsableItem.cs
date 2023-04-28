@@ -1,10 +1,11 @@
+using Etra.StarterAssets.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
 
     public class PickupFPSUsableItem : MonoBehaviour, ISerializationCallbackReceiver
@@ -39,20 +40,20 @@ namespace EtrasStarterAssets
                 //Equip the new item
                 EtraCharacterMainController.Instance.etraFPSUsableItemManager.equipLastItem();
                 //Destory this pickup
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
-            
+
         }
 
         #region ItemListDisplay
-        public List<String> GetAllItems()
+        public List<string> GetAllItems()
         {
             //Get all EtraFPSUsableItemBaseClass
             fpsItems = new List<Item>();
             fpsItems = FindAllTypes<EtraFPSUsableItemBaseClass>().Select(x => new Item(x)).ToList();
 
             List<string> temp = new List<string>();
-            foreach (Item ability in fpsItems)
+            foreach (var ability in fpsItems)
             {
                 temp.Add(ability.shortenedName.ToString());
             }

@@ -7,8 +7,11 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 using UObject = UnityEngine.Object;
 using System.Reflection;
-using static EtrasStarterAssets.EtraFPSUsableItemManager;
-using static EtrasStarterAssets.EtraCharacterMainController;
+using static Etra.StarterAssets.Items.EtraFPSUsableItemManager;
+using static Etra.StarterAssets.EtraCharacterMainController;
+using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Items;
+using Etra.StarterAssets.Source;
 
 //From Dock Frankenstein
 ////https://www.youtube.com/channel/UCq_7pbSyOvrurXLAMi_Ss1w
@@ -20,7 +23,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Source.Editor
 {
     public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
     {
@@ -102,7 +105,7 @@ namespace EtrasStarterAssets
         public static void ShowWindow()
         {
             //Set Window size and name
-            EtraCharacterCreator window = GetWindow<EtraCharacterCreator>();
+            var window = GetWindow<EtraCharacterCreator>();
             window.titleContent = new GUIContent("Character Creator");
 
             if (!Preferences.FirstTime)
@@ -234,11 +237,11 @@ namespace EtrasStarterAssets
                 using (new GUILayout.VerticalScope(GUILayout.Height(26f)))
                     GUILayout.FlexibleSpace();
 
-                Rect spaceRect = GUILayoutUtility.GetLastRect()
+                var spaceRect = GUILayoutUtility.GetLastRect()
                     .Border(2f, 2f, 0f, 2f);
-                Rect previousButtonRect = new Rect(spaceRect)
+                var previousButtonRect = new Rect(spaceRect)
                     .ResizeToLeft(spaceRect.width / 2f - 2f);
-                Rect nextButtonRect = new Rect(spaceRect)
+                var nextButtonRect = new Rect(spaceRect)
                     .ResizeToRight(spaceRect.width / 2f - 2f);
 
                 using (new EditorGUI.DisabledScope(Page <= 0))
@@ -266,7 +269,7 @@ namespace EtrasStarterAssets
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();
 
-            Rect barRect = GUILayoutUtility.GetLastRect();
+            var barRect = GUILayoutUtility.GetLastRect();
 
             EditorGUI.ProgressBar(barRect, (float)Page / (PAGE_LIMIT - 1), string.Empty);
         }
@@ -310,7 +313,7 @@ namespace EtrasStarterAssets
 
                     GUILayout.Label("Character Type", s_header);
 
-                    Rect startRect = GUILayoutUtility.GetAspectRect(2f / 1f)
+                    var startRect = GUILayoutUtility.GetAspectRect(2f / 1f)
                         .Border(4f);
 
                     GUILayout.Space(8f);
@@ -319,27 +322,27 @@ namespace EtrasStarterAssets
                         .SetHeight(startRect.width * 0.5f - 2f)
                         .BorderBottom(-14f);
 
-                    Rect fpRect = startRect
+                    var fpRect = startRect
                         .ResizeToLeft(startRect.width * 0.5f)
                         .BorderRight(2f);
 
-                    Rect tpRect = startRect
+                    var tpRect = startRect
                         .ResizeToRight(startRect.width * 0.5f)
                         .BorderLeft(2f);
 
-                    Rect fpTextRect = fpRect
+                    var fpTextRect = fpRect
                         .ResizeToBottom(18f)
                         .MoveY(-2f);
 
-                    Rect tpTextRect = tpRect
+                    var tpTextRect = tpRect
                         .ResizeToBottom(18f)
                         .MoveY(-2f);
 
-                    Rect fpImageRect = fpRect
+                    var fpImageRect = fpRect
                         .ResizeToTop(fpRect.width)
                         .Border(8f);
 
-                    Rect tpImageRect = tpRect
+                    var tpImageRect = tpRect
                         .ResizeToTop(tpRect.width)
                         .Border(8f);
 
@@ -395,7 +398,7 @@ namespace EtrasStarterAssets
 
                             GUILayout.Space(position.width * 0.4f);
 
-                            Rect imageRect = GUILayoutUtility.GetLastRect();
+                            var imageRect = GUILayoutUtility.GetLastRect();
                             imageRect = imageRect
                                 .SetHeight(imageRect.width);
 
@@ -443,7 +446,7 @@ namespace EtrasStarterAssets
 
                             GUILayout.Space(position.width * 0.4f);
 
-                            Rect imageRect = GUILayoutUtility.GetLastRect();
+                            var imageRect = GUILayoutUtility.GetLastRect();
                             imageRect = imageRect
                                 .SetHeight(imageRect.width);
 
@@ -655,8 +658,8 @@ namespace EtrasStarterAssets
 
         public void CreateOrModify()
         {
-            
-            GameObject group = _target == null ?
+
+            var group = _target == null ?
                 EtrasResourceGrabbingFunctions.addPrefabFromResourcesByName("EtraCharacterAssetGroup") :
                 GetRootParent(_target.transform).gameObject;
 
@@ -755,7 +758,7 @@ namespace EtrasStarterAssets
                     break;
             }
 
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             Selection.objects = new UObject[] { group };
 
             if (!Preferences.KeepOpened)

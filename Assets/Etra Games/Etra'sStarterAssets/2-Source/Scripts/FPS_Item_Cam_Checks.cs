@@ -3,7 +3,8 @@ using UnityEngine.Rendering;
 //UNCOMMENT v THIS v IF USING URP
 //using UnityEngine.Rendering.Universal;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source
+{
     public class FPS_Item_Cam_Checks : MonoBehaviour
     {
 

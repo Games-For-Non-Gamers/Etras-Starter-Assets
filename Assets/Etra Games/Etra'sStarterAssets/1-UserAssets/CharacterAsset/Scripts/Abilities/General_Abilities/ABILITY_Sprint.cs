@@ -1,6 +1,7 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     [RequireComponent(typeof(ABILITY_CharacterMovement))]
 
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]

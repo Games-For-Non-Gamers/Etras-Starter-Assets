@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Interactables
+{
     public class MovingPlatformMove : MonoBehaviour
     {
         [Header("Basics")]

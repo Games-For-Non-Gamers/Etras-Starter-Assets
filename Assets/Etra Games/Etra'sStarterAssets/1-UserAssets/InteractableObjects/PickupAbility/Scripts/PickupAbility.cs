@@ -1,12 +1,12 @@
+using Etra.StarterAssets.Abilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
-
     public class PickupAbility : MonoBehaviour, ISerializationCallbackReceiver
     {
         public static List<string> TMPList;
@@ -20,12 +20,12 @@ namespace EtrasStarterAssets
         private void Start()
         {
             GetAllAbilities();
-            Type abilityType = generalAbilities.ElementAt(abilityShortenedNames.IndexOf(Ability_To_Activate)).type;
+            var abilityType = generalAbilities.ElementAt(abilityShortenedNames.IndexOf(Ability_To_Activate)).type;
 
             //If the ability is not on the player, it cannot be activated or deactivated
             if ((EtraAbilityBaseClass)EtraCharacterMainController.Instance.etraAbilityManager.GetComponent(abilityType) == null)
             {
-                Debug.LogWarning("PickupAbility.cs cannot activate the " + Ability_To_Activate + " ability on your character because your character does not have the " +  Ability_To_Activate + " script attached to its ability manager.");
+                Debug.LogWarning("PickupAbility.cs cannot activate the " + Ability_To_Activate + " ability on your character because your character does not have the " + Ability_To_Activate + " script attached to its ability manager.");
             }
             else
             {
@@ -40,21 +40,21 @@ namespace EtrasStarterAssets
             {
                 //enable the ability and destroy the pickup
                 selectedAbility.abilityEnabled = true;
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
-            
+
         }
 
 
         #region AbilityListDisplay
-        public List<String> GetAllAbilities()
+        public List<string> GetAllAbilities()
         {
             //Get all EtraAbilityBaseClass
             generalAbilities = new List<Ability>();
             generalAbilities = FindAllTypes<EtraAbilityBaseClass>().Select(x => new Ability(x)).ToList();
 
             List<string> temp = new List<string>();
-            foreach (Ability ability in generalAbilities)
+            foreach (var ability in generalAbilities)
             {
                 temp.Add(ability.shortenedName.ToString());
             }
@@ -101,7 +101,7 @@ namespace EtrasStarterAssets
             public void GenerateName()
             {
                 shortenedName = "";
-                
+
                 string[] splits = type.Name.Split('_');
 
                 if (splits.Length == 2)
@@ -113,11 +113,11 @@ namespace EtrasStarterAssets
                     for (int i = 1; i < splits.Length; i++)
                     {
                         shortenedName += splits[i];
-                        if (i!= splits.Length-1)
+                        if (i != splits.Length - 1)
                         {
                             shortenedName += " ";
                         }
-                        
+
                     }
                 }
 
