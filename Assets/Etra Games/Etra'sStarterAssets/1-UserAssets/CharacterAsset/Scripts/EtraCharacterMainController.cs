@@ -1,11 +1,17 @@
 using Cinemachine;
+using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Abilities.FirstPerson;
+using Etra.StarterAssets.Interactables.Enemies;
+using Etra.StarterAssets.Items;
+using Etra.StarterAssets.Source;
 using System.Collections;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets
+{
     [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]

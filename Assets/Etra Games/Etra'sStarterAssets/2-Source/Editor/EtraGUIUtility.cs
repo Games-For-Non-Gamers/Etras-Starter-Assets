@@ -1,7 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Editor
+{
     public static partial class EtraGUIUtility
     {
         public static Color BorderColor => EditorGUIUtility.isProSkin ? new Color(0.1372549019607843f, 0.1372549019607843f, 0.1372549019607843f) : new Color(0.6f, 0.6f, 0.6f);

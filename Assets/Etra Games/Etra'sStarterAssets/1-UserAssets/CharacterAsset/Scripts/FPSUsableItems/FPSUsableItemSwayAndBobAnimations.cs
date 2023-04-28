@@ -1,7 +1,9 @@
+using Etra.StarterAssets.Input;
 using System;
 using UnityEngine;
 
-namespace EtrasStarterAssets {
+namespace Etra.StarterAssets.Items
+{
     public class FPSUsableItemSwayAndBobAnimations : MonoBehaviour
     {
         //From BuffaLou
@@ -18,7 +20,7 @@ namespace EtrasStarterAssets {
         public bool swayRotation = true;
         public bool bobOffset = true;
         public bool bobSway = true;
-        [HideInInspector]public bool lockInput;
+        [HideInInspector] public bool lockInput;
 
         public float controllerLookAnimationReduction = 250f;
 
@@ -53,7 +55,7 @@ namespace EtrasStarterAssets {
             {
                 GetInput();
             }
-            
+
             Sway();
             SwayRotation();
             BobOffset();
@@ -124,7 +126,7 @@ namespace EtrasStarterAssets {
         {
             if (swayRotation == false) { swayEulerRot = Vector3.zero; return; }
 
-            Vector2 invertLook = procedAnimLookInput * -rotationStep;
+            var invertLook = procedAnimLookInput * -rotationStep;
             invertLook.x = Mathf.Clamp(invertLook.x, -maxRotationStep, maxRotationStep);
             invertLook.y = Mathf.Clamp(invertLook.y, -maxRotationStep, maxRotationStep);
 
@@ -149,12 +151,12 @@ namespace EtrasStarterAssets {
             if (bobOffset == false) { bobPosition = Vector3.zero; return; }
 
             bobPosition.x =
-                (curveCos * bobLimit.x * (etraCharacterMainController.Grounded ? 1 : 0))
-                - (procedAnimWalkInput.x * travelLimit.x);
+                curveCos * bobLimit.x * (etraCharacterMainController.Grounded ? 1 : 0)
+                - procedAnimWalkInput.x * travelLimit.x;
 
             bobPosition.y =
-            (curveSin * bobLimit.y)
-            - (charController.velocity.y * travelLimit.y);
+            curveSin * bobLimit.y
+            - charController.velocity.y * travelLimit.y;
 
             bobPosition.z =
             -(procedAnimWalkInput.y * travelLimit.z);
@@ -168,11 +170,11 @@ namespace EtrasStarterAssets {
         {
             if (bobSway == false) { bobEulerRotation = Vector3.zero; return; }
 
-            bobEulerRotation.x = (procedAnimWalkInput != Vector2.zero ? multiplier.x * (Mathf.Sin(2 * speedCurve)) :
-                                    multiplier.x * (Mathf.Sin(2 * speedCurve) / 2));
+            bobEulerRotation.x = procedAnimWalkInput != Vector2.zero ? multiplier.x * Mathf.Sin(2 * speedCurve) :
+                                    multiplier.x * (Mathf.Sin(2 * speedCurve) / 2);
 
-            bobEulerRotation.y = (procedAnimWalkInput != Vector2.zero ? multiplier.y * curveCos : 0);
-            bobEulerRotation.z = (procedAnimWalkInput != Vector2.zero ? multiplier.z * curveCos * procedAnimWalkInput.x : 0);
+            bobEulerRotation.y = procedAnimWalkInput != Vector2.zero ? multiplier.y * curveCos : 0;
+            bobEulerRotation.z = procedAnimWalkInput != Vector2.zero ? multiplier.z * curveCos * procedAnimWalkInput.x : 0;
         }
     }
 }

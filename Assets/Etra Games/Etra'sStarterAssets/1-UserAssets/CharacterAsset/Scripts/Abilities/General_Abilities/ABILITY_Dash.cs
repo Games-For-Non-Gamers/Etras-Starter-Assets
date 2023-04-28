@@ -1,7 +1,9 @@
+using Etra.StarterAssets.Input;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+namespace Etra.StarterAssets.Abilities.FirstPerson
+{
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Dash : EtraAbilityBaseClass
     {
         public float dashRange = 50.0f;
@@ -46,7 +48,7 @@ namespace EtrasStarterAssets{
 
             if (_inputs.dash)
             {
-                EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown/2);
+                EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown / 2);
 
                 _dashTimeoutDelta = dashCooldown;
                 cooling = true;

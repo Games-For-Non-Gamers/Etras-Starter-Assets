@@ -2,7 +2,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Editor
+{
     public class EtraStarterAssetSetup : AssetPostprocessor
     {
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
@@ -31,7 +32,7 @@ namespace EtrasStarterAssets{
         public static void addTag(string tagName)
         {
             SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
-            SerializedProperty tagsProp = tagManager.FindProperty("tags");
+            var tagsProp = tagManager.FindProperty("tags");
 
             string s = tagName;
 
@@ -39,7 +40,7 @@ namespace EtrasStarterAssets{
             int amountOfTags = 0;
             for (int i = 0; i < tagsProp.arraySize; i++)
             {
-                SerializedProperty t = tagsProp.GetArrayElementAtIndex(i);
+                var t = tagsProp.GetArrayElementAtIndex(i);
                 amountOfTags++;
                 if (t.stringValue.Equals(s)) { found = true; break; }
             }
@@ -48,7 +49,7 @@ namespace EtrasStarterAssets{
             if (!found)
             {
                 tagsProp.InsertArrayElementAtIndex(amountOfTags);
-                SerializedProperty n = tagsProp.GetArrayElementAtIndex(amountOfTags);
+                var n = tagsProp.GetArrayElementAtIndex(amountOfTags);
                 n.stringValue = s;
                 Debug.Log("Tag:" + tagName + " added by EtraStarterAssetSetup.cs");
             }
@@ -61,7 +62,7 @@ namespace EtrasStarterAssets{
         public static void addLayer(string layerName)
         {
             SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
-            SerializedProperty layersProp = tagManager.FindProperty("layers");
+            var layersProp = tagManager.FindProperty("layers");
 
             string s = layerName;
 
@@ -70,7 +71,7 @@ namespace EtrasStarterAssets{
             int amountOfLayers = 0;
             for (int i = 0; i < layersProp.arraySize; i++)
             {
-                SerializedProperty t = layersProp.GetArrayElementAtIndex(i);
+                var t = layersProp.GetArrayElementAtIndex(i);
                 if (!t.stringValue.Equals(""))
                 {
                     amountOfLayers++;
@@ -93,7 +94,7 @@ namespace EtrasStarterAssets{
 
                 while (openLayerFound == false)
                 {
-                    SerializedProperty t = layersProp.GetArrayElementAtIndex(amountOfLayers);
+                    var t = layersProp.GetArrayElementAtIndex(amountOfLayers);
 
                     if (!t.stringValue.Equals(""))
                     {
@@ -107,7 +108,7 @@ namespace EtrasStarterAssets{
                 }
 
                 layersProp.InsertArrayElementAtIndex(amountOfLayers);
-                SerializedProperty n = layersProp.GetArrayElementAtIndex(amountOfLayers);
+                var n = layersProp.GetArrayElementAtIndex(amountOfLayers);
                 n.stringValue = s;
                 Debug.Log("Layer:" + layerName + " added by EtraStarterAssetSetup.cs");
             }

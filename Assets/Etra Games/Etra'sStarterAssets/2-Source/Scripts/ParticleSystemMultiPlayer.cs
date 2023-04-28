@@ -1,13 +1,14 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source
+{
     public class ParticleSystemMultiPlayer : MonoBehaviour
     {
         public ParticleSystem[] particleSystems;
 
         public void Play()
         {
-            foreach (ParticleSystem particleSystem in particleSystems)
+            foreach (var particleSystem in particleSystems)
             {
                 particleSystem.Play();
             }
@@ -15,7 +16,7 @@ namespace EtrasStarterAssets{
 
         public void Stop()
         {
-            foreach (ParticleSystem particleSystem in particleSystems)
+            foreach (var particleSystem in particleSystems)
             {
                 particleSystem.Stop();
             }

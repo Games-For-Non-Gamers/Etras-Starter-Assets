@@ -1,9 +1,10 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Interactables
+{
     public class Treadmill : MonoBehaviour
     {
-    
+
         //From Just Kris#0001
         /*
         The MIT License (MIT)
@@ -36,7 +37,7 @@ namespace EtrasStarterAssets{
             if (other.GetComponent<Rigidbody>() != null)
             {
                 //Apply force to anything with a rigidbody
-                other.GetComponent<Rigidbody>().position += (transform.forward * treadmillForce * Time.deltaTime);
+                other.GetComponent<Rigidbody>().position += transform.forward * treadmillForce * Time.deltaTime;
             }
         }
     }

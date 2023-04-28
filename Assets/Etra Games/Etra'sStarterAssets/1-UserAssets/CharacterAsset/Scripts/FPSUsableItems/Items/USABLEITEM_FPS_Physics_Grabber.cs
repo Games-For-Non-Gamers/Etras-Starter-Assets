@@ -1,6 +1,9 @@
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public class USABLEITEM_FPS_Physics_Grabber : EtraFPSUsableItemBaseClass
     {
         //From @aMySour
@@ -39,7 +42,7 @@ namespace EtrasStarterAssets{
 
         private void Awake()
         {
-            this.enabled = false;
+            enabled = false;
         }
         public void OnEnable()
         {
@@ -119,7 +122,7 @@ namespace EtrasStarterAssets{
                     pickedUpObject.angularDrag = originalAngularDrag;
                     pickedUpObject.drag = originalDrag;
 
-                    ThrownObjectDamageSender damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
+                    var damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
                     damageSender.objectDamage = (int)pickedUpObject.GetComponent<Rigidbody>().mass;
                     pickedUpObject.AddForce(Camera.main.transform.forward * 1000f);
 

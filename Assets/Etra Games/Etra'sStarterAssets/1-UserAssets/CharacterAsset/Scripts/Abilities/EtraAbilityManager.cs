@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using TMPro;
 using UnityEditor;
 using UnityEngine;
-using static EtrasStarterAssets.AbilityUsage;
-using static EtrasStarterAssets.EtraCharacterMainController;
+using static Etra.StarterAssets.AbilityUsageAttribute;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     public class EtraAbilityManager : MonoBehaviour
     {
         [Header("The Abilities Will Start(), Update(), and LateUpdate() in The Following Order:")]
@@ -38,11 +35,11 @@ namespace EtrasStarterAssets{
 
 
 
-            foreach (EtraAbilityBaseClass ability in grabbedAbilities)
+            foreach (var ability in grabbedAbilities)
             {
                 bool abilityFound = false;
 
-                foreach (EtraAbilityBaseClass setAbility in characterAbilityUpdateOrder)
+                foreach (var setAbility in characterAbilityUpdateOrder)
                 {
                     if (ability.Equals(setAbility))
                     {
@@ -121,54 +118,54 @@ namespace EtrasStarterAssets{
 
             characterAbilityUpdateOrder = temp;
         }
-            #if UNITY_EDITOR
-            EtraAbilityManager()
+#if UNITY_EDITOR
+        EtraAbilityManager()
+        {
+            ObjectFactory.componentWasAdded -= HandleComponentAdded;
+            ObjectFactory.componentWasAdded += HandleComponentAdded;
+
+            EditorApplication.quitting -= OnEditorQuiting;
+            EditorApplication.quitting += OnEditorQuiting;
+        }
+        private void HandleComponentAdded(Component obj)
+        {
+            updateCharacterAbilityArray();
+
+            if (Application.isPlaying)
             {
-                ObjectFactory.componentWasAdded -= HandleComponentAdded;
-                ObjectFactory.componentWasAdded += HandleComponentAdded;
-
-                EditorApplication.quitting -= OnEditorQuiting;
-                EditorApplication.quitting += OnEditorQuiting;
-            }
-            private void HandleComponentAdded(UnityEngine.Component obj)
-            {
-                updateCharacterAbilityArray();
-
-                if (Application.isPlaying)
-                {
-                    Debug.LogWarning("In the EDITOR PLAY MODE, you can add abilities by adding components to the ability manager.\n" +
-                        "However, this will not work in a built game witout an additional step. Everytime you add a component to\n" +
-                        "the ability manager, run the updateCharacterAbilityArray() function to add the new item to the correct array.\n" +
-                        "Regardless of possibility though, we reccomend adding all your abilities before play and use the abilityEnable\n" +
-                        "variable to enable or disable ability scripts.");
-                }
-
+                Debug.LogWarning("In the EDITOR PLAY MODE, you can add abilities by adding components to the ability manager.\n" +
+                    "However, this will not work in a built game witout an additional step. Everytime you add a component to\n" +
+                    "the ability manager, run the updateCharacterAbilityArray() function to add the new item to the correct array.\n" +
+                    "Regardless of possibility though, we reccomend adding all your abilities before play and use the abilityEnable\n" +
+                    "variable to enable or disable ability scripts.");
             }
 
-            private void OnEditorQuiting()
-            {
-                ObjectFactory.componentWasAdded -= HandleComponentAdded;
-                EditorApplication.quitting -= OnEditorQuiting;
-            }
+        }
 
-            private void Reset()
-            {
-                updateCharacterAbilityArray();
-            }
+        private void OnEditorQuiting()
+        {
+            ObjectFactory.componentWasAdded -= HandleComponentAdded;
+            EditorApplication.quitting -= OnEditorQuiting;
+        }
 
-            private void OnValidate()
-            {
-                updateCharacterAbilityArray();
-            }
-            #endif
-    #endregion
+        private void Reset()
+        {
+            updateCharacterAbilityArray();
+        }
+
+        private void OnValidate()
+        {
+            updateCharacterAbilityArray();
+        }
+#endif
+        #endregion
 
         private void Awake()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             //This is ran to remove any null array elements
             removeNullAbilitySlots();
-            #endif
+#endif
         }
 
         //Run the EtraAbilityBaseClass functions in the order defined above
@@ -211,9 +208,9 @@ namespace EtrasStarterAssets{
             }
 
             //Disable all those active abilities
-            foreach (EtraAbilityBaseClass ability in activatedAbilitiesBeforeFreeze)
+            foreach (var ability in activatedAbilitiesBeforeFreeze)
             {
-                AbilityUsage a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                var a = ability.GetType().GetCustomAttribute<AbilityUsageAttribute>();
                 if (a != null && a.AbilityType == AbilityTypeFlag.Active)
                 {
                     ability.abilityEnabled = false;
@@ -224,9 +221,9 @@ namespace EtrasStarterAssets{
 
         public void enableAllActiveAbilities()
         {
-            foreach (EtraAbilityBaseClass ability in activatedAbilitiesBeforeFreeze)
+            foreach (var ability in activatedAbilitiesBeforeFreeze)
             {
-                AbilityUsage a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                var a = ability.GetType().GetCustomAttribute<AbilityUsageAttribute>();
                 if (a != null && a.AbilityType == AbilityTypeFlag.Active)
                 {
                     ability.abilityEnabled = true;

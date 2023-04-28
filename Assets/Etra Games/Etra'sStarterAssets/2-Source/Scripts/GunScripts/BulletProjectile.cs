@@ -1,7 +1,9 @@
+using Etra.StarterAssets.Interactables.Enemies;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Combat
+{
     public class BulletProjectile : MonoBehaviour
     {
         private List<Collider> colliders = new List<Collider>();
@@ -11,10 +13,10 @@ namespace EtrasStarterAssets{
         // Start is called before the first frame update
         private void Awake()
         {
-            Vector3 startScale = this.transform.localScale;
+            var startScale = transform.localScale;
             bulletRigidbody = GetComponent<Rigidbody>();
-            LeanTween.scale(this.gameObject, Vector3.zero, 0);
-            LeanTween.scale(this.gameObject, startScale, 0.1f);
+            LeanTween.scale(gameObject, Vector3.zero, 0);
+            LeanTween.scale(gameObject, startScale, 0.1f);
         }
 
         private void Start()
@@ -25,7 +27,7 @@ namespace EtrasStarterAssets{
 
         private void OnTriggerEnter(Collider other)
         {
-            IDamageable<int> isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
+            var isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
             if (isDamageableCheck != null)
             {
                 isDamageableCheck.TakeDamage(projectileDamage);

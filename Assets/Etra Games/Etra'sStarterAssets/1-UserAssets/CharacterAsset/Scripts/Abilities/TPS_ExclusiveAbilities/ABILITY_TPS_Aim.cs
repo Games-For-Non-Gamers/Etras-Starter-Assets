@@ -1,10 +1,14 @@
 using Cinemachine;
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
+using Etra.StarterAssets.Source.Camera;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities.ThirdPerson
+{
     [RequireComponent(typeof(ABILITY_CameraMovement))]
 
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
     public class ABILITY_TPS_Aim : EtraAbilityBaseClass
     {
         [Header("Basics")]
@@ -20,7 +24,7 @@ namespace EtrasStarterAssets{
         //Load third person aim camera and add it to the starter asset group
         public void Reset()
         {
-            GameObject aimCam = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("Etra'sStarterAssetsThirdPersonAimCamera", GameObject.FindGameObjectWithTag("Player").transform.parent);
+            var aimCam = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("Etra'sStarterAssetsThirdPersonAimCamera", GameObject.FindGameObjectWithTag("Player").transform.parent);
             aimVirtualCamera = aimCam.GetComponent<CinemachineVirtualCamera>();
             aimCam.AddComponent<EtraCharacterAssetCamera>();
         }
@@ -49,9 +53,9 @@ namespace EtrasStarterAssets{
                 camMoveScript.aimSensitivity = aimSensitivity;
 
                 //Rotate character toward look direction
-                Vector3 worldAimTarget = camMoveScript.pointCharacterIsLookingAt;
+                var worldAimTarget = camMoveScript.pointCharacterIsLookingAt;
                 worldAimTarget.y = transform.parent.position.y;
-                Vector3 aimDirection = (worldAimTarget - transform.parent.position).normalized;
+                var aimDirection = (worldAimTarget - transform.parent.position).normalized;
                 transform.parent.forward = Vector3.Lerp(transform.parent.forward, aimDirection, Time.deltaTime * 20f);
                 charMoveScript.rotateTowardMoveDirection = false;
             }

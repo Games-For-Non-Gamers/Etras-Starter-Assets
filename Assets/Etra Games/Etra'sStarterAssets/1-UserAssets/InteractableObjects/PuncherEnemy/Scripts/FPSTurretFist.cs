@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables.Enemies
 {
     public class FPSTurretFist : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace EtrasStarterAssets
             //If a damageable thing is hit (like another puncher), deal damage to it
             if (!cooldown)
             {
-                IDamageable<int> isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
+                var isDamageableCheck = other.gameObject.GetComponent<IDamageable<int>>();
                 if (isDamageableCheck != null)
                 {
                     isDamageableCheck.TakeDamage(1);
@@ -30,11 +30,12 @@ namespace EtrasStarterAssets
         }
 
 
-        IEnumerator friendlyFireCooldown() {
+        IEnumerator friendlyFireCooldown()
+        {
             cooldown = true;
             yield return new WaitForSeconds(1);
             cooldown = false;
         }
-        
+
     }
 }

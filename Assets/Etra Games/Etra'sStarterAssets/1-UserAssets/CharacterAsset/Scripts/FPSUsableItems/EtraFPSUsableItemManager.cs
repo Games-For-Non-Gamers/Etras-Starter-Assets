@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public class EtraFPSUsableItemManager : MonoBehaviour
     {
         //Visible in Inspector
@@ -34,11 +37,11 @@ namespace EtrasStarterAssets{
                 grabbedUsableItems = new EtraFPSUsableItemBaseClass[0];
             }
 
-            foreach (EtraFPSUsableItemBaseClass item in grabbedUsableItems)
+            foreach (var item in grabbedUsableItems)
             {
                 bool itemFound = false;
 
-                foreach (usableItemScriptAndPrefab setItem in usableItems)
+                foreach (var setItem in usableItems)
                 {
                     if (item.Equals(setItem.script))
                     {
@@ -127,7 +130,7 @@ namespace EtrasStarterAssets{
 
 
         //Editor exclusive functions
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         EtraFPSUsableItemManager()
         {
             ObjectFactory.componentWasAdded -= HandleComponentAdded;
@@ -136,7 +139,7 @@ namespace EtrasStarterAssets{
             EditorApplication.quitting -= OnEditorQuiting;
             EditorApplication.quitting += OnEditorQuiting;
         }
-        private void HandleComponentAdded(UnityEngine.Component obj)
+        private void HandleComponentAdded(Component obj)
         {
             updateUsableItemsArray();
             if (Application.isPlaying)
@@ -153,7 +156,7 @@ namespace EtrasStarterAssets{
             EditorApplication.quitting -= OnEditorQuiting;
         }
 
-        #endif
+#endif
 
         #endregion
 
@@ -182,13 +185,13 @@ namespace EtrasStarterAssets{
         }
 
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //Reset is ran by the character creator adding this component
         public void Reset()
         {
             updateUsableItemsArray();
             //Add usable FPS item camera if it does not exist
-            GameObject FPSUsableItemsCamera = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("FPSUsableItemsCamera", GameObject.Find("EtraPlayerCameraRoot").transform, false, Vector3.zero);
+            var FPSUsableItemsCamera = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("FPSUsableItemsCamera", GameObject.Find("EtraPlayerCameraRoot").transform, false, Vector3.zero);
             //Add usable FPS item camera script to the camera to check for the FPSUsableItem Layer
             if (FPSUsableItemsCamera != null && FPSUsableItemsCamera.GetComponent<FPS_Item_Cam_Checks>() == null) { FPSUsableItemsCamera.AddComponent<FPS_Item_Cam_Checks>(); }
         }
@@ -200,13 +203,13 @@ namespace EtrasStarterAssets{
             //go through usable items.
             //load all items in game object prefabs so searching does not have to be done.
         }
-        #endif
+#endif
 
         private void Awake()
         {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             removeNullItemSlots();
-        #endif
+#endif
             cameraRoot = GameObject.Find("EtraPlayerCameraRoot");
             starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
 
@@ -226,7 +229,7 @@ namespace EtrasStarterAssets{
 
         void instatiateItemAtStart()
         {
-            GameObject newItem = Instantiate(usableItems[activeItemNum].prefab);
+            var newItem = Instantiate(usableItems[activeItemNum].prefab);
             newItem.transform.SetParent(cameraRoot.transform);
             newItem.transform.localPosition = Vector3.zero;
             newItem.transform.localRotation = Quaternion.identity;
@@ -366,7 +369,7 @@ namespace EtrasStarterAssets{
 
         public void equipLastItem()
         {
-            StartCoroutine(equipItem(usableItems.Length-1));
+            StartCoroutine(equipItem(usableItems.Length - 1));
         }
 
         IEnumerator equipItem(int newItemNum)
@@ -385,7 +388,7 @@ namespace EtrasStarterAssets{
             Destroy(activeItemPrefab);
 
             activeItemNum = newItemNum;
-            GameObject newItem = Instantiate(usableItems[activeItemNum].prefab);
+            var newItem = Instantiate(usableItems[activeItemNum].prefab);
             newItem.transform.SetParent(cameraRoot.transform);
             newItem.transform.localPosition = Vector3.zero;
             newItem.transform.localRotation = Quaternion.identity;
