@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     public abstract class EtraAbilityBaseClass : MonoBehaviour
     {
         public bool abilityEnabled = true;

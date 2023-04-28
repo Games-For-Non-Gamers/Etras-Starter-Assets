@@ -1,7 +1,8 @@
 using UnityEngine;
 using Cinemachine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Camera
+{
     public class CinemachineShake : MonoBehaviour
     {
         public static CinemachineShake Instance { get; private set; }
@@ -23,7 +24,7 @@ namespace EtrasStarterAssets{
 
         public void ShakeCamera(float intensity, float time)
         {
-            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
+            var cinemachineBasicMultiChannelPerlin =
                 cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
@@ -38,7 +39,7 @@ namespace EtrasStarterAssets{
             float intensity = passedVars.x;
             float time = passedVars.y;
 
-            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
+            var cinemachineBasicMultiChannelPerlin =
                 cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
@@ -66,11 +67,11 @@ namespace EtrasStarterAssets{
                 shakeTimer -= Time.deltaTime;
                 if (shakeTimer <= 0)
                 {
-                    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
+                    var cinemachineBasicMultiChannelPerlin =
                     cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
                     cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
-                    Mathf.Lerp(startingIntensity, 0, 1 - (shakeTimer / shakeTimerTotal));
+                    Mathf.Lerp(startingIntensity, 0, 1 - shakeTimer / shakeTimerTotal);
                 }
             }
         }

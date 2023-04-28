@@ -1,9 +1,10 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities
+{
     [RequireComponent(typeof(ABILITY_CharacterMovement))]
 
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Sprint : EtraAbilityBaseClass
     {
         //This script is just a contaiiner for the sprint speed variable.

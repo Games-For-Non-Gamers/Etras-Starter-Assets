@@ -1,7 +1,12 @@
+using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Input;
+using Etra.StarterAssets.Source;
+using Etra.StarterAssets.Source.Camera;
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Items
+{
     public class USABLEITEM_FPS_Blaster : EtraFPSUsableItemBaseClass
     {
         //Name of Prefab to load and required function
@@ -33,7 +38,7 @@ namespace EtrasStarterAssets{
 
         private void Awake()
         {
-            this.enabled = false;
+            enabled = false;
             if (launchedBullet == null)
             {
                 launchedBullet = (GameObject)Resources.Load("ExampleProjectile");
@@ -63,7 +68,7 @@ namespace EtrasStarterAssets{
             if (starterAssetsInputs.shoot && !gunCooling)
             {
                 gunAnimator.SetTrigger("Shoot");
-                Vector3 aimDir = (camMoveScript.pointCharacterIsLookingAt - bulletSpawnPos.position).normalized;
+                var aimDir = (camMoveScript.pointCharacterIsLookingAt - bulletSpawnPos.position).normalized;
 
                 //If gun is in wall, spawn the physical bullets inside of the player camera root (blaster is right at player camera root).
                 if (Vector3.Distance(referenceToBlasterTransform.position, camMoveScript.pointCharacterIsLookingAt) < 1.2f) //1.2f is the clipping length

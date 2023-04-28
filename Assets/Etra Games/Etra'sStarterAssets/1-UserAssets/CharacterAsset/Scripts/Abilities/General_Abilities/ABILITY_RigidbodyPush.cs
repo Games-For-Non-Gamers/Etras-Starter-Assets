@@ -1,7 +1,9 @@
+using Etra.StarterAssets.Abilities;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsage.AbilityTypeFlag.Passive)]
+namespace Etra.StarterAssets.Abilities
+{
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive)]
     public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
     {
         [Header("Basics")]
@@ -24,7 +26,7 @@ namespace EtrasStarterAssets{
             // https://docs.unity3d.com/ScriptReference/CharacterController.OnControllerColliderHit.html
 
             // make sure we hit a non kinematic rigidbody
-            Rigidbody body = hit.collider.attachedRigidbody;
+            var body = hit.collider.attachedRigidbody;
             if (body == null || body.isKinematic) return;
 
             // make sure we only push desired layer(s)

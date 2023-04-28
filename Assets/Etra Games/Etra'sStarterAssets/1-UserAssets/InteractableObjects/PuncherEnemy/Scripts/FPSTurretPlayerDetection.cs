@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Interactables.Enemies
+{
     public class FPSTurretPlayerDetection : MonoBehaviour
     {
         //Simply call a function and flip variables if player is visible

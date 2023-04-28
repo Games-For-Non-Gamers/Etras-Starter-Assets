@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
-namespace EtrasStarterAssets
+
+namespace Etra.StarterAssets.Interactables
 {
     public class Target : MonoBehaviour
     {
@@ -75,7 +76,7 @@ namespace EtrasStarterAssets
         IEnumerator moveToMovePositions()
         {
             //Set anchor line
-            LineRenderer anchorLine = transform.GetChild(0).GetChild(1).gameObject.GetComponent<LineRenderer>();
+            var anchorLine = transform.GetChild(0).GetChild(1).gameObject.GetComponent<LineRenderer>();
             anchorLine.positionCount = 2;
             Vector3[] anchorPositions = new Vector3[2];
             anchorLine.SetPositions(anchorPositions);
@@ -164,7 +165,7 @@ namespace EtrasStarterAssets
 
             ongoing = false;
             StopCoroutine(moveToMovePositions());
-            LeanTween.cancel(this.gameObject);
+            LeanTween.cancel(gameObject);
 
             ropeLine = transform.GetChild(0).GetChild(0).gameObject.GetComponent<LineRenderer>();
             //from end to beggining. So odd
@@ -199,12 +200,12 @@ namespace EtrasStarterAssets
                 LeanTween.move(sparker.gameObject, ropeLine.GetPosition(i - 1), timeToNext);
                 float sparkRotateSpeedDivider = timeToShrinkRope / 5;
 
-                LeanTween.value(this.gameObject, ropeLine.GetPosition(i), ropeLine.GetPosition(i - 1), timeToNext).setOnUpdate((Vector3 newPosValue) =>
+                LeanTween.value(gameObject, ropeLine.GetPosition(i), ropeLine.GetPosition(i - 1), timeToNext).setOnUpdate((Vector3 newPosValue) =>
                 {
 
                     ropeLine.SetPosition(i, newPosValue);
-                    Vector3 targetDirection = ropeLine.GetPosition(i - 1) - sparker.position;
-                    float singleStep = (20 / sparkRotateSpeedDivider) * Time.deltaTime;
+                    var targetDirection = ropeLine.GetPosition(i - 1) - sparker.position;
+                    float singleStep = 20 / sparkRotateSpeedDivider * Time.deltaTime;
                     Vector3 newDirection = Vector3.RotateTowards(sparker.transform.forward, targetDirection, singleStep, 0.0f);
                     Quaternion lookRot = Quaternion.LookRotation(newDirection);
                     sparker.transform.rotation = lookRot;

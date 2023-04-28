@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Interactions
+{
     public class ObjectInteraction : MonoBehaviour
     {
         //From @aMySour

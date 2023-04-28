@@ -1,7 +1,8 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Camera
+{
     public class EtraCharacterAssetCamera : MonoBehaviour
     {
         CinemachineVirtualCamera cam;

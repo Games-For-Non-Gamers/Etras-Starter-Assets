@@ -1,9 +1,11 @@
+using Etra.StarterAssets.Input;
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Abilities.FirstPerson
+{
     [RequireComponent(typeof(ABILITY_CharacterMovement))]
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.FirstPerson)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.FirstPerson)]
     public class ABILITY_FPS_Crouch : EtraAbilityBaseClass
     {
         //This script is functional and as is for now. Will rework in the future.
@@ -88,13 +90,13 @@ namespace EtrasStarterAssets{
                 crouchReleased = false;
                 switch (CrouchType)
                 {
-                    case ABILITY_FPS_Crouch.crouchType.Toggle:
+                    case crouchType.Toggle:
                         if (!duringToggleCrouchTransition)
                         {
                             StartCoroutine(toggleCrouch());
                         }
                         break;
-                    case ABILITY_FPS_Crouch.crouchType.Hold:
+                    case crouchType.Hold:
                         holdLowering = true;
                         holdRising = false;
                         toggleIsCrouching = false;
@@ -110,10 +112,10 @@ namespace EtrasStarterAssets{
 
                 switch (CrouchType)
                 {
-                    case ABILITY_FPS_Crouch.crouchType.Toggle:
+                    case crouchType.Toggle:
 
                         break;
-                    case ABILITY_FPS_Crouch.crouchType.Hold:
+                    case crouchType.Hold:
 
                         holdRising = true;
                         holdLowering = false;
@@ -132,8 +134,8 @@ namespace EtrasStarterAssets{
             float timeElapsed = 0;
             float targetHeight = toggleIsCrouching ? standingHeight : crouchHeight;
             float currentHeight = characterController.height;
-            Vector3 targetCenter = toggleIsCrouching ? standingCenter : crouchingCenter;
-            Vector3 currentCenter = characterController.center;
+            var targetCenter = toggleIsCrouching ? standingCenter : crouchingCenter;
+            var currentCenter = characterController.center;
             float targetGroundedOffset = toggleIsCrouching ? standGroundedOffset : crouchGroundedOffset;
             float currentGroundedOffset = mainController.GroundedOffset;
 
@@ -183,8 +185,8 @@ namespace EtrasStarterAssets{
             timeElapsedHold = 0;
             float targetHeight = crouchHeight;
             float currentHeight = characterController.height;
-            Vector3 targetCenter = crouchingCenter;
-            Vector3 currentCenter = characterController.center;
+            var targetCenter = crouchingCenter;
+            var currentCenter = characterController.center;
             float targetGroundedOffset = crouchGroundedOffset;
             float currentGroundedOffset = mainController.GroundedOffset;
 
@@ -221,8 +223,8 @@ namespace EtrasStarterAssets{
 
             float targetHeight = standingHeight;
             float currentHeight = characterController.height;
-            Vector3 targetCenter = standingCenter;
-            Vector3 currentCenter = characterController.center;
+            var targetCenter = standingCenter;
+            var currentCenter = characterController.center;
             float targetGroundedOffset = standGroundedOffset;
             float currentGroundedOffset = mainController.GroundedOffset;
 

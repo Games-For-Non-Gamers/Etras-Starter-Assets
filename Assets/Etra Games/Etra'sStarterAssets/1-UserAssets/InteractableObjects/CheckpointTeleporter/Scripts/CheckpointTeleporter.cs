@@ -1,6 +1,7 @@
+using Etra.StarterAssets.Abilities;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class CheckpointTeleporter : MonoBehaviour
     {
@@ -14,7 +15,7 @@ namespace EtrasStarterAssets
         }
         private void OnValidate()
         {
-            GetComponent<Renderer>().enabled= showInEditor;
+            GetComponent<Renderer>().enabled = showInEditor;
         }
         private void Start()
         {

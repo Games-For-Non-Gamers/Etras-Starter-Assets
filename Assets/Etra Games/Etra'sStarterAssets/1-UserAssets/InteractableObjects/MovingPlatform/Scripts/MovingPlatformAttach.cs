@@ -1,6 +1,7 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Interactables
+{
     public class MovingPlatformAttach : MonoBehaviour
     {
         Transform savedParent;

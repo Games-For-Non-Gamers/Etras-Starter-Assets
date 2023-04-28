@@ -1,7 +1,8 @@
+using Etra.StarterAssets.Abilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class CheckpointUpdater : MonoBehaviour
     {
@@ -13,11 +14,11 @@ namespace EtrasStarterAssets
         public bool showInEditor = true;
         public bool showInGame = false;
 
-        [HideInInspector]public CheckpointUpdaterTeleportLocation teleportLocation;
+        [HideInInspector] public CheckpointUpdaterTeleportLocation teleportLocation;
         [HideInInspector] public CheckpointUpdaterArrowMeshHolder arrowMeshHolder;
         [HideInInspector] public CheckpointUpdaterHitbox checkpointHitbox;
         ABILITY_CheckpointRespawn checkPointRespawnScript;
-       
+
         private void Reset()
         {
             getScripts();
@@ -50,7 +51,7 @@ namespace EtrasStarterAssets
         private void hideRenderers()
         {
             checkpointHitbox.meshRenderer.enabled = false;
-            teleportLocation.meshRenderer.enabled= false;
+            teleportLocation.meshRenderer.enabled = false;
             arrowMeshHolder.disableMeshes();
         }
 

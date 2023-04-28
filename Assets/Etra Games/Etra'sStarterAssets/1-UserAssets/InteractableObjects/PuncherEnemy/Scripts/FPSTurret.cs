@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Interactables.Enemies
+{
     public class FPSTurret : Enemy
     {
         public Vector3 startingRotation;
@@ -85,7 +86,7 @@ namespace EtrasStarterAssets{
         public void aimAtPlayer()
         {
             //Base y rotation toward player
-            Vector3 targetDirection = target.transform.position - baseSpin.transform.position;
+            var targetDirection = target.transform.position - baseSpin.transform.position;
             float singleStep = spinSpeed * Time.deltaTime;
             Vector3 newDirection = Vector3.RotateTowards(baseSpin.transform.forward, targetDirection, singleStep, 0.0f);
             Quaternion lookRot = Quaternion.LookRotation(newDirection);
@@ -94,11 +95,11 @@ namespace EtrasStarterAssets{
 
 
             //arms x rotation toward player
-            Vector3 armTargetDirection = target.transform.position - armSpin.transform.position;
+            var armTargetDirection = target.transform.position - armSpin.transform.position;
             float armSingleStep = spinSpeed * Time.deltaTime;
             Vector3 armNewDirection = Vector3.RotateTowards(armSpin.transform.forward, armTargetDirection, armSingleStep, 0.0f);
             Quaternion armLookRot = Quaternion.LookRotation(armNewDirection);
-            Vector3 xRotation = new Quaternion(armLookRot.x, 0, 0, armLookRot.w).eulerAngles;
+            var xRotation = new Quaternion(armLookRot.x, 0, 0, armLookRot.w).eulerAngles;
             armSpin.transform.localEulerAngles = xRotation;
         }
 

@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class CheckpointUpdaterHitbox : MonoBehaviour
     {
         public CheckpointUpdater parent;
-        [HideInInspector]public MeshRenderer meshRenderer;
+        [HideInInspector] public MeshRenderer meshRenderer;
 
         private void Reset()
         {

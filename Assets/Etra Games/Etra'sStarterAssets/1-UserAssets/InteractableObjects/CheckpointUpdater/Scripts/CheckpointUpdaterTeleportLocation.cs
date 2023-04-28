@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EtrasStarterAssets
+namespace Etra.StarterAssets.Interactables
 {
     public class CheckpointUpdaterTeleportLocation : MonoBehaviour
     {

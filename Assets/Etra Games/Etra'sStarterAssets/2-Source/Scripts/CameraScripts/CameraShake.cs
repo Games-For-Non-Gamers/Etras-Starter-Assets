@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-namespace EtrasStarterAssets{
+namespace Etra.StarterAssets.Source.Camera
+{
     public class CameraShake : MonoBehaviour
     {
         public IEnumerator Shake(float camMoveRange, float duration, float magnitude)
         {
-            Vector3 originalPos = transform.localPosition;
+            var originalPos = transform.localPosition;
 
             float elapsed = 0.0f;
 
