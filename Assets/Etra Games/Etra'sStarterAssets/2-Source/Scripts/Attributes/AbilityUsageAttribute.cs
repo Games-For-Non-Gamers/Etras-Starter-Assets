@@ -1,9 +1,10 @@
 ﻿using System;
 using static Etra.StarterAssets.EtraCharacterMainController;
 
-namespace Etra.StarterAssets {
+namespace Etra.StarterAssets 
+{
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class AbilityUsage : Attribute
+    public class AbilityUsageAttribute : Attribute
     {
         public enum AbilityTypeFlag
         {
@@ -11,13 +12,13 @@ namespace Etra.StarterAssets {
             Passive
         }
 
-        public AbilityUsage(GameplayTypeFlags gameplayType)
+        public AbilityUsageAttribute(GameplayTypeFlags gameplayType)
         {
             GameplayType = gameplayType;
             AbilityType = AbilityTypeFlag.Active;
         }
 
-        public AbilityUsage(GameplayTypeFlags gameplayType, AbilityTypeFlag abilityType)
+        public AbilityUsageAttribute(GameplayTypeFlags gameplayType, AbilityTypeFlag abilityType)
         {
             GameplayType = gameplayType;
             AbilityType = abilityType;

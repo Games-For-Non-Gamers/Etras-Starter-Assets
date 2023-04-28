@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsage.AbilityTypeFlag.Passive)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive)]
     public class ABILITY_RigidbodyPush : EtraAbilityBaseClass
     {
         [Header("Basics")]

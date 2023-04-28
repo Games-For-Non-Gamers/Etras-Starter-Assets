@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_CameraMovement : EtraAbilityBaseClass
     {
 

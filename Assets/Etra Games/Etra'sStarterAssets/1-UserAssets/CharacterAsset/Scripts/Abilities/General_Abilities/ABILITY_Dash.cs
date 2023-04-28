@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities.FirstPerson
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Dash : EtraAbilityBaseClass
     {
         public float dashRange = 50.0f;

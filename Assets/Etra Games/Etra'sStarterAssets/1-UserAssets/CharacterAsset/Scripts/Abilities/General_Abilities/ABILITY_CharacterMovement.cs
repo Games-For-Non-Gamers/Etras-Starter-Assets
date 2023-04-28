@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_CharacterMovement : EtraAbilityBaseClass
     {
         [Header("Basics")]

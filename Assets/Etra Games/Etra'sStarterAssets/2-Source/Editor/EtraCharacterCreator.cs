@@ -789,7 +789,7 @@ namespace Etra.StarterAssets.Source.Editor
 
         static bool CheckForUsage(Type type, GameplayTypeFlags gameplayType)
         {
-            var attribute = type.GetCustomAttribute<AbilityUsage>();
+            var attribute = type.GetCustomAttribute<AbilityUsageAttribute>();
             if (attribute == null)
                 return gameplayType == GameplayTypeFlags.All;
 

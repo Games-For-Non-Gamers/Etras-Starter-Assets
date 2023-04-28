@@ -8,7 +8,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
 {
     [RequireComponent(typeof(ABILITY_CameraMovement))]
 
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
     public class ABILITY_TPS_Aim : EtraAbilityBaseClass
     {
         [Header("Basics")]

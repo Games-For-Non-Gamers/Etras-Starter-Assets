@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Etra.StarterAssets
+namespace Etra.StarterAssets.Source.Editor.Attributes
 {
-    public class ListToPopupAttribute : PropertyAttribute
-    {
-        public Type myType;
-        public string propertyName;
-
-        public ListToPopupAttribute(Type _myType, string _propertyName)
-        {
-            myType = _myType;
-            propertyName = _propertyName;
-        }
-    }
-
-#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ListToPopupAttribute))]
     public class ListToPopupDrawer : PropertyDrawer
     {
@@ -40,5 +26,4 @@ namespace Etra.StarterAssets
             else EditorGUI.PropertyField(position, property, label);
         }
     }
-#endif
 }

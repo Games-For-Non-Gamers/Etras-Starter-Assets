@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using static Etra.StarterAssets.AbilityUsage;
+using static Etra.StarterAssets.AbilityUsageAttribute;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -210,7 +210,7 @@ namespace Etra.StarterAssets.Abilities
             //Disable all those active abilities
             foreach (var ability in activatedAbilitiesBeforeFreeze)
             {
-                var a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                var a = ability.GetType().GetCustomAttribute<AbilityUsageAttribute>();
                 if (a != null && a.AbilityType == AbilityTypeFlag.Active)
                 {
                     ability.abilityEnabled = false;
@@ -223,7 +223,7 @@ namespace Etra.StarterAssets.Abilities
         {
             foreach (var ability in activatedAbilitiesBeforeFreeze)
             {
-                var a = ability.GetType().GetCustomAttribute<AbilityUsage>();
+                var a = ability.GetType().GetCustomAttribute<AbilityUsageAttribute>();
                 if (a != null && a.AbilityType == AbilityTypeFlag.Active)
                 {
                     ability.abilityEnabled = true;
