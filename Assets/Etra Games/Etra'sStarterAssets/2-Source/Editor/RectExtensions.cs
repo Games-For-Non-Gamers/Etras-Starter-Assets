@@ -4,7 +4,7 @@ namespace Etra.StarterAssets.Source.Editor
 {
     public static partial class RectExtensions
     {
-        #region Resizing to anchor
+        #region Resizing to Anchor
         public static Rect ResizeToTop(this Rect r, float height)
         {
             r = new Rect(r);
@@ -50,7 +50,7 @@ namespace Etra.StarterAssets.Source.Editor
         }
         #endregion
 
-        //Moving
+        #region Move
         //The rect gets moved from the specified side and resized to not overflow
         public static Rect MoveTop(this Rect r, float amount)
         {
@@ -83,8 +83,9 @@ namespace Etra.StarterAssets.Source.Editor
             r.width -= amount;
             return r;
         }
+        #endregion
 
-        //Resizing
+        #region Borders
         public static Rect Border(this Rect rect, float border) =>
             rect.Border(border, border, border, border);
 
@@ -122,8 +123,9 @@ namespace Etra.StarterAssets.Source.Editor
         /// <summary>Create vertical border while preserving rect's aspect ratio</summary>
         public static Rect BorderAspectRatioVertical(this Rect rect, float amount) =>
             rect.Border(rect.width / rect.height * amount, amount);
+        #endregion
 
-        //Simple actions
+        #region Simple Actions
         public static Rect MoveX(this Rect rect, float amount)
         {
             rect.x += amount;
@@ -159,5 +161,6 @@ namespace Etra.StarterAssets.Source.Editor
             rect.height *= size;
             return rect;
         }
+        #endregion
     }
 }
