@@ -4,8 +4,7 @@ namespace Etra.StarterAssets.Source.Editor
 {
     public static partial class RectExtensions
     {
-        //Resizing to side
-        //Changes rect's size while snapping to the specified side
+        #region Resizing to anchor
         public static Rect ResizeToTop(this Rect r, float height)
         {
             r = new Rect(r);
@@ -35,6 +34,21 @@ namespace Etra.StarterAssets.Source.Editor
             r.width = width;
             return r;
         }
+
+        public static Rect ResizeWidthToCenter(this Rect r, float width)
+        {
+            r.x += (r.width - width) / 2f;
+            r.width = width;
+            return r;
+        }
+
+        public static Rect ResizeWHeightToCenter(this Rect r, float height)
+        {
+            r.y += (r.height - height) / 2f;
+            r.height = height;
+            return r;
+        }
+        #endregion
 
         //Moving
         //The rect gets moved from the specified side and resized to not overflow
