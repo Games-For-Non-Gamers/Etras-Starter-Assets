@@ -49,7 +49,8 @@ namespace Etra.StarterAssets.Source.Editor
         }
 
         GameplayType _gameplayType = GameplayType.FirstPerson;
-        Model _model = Model.DefaultArmature;
+        Model _fpModel = Model.None;
+        Model _tpModel = Model.DefaultArmature;
         Vector2 _scroll;
 
         [NonSerialized] bool _init = false;
@@ -67,24 +68,6 @@ namespace Etra.StarterAssets.Source.Editor
         GUIStyle s_descriptionBackground;
         GUIStyle s_wrappedLabel;
         GUIStyle s_header;
-        GUIStyle s_modelPopup;
-
-        Texture2D fpImage;
-        Texture2D tpImage;
-
-        private static Dictionary<Model, string> _modelDescriptions = new Dictionary<Model, string>()
-        {
-            [Model.DefaultArmature] = "Default humanoid model with animations",
-            [Model.Capsule] = "Default Unity capsule without animations",
-            [Model.Voxel] = "Stylized voxel model with animations",
-            [Model.None] = "No model",
-        };
-
-        Texture2D _defaultModelImage;
-        private static Dictionary<Model, Texture2D> _modelImages = new Dictionary<Model, Texture2D>();
-
-        Rect r_modelPopup;
-
 
         #region Inherited
         public void AddItemsToMenu(GenericMenu menu)
@@ -173,24 +156,6 @@ namespace Etra.StarterAssets.Source.Editor
                 fontSize = 18,
             };
 
-            s_modelPopup = new GUIStyle(EditorStyles.popup)
-            {
-                fixedHeight = 32f,
-            };
-
-            //Images
-            fpImage = Resources.Load<Texture2D>("CharacterCreatorFP");
-            tpImage = Resources.Load<Texture2D>("CharacterCreatorTP");
-
-            _defaultModelImage = Resources.Load<Texture2D>("CharacterCreatorModelNone");
-            _modelImages = new Dictionary<Model, Texture2D>()
-            {
-                [Model.DefaultArmature] = Resources.Load<Texture2D>("CharacterCreatorModelArmature"),
-                [Model.Capsule] = Resources.Load<Texture2D>("CharacterCreatorModelCapsule"),
-                [Model.Voxel] = Resources.Load<Texture2D>("CharacterCreatorModelVoxel"),
-                [Model.None] = Resources.Load<Texture2D>("CharacterCreatorModelNone"),
-            };
-
             //Get target
             RefreshTarget();
 
@@ -274,10 +239,6 @@ namespace Etra.StarterAssets.Source.Editor
             EditorGUI.ProgressBar(barRect, (float)Page / (PAGE_LIMIT - 1), string.Empty);
         }
 
-        //Variables for page 2 model swapping
-        bool characterTypeSelectionChanged = true;
-        GameplayType savedType;
-
         void ContentGUI()
         {
             switch (Page)
@@ -304,180 +265,19 @@ namespace Etra.StarterAssets.Source.Editor
 
                     break;
                 case 1: //"Character Type" PAGE
-                    GUIStyle buttonStyle = new GUIStyle("Button");
-                    GUIStyle labelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
+                    _gameplayType = EtraGUIUtility.GameplayTypeSelectorLayout(_gameplayType);
+
+                    EditorGUILayout.Space();
+
+                    switch (_gameplayType)
                     {
-                        alignment = TextAnchor.MiddleCenter,
-                        fontSize = 14,
-                    };
-
-                    GUILayout.Label("Character Type", s_header);
-
-                    var startRect = GUILayoutUtility.GetAspectRect(2f / 1f)
-                        .Border(4f);
-
-                    GUILayout.Space(8f);
-
-                    startRect = startRect
-                        .SetHeight(startRect.width * 0.5f - 2f)
-                        .BorderBottom(-14f);
-
-                    var fpRect = startRect
-                        .ResizeToLeft(startRect.width * 0.5f)
-                        .BorderRight(2f);
-
-                    var tpRect = startRect
-                        .ResizeToRight(startRect.width * 0.5f)
-                        .BorderLeft(2f);
-
-                    var fpTextRect = fpRect
-                        .ResizeToBottom(18f)
-                        .MoveY(-2f);
-
-                    var tpTextRect = tpRect
-                        .ResizeToBottom(18f)
-                        .MoveY(-2f);
-
-                    var fpImageRect = fpRect
-                        .ResizeToTop(fpRect.width)
-                        .Border(8f);
-
-                    var tpImageRect = tpRect
-                        .ResizeToTop(tpRect.width)
-                        .Border(8f);
-
-
-
-
-                    if (savedType != _gameplayType)
-                    {
-                        characterTypeSelectionChanged = true;
+                        case GameplayType.FirstPerson:
+                            EtraGUIUtility.ModelSelectorLayout("First Person Model", _fpModel, (model) => _fpModel = model, new Model[] { Model.None, Model.Capsule });
+                            break;
+                        case GameplayType.ThirdPerson:
+                            EtraGUIUtility.ModelSelectorLayout("Third Person Model", _tpModel, (model) => _tpModel = model, (Model[])Enum.GetValues(typeof(Model)));
+                            break;
                     }
-                    savedType = _gameplayType;
-
-                    if (GUI.Toggle(fpRect, _gameplayType == GameplayType.FirstPerson, GUIContent.none, buttonStyle))
-                    {
-                        _gameplayType = GameplayType.FirstPerson;
-                        if (characterTypeSelectionChanged)
-                        {
-                            _model = Model.Capsule;
-                            characterTypeSelectionChanged = false;
-                        }
-                    }
-
-
-                    if (GUI.Toggle(tpRect, _gameplayType == GameplayType.ThirdPerson, GUIContent.none, buttonStyle))
-                    {
-                        _gameplayType = GameplayType.ThirdPerson;
-
-                        if (characterTypeSelectionChanged)
-                        {
-                            _model = Model.DefaultArmature;
-                            characterTypeSelectionChanged = false;
-                        }
-                    }
-
-
-
-
-
-                    GUI.DrawTexture(fpImageRect, fpImage);
-                    GUI.DrawTexture(tpImageRect, tpImage);
-
-                    GUI.Label(fpTextRect, "First Person", labelStyle);
-                    GUI.Label(tpTextRect, "Third Person", labelStyle);
-
-                    if (_gameplayType == GameplayType.FirstPerson)
-                    {
-                        EditorGUILayout.Space(8f);
-                        GUILayout.Label("FPS Model", s_header);
-
-                        using (new GUILayout.HorizontalScope(GUILayout.MinHeight(position.width * 0.4f)))
-                        {
-                            GUILayout.Space(4f);
-
-                            GUILayout.Space(position.width * 0.4f);
-
-                            var imageRect = GUILayoutUtility.GetLastRect();
-                            imageRect = imageRect
-                                .SetHeight(imageRect.width);
-
-                            GUI.Label(imageRect, GUIContent.none, buttonStyle);
-                            GUI.DrawTexture(imageRect.Border(4f), _modelImages.ContainsKey(_model) ? _modelImages[_model] : _defaultModelImage);
-
-                            GUILayout.Space(4f);
-
-                            using (new GUILayout.VerticalScope())
-                            {
-                                //DIY popup, because the built in one didn't want to expand vertically
-                                if (GUILayout.Button(_model.ToString(), s_modelPopup))
-                                {
-                                    GenericMenu menu = new GenericMenu();
-                                    foreach (var type in Enum.GetValues(typeof(Model)))
-                                    {
-                                        if ((Model)type == Model.None || (Model)type == Model.Capsule)
-                                        {
-                                            menu.AddItem(new GUIContent(type.ToString()), _model == (Model)type, () => _model = (Model)type);
-                                        }
-                                    }
-
-                                    menu.DropDown(r_modelPopup);
-
-                                }
-
-                                if (Event.current.type == EventType.Repaint)
-                                    r_modelPopup = GUILayoutUtility.GetLastRect();
-
-                                GUILayout.Label(_modelDescriptions.ContainsKey(_model) ? _modelDescriptions[_model] : string.Empty, EditorStyles.helpBox);
-                            }
-                        }
-                    }
-
-
-
-                    if (_gameplayType == GameplayType.ThirdPerson)
-                    {
-                        EditorGUILayout.Space(8f);
-                        GUILayout.Label("TPS Model", s_header);
-
-                        using (new GUILayout.HorizontalScope(GUILayout.MinHeight(position.width * 0.4f)))
-                        {
-                            GUILayout.Space(4f);
-
-                            GUILayout.Space(position.width * 0.4f);
-
-                            var imageRect = GUILayoutUtility.GetLastRect();
-                            imageRect = imageRect
-                                .SetHeight(imageRect.width);
-
-                            GUI.Label(imageRect, GUIContent.none, buttonStyle);
-                            GUI.DrawTexture(imageRect.Border(4f), _modelImages.ContainsKey(_model) ? _modelImages[_model] : _defaultModelImage);
-
-                            GUILayout.Space(4f);
-
-                            using (new GUILayout.VerticalScope())
-                            {
-                                //DIY popup, because the built in one didn't want to expand vertically
-                                if (GUILayout.Button(_model.ToString(), s_modelPopup))
-                                {
-                                    GenericMenu menu = new GenericMenu();
-                                    foreach (var type in Enum.GetValues(typeof(Model)))
-                                    {
-                                        menu.AddItem(new GUIContent(type.ToString()), _model == (Model)type, () => _model = (Model)type);
-                                    }
-
-                                    menu.DropDown(r_modelPopup);
-
-                                }
-
-                                if (Event.current.type == EventType.Repaint)
-                                    r_modelPopup = GUILayoutUtility.GetLastRect();
-
-                                GUILayout.Label(_modelDescriptions.ContainsKey(_model) ? _modelDescriptions[_model] : string.Empty, EditorStyles.helpBox);
-                            }
-                        }
-                    }
-
                     break;
                 case 2: //"General Abilities" PAGE
                     GUILayout.Label("General Abilities", s_header);
@@ -520,7 +320,8 @@ namespace Etra.StarterAssets.Source.Editor
         #region State
         const string _WINDOW_STATE_KEY_PREFIX = "etra_character_creator_";
         const string _WINDOW_STATE_GAMEPLAY_TYPE_KEY = "etra_character_creator_gameplay_type";
-        const string _WINDOW_STATE_MODEL_KEY = "etra_character_creator_model";
+        const string _WINDOW_STATE_FP_MODEL_KEY = "etra_character_creator_fp_model";
+        const string _WINDOW_STATE_TP_MODEL_KEY = "etra_character_creator_tp_model";
 
         /// <summary>Creates session states from the target</summary>
         /// <param name="loadStates">Should the data be loaded?</param>
@@ -529,9 +330,17 @@ namespace Etra.StarterAssets.Source.Editor
             if (_target == null)
                 return;
 
+            //Gameplay type
             SessionState.SetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, (int)_target.appliedGameplayType);
-            SessionState.SetInt(_WINDOW_STATE_MODEL_KEY, (int)(
-                _target.appliedGameplayType == GameplayType.ThirdPerson ? _target.appliedCharacterModel : Model.DefaultArmature));
+
+            //Models
+            SessionState.SetInt(_WINDOW_STATE_FP_MODEL_KEY, (int)(_target.appliedGameplayType == GameplayType.FirstPerson ?
+                _target.appliedCharacterModel :
+                Model.None));
+
+            SessionState.SetInt(_WINDOW_STATE_TP_MODEL_KEY, (int)(_target.appliedGameplayType == GameplayType.ThirdPerson ?
+                _target.appliedCharacterModel :
+                Model.DefaultArmature));
 
             //Abilities
             var addedAbilities = _target.etraAbilityManager.characterAbilityUpdateOrder
@@ -565,7 +374,8 @@ namespace Etra.StarterAssets.Source.Editor
         void LoadStates()
         {
             _gameplayType = (GameplayType)SessionState.GetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, 0);
-            _model = (Model)SessionState.GetInt(_WINDOW_STATE_MODEL_KEY, 0);
+            _fpModel = (Model)SessionState.GetInt(_WINDOW_STATE_FP_MODEL_KEY, (int)Model.None);
+            _tpModel = (Model)SessionState.GetInt(_WINDOW_STATE_TP_MODEL_KEY, (int)Model.DefaultArmature);
 
             foreach (var item in generalAbilities)
                 item.state = SessionState.GetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", false);
@@ -583,7 +393,8 @@ namespace Etra.StarterAssets.Source.Editor
         void SaveStates()
         {
             SessionState.SetInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY, (int)_gameplayType);
-            SessionState.SetInt(_WINDOW_STATE_MODEL_KEY, (int)_model);
+            SessionState.SetInt(_WINDOW_STATE_FP_MODEL_KEY, (int)_fpModel);
+            SessionState.SetInt(_WINDOW_STATE_TP_MODEL_KEY, (int)_tpModel);
 
             foreach (var item in generalAbilities)
                 SessionState.SetBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}", item.state);
@@ -602,7 +413,8 @@ namespace Etra.StarterAssets.Source.Editor
         void RemoveStates()
         {
             SessionState.EraseInt(_WINDOW_STATE_GAMEPLAY_TYPE_KEY);
-            SessionState.EraseInt(_WINDOW_STATE_MODEL_KEY);
+            SessionState.EraseInt(_WINDOW_STATE_FP_MODEL_KEY);
+            SessionState.EraseInt(_WINDOW_STATE_TP_MODEL_KEY);
 
             foreach (var item in generalAbilities)
                 SessionState.EraseBool($"{_WINDOW_STATE_KEY_PREFIX}{item.type.FullName}");
@@ -622,16 +434,16 @@ namespace Etra.StarterAssets.Source.Editor
         void GenerateAbilitiesAndItems()
         {
             //Initialize abilities
-            generalAbilities = FindAllTypes<EtraAbilityBaseClass>()
+            generalAbilities = EtraGUIUtility.FindAllTypes<EtraAbilityBaseClass>()
                 .Select(x => new Ability(x))
                 .ToList();
 
             fpAbilities = generalAbilities
-                .Where(x => CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
+                .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
                 .ToList();
 
             tpAbilities = generalAbilities
-                .Where(x => CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
+                .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
                 .ToList();
 
             generalAbilities = generalAbilities
@@ -640,7 +452,7 @@ namespace Etra.StarterAssets.Source.Editor
                 .ToList();
 
             //Initialize items
-            fpsItems = FindAllTypes<EtraFPSUsableItemBaseClass>()
+            fpsItems = EtraGUIUtility.FindAllTypes<EtraFPSUsableItemBaseClass>()
                 .Select(x => new Ability(x))
                 .ToList();
         }
@@ -740,7 +552,7 @@ namespace Etra.StarterAssets.Source.Editor
 
 
 
-                    _target.applyGameplayChanges(_gameplayType, _model);
+                    _target.applyGameplayChanges(_gameplayType, _fpModel);
                     break;
 
                 case GameplayType.ThirdPerson:
@@ -754,7 +566,7 @@ namespace Etra.StarterAssets.Source.Editor
 
 
                     AddAbilities(abilityManager, tpAbilities, log: "Adding third person ability");
-                    _target.applyGameplayChanges(_gameplayType, _model);
+                    _target.applyGameplayChanges(_gameplayType, _tpModel);
                     break;
             }
 
@@ -764,37 +576,13 @@ namespace Etra.StarterAssets.Source.Editor
             if (!Preferences.KeepOpened)
                 CloseWindow();
         }
-
-
         #endregion
 
         #region Utility
-        public static List<Type> FindAllTypesList<T>() =>
-            FindAllTypes<T>()
-                .ToList();
-
-        public static IEnumerable<Type> FindAllTypes<T>()
-        {
-            var type = typeof(T);
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(t => t != type && type.IsAssignableFrom(t));
-        }
-
         static void DebugLog(string text)
         {
             if (Preferences.Log)
                 Debug.Log($"[Etra Character Creator] {text}");
-        }
-
-        static bool CheckForUsage(Type type, GameplayTypeFlags gameplayType)
-        {
-            var attribute = type.GetCustomAttribute<AbilityUsageAttribute>();
-            if (attribute == null)
-                return gameplayType == GameplayTypeFlags.All;
-
-            return attribute.GameplayType.HasFlag(gameplayType) &&
-                attribute.GameplayType != GameplayTypeFlags.All;
         }
 
         void AddAbilities(EtraAbilityManager abilityManager, List<Ability> abilities, bool assignScripts = true, string log = "Adding generic ability")
