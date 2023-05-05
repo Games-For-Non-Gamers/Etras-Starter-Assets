@@ -12,6 +12,16 @@ namespace Etra.StarterAssets
     [SerializeField] float startingHealth;
     public bool manualIsAlive;
     float _health;
+    /**
+      <summary>
+        The health of the GameObject.
+      </summary>
+      <remarks>
+        <para>
+          This variable isn't public because it should be set by using the <see cref="Damage"/> and <see cref="Heal"/> methods.
+        </para>
+      </remarks>
+    */
     public float health
     {
       get
