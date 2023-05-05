@@ -52,14 +52,22 @@ namespace Etra.StarterAssets
     public void Damage(float hp)
     {
       float lastHealth = health;
-      health -= hp;
+      health -= Mathf.Abs(hp);
       OnDamage?.Invoke(Mathf.Abs(_health - lastHealth));
+
     }
 
+    /**
+      <summary>
+        Increases the amount of health.
+      </summary>
+      <param name="hp">Amount of health to increase.</param>
+      <returns>The amount of health that was increased.</returns>
+    */
     public void Heal(float hp)
     {
       float lastHealth = health;
-      health += hp;
+      health += Mathf.Abs(hp);
       OnHeal?.Invoke(Mathf.Abs(_health - lastHealth));
     }
 
