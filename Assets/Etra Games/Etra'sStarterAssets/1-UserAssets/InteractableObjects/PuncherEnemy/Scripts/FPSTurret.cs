@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Etra.StarterAssets.Combat;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables.Enemies

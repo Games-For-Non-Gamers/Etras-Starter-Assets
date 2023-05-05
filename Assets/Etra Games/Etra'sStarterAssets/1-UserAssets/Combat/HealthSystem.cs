@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Etra.StarterAssets
+namespace Etra.StarterAssets.Combat
 {
 
   public sealed class HealthSystem : MonoBehaviour
