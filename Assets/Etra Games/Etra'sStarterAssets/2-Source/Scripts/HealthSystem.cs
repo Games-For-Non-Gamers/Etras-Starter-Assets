@@ -18,7 +18,7 @@ namespace Etra.StarterAssets
       </summary>
       <remarks>
         <para>
-          This variable isn't public because it should be set by using the <see cref="Damage"/> and <see cref="Heal"/> methods.
+          This variable's setter isn't public because it should be set by using the <see cref="Damage"/> and <see cref="Heal"/> methods.
         </para>
       </remarks>
     */
