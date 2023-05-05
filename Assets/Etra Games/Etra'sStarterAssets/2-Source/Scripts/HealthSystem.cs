@@ -49,12 +49,18 @@ namespace Etra.StarterAssets
       health = Mathf.Max(startingHealth, maxHealth);
     }
 
+    /**
+      <summary>
+        Decreases the amount of health.
+      </summary>
+      <param name="hp">Amount of health to decrease.</param>
+      <returns>The amount of health that was decreased.</returns>
+    */
     public void Damage(float hp)
     {
       float lastHealth = health;
       health -= Mathf.Abs(hp);
       OnDamage?.Invoke(Mathf.Abs(_health - lastHealth));
-
     }
 
     /**
