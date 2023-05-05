@@ -37,9 +37,29 @@ namespace Etra.StarterAssets
 
     #region Events
 
+    /**
+      <summary>
+        Called when the health changes.
+      </summary>
+    */
     public event Action<float> OnChange;
+    /**
+      <summary>
+        Called when the health is damaged.
+      </summary>
+    */
     public event Action<float> OnDamage;
+    /**
+      <summary>
+        Called when the health is healed.
+      </summary>
+    */
     public event Action<float> OnHeal;
+    /**
+      <summary>
+        Called when the health becomes 0.
+      </summary>
+    */
     public event Action OnDeath;
 
     #endregion
