@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Etra.StarterAssets.Combat
 {
@@ -58,25 +59,25 @@ namespace Etra.StarterAssets.Combat
         Called when the health changes.
       </summary>
     */
-    public event Action<float> OnChange;
+    public UnityEvent<float> OnChange;
     /**
       <summary>
         Called when the health is damaged.
       </summary>
     */
-    public event Action<float> OnDamage;
+    public UnityEvent<float> OnDamage;
     /**
       <summary>
         Called when the health is healed.
       </summary>
     */
-    public event Action<float> OnHeal;
+    public UnityEvent<float> OnHeal;
     /**
       <summary>
         Called when the health becomes 0.
       </summary>
     */
-    public event Action OnDeath;
+    public UnityEvent OnDeath;
 
     #endregion
 

@@ -27,14 +27,14 @@ namespace Etra.StarterAssets.Interactables.Enemies
     {
       turretAnimator = GetComponent<Animator>();
       healthSystem = GetComponent<HealthSystem>();
-      healthSystem.OnDeath += () =>
+      healthSystem.OnDeath.AddListener(() =>
       {
         if (dieOnce)
         {
           dieOnce = false;
           StartCoroutine("die");
         }
-      };
+      });
       target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
       startingRotation = baseSpin.transform.rotation.eulerAngles;
       backToIdle();
