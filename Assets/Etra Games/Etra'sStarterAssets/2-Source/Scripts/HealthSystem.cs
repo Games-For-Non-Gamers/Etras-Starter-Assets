@@ -10,7 +10,12 @@ namespace Etra.StarterAssets
 
     [SerializeField] float maxHealth;
     [SerializeField] float startingHealth;
-    public bool manualIsAlive;
+    /**
+      <summary>
+        If true, <see cref="OnDeath"/> won't be called.
+      </summary>
+    */
+    public bool manualDeath;
     float _health;
     /**
       <summary>
@@ -33,7 +38,7 @@ namespace Etra.StarterAssets
         float lastHealth = _health;
         _health = Mathf.Clamp(value, 0, maxHealth);
         OnChange?.Invoke(Mathf.Abs(_health - lastHealth));
-        if (manualIsAlive)
+        if (manualDeath)
           return;
 
         bool last = isAlive;
