@@ -81,16 +81,6 @@ namespace Etra.StarterAssets
     #endregion
 
 
-    #region Unity Methods
-
-    void Start()
-    {
-      health = Mathf.Min(startingHealth, maxHealth);
-    }
-
-    #endregion
-
-
     /**
       <summary>
         Decreases the amount of health.
@@ -118,6 +108,15 @@ namespace Etra.StarterAssets
       health += Mathf.Abs(hp);
       OnHeal?.Invoke(Mathf.Abs(_health - lastHealth));
     }
+
+    #region Unity Methods
+
+    void Start()
+    {
+      health = Mathf.Min(startingHealth, maxHealth);
+    }
+
+    #endregion
 
   }
 
