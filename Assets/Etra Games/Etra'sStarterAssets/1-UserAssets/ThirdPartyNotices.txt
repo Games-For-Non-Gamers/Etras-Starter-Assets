@@ -93,7 +93,27 @@ Brsjak
 qubodup
     https://freesound.org/people/qubodup/sounds/60013/
     "whoosh" by qubodup is licensed under CC BY 4.0
-    This sound was used for the screenWipe sound.
+    This sound is used for the screenWipe sound.
+
+infi1234
+    https://freesound.org/people/infi1234/sounds/648952/
+    "equip.wav" by infi1234 is licensed under CC 0
+    The sound is used for the default_equip sound.
+
+GamesWithBepis
+    https://freesound.org/people/GameWithBepis/sounds/561471/
+    "Generic Rifle Cock" by GamesWithBepis is licensed under CC 0
+    The sound is used for the blaster_equip sound.
+
+deleted_user_13668154
+    https://freesound.org/people/deleted_user_13668154/sounds/616484/
+    "unsheath.wav.wav" by deleted_user_13668154 is licensed under CC 3.0
+    The sound is used for the sword_equip sound.
+
+jackolous
+    https://freesound.org/people/jackolous/sounds/645778/
+    "Arming a Sci-Fi Gun" by jackolous is licensed under CC 0
+    The sound is used for the scifi_equip sound.    
 
 
 ~~APPENDIX - REFERENCED LICENSES:~~ 

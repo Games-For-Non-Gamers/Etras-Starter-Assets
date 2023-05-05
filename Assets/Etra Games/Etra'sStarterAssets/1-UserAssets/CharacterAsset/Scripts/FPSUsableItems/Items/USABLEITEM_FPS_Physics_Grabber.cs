@@ -58,6 +58,10 @@ namespace Etra.StarterAssets.Items
             otherRB.transform.parent = Camera.main.transform;
             otherRB.transform.localPosition = new Vector3(0, 0, pickedUpDistance);
         }
+        private void Reset()
+        {
+            equipSfxName = "ScifiEquip";
+        }
 
         public void Update()
         {

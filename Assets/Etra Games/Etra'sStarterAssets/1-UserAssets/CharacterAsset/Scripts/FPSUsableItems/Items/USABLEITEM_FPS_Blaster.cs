@@ -33,6 +33,7 @@ namespace Etra.StarterAssets.Items
         private void Reset()
         {
             // Set example projectile default when this component is added
+            equipSfxName = "BlasterEquip";
             launchedBullet = EtrasResourceGrabbingFunctions.getPrefabFromResourcesByName("ExampleProjectile");
         }
 

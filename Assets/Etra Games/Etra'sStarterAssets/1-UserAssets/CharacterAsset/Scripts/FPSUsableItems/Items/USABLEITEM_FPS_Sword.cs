@@ -46,6 +46,11 @@ namespace Etra.StarterAssets.Items
             camMoveScript = GameObject.Find("EtraAbilityManager").GetComponent<ABILITY_CameraMovement>();
         }
 
+        private void Reset()
+        {
+            equipSfxName = "SwordEquip";
+        }
+
         GameObject hitObject;
         public void Update()
         {

@@ -1,3 +1,4 @@
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ namespace Etra.StarterAssets.Source
 
         IEnumerator screenWipeAnimation(float time)
         {
+            screenWiper.GetComponent<AudioManager>().Play("ScreenWipe");
             LeanTween.move(screenWiperRect, screenWipeEnd, time).setEaseInOutSine();
             yield return new WaitForSeconds(time);
             screenWiper.gameObject.gameObject.SetActive(false);
