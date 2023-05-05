@@ -44,10 +44,16 @@ namespace Etra.StarterAssets
 
     #endregion
 
+
+    #region Unity Methods
+
     void Start()
     {
-      health = Mathf.Max(startingHealth, maxHealth);
+      health = Mathf.Min(startingHealth, maxHealth);
     }
+
+    #endregion
+
 
     /**
       <summary>
