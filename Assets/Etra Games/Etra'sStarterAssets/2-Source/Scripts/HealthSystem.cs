@@ -33,14 +33,15 @@ namespace Etra.StarterAssets
         float lastHealth = _health;
         _health = Mathf.Clamp(value, 0, maxHealth);
         OnChange?.Invoke(Mathf.Abs(_health - lastHealth));
-        if (!manualIsAlive)
-        {
-          bool last = isAlive;
-          isAlive = _health > 0;
-          if (last && !isAlive) OnDeath?.Invoke();
-        }
+        if (manualIsAlive)
+          return;
+
+        bool last = isAlive;
+        isAlive = _health > 0;
+        if (last && !isAlive) OnDeath?.Invoke();
       }
     }
+
     public bool isAlive { get; private set; }
 
     #endregion
