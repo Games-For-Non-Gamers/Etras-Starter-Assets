@@ -80,6 +80,7 @@ namespace Etra.StarterAssets
 
     #endregion
 
+    #region Methods
 
     /**
       <summary>
@@ -108,6 +109,8 @@ namespace Etra.StarterAssets
       health += Mathf.Abs(hp);
       OnHeal?.Invoke(Mathf.Abs(_health - lastHealth));
     }
+
+    #endregion
 
     #region Unity Methods
 
