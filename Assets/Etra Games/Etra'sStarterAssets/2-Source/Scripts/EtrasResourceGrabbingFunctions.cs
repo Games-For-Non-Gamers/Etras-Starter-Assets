@@ -118,7 +118,6 @@ namespace Etra.StarterAssets.Source
 
         #endregion
 
-
         #region TryGetComponentInChildren
         public static bool TryGetComponentInChildren<T>(Transform parentObject)
         {
@@ -132,5 +131,7 @@ namespace Etra.StarterAssets.Source
             }
         }
         #endregion
+
+
     }
 }

@@ -1,6 +1,8 @@
 using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
+using EtrasStarterAssets;
+using System.Collections;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
@@ -39,11 +41,13 @@ namespace Etra.StarterAssets.Abilities
         private float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
+        private AudioManager foostepSoundManager;
 
         //Speed adjustments from other ABILITY scripts
         [HideInInspector] public float sprintSpeed; //Set by Ability_Sprint if it exists.
         [HideInInspector] public bool isCrouched = false; //Set by Ability_Crouch if it exists.
         [HideInInspector] public float crouchSpeed;//Set by Ability_Crouch if it exists.
+
 
 
         //Set gameplay var defaults based on gameplay type
@@ -66,6 +70,8 @@ namespace Etra.StarterAssets.Abilities
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+
+            foostepSoundManager = _mainCamera.transform.Find("FootstepsAudio").GetComponent<AudioManager>();
             _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(EtraCharacterMainController.Instance.modelParent);
             if (_hasAnimator) { _animator = EtraCharacterMainController.Instance.modelParent.GetComponentInChildren<Animator>(); }
 
@@ -82,8 +88,11 @@ namespace Etra.StarterAssets.Abilities
             }
             else { sprintSpeed = moveSpeed; }
         }
+
+        float stepTime = 0;
         public override void abilityUpdate()
         {
+
             //Make variables to recieve movement input from
             float inputX = _input.move.x;
             float inputY = _input.move.y;
@@ -141,11 +150,47 @@ namespace Etra.StarterAssets.Abilities
                 targetSpeed = crouchSpeed;
             }
 
+            
+
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (passedMovementInput == Vector2.zero) targetSpeed = 0.0f;
+            if (passedMovementInput == Vector2.zero)
+            {
+                targetSpeed = 0.0f;
+                stepTime = 0.0f;
+            }
+            else if (!_hasAnimator) // if there is no animator that plays the footstep sound, run it manually with a timer
+            {
+                if (EtraCharacterMainController.Instance.Grounded)
+                {
+                    float nextStepThreshold;
+                    if (_input.sprint)
+                    {
+                        nextStepThreshold = 0.333f;
+                    }
+                    else
+                    {
+                        nextStepThreshold = 0.5f;
+                    }
+
+                    stepTime += Time.deltaTime;
+                    if (stepTime > nextStepThreshold * Mathf.Max(Mathf.Abs(passedMovementInput.x), Mathf.Abs(passedMovementInput.y)))
+                    {
+                        PlayFootstep();
+                        stepTime = 0.0f;
+                    }
+                }
+                else
+                {
+                    stepTime = 0.0f;
+                }
+            }
+
+
+
+
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -172,8 +217,6 @@ namespace Etra.StarterAssets.Abilities
 
             // normalise input direction
             var inputDirection = new Vector3(inputX, 0.0f, inputY).normalized;
-
-
 
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -203,5 +246,12 @@ namespace Etra.StarterAssets.Abilities
             }
 
         }
+
+        int stepSoundCount = 0;
+        public void PlayFootstep()
+        {
+            foostepSoundManager.Play(foostepSoundManager.sounds[stepSoundCount++ % foostepSoundManager.sounds.Count]);
+        }
+
     }
 }

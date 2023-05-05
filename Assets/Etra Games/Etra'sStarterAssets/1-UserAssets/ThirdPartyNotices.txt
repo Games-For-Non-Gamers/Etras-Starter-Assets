@@ -78,6 +78,24 @@ Dock Frankenstein
     Copyright (c) 2023 Dock Frankenstein
     The MIT License
 
+
+~~THIRD PARTY AUDIO:~~
+harrietniamh
+    https://freesound.org/people/harrietniamh/sounds/219673/
+    "Footsteps on Concrete" by harrietniamh is licensed under CC BY 4.0
+    This sound was modified to extract the individual footstep1, footstep2, footstep3, footstep4, jump, and land sounds.
+
+Brsjak
+    https://freesound.org/people/Brsjak/sounds/482880/
+    "Swoosh.wav" by Brsjack is licensed under CC BY 4.0
+    This sound was modified to extract the dash sound.
+
+qubodup
+    https://freesound.org/people/qubodup/sounds/60013/
+    "whoosh" by qubodup is licensed under CC BY 4.0
+    This sound was used for the screenWipe sound.
+
+
 ~~APPENDIX - REFERENCED LICENSES:~~ 
 
 The MIT License
