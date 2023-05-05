@@ -27,7 +27,7 @@ namespace Etra.StarterAssets
         {
           bool last = isAlive;
           isAlive = _health > 0;
-          if (last != isAlive && !isAlive) OnDeath?.Invoke();
+          if (last && !isAlive) OnDeath?.Invoke();
         }
       }
     }
