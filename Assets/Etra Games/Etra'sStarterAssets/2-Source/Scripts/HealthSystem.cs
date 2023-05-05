@@ -95,7 +95,7 @@ namespace Etra.StarterAssets
       <summary>
         Decreases the amount of health.
       </summary>
-      <param name="hp">Amount of health to decrease.</param>
+      <param name="hp">Amount of health to decrease. Negative values will be evaluated as positive.</param>
       <returns>The amount of health that was decreased.</returns>
     */
     public void Damage(float hp)
@@ -109,7 +109,7 @@ namespace Etra.StarterAssets
       <summary>
         Increases the amount of health.
       </summary>
-      <param name="hp">Amount of health to increase.</param>
+      <param name="hp">Amount of health to increase. Negative values will be evaluated as positive.</param>
       <returns>The amount of health that was increased.</returns>
     */
     public void Heal(float hp)
