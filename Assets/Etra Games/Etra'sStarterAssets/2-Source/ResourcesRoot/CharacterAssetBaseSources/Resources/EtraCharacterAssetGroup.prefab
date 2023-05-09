@@ -268,7 +268,7 @@ MonoBehaviour:
   sounds:
   - name: DefaultEquip
     clip: {fileID: 8300000, guid: 81380bcc93ad35c4fa027c0056808889, type: 3}
-    volume: 1
+    volume: 2
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BlasterEquip
     clip: {fileID: 8300000, guid: 5afe6b870d4a4c342a4b32333e49c709, type: 3}
-    volume: 1
+    volume: 0.5
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: SwordEquip
     clip: {fileID: 8300000, guid: b6e4d8289716cc649963a31bad6c5708, type: 3}
-    volume: 0.5
+    volume: 0.25
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -298,10 +298,60 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: ScifiEquip
     clip: {fileID: 8300000, guid: d83d9838f98dce0469b0b8b9e455bb20, type: 3}
+    volume: 1.5
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: BlasterShoot
+    clip: {fileID: 8300000, guid: 64a30d31cae4c774f812f13908a9fea0, type: 3}
+    volume: 0.3
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: FlashlightClick
+    clip: {fileID: 8300000, guid: d4c718cd61792dc47ab1ba1e28e032a6, type: 3}
     volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: SwordSwing
+    clip: {fileID: 8300000, guid: 0781a22c17252414a825fb6299f39c7e, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: GrabberSuck
+    clip: {fileID: 8300000, guid: faa3c200e94418547a218187a0d404f9, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: GrabberShoot
+    clip: {fileID: 8300000, guid: 2881c62c6eb435d4392c79019d2f9d20, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 1
     randomPitchRange: {x: 0.95, y: 1.05}
     isMusic: 0
     loop: 0

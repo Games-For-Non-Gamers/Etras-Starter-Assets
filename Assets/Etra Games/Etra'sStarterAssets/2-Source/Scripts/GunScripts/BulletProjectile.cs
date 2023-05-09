@@ -1,4 +1,5 @@
 using Etra.StarterAssets.Interactables.Enemies;
+using EtrasStarterAssets;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +45,11 @@ namespace Etra.StarterAssets.Source.Combat
         void DestoryAfterTime()
         {
             Destroy(gameObject);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            GetComponent<AudioManager>().Play("ProjectileBounce");
         }
 
         /*

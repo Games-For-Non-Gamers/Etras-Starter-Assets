@@ -20,9 +20,12 @@ namespace Etra.StarterAssets.Interactables.Enemies
         private bool dieOnce = true;
         private bool playerSpotted = false;
 
+        EtrasStarterAssets.AudioManager audioManager;
+
         // Start is called before the first frame update
         void Start()
         {
+            audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
             turretAnimator = GetComponent<Animator>();
             target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
             startingRotation = baseSpin.transform.rotation.eulerAngles;
@@ -44,6 +47,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
             }
             else
             {
+                audioManager.Stop("RobotPunch");
                 if (!animStarted)
                 {
                     StartCoroutine(rotateToStart());
@@ -53,6 +57,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
 
         }
 
+        bool alertReset = true;
         // This method is called when the player is detected
         public virtual void playerDetected()
         {
@@ -60,13 +65,29 @@ namespace Etra.StarterAssets.Interactables.Enemies
             // Set the PlayerSpotted and Attack parameters of the turretAnimator
             turretAnimator.SetBool("PlayerSpotted", true);
             turretAnimator.SetBool("Attack", true);
+
             // Set the playerSpotted flag to true
             playerSpotted = true;
+
+            if (alertReset)
+            {
+                alertReset = false;
+                audioManager.Play("RobotAlert");
+                audioManager.Play("RobotPunch");
+            }
+            
+
         }
 
         // This coroutine will rotate the object back to its starting position
         IEnumerator rotateToStart()
         {
+            if (!alertReset)
+            {
+                audioManager.Play("RobotDismiss");
+                alertReset = true;
+            }
+                
             // Set animStarted flag to true
             animStarted = true;
             // Rotate the object back to its starting position using LeanTween
@@ -138,6 +159,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         IEnumerator damageAnimation()
         {
             turretAnimator.SetBool("Damaged", true);
+            audioManager.Play("RobotHit");
             yield return new WaitForSeconds(0.01f);
             isCooling = false;
             turretAnimator.SetBool("Damaged", false);
@@ -147,6 +169,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         IEnumerator die()
         {
             playerSpotted = false;
+            audioManager.Play("RobotExplode");
             turretAnimator.SetBool("Attack", false);
             turretAnimator.SetBool("Die", true);
             yield return new WaitForSeconds(0.25f);
@@ -174,24 +197,39 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 // Wait for a random amount of time between 5 and 11 seconds.
                 float idleWait = Random.Range(5, 11);
                 yield return new WaitForSeconds(idleWait);
+                audioManager.Play("RobotIdle");
                 // Choose a random taunt animation to play.
                 int whichTaunt = Random.Range(0, 2);
-
+                stopSounds();
                 if (whichTaunt == 0)
                 {
                     turretAnimator.SetBool("Taunt1", true);
+                    audioManager.Play("RobotTaunt1");
                     yield return new WaitForSeconds(4.25f);
                     turretAnimator.SetBool("Taunt1", false);
                 }
                 else if (whichTaunt == 1)
                 {
                     turretAnimator.SetBool("Taunt2", true);
+                    audioManager.Play("RobotTaunt2");
                     yield return new WaitForSeconds(2.25f);
                     turretAnimator.SetBool("Taunt2", false);
                 }
-
+                stopSounds();
             }
 
+        }
+
+        void stopSounds()
+        {
+            audioManager.Stop("RobotHit");
+            audioManager.Stop("RobotExplode");
+            audioManager.Stop("RobotAlert");
+            audioManager.Stop("RobotDismiss");
+            audioManager.Stop("RobotPunch");
+            audioManager.Stop("RobotIdle");
+            audioManager.Stop("RobotTaunt1");
+            audioManager.Stop("RobotTaunt2");
         }
 
 

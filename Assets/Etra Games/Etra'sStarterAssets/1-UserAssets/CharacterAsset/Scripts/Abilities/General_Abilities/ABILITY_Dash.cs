@@ -54,6 +54,7 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
 
             if (_inputs.dash)
             {
+                //EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(transform.forward, dashRange);
                 EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown / 2);
                 abilitySoundManager.Play("Dash");
                 _dashTimeoutDelta = dashCooldown;

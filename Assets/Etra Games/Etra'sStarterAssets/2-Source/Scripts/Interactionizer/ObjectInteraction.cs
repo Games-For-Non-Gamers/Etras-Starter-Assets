@@ -21,6 +21,20 @@ namespace Etra.StarterAssets.Source.Interactions
         public UnityEvent onHover; // The event that is called when the object is hovered over
         public UnityEvent onEndHover; // The event that is called when the object is no longer hovered over
 
+        EtrasStarterAssets.AudioManager audioManager;
+        bool hasManager;
+        // Start is called before the first frame update
+        void Start()
+        {
+            if (GetComponent<EtrasStarterAssets.AudioManager>() != null)
+            {
+                hasManager = true;
+                audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
+            }
+
+        }
+
+
         public void Interact()
         {
             // Call the event
@@ -31,6 +45,14 @@ namespace Etra.StarterAssets.Source.Interactions
         {
             // Set the interactable state
             isInteractable = interactable;
+        }
+
+        public void PlayAudio()
+        {
+            if (hasManager)
+            {
+                audioManager.Play(audioManager.sounds[0]);
+            }
         }
     }
 }

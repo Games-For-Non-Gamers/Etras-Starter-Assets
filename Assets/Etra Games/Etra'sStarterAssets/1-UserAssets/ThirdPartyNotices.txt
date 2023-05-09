@@ -115,6 +115,108 @@ jackolous
     "Arming a Sci-Fi Gun" by jackolous is licensed under CC 0
     The sound is used for the scifi_equip sound.    
 
+NIKOS34
+    https://freesound.org/people/NIKOS34/sounds/656396/
+    "Upgrade 2" by NIKOS34 is licensed under CC 0
+    This sound is used for the abilityGet sound.
+
+cribbler
+    https://freesound.org/people/cribbler/sounds/396308/
+    "Basketball bounce.WAV" by cribbler is licensed under CC 0
+    This sound was modified to extract the projectileBounce sound.
+
+RoganMcDougald
+    https://freesound.org/people/RoganMcDougald/sounds/260435/
+    "Metal Impact - Ceramic Piece in Sink" by RoganMcDougald is licensed under CC 3.0.
+    This sound is used for the boxCrash sound.
+
+wesleyextreme_gamer
+    https://freesound.org/people/wesleyextreme_gamer/sounds/574818/
+    "Gunshot.ogg" by wesleyextreme_gamer is licensed under CC 0
+    This sound is used for the gunShot and modified for blasterShot2 sounds.
+
+Mrthenoronha
+    https://freesound.org/people/Mrthenoronha/sounds/376351/
+    "Single nerf shot.wav" by Mrthenoronha is licensed under CC 4.0
+    This sound is used for the blasterShot and modified for blasterShot2 sounds.
+
+Merrick079
+    https://freesound.org/people/Merrick079/sounds/568169/
+    "Sword sound 2.wav" by Merrick079 is licensed under CC 0
+    This sound is used for the swordSwing sound.
+
+Windwalk_Entertainment
+    https://freesound.org/people/Windwalk_Entertainment/sounds/566176/
+    "Flicking a Switch" by Windwalk_Entertainment is licensed under CC 0
+    This sound is used for the flashlightSwitch sound
+
+belanhud
+    https://freesound.org/people/belanhud/sounds/537938/
+    "Suck.mp3" by belanhud is licensed under CC 0
+    This sound was modified to extract the grabberSuck sound.
+    https://freesound.org/people/belanhud/sounds/537897/
+    "Baloon Pop One.mp3" by belanhud is licensed under CC 0
+    This sound was modified to extract the targetPop sound.
+
+LiamG_SFX
+    https://freesound.org/people/LiamG_SFX/sounds/334240/
+    "Laser Shot 1.1" by LiamG_SFX is licensed under CC 4.0
+    This sound was modified to extract the grabberShoot sound.
+
+ryusa
+    https://freesound.org/people/ryusa/sounds/531087/
+    "Magic spell buff bell sparkle reverb.wav" by ryusa is licensed under CC 4.0
+    This sound was modified to extract the lightSparkle sound.
+
+RytmenPinnen
+    https://freesound.org/people/RytmenPinnen/sounds/102265/
+    "twoSparklers.flac" by RytmenPinnen is licensed under CC 4.0
+    This sound was modified to extract the burningSparkler sound.
+
+JustInvoke
+    https://freesound.org/people/JustInvoke/sounds/446111/
+    "Success Jingle" by JustInvoke is licensed under CC 4.0
+    This sound is used for the medSparkle sound.
+
+Rudmer_Rotteveel
+    https://freesound.org/people/Rudmer_Rotteveel/sounds/590950/
+    "Creaky Door Closing Slowly" by Rudmer_Rotteveel is licensed under CC 0 
+    This sound is used for the bridgeFall sound.
+
+cassssi
+    https://freesound.org/people/cassssi/sounds/328999/
+    "Treadmill" by cassssi is licensed under CC 3.0 
+    This sound was modified to extract the treadmill sound.
+
+Pablobd
+    https://freesound.org/people/Pablobd/sounds/525032/
+    "Sci-Fi sliding door (height adjustable chair sounds).wav" by Pablobd is licensed under CC 0
+    This sound was modified to extract the buttonPress, buttonRealease, scifiDoorOpen, and scifiDoorClose sound.
+
+jorickhoofd
+    https://freesound.org/people/jorickhoofd/sounds/160045/
+    "Metal hit with metal bar resonance" by jorickhoofd is licensed under CC 4.0
+    This sound was used for the robotHit sound.
+
+newagesoup
+    https://freesound.org/people/newagesoup/sounds/347327/
+    "FUN-EXPLOSION09.wav" by newagesoup is licensed under CC 3.0
+    This sound was used for the robotExplode sound.
+
+
+LittleRobotSoundFactory
+    https://freesound.org/people/LittleRobotSoundFactory/sounds/288962/
+    "Click_Electronic_12.wav" by LittleRobotSoundFactory is licensed under CC 4.0
+    https://freesound.org/people/LittleRobotSoundFactory/sounds/288956/
+    "Click_Electronic_04.wav" by LittleRobotSoundFactory is licensed under CC 4.0
+    https://freesound.org/people/LittleRobotSoundFactory/sounds/288965/
+    "Click_Electronic_13.wav" by LittleRobotSoundFactory is licensed under CC 4.0
+    These sounds were modified to extract the buttonClick,alert, and dismiss  sounds.
+
+gpag1
+    https://freesound.org/people/gpag1/sounds/520514/
+    "Small servo (arduino)" by gpag1 is licensed under CC 0
+    This sound was modified to extract the robotIdle, robotPunch, robotTaunt1, and robotTaunt2 sounds.
 
 ~~APPENDIX - REFERENCED LICENSES:~~ 
 

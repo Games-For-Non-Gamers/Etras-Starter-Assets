@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables
@@ -17,10 +15,27 @@ namespace Etra.StarterAssets.Interactables
 
         //References
         public Animator animator;
+        EtrasStarterAssets.AudioManager audioManager;
+        // Start is called before the first frame update
+        void Start()
+        {
+            audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
+        }
 
         //Functions for changeing or toggling the door state
         public void SetOpened(bool open)
         {
+            if (open)
+            {
+                audioManager.Play("ScifiDoorOpen");
+                audioManager.Stop("ScifiDoorClose");
+            }
+            else
+            {
+                audioManager.Play("ScifiDoorClose");
+                audioManager.Stop("ScifiDoorOpen");
+            }
+
             animator.SetBool("Opened", open);
         }
 

@@ -2,6 +2,7 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Interactables.Enemies;
 using Etra.StarterAssets.Source.Camera;
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -30,11 +31,17 @@ namespace Etra.StarterAssets.Items
         Transform referenceToSwordTransform;
         Animator swordAnimator;
         ABILITY_CameraMovement camMoveScript;
+        AudioManager fpsItemAudioManager;
 
 
         private void Awake()
         {
             enabled = false;
+        }
+
+        private void Start()
+        {
+            fpsItemAudioManager = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("FPSItemSfx").GetComponent<AudioManager>();
         }
 
         public void OnEnable()
@@ -78,6 +85,7 @@ namespace Etra.StarterAssets.Items
             if (starterAssetsInputs.shoot)
             {
                 swordAnimator.SetTrigger("Swing");
+                fpsItemAudioManager.Play("SwordSwing");
                 _swordTimeoutDelta = swordCooldown;
                 cooling = true;
 

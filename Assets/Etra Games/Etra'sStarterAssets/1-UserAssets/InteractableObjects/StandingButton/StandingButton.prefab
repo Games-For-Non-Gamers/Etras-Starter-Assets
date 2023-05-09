@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3464177536279789094}
   - component: {fileID: 3464177536279789093}
   - component: {fileID: 4596458765193272509}
+  - component: {fileID: 5369522307370933052}
   m_Layer: 0
   m_Name: Hover Collider
   m_TagString: Interactable
@@ -260,6 +261,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5369522307370933052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464177536279789095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: fe8ee12a062b50142b00f4abaaaad53f, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &3464177537665986875
 GameObject:
   m_ObjectHideFlags: 0

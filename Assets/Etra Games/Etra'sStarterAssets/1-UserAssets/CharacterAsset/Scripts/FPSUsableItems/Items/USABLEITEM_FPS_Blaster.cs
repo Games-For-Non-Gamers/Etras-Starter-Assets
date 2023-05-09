@@ -2,6 +2,7 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using Etra.StarterAssets.Source.Camera;
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace Etra.StarterAssets.Items
         Animator gunAnimator;
         Transform bulletSpawnPos;
         ABILITY_CameraMovement camMoveScript;
-
+        AudioManager fpsItemAudioManager;
 
         private void Reset()
         {
@@ -44,6 +45,11 @@ namespace Etra.StarterAssets.Items
             {
                 launchedBullet = (GameObject)Resources.Load("ExampleProjectile");
             }
+        }
+
+        private void Start()
+        {
+            fpsItemAudioManager = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("FPSItemSfx").GetComponent<AudioManager>();
         }
 
         public void OnEnable()
@@ -69,6 +75,7 @@ namespace Etra.StarterAssets.Items
             if (starterAssetsInputs.shoot && !gunCooling)
             {
                 gunAnimator.SetTrigger("Shoot");
+                fpsItemAudioManager.Play("BlasterShoot");
                 var aimDir = (camMoveScript.pointCharacterIsLookingAt - bulletSpawnPos.position).normalized;
 
                 //If gun is in wall, spawn the physical bullets inside of the player camera root (blaster is right at player camera root).

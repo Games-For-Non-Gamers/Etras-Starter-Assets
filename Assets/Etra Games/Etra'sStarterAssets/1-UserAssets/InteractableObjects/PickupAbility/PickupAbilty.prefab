@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7116608836990772786}
   - component: {fileID: 7116608836990772787}
   - component: {fileID: 7116608836990772784}
+  - component: {fileID: 3370215689563160681}
   m_Layer: 0
   m_Name: PickupAbilty
   m_TagString: Untagged
@@ -109,15 +110,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityShortenedNames:
-  - FPS Crouch
+  - Activate Interact
   - Camera Movement
   - Character Movement
   - Checkpoint Respawn
-  - Dash
   - Grab Interact
   - Jump
   - Rigidbody Push
   - Sprint
   - TPS Aim
-  - Activate Interact
+  - FPS Crouch
+  - Dash
   Ability_To_Activate: Camera Movement
+--- !u!114 &3370215689563160681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7116608836990772785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: AbilityGet
+    clip: {fileID: 8300000, guid: 768c803bfce5b174dbb353dba03a8c1c, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
