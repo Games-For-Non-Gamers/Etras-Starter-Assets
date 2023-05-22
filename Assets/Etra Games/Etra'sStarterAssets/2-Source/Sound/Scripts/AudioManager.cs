@@ -61,7 +61,12 @@ namespace EtrasStarterAssets
             {
                 s.source.pitch = s.basePitch * UnityEngine.Random.Range(s.randomPitchRange.x, s.randomPitchRange.y);
             }
-            s.source.Play();
+
+            if (s.source.enabled)
+            {
+                s.source.Play();
+            }
+            
         }
 
         public void Play(Sound passedSound)

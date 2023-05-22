@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b8cc056f8412a4c918181aac65ba87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityEnabled: 1
+  abilityEnabled: 0
   dashRange: 50
   dashCooldown: 1
   damageFromDash: 2

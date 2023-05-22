@@ -32,7 +32,7 @@ namespace Etra.StarterAssets.Source.Combat
             if (isDamageableCheck != null)
             {
                 isDamageableCheck.TakeDamage(projectileDamage);
-                DestroyImmediate(gameObject);
+                DestroyBullet();
             }
         }
 
@@ -44,13 +44,23 @@ namespace Etra.StarterAssets.Source.Combat
 
         void DestoryAfterTime()
         {
-            DestroyImmediate(gameObject);
-           // Destroy(gameObject);
+            DestroyBullet();
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             GetComponent<AudioManager>().Play("ProjectileBounce");
+        }
+
+        void DestroyBullet()
+        {
+            MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
+            foreach (MonoBehaviour c in comps)
+            {
+                c.enabled = false;
+                Destroy(c);
+            }
+            Destroy(gameObject);
         }
 
         /*
