@@ -2180,7 +2180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: BridgeFall
-    clip: {fileID: 8300000, guid: 9bbfec497f64bc8458d8cef84d138cca, type: 3}
+    clip: {fileID: 8300000, guid: 5bbeede4beaa66d4a89c79ff45097a50, type: 3}
     volume: 1
     basePitch: 1
     spatialBlend: 0.5

@@ -32,7 +32,7 @@ namespace Etra.StarterAssets.Source.Combat
             if (isDamageableCheck != null)
             {
                 isDamageableCheck.TakeDamage(projectileDamage);
-                Destroy(gameObject);
+                DestroyImmediate(gameObject);
             }
         }
 
@@ -44,7 +44,8 @@ namespace Etra.StarterAssets.Source.Combat
 
         void DestoryAfterTime()
         {
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
+           // Destroy(gameObject);
         }
 
         private void OnCollisionEnter(Collision collision)

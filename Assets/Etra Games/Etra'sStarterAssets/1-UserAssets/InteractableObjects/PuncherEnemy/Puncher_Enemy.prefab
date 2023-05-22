@@ -2017,7 +2017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: RobotHit
-    clip: {fileID: 8300000, guid: 7a39b6c086ec9aa41b1a915c9f7a5e55, type: 3}
+    clip: {fileID: 8300000, guid: c93654253d075834680f1e02bfc36ed7, type: 3}
     volume: 1
     basePitch: 1
     spatialBlend: 1
@@ -2038,7 +2038,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: RobotAlert
     clip: {fileID: 8300000, guid: bd71ec1e9faba6e4f8a8e624c8e0ef10, type: 3}
-    volume: 0.5
+    volume: 1
     basePitch: 1
     spatialBlend: 0.5
     randomizePitch: 0
@@ -2048,7 +2048,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: RobotDismiss
     clip: {fileID: 8300000, guid: 69e79bb036208c740875b3255bc7c2ac, type: 3}
-    volume: 0.5
+    volume: 1
     basePitch: 1
     spatialBlend: 0.5
     randomizePitch: 0

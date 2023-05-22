@@ -15,10 +15,6 @@ namespace EtrasStarterAssets
         //If script added or reset click
         private void Reset()
         {
-            AudioMixer mixer = Resources.Load("StarterAssetsAudioMixer") as AudioMixer;
-            music = mixer.FindMatchingGroups("Music")[0];
-            sfx = mixer.FindMatchingGroups("SFX")[0];
-
             sounds = new List<Sound>()
             {
                 new Sound()
@@ -27,6 +23,10 @@ namespace EtrasStarterAssets
 
         void Awake()
         {
+            AudioMixer mixer = Resources.Load("StarterAssetsAudioMixer") as AudioMixer;
+            music = mixer.FindMatchingGroups("Music")[0];
+            sfx = mixer.FindMatchingGroups("SFX")[0];
+
             foreach (Sound s in sounds)
             {
                 s.source = gameObject.AddComponent<AudioSource>();

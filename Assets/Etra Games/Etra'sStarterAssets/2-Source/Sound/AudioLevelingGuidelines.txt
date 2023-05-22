@@ -1,0 +1,13 @@
+Etra's Starter Assets Audio Leveling Guidelines
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Interactables
+(-3db to -7db)
+All FPS Item sfx are at -5db for now
+All FPS Item equip sfx are at -7db for now
+Background Noise
+(-8db to -12db)
+Enemy Idle animation sfx play at -8db
+Footsteps play at -10db
+Ambience
+(-8db to -12db)
+Treadmill sfx plays at -16db

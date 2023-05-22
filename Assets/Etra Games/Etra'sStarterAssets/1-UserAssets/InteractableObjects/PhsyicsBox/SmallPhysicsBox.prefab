@@ -129,8 +129,8 @@ MonoBehaviour:
   sounds:
   - name: BoxCrash
     clip: {fileID: 8300000, guid: f23ef3306f8a9d14ab52887c603a4406, type: 3}
-    volume: 4
-    basePitch: 0.9
+    volume: 1
+    basePitch: 1
     spatialBlend: 1
     randomizePitch: 1
     randomPitchRange: {x: 0.9, y: 1.1}

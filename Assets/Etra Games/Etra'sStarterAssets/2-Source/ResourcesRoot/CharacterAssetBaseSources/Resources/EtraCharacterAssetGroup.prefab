@@ -213,7 +213,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: ScreenWipe
-    clip: {fileID: 8300000, guid: 5900e59482b51af419b0f0bb758bbd22, type: 3}
+    clip: {fileID: 8300000, guid: a6f8fde56418abe45b36a9c5d05a3adf, type: 3}
     volume: 1
     basePitch: 1
     spatialBlend: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   sounds:
   - name: DefaultEquip
     clip: {fileID: 8300000, guid: 81380bcc93ad35c4fa027c0056808889, type: 3}
-    volume: 2
+    volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BlasterEquip
     clip: {fileID: 8300000, guid: 5afe6b870d4a4c342a4b32333e49c709, type: 3}
-    volume: 0.5
+    volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: SwordEquip
     clip: {fileID: 8300000, guid: b6e4d8289716cc649963a31bad6c5708, type: 3}
-    volume: 0.25
+    volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -298,7 +298,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: ScifiEquip
     clip: {fileID: 8300000, guid: d83d9838f98dce0469b0b8b9e455bb20, type: 3}
-    volume: 1.5
+    volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BlasterShoot
     clip: {fileID: 8300000, guid: 64a30d31cae4c774f812f13908a9fea0, type: 3}
-    volume: 0.3
+    volume: 1
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 1
