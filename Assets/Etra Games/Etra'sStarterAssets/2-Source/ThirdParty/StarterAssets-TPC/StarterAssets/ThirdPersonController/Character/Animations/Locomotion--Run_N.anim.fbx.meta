@@ -60,14 +60,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.41463414
-        functionName: PlayFootstep
+        functionName: PlayFootstepAnimatedRun
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d780f255ad995714fa9c2ea98ea67f77, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.8203991
-        functionName: PlayFootstep
+        functionName: PlayFootstepAnimatedRun
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: d780f255ad995714fa9c2ea98ea67f77, type: 3}
         floatParameter: 0

@@ -178,7 +178,7 @@ namespace Etra.StarterAssets.Abilities
                     stepTime += Time.deltaTime;
                     if (stepTime > nextStepThreshold * Mathf.Max(Mathf.Abs(passedMovementInput.x), Mathf.Abs(passedMovementInput.y)))
                     {
-                        PlayFootstep();
+                        PlayFootstepFps();
                         stepTime = 0.0f;
                     }
                 }
@@ -248,10 +248,13 @@ namespace Etra.StarterAssets.Abilities
         }
 
         int stepSoundCount = 0;
-        public void PlayFootstep()
+        public void PlayFootstepFps()
         {
             foostepSoundManager.Play(foostepSoundManager.sounds[stepSoundCount++ % foostepSoundManager.sounds.Count]);
         }
+
+
+
 
     }
 }
