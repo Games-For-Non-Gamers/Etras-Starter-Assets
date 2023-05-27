@@ -27,14 +27,6 @@ namespace Etra.StarterAssets.Interactables.Enemies
     {
       turretAnimator = GetComponent<Animator>();
       healthSystem = GetComponent<HealthSystem>();
-      healthSystem.OnDeath.AddListener(() =>
-      {
-        if (dieOnce)
-        {
-          dieOnce = false;
-          StartCoroutine("die");
-        }
-      });
       target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
       startingRotation = baseSpin.transform.rotation.eulerAngles;
       backToIdle();
@@ -155,6 +147,14 @@ namespace Etra.StarterAssets.Interactables.Enemies
       yield return new WaitForSeconds(1.6f);
       Destroy(gameObject);
 
+    }
+
+    public void OnDeath()
+    {
+      if (!dieOnce) return;
+
+      dieOnce = false;
+      StartCoroutine("die");
     }
 
     // This method sets the turret back to its idle state.
