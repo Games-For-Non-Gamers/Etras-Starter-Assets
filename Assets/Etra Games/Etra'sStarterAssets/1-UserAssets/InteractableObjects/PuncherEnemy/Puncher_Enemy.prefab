@@ -1941,6 +1941,7 @@ GameObject:
   - component: {fileID: 7985073097040234623}
   - component: {fileID: 3068221370714353271}
   - component: {fileID: 2334018785757661370}
+  - component: {fileID: 3693450461696979974}
   m_Layer: 0
   m_Name: Puncher_Enemy
   m_TagString: Untagged
@@ -1976,16 +1977,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e289ee5f976e90d42bd5015d1fb24544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
   startingRotation: {x: 0, y: 0, z: 0}
-  playerSpotted: 0
-  playerAim: 0
-  turretAnimator: {fileID: 0}
-  baseSpin: {fileID: 1319638065765575292}
-  armSpin: {fileID: 7905628096494423086}
   knockbackForce: 150
   spinSpeed: 0.5
-  target: {fileID: 0}
+  baseSpin: {fileID: 1319638065765575292}
+  armSpin: {fileID: 7905628096494423086}
 --- !u!95 &2334018785757661370
 Animator:
   serializedVersion: 5
@@ -2006,6 +2002,46 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &3693450461696979974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321583059586568901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  startingHealth: 10
+  manualDeath: 0
+  OnChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3068221370714353271}
+        m_TargetAssemblyTypeName: Etra.StarterAssets.Interactables.Enemies.FPSTurret,
+          Etra.StarterAssets
+        m_MethodName: OnDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7420220222127699500
 GameObject:
   m_ObjectHideFlags: 0
