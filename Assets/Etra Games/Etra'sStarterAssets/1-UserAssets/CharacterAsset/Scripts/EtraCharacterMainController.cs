@@ -317,7 +317,6 @@ namespace Etra.StarterAssets
                 // update animator if using character
                 if (_hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
                 }
 
@@ -342,7 +341,15 @@ namespace Etra.StarterAssets
                     }
                     else if (!startGameLandSfxOff) 
                     {
-                        abilitySoundManager.Play("Land");
+                        if (_hasAnimator)
+                        {
+                            _animator.SetBool(_animIDJump, false);
+                        }
+                        else
+                        {
+                            abilitySoundManager.Play("Land");
+                        }
+                        
                         jumpReset = false;
                         if (landingShakeEnabled) { CinemachineShake.Instance.ShakeCamera(landingShake); }
                     }
