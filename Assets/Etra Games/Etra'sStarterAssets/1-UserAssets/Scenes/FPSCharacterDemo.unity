@@ -5295,38 +5295,6 @@ Transform:
   m_Father: {fileID: 654377564}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &617347570 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7321583059586568901, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
-  m_PrefabInstance: {fileID: 1945154622}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &617347573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617347570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  startingHealth: 10
-  manualDeath: 0
-  OnChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &623213458
 GameObject:
   m_ObjectHideFlags: 0
@@ -8576,38 +8544,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6958318317044482779, guid: 4c0022dfa1a9bd24897c8665f357b665, type: 3}
   m_PrefabInstance: {fileID: 916006151}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &916116363 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7321583059586568901, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
-  m_PrefabInstance: {fileID: 4468912739477071996}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &916116365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916116363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  startingHealth: 10
-  manualDeath: 0
-  OnChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &930881403
 GameObject:
   m_ObjectHideFlags: 0
@@ -9416,38 +9352,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1096440867 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7321583059586568901, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
-  m_PrefabInstance: {fileID: 1729713050}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1096440870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096440867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  startingHealth: 10
-  manualDeath: 0
-  OnChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1102759861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7985073097040234623, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
@@ -13538,7 +13442,7 @@ PrefabInstance:
     - target: {fileID: 8415871190141302419, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
       propertyPath: healthSystem
       value: 
-      objectReference: {fileID: 1096440870}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
 --- !u!1001 &1743403705
@@ -14730,7 +14634,7 @@ PrefabInstance:
     - target: {fileID: 8415871190141302419, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
       propertyPath: healthSystem
       value: 
-      objectReference: {fileID: 617347573}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
 --- !u!1001 &1961407423
@@ -17116,7 +17020,7 @@ PrefabInstance:
     - target: {fileID: 8415871190141302419, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
       propertyPath: healthSystem
       value: 
-      objectReference: {fileID: 916116365}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190b52522afe65842a21eb4389b78d9e, type: 3}
 --- !u!64 &4983861820281075924
