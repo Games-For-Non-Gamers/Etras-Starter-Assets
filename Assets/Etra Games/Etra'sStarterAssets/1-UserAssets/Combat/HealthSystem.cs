@@ -9,14 +9,14 @@ namespace Etra.StarterAssets.Combat
   {
     #region Variables
 
-    [SerializeField] float maxHealth;
-    [SerializeField] float startingHealth;
+    [SerializeField, Tooltip("The maximum health of the object")] float maxHealth;
+    [SerializeField, Tooltip("The starting health of the object")] float startingHealth;
     /**
       <summary>
         If true, <see cref="OnDeath"/> won't be called.
       </summary>
     */
-    public bool manualDeath;
+    [Tooltip("If true, On Death () won't be called")] public bool manualDeath;
     float _health;
     /**
       <summary>
@@ -59,25 +59,25 @@ namespace Etra.StarterAssets.Combat
         Called when the health changes.
       </summary>
     */
-    public UnityEvent<float> OnChange;
+    [Tooltip("Called when the health changes")] public UnityEvent<float> OnChange;
     /**
       <summary>
-        Called when the health is damaged.
+        Called when the object is damaged.
       </summary>
     */
-    public UnityEvent<float> OnDamage;
+    [Tooltip("Called when the object is damaged")] public UnityEvent<float> OnDamage;
     /**
       <summary>
-        Called when the health is healed.
+        Called when the object is healed.
       </summary>
     */
-    public UnityEvent<float> OnHeal;
+    [Tooltip("Called when the object is healed")] public UnityEvent<float> OnHeal;
     /**
       <summary>
         Called when the health becomes 0.
       </summary>
     */
-    public UnityEvent OnDeath;
+    [Tooltip("Called when the health becomes 0")] public UnityEvent OnDeath;
 
     #endregion
 
