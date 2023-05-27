@@ -5,7 +5,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
 {
     public class FPSTurret : Enemy
     {
-        public Vector3 startingRotation;
+        
         public float knockbackForce = 150;
         public float spinSpeed = 0.5f;
 
@@ -19,6 +19,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         private GameObject target;
         private bool dieOnce = true;
         private bool playerSpotted = false;
+        Vector3 startingRotation;
 
         EtrasStarterAssets.AudioManager audioManager;
 
