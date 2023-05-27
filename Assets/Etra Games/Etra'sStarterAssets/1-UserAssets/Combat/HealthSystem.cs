@@ -8,7 +8,7 @@ namespace Etra.StarterAssets.Combat
   public sealed class HealthSystem : MonoBehaviour
   {
     #region Variables
-
+    [Header("Variables")]
     [SerializeField, Tooltip("The maximum health of the object")] float maxHealth;
     [SerializeField, Tooltip("The starting health of the object")] float startingHealth;
     /**
@@ -53,7 +53,7 @@ namespace Etra.StarterAssets.Combat
     #endregion
 
     #region Events
-
+    [Header("Events")]
     /**
       <summary>
         Called when the health changes.
