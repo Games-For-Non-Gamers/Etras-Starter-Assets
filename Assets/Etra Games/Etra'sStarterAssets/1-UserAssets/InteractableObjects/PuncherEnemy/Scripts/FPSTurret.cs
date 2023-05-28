@@ -132,10 +132,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
 
         public void takeDamage(int damage)
         {
-            if (isCooling)
-            {
-                return;
-            }
+            if (isCooling) return;
 
             healthSystem.Damage(damage);
         }
