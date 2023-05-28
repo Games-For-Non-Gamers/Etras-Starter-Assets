@@ -94,7 +94,7 @@ namespace Etra.StarterAssets.Combat
     {
       float lastHealth = health;
       health -= Mathf.Abs(hp);
-      if (!isAlive)
+      if (isAlive)
         OnDamage?.Invoke(Mathf.Abs(_health - lastHealth));
     }
 
