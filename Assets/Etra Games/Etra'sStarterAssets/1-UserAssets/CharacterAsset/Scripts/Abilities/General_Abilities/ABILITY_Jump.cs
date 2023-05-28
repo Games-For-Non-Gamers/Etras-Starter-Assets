@@ -2,6 +2,7 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using Etra.StarterAssets.Source.Camera;
+using EtrasStarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
@@ -20,20 +21,23 @@ namespace Etra.StarterAssets.Abilities
         [Header("Cam Shake")]
         public bool jumpShakeEnabled = true;
         //The variables here are (intensity, time)
-        public Vector2 jumpingShake = new Vector2(0.5f, 0.1f);
-        public Vector2 landingShake = new Vector2(1f, 0.1f);
+        public Vector2 jumpingShake = new Vector2(1f, 0.1f);
 
-        private bool landing = false;
 
         //References
         private Animator _animator;
         private StarterAssetsInputs _input;
-        public bool _hasAnimator;
+         bool _hasAnimator;
         private int _animIDJump;
         private int _animIDFreeFall;
+        private GameObject _mainCamera;
+        private AudioManager abilitySoundManager;
 
         public override void abilityStart()
         {
+            //Get sfx manager
+            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
             //Set jump cooldown variable
             _jumpTimeoutDelta = JumpTimeout;
             //Get references
@@ -45,7 +49,8 @@ namespace Etra.StarterAssets.Abilities
             _animIDFreeFall = Animator.StringToHash("FreeFall");
         }
 
-
+        [HideInInspector]
+        public bool lockJump = false;
         public override void abilityUpdate()
         {
             alteredJumpInput = _input.jump;
@@ -59,19 +64,22 @@ namespace Etra.StarterAssets.Abilities
 
             if (mainController.Grounded)
             {
-                if (jumpShakeEnabled && landing) { CinemachineShake.Instance.ShakeCamera(landingShake); landing = false; }
 
-                if (alteredJumpInput && _jumpTimeoutDelta <= 0.0f)
+                if (alteredJumpInput && _jumpTimeoutDelta <= 0.0f && lockJump == false)
                 {
+                    lockJump = true;
                     if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
-                    landing = true;
+                    
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     mainController._verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * mainController.Gravity);
-
                     // update animator if using character
                     if (_hasAnimator)
                     {
                         _animator.SetBool(_animIDJump, true);
+                    }
+                    else
+                    {
+                        abilitySoundManager.Play("Jump");
                     }
                 }
 
@@ -99,6 +107,7 @@ namespace Etra.StarterAssets.Abilities
                     {
                         _animator.SetBool(_animIDFreeFall, true);
                     }
+
                 }
 
 

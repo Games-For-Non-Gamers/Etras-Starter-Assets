@@ -1,5 +1,7 @@
 using Etra.StarterAssets.Abilities;
+using EtrasStarterAssets;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -36,14 +38,26 @@ namespace Etra.StarterAssets.Interactables
     //If the player collides with the pickup...
     private void OnTriggerEnter(Collider other)
     {
-      if (other.gameObject.CompareTag("Player"))
+      if (other.gameObject.tag == "Player")
       {
+        GetComponent<AudioManager>().Play("AbilityGet");
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<SphereCollider>().enabled = false;
         //enable the ability and destroy the pickup
         selectedAbility.abilityEnabled = true;
-        Destroy(gameObject);
+        StartCoroutine(waitToDestroy());
+        // Destroy(gameObject);
       }
 
     }
+
+    //so sfx can play
+    IEnumerator waitToDestroy()
+    {
+
+      yield return new WaitForSeconds(1);
+    }
+
 
 
     #region AbilityListDisplay
@@ -126,4 +140,5 @@ namespace Etra.StarterAssets.Interactables
     }
     #endregion
   }
+
 }

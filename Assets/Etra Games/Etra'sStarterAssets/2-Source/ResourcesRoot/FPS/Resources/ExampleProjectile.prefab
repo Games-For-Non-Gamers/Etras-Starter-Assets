@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -7423769121833877585}
   - component: {fileID: 8882636592345655488}
   - component: {fileID: -553552095577190899}
+  - component: {fileID: -2276123760617704530}
   m_Layer: 0
   m_Name: ExampleProjectile
   m_TagString: Bullet
@@ -141,3 +142,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileDamage: 1
   bulletSpeed: 50
+--- !u!114 &-2276123760617704530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721604698157709511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ProjectileBounce
+    clip: {fileID: 8300000, guid: 394067649292981419ac1fa7ef6e1e2d, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}

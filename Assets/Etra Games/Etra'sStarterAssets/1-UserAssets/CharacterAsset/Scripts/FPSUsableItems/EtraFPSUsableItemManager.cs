@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
+using EtrasStarterAssets;
 
 namespace Etra.StarterAssets.Items
 {
@@ -169,7 +170,7 @@ namespace Etra.StarterAssets.Items
         StarterAssetsInputs starterAssetsInputs;
         GameObject cameraRoot;
         private bool inputsLocked = false;
-
+        AudioManager fpsItemAudioManager;
 
         [System.Serializable]
         public class usableItemScriptAndPrefab
@@ -223,7 +224,9 @@ namespace Etra.StarterAssets.Items
 
         private void Start()
         {
+            fpsItemAudioManager = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("FPSItemSfx").GetComponent<AudioManager>();
             instatiateItemAtStart();
+
         }
 
 
@@ -396,6 +399,16 @@ namespace Etra.StarterAssets.Items
 
             if (playEquipAnims)
             {
+                if (usableItems[activeItemNum].script.equipSfxName == "")
+                {
+                    fpsItemAudioManager.Play("DefaultEquip");
+                }
+                else
+                {
+                    fpsItemAudioManager.Play(usableItems[activeItemNum].script.equipSfxName);
+                }
+
+                
                 activeItemPrefab.transform.localRotation = Quaternion.Euler(usableItems[activeItemNum].script.getItemUnequipRotation());
                 usableItems[activeItemNum].script.runEquipAnimation();
                 yield return new WaitForSeconds(usableItems[activeItemNum].script.getItemEquipSpeed());

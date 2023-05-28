@@ -23,6 +23,7 @@ namespace Etra.StarterAssets.Interactables
         //References by code
         LineRenderer anchorLine;
         GameObject lineFuser;
+        EtrasStarterAssets.AudioManager audioManager;
         //Activated var
         [HideInInspector] public bool activated = false;
 
@@ -60,6 +61,8 @@ namespace Etra.StarterAssets.Interactables
                 lineFuser.SetActive(false);
                 anchorLine.enabled = false;
             }
+
+            audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
 
         }
 
@@ -165,11 +168,11 @@ namespace Etra.StarterAssets.Interactables
 
             ongoing = false;
             StopCoroutine(moveToMovePositions());
-            LeanTween.cancel(gameObject);
+            LeanTween.cancel(this.gameObject);
 
             ropeLine = transform.GetChild(0).GetChild(0).gameObject.GetComponent<LineRenderer>();
             //from end to beggining. So odd
-
+            audioManager.Play("LightSparkle");
             LeanTween.scale(animScaler.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 0.25f).setEaseInOutSine();
             yield return new WaitForSeconds(0.25f);
             LeanTween.moveLocal(animScaler.gameObject, Vector3.zero, 0.5f).setEaseInOutSine();
@@ -180,6 +183,8 @@ namespace Etra.StarterAssets.Interactables
             sparker.gameObject.SetActive(true);
             LeanTween.scale(sparker.gameObject, new Vector3(0.2f, 0.2f, 0.11f), 0.05f).setEaseInOutSine();
             yield return new WaitForSeconds(0.05f);
+            audioManager.Play("TargetPop");
+            audioManager.Play("BurningSparkler");
             anchorLine.enabled = false;
             animScaler.gameObject.SetActive(false);
 
@@ -217,6 +222,8 @@ namespace Etra.StarterAssets.Interactables
 
             LeanTween.scale(sparker.gameObject, Vector3.zero, 0.05f).setEaseInOutSine();
             yield return new WaitForSeconds(0.05f);
+            audioManager.Stop("BurningSparkler");
+            audioManager.Play("MedSparkle");
             ropeLine.enabled = false;
             activated = true;
             sparker.gameObject.SetActive(false);

@@ -9,14 +9,14 @@ namespace Etra.StarterAssets.Combat
   {
     #region Variables
     [Header("Variables")]
-    [SerializeField, Tooltip("The maximum health of the object")] float maxHealth;
+    [Tooltip("The maximum health of the object")] public float maxHealth;
     [SerializeField, Tooltip("The starting health of the object")] float startingHealth;
     /**
       <summary>
         If true, <see cref="OnDeath"/> won't be called.
       </summary>
     */
-    [Tooltip("If true, On Death () won't be called")] public bool manualDeath;
+    [Tooltip("If true, the OnDeath event won't be called")] public bool manualDeath;
     float _health;
     /**
       <summary>
@@ -94,7 +94,8 @@ namespace Etra.StarterAssets.Combat
     {
       float lastHealth = health;
       health -= Mathf.Abs(hp);
-      OnDamage?.Invoke(Mathf.Abs(_health - lastHealth));
+      if (!isAlive)
+        OnDamage?.Invoke(Mathf.Abs(_health - lastHealth));
     }
 
     /**
