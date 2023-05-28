@@ -42,11 +42,13 @@ namespace Etra.StarterAssets.Abilities
             _jumpTimeoutDelta = JumpTimeout;
             //Get references
             mainController = GetComponentInParent<EtraCharacterMainController>();
-            _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(EtraCharacterMainController.Instance.modelParent);
-            if (_hasAnimator) { _animator = EtraCharacterMainController.Instance.modelParent.GetComponentInChildren<Animator>(); }
             _input = GetComponentInParent<StarterAssetsInputs>();
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(EtraCharacterMainController.Instance.modelParent);
+            if (_hasAnimator) {
+                _animator = EtraCharacterMainController.Instance.modelParent.GetComponentInChildren<Animator>();
+                _animIDJump = Animator.StringToHash("Jump");
+                _animIDFreeFall = Animator.StringToHash("FreeFall");
+            }
         }
 
         [HideInInspector]
@@ -73,6 +75,8 @@ namespace Etra.StarterAssets.Abilities
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     mainController._verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * mainController.Gravity);
                     // update animator if using character
+                   
+
                     if (_hasAnimator)
                     {
                         _animator.SetBool(_animIDJump, true);

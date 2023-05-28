@@ -87,7 +87,8 @@ namespace Etra.StarterAssets.Source.Editor
             if (!avaliableModels.Contains(model))
                 model = avaliableModels.FirstOrDefault();
 
-            GUILayout.Label("FPS Model", Styles.Header);
+            //GUILayout.Label("FPS Model", Styles.Header);
+            GUILayout.Label("Character Model", Styles.Header);
 
             Rect rect = GUILayoutUtility.GetAspectRect(1f / 0.4f)
                 .Border(4f, 0f);
