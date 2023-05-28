@@ -104,12 +104,7 @@ namespace Etra.StarterAssets.Abilities
                 inputY = 0;
             }
 
-            //If all movement is unlocked, don't worry about modifying the movement input variables.
-            if (rightUnlocked && leftUnlocked && upUnlocked && downUnlocked)
-            {
-                //Do nothing to inputX and inputY
-            }
-            else
+            if (!(rightUnlocked && leftUnlocked && upUnlocked && downUnlocked))
             {
                 //InputX
                 if (rightUnlocked == false && leftUnlocked == false)
@@ -150,7 +145,7 @@ namespace Etra.StarterAssets.Abilities
                 targetSpeed = crouchSpeed;
             }
 
-            
+
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
