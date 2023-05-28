@@ -16,13 +16,13 @@ namespace Etra.StarterAssets.Interactables.Enemies
     public GameObject baseSpin;
     public GameObject armSpin;
 
-
     //References set by code
     private Animator turretAnimator;
     private GameObject target;
-    private bool dieOnce = true;
-    private bool playerSpotted = false;
     private HealthSystem healthSystem;
+    private bool playerSpotted = false;
+    // This variable will be used to prevent the turret from taking damage while it's still in the cooldown period.
+    bool isCooling = false;
 
     EtrasStarterAssets.AudioManager audioManager;
 
@@ -129,32 +129,25 @@ namespace Etra.StarterAssets.Interactables.Enemies
       armSpin.transform.localEulerAngles = xRotation;
     }
 
-
-
-    // This variable will be used to prevent the turret from taking damage while it's still in the cooldown period.
-    bool isCooling = false;
     public void takeDamage(int damage)
     {
       if (isCooling)
       {
         return;
       }
-      healthSystem.Damage(damage);
 
-      // If the turret's health reaches 0, start the death animation.
-      if (!healthSystem.isAlive)
-      {
-        if (dieOnce)
-        {
-          dieOnce = false;
-          StartCoroutine("die");
-        }
-      }
-      else // Otherwise, start the damage animation.
-      {
-        isCooling = true;
-        StartCoroutine("damageAnimation");
-      }
+      healthSystem.Damage(damage);
+    }
+
+    public void OnDamage(float hp)
+    {
+      isCooling = true;
+      StartCoroutine("damageAnimation");
+    }
+
+    public void OnDeath()
+    {
+      StartCoroutine("die");
     }
 
     // This coroutine will play the damage animation for a short amount of time.
@@ -175,7 +168,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
       turretAnimator.SetBool("Attack", false);
       turretAnimator.SetBool("Die", true);
       yield return new WaitForSeconds(0.25f);
-      //Play particle her in the future
+      //TODO: Play particle here
       yield return new WaitForSeconds(1.6f);
       Destroy(gameObject);
 
