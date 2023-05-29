@@ -94,7 +94,7 @@ namespace Etra.StarterAssets.Interactables
         public void hitboxHitByPlayer()
         {
             checkPointRespawnScript.checkpointLocation = teleportLocation.transform.position;
-            checkPointRespawnScript.checkPointRotation = teleportLocation.transform.rotation;
+            checkPointRespawnScript.checkpointRotation = teleportLocation.transform.rotation;
             checkPointRespawnScript.setRotationToCheckpointRotation = setRotationToCheckpointRotation;
             checkPointRespawnScript.teleportToGround = teleportToGround;
         }
