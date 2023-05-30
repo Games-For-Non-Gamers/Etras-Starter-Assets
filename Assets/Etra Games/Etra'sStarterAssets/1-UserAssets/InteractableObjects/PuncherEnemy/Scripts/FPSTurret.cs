@@ -173,8 +173,9 @@ namespace Etra.StarterAssets.Interactables.Enemies
             audioManager.Play("RobotExplode");
             turretAnimator.SetBool("Attack", false);
             turretAnimator.SetBool("Die", true);
-            yield return new WaitForSeconds(0.25f);
-            //Play particle her in the future
+            yield return new WaitForSeconds(0.33f);
+            transform.GetChild(0).gameObject.SetActive(false);  //Hide model
+            //Play particle here in the future
             yield return new WaitForSeconds(1.6f);
             Destroy(gameObject);
 
