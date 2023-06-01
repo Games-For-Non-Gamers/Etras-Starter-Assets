@@ -42,7 +42,7 @@ namespace Etra.StarterAssets.Source.Editor
             return r;
         }
 
-        public static Rect ResizeHeightToCenter(this Rect r, float height)
+        public static Rect ResizeWHeightToCenter(this Rect r, float height)
         {
             r.y += (r.height - height) / 2f;
             r.height = height;

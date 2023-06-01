@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7761992177334695891}
   - component: {fileID: 6691538357319254480}
   m_Layer: 0
-  m_Name: Cylinder__5__1
+  m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 7502306342246234741}
   - component: {fileID: 7529271579785462327}
   m_Layer: 0
-  m_Name: Cylinder__5_
+  m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,7 +1422,7 @@ GameObject:
   - component: {fileID: 886045154512008533}
   - component: {fileID: 7376293361647491456}
   m_Layer: 0
-  m_Name: LeftCannon_1
+  m_Name: LeftCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
