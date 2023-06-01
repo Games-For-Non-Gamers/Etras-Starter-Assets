@@ -1,3 +1,4 @@
+using EtrasStarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables
@@ -22,9 +23,13 @@ namespace Etra.StarterAssets.Interactables
         Vector3 buttonEndPos = new Vector3(0, -1.32f, 0);
         //int numObjects = 0; // Track the number of objects on the button
 
+        EtrasStarterAssets.AudioManager audioManager;
+        // Start is called before the first frame update
+
         //Set buttonStartPos
         private void Start()
         {
+            audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
             buttonMain = transform.GetChild(0);
             var buttonStartPos = buttonMain.transform.position;
         }
@@ -63,6 +68,9 @@ namespace Etra.StarterAssets.Interactables
 
         public void buttonPressed()
         {
+            audioManager.Play("ButtonPress");
+            audioManager.Play("ButtonClick");
+            audioManager.Stop("ButtonRelease");
             door.SetOpened(true);
             //Use LeanTween to play basic animations
             LeanTween.moveLocal(buttonMain.gameObject, buttonEndPos, 0.15f);
@@ -70,6 +78,8 @@ namespace Etra.StarterAssets.Interactables
 
         public void buttonReleased()
         {
+            audioManager.Play("ButtonRelease");
+            audioManager.Stop("ButtonPress");
             door.SetOpened(false);
             //Use LeanTween to play basic animations
             LeanTween.moveLocal(buttonMain.gameObject, buttonStartPos, 0.15f);

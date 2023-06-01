@@ -1,6 +1,7 @@
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source.Interactions;
 using UnityEngine;
+using EtrasStarterAssets;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -28,7 +29,7 @@ namespace Etra.StarterAssets.Abilities
             camMoveScript = GameObject.Find("EtraAbilityManager").GetComponent<ABILITY_CameraMovement>();
         }
 
-        public override void abilityUpdate()
+        public override void abilityLateUpdate()
         {
             if (!enabled)
             {

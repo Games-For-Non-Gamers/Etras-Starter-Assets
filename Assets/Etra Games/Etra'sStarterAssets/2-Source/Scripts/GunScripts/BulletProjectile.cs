@@ -1,4 +1,5 @@
 using Etra.StarterAssets.Interactables.Enemies;
+using EtrasStarterAssets;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace Etra.StarterAssets.Source.Combat
             if (isDamageableCheck != null)
             {
                 isDamageableCheck.TakeDamage(projectileDamage);
-                Destroy(gameObject);
+                DestroyBullet();
             }
         }
 
@@ -43,6 +44,22 @@ namespace Etra.StarterAssets.Source.Combat
 
         void DestoryAfterTime()
         {
+            DestroyBullet();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            GetComponent<AudioManager>().Play("ProjectileBounce");
+        }
+
+        void DestroyBullet()
+        {
+            MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
+            foreach (MonoBehaviour c in comps)
+            {
+                c.enabled = false;
+                Destroy(c);
+            }
             Destroy(gameObject);
         }
 

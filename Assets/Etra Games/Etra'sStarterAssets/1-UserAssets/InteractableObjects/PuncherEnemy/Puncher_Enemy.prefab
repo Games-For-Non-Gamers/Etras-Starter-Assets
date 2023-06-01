@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7761992177334695891}
   - component: {fileID: 6691538357319254480}
   m_Layer: 0
-  m_Name: Cylinder__5__1
+  m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 7502306342246234741}
   - component: {fileID: 7529271579785462327}
   m_Layer: 0
-  m_Name: Cylinder__5_
+  m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,7 +1422,7 @@ GameObject:
   - component: {fileID: 886045154512008533}
   - component: {fileID: 7376293361647491456}
   m_Layer: 0
-  m_Name: LeftCannon_1
+  m_Name: LeftCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1549,14 +1549,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4456742351831016344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75635, y: 0.107000835, z: 0.75635}
+  m_LocalScale: {x: 0.75635, y: 0.10700084, z: 0.75635}
   m_Children:
   - {fileID: 7076492851342849215}
   m_Father: {fileID: 7985073097040234623}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &3207255048780738001
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1941,6 +1941,7 @@ GameObject:
   - component: {fileID: 7985073097040234623}
   - component: {fileID: 3068221370714353271}
   - component: {fileID: 2334018785757661370}
+  - component: {fileID: 2330751841048505253}
   m_Layer: 0
   m_Name: Puncher_Enemy
   m_TagString: Untagged
@@ -1955,15 +1956,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7321583059586568901}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 56.89, y: 0.5007353, z: 9.21}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7943325648328617361}
   - {fileID: 4737634799609314680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3068221370714353271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1977,15 +1978,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  startingRotation: {x: 0, y: 0, z: 0}
-  playerSpotted: 0
-  playerAim: 0
-  turretAnimator: {fileID: 0}
+  knockbackForce: 100
+  spinSpeed: 0.5
   baseSpin: {fileID: 1319638065765575292}
   armSpin: {fileID: 7905628096494423086}
-  knockbackForce: 150
-  spinSpeed: 0.5
-  target: {fileID: 0}
 --- !u!95 &2334018785757661370
 Animator:
   serializedVersion: 5
@@ -2006,6 +2002,99 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &2330751841048505253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321583059586568901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: RobotHit
+    clip: {fileID: 8300000, guid: c93654253d075834680f1e02bfc36ed7, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotExplode
+    clip: {fileID: 8300000, guid: e8f7183d31e70a042a6cecaefb46a2be, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotAlert
+    clip: {fileID: 8300000, guid: bd71ec1e9faba6e4f8a8e624c8e0ef10, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotDismiss
+    clip: {fileID: 8300000, guid: 69e79bb036208c740875b3255bc7c2ac, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotPunch
+    clip: {fileID: 8300000, guid: 96e40b563ea3521449e5b57834e6778b, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: RobotIdle
+    clip: {fileID: 8300000, guid: 5ac3fd27c6aa5124dab0cccb5911b6ad, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: RobotTaunt1
+    clip: {fileID: 8300000, guid: 0bb2703ee358a2940bafab2a1f48a6a1, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotTaunt2
+    clip: {fileID: 8300000, guid: e34ab88b9bd45044ea9cbcc06648c8ed, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &7420220222127699500
 GameObject:
   m_ObjectHideFlags: 0

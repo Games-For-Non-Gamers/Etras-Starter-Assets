@@ -1,5 +1,6 @@
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
+using EtrasStarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Items
@@ -22,6 +23,7 @@ namespace Etra.StarterAssets.Items
         //References
         StarterAssetsInputs starterAssetsInputs;
         Animator physgrabberAnimator;
+        AudioManager fpsItemAudioManager;
 
 
         public float pickUpRange = 3f;
@@ -44,6 +46,12 @@ namespace Etra.StarterAssets.Items
         {
             enabled = false;
         }
+
+        private void Start()
+        {
+            fpsItemAudioManager = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("FPSItemSfx").GetComponent<AudioManager>();
+        }
+
         public void OnEnable()
         {
             //Set references WHEN THIS SCRIPT IS ENABLED
@@ -57,6 +65,10 @@ namespace Etra.StarterAssets.Items
 
             otherRB.transform.parent = Camera.main.transform;
             otherRB.transform.localPosition = new Vector3(0, 0, pickedUpDistance);
+        }
+        private void Reset()
+        {
+            equipSfxName = "ScifiEquip";
         }
 
         public void Update()
@@ -101,6 +113,7 @@ namespace Etra.StarterAssets.Items
 
                                 pickedUpObject.angularDrag = pickedUpDrag;
                                 pickedUpObject.drag = pickedUpDrag;
+                                fpsItemAudioManager.Play("GrabberSuck");
                             }
                         }
                     }
@@ -125,7 +138,7 @@ namespace Etra.StarterAssets.Items
                     var damageSender = pickedUpObject.gameObject.AddComponent<ThrownObjectDamageSender>();
                     damageSender.objectDamage = (int)pickedUpObject.GetComponent<Rigidbody>().mass;
                     pickedUpObject.AddForce(Camera.main.transform.forward * 1000f);
-
+                    fpsItemAudioManager.Play("GrabberShoot");
                     pickedUpObject = null;
 
                     starterAssetsInputs.shoot = false;
@@ -140,6 +153,7 @@ namespace Etra.StarterAssets.Items
                         {
                             // closer objects have more force, lets divide by distance
                             hit.rigidbody.AddForce(Camera.main.transform.forward * 1000f / (hit.distance * 0.5f));
+                            fpsItemAudioManager.Play("GrabberShoot");
                         }
                     }
 

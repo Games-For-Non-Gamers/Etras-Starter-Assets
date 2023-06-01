@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 4707919203136882675}
   - component: {fileID: 5340762552920350024}
   - component: {fileID: 5340762552920350031}
+  - component: {fileID: 3959585435226468990}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -294,6 +295,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5340762552920350024}
+--- !u!114 &3959585435226468990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5340762552920350025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ScifiDoorOpen
+    clip: {fileID: 8300000, guid: 86d34495dfa1f9f40822e65e4ac254a5, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: ScifiDoorClose
+    clip: {fileID: 8300000, guid: ae0126d28295dbc4db0047ea2352f877, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &5571860262107583100
 GameObject:
   m_ObjectHideFlags: 0

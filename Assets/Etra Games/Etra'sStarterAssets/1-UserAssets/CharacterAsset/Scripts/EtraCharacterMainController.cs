@@ -4,6 +4,8 @@ using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Interactables.Enemies;
 using Etra.StarterAssets.Items;
 using Etra.StarterAssets.Source;
+using Etra.StarterAssets.Source.Camera;
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -75,6 +77,10 @@ namespace Etra.StarterAssets
         public float GroundedRadius = 0.28f;
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
+        [Header("Cam Shake")]
+        public bool landingShakeEnabled = true;
+        public Vector2 landingShake = new Vector2(1f, 0.1f);
+
 
 
         [HideInInspector]
@@ -100,6 +106,9 @@ namespace Etra.StarterAssets
         private bool _hasAnimator;
         private Animator _animator;
         private CharacterController _controller;
+        private ABILITY_Jump abilityJump;
+        private GameObject _mainCamera;
+        private AudioManager abilitySoundManager;
 
         //************************
         //Externally called function variables
@@ -239,6 +248,11 @@ namespace Etra.StarterAssets
             starterAssetCanvas = GetComponentInChildren<StarterAssetsCanvas>();
             etraAbilityManager = GetComponentInChildren<EtraAbilityManager>();
 
+            if (etraAbilityManager.GetComponent<ABILITY_Jump>() !=null)
+            {
+                abilityJump = etraAbilityManager.GetComponent<ABILITY_Jump>();
+            }
+
             if (GetComponentInChildren<EtraFPSUsableItemManager>() != null)
             {
                 etraFPSUsableItemManager = GetComponentInChildren<EtraFPSUsableItemManager>();
@@ -290,6 +304,9 @@ namespace Etra.StarterAssets
             }
         }
 
+
+        bool jumpReset = true;
+        bool startGameLandSfxOff = true;
         private void ApplyGravity()
         {
             if (Grounded)
@@ -300,7 +317,6 @@ namespace Etra.StarterAssets
                 // update animator if using character
                 if (_hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
                 }
 
@@ -310,6 +326,39 @@ namespace Etra.StarterAssets
                     _verticalVelocity = -2f;
                 }
 
+                if (jumpReset == true)
+                {
+
+                    if (abilityJump != null)
+                    {
+                        abilityJump.lockJump = false;
+                    }
+
+                    if (startGameLandSfxOff)
+                    {
+                        startGameLandSfxOff = false;
+                        jumpReset = false;
+                    }
+                    else if (!startGameLandSfxOff) 
+                    {
+                        if (_hasAnimator)
+                        {
+                            _animator.SetBool(_animIDJump, false);
+                        }
+                        else
+                        {
+                            abilitySoundManager.Play("Land");
+                        }
+                        
+                        jumpReset = false;
+                        if (landingShakeEnabled) { CinemachineShake.Instance.ShakeCamera(landingShake); }
+                    }
+                }
+                
+            }
+            else
+            {
+                jumpReset = true;
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
@@ -368,6 +417,8 @@ namespace Etra.StarterAssets
             _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(modelParent);
             if (_hasAnimator) { _animator = modelParent.GetComponentInChildren<Animator>(); }
             _controller = GetComponent<CharacterController>();
+            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
         }
 
         private void Update()

@@ -603,6 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2290901709564813682}
   - component: {fileID: 6937236507718372379}
+  - component: {fileID: 2789056563314615203}
   m_Layer: 0
   m_Name: TargetAndRope
   m_TagString: Untagged
@@ -651,6 +652,59 @@ MonoBehaviour:
   sparker: {fileID: 9186796949038456977}
   ropeLine: {fileID: 8684504524245461289}
   activated: 0
+--- !u!114 &2789056563314615203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8056828443306045801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: TargetPop
+    clip: {fileID: 8300000, guid: 0e36d892e5e0fad4d9468f8dec4fe676, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: LightSparkle
+    clip: {fileID: 8300000, guid: e35014c9fb2674248907a08eb7540b79, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: BurningSparkler
+    clip: {fileID: 8300000, guid: 7a88cbc844851a74a95e67381bf13f95, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: MedSparkle
+    clip: {fileID: 8300000, guid: f762b437243350a458b7785b39bb1f51, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &8133933756354979718
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6958318317044482852}
   - component: {fileID: 6958318317044482853}
   - component: {fileID: 6958318317044482778}
+  - component: {fileID: 6183477731834538455}
+  - component: {fileID: 5424617781170581831}
   m_Layer: 0
   m_Name: SmallPhysicsBox
   m_TagString: Untagged
@@ -112,3 +114,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6183477731834538455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6958318317044482776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: BoxCrash
+    clip: {fileID: 8300000, guid: f23ef3306f8a9d14ab52887c603a4406, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.9, y: 1.1}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+--- !u!114 &5424617781170581831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6958318317044482776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d7a2d4b590bd04c9da8ea66af4dde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

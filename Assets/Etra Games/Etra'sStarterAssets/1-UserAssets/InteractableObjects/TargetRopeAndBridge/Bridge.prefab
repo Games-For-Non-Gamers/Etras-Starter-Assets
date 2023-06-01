@@ -2138,8 +2138,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8481999746688539497}
+  - component: {fileID: 641855638437347042}
   m_Layer: 0
-  m_Name: BridgeSection__4_
+  m_Name: BridgeEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2165,6 +2166,39 @@ Transform:
   m_Father: {fileID: 7539628122631356716}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641855638437347042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5451906346521107922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: BridgeFall
+    clip: {fileID: 8300000, guid: 5bbeede4beaa66d4a89c79ff45097a50, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: MedSparkle
+    clip: {fileID: 8300000, guid: f762b437243350a458b7785b39bb1f51, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.5
+    randomizePitch: 0
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &5678305746583853959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,7 +2748,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6613600505428970774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.88, y: 0.48780173, z: 9.19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6840975136677075746}

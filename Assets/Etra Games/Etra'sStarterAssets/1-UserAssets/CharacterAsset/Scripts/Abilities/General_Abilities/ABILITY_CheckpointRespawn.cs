@@ -1,5 +1,6 @@
 using Cinemachine;
 using Etra.StarterAssets.Source;
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -36,10 +37,16 @@ namespace Etra.StarterAssets.Abilities
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenPosition();
         }
 
-        public void Start()
+        private GameObject _mainCamera;
+        private AudioManager abilitySoundManager;
+
+        public override void abilityStart()
         {
             etraCharacterMainController = EtraCharacterMainController.Instance;
             etraCameraMovement = etraCharacterMainController.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
+            //Get sfx manager
+            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
         }
 
         bool animating = false;
@@ -65,7 +72,7 @@ namespace Etra.StarterAssets.Abilities
         }
         IEnumerator teleportToCheckpointAnimation()
         {
-
+            abilitySoundManager.Play("ScreenWipe");
             if (abilityLockTiming != AbilityLockTiming.DontLockActiveAbilities)
             {
                 etraCharacterMainController.disableAllActiveAbilities();

@@ -1,4 +1,5 @@
 using Etra.StarterAssets.Input;
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Etra.StarterAssets.Items
         StarterAssetsInputs starterAssetsInputs;
         Light flashlightLight;
         Animator flashlightAnimator;
-
+        AudioManager fpsItemAudioManager;
 
         private void OnValidate()
         {
@@ -45,6 +46,12 @@ namespace Etra.StarterAssets.Items
         {
             enabled = false;
         }
+
+        private void Start()
+        {
+            fpsItemAudioManager = GameObject.FindGameObjectWithTag("MainCamera").transform.Find("FPSItemSfx").GetComponent<AudioManager>();
+        }
+
 
         public void OnEnable()
         {
@@ -85,6 +92,7 @@ namespace Etra.StarterAssets.Items
 
         void changeFlashlightState()
         {
+            fpsItemAudioManager.Play("FlashlightClick");
             if (!flashLightOn)
             {
                 StartCoroutine(turnFlashlightOn());

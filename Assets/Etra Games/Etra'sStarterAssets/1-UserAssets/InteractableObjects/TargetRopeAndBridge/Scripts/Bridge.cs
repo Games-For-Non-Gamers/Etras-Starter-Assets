@@ -1,3 +1,4 @@
+using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ namespace Etra.StarterAssets.Interactables
         public Target[] targets;
         public float timeToLower = 1;
         private bool bridgeLowered = false;
+        EtrasStarterAssets.AudioManager audioManager;
 
         private void Start()
         {
             // Check this at start so the bridge automatically lowers if no targets are connected
             checkActivate();
+            audioManager = GetComponentInChildren<EtrasStarterAssets.AudioManager>();
         }
 
         //This is called each time as connected target is destoryed
@@ -46,8 +49,11 @@ namespace Etra.StarterAssets.Interactables
             bridgeLowered = true;
             //Second delay before the bridge lowers
             yield return new WaitForSeconds(1);
+            audioManager.Play("BridgeFall");
             //Rotate correct anchor point
             LeanTween.rotate(transform.GetChild(0).GetChild(0).gameObject, Vector3.zero, timeToLower).setEaseInOutSine();
+            yield return new WaitForSeconds(1);
+            audioManager.Play("MedSparkle");
         }
 
     }
