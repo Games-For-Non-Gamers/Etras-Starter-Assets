@@ -47,8 +47,6 @@ namespace Etra.StarterAssets.Abilities
             //Get sfx manager
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
-            checkpointLocation = etraCharacterMainController.transform.position;
-            checkpointRotation = etraCharacterMainController.transform.rotation;
         }
 
         bool animating = false;
