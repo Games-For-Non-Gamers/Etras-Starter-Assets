@@ -6,18 +6,21 @@ using Etra.StarterAssets.Combat;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive)]
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive), RequireComponent(typeof(ABILITY_CheckpointRespawn))]
     class ABILITY_ContinuousHealth : EtraAbilityBaseClass
     {
         [SerializeField]
         float damageCooldownWaitTime, healCooldownWaitTime;
         bool damageCooldown = false, healCooldown = false;
         HealthSystem healthSystem;
+        ABILITY_CheckpointRespawn checkpointRespawn;
         public override void abilityStart()
         {
             healthSystem = GetComponentInChildren<HealthSystem>();
+            checkpointRespawn = GetComponent<ABILITY_CheckpointRespawn>();
             healthSystem.OnDamage.AddListener(OnDamage);
             healthSystem.OnHeal.AddListener(OnHeal);
+            healthSystem.OnDeath.AddListener(checkpointRespawn.teleportToCheckpoint);
         }
         public void Damage(float damage)
         {
