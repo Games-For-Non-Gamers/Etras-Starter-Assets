@@ -1,9 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Etra.StarterAssets;
-using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Combat;
-using System.Collections;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -11,31 +10,51 @@ namespace Etra.StarterAssets.Abilities
     class ABILITY_ContinuousHealth : EtraAbilityBaseClass
     {
         [SerializeField]
-        float cooldownWaitTime;
-        bool cooldown = false;
+        float damageCooldownWaitTime, healCooldownWaitTime;
+        bool damageCooldown = false, healCooldown = false;
         HealthSystem healthSystem;
         public override void abilityStart()
         {
             healthSystem = GetComponentInChildren<HealthSystem>();
             healthSystem.OnDamage.AddListener(OnDamage);
+            healthSystem.OnHeal.AddListener(OnHeal);
         }
         public void Damage(float damage)
         {
-            if (cooldown) return;
+            if (damageCooldown) return;
 
             healthSystem.Damage(damage);
         }
 
-        void OnDamage(float damageDealt)
+        public void Heal(float health)
         {
-            StartCoroutine(Cooldown());
+            if (damageCooldown) return;
+
+            healthSystem.Heal(health);
         }
 
-        IEnumerator Cooldown()
+        void OnDamage(float damageDealt)
         {
-            cooldown = true;
-            yield return new WaitForSeconds(cooldownWaitTime);
-            cooldown = false;
+            StartCoroutine(DamageCooldown());
+        }
+
+        void OnHeal(float healedHealth)
+        {
+            StartCoroutine(HealCooldown());
+        }
+
+        IEnumerator DamageCooldown()
+        {
+            damageCooldown = true;
+            yield return new WaitForSeconds(damageCooldownWaitTime);
+            damageCooldown = false;
+        }
+
+        IEnumerator HealCooldown()
+        {
+            healCooldown = true;
+            yield return new WaitForSeconds(healCooldownWaitTime);
+            healCooldown = false;
         }
     }
 }
