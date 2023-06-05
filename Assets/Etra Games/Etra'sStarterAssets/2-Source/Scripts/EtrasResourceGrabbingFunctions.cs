@@ -1,6 +1,11 @@
+using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Items;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static Etra.StarterAssets.Abilities.EtraAbilityBaseClass;
 
 namespace Etra.StarterAssets.Source
 {
@@ -131,6 +136,98 @@ namespace Etra.StarterAssets.Source
             }
         }
         #endregion
+
+
+
+        public static IEnumerable<EtraAbilityBaseClass> FindAllAbilityScripts<T>() where T : MonoBehaviour
+        {
+            var targetType = typeof(T);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes()
+                    .Where(t => targetType.IsAssignableFrom(t) && t != targetType);
+
+                foreach (var type in types)
+                {
+                    var gameObject = new GameObject("Tempcube");
+                    var scriptComponent = gameObject.AddComponent(type);
+
+                    if (scriptComponent is EtraAbilityBaseClass script)
+                    {
+                        yield return script;
+                    }
+
+                    DestroyImmediate(gameObject);
+                }
+            }
+        }
+
+
+        public static List<AbilityScriptAndNameHolder> GetAllAbilitiesAndSubAbilities()
+        {
+            //Get all EtraAbilityBaseClass
+
+            List<AbilityScriptAndNameHolder> tempAbilities = new List<AbilityScriptAndNameHolder>();
+            tempAbilities = FindAllAbilityScripts<EtraAbilityBaseClass>().Select(x => new AbilityScriptAndNameHolder(x)).ToList();
+
+            List<AbilityScriptAndNameHolder>  abilityAndSubAbilities = new List<AbilityScriptAndNameHolder>();
+
+            foreach (AbilityScriptAndNameHolder a in tempAbilities)
+            {
+                abilityAndSubAbilities.Add(a);
+                EtraAbilityBaseClass e = a.script;
+
+                foreach (subAbilityUnlock sub in a.script.subAbilityUnlocks)
+                {
+                    abilityAndSubAbilities.Add(new AbilityScriptAndNameHolder(e, sub.subAbilityName));
+                }
+            }
+
+
+            //Debug.Log("List elements: " + string.Join(", ", temp));
+            return abilityAndSubAbilities;
+        }
+
+
+        public static IEnumerable<EtraFPSUsableItemBaseClass> FindAllFPSItemScripts<T>() where T : MonoBehaviour
+        {
+            var targetType = typeof(T);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes()
+                    .Where(t => targetType.IsAssignableFrom(t) && t != targetType);
+
+                foreach (var type in types)
+                {
+                    var gameObject = new GameObject("Tempcube");
+                    var scriptComponent = gameObject.AddComponent(type);
+
+                    if (scriptComponent is EtraFPSUsableItemBaseClass script)
+                    {
+                        yield return script;
+                    }
+
+                    DestroyImmediate(gameObject);
+                }
+            }
+        }
+
+
+        public static List<ItemScriptAndNameHolder> GetAllItems()
+        {
+            //Get all EtraAbilityBaseClass
+
+            List<ItemScriptAndNameHolder> tempItems = new List<ItemScriptAndNameHolder>();
+            tempItems = FindAllFPSItemScripts<EtraFPSUsableItemBaseClass>().Select(x => new ItemScriptAndNameHolder(x)).ToList();
+
+            //Debug.Log("List elements: " + string.Join(", ", temp));
+            return tempItems;
+        }
+
 
 
     }

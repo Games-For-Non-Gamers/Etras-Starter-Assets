@@ -48,11 +48,24 @@ namespace Etra.StarterAssets.Abilities
         [HideInInspector] public bool isCrouched = false; //Set by Ability_Crouch if it exists.
         [HideInInspector] public float crouchSpeed;//Set by Ability_Crouch if it exists.
 
+        //SubAbilities
+        private subAbilityUnlock[] _derivedSubAbilityUnlocks = new subAbilityUnlock[] {
+                new subAbilityUnlock("UnlockRight", true) ,
+                new subAbilityUnlock("UnlockLeft", true) ,
+                new subAbilityUnlock("UnlockUp", true) ,
+                new subAbilityUnlock("UnlockDown", true) };
+
+        public override subAbilityUnlock[] subAbilityUnlocks
+        {
+            get { return _derivedSubAbilityUnlocks ?? base.subAbilityUnlocks; }
+            set { _derivedSubAbilityUnlocks = value; }
+        }
 
 
         //Set gameplay var defaults based on gameplay type
         private void Reset()
         {
+            if (this.gameObject.name == "Tempcube") { return; }
             if (GetComponentInParent<EtraCharacterMainController>().appliedGameplayType == EtraCharacterMainController.GameplayType.FirstPerson)
             {
                 rotateTowardMoveDirection = false;
@@ -253,8 +266,98 @@ namespace Etra.StarterAssets.Abilities
             foostepSoundManager.Play(foostepSoundManager.sounds[stepSoundCount++ % foostepSoundManager.sounds.Count]);
         }
 
+        private void OnValidate()
+        {
+            abilityCheckSubAbilityLocks();
+        }
 
 
+        public void abilityCheckSubAbilityLocks()
+        {
+            //Right
+            if (rightUnlocked == false)
+            {
+                subAbilityUnlocks[0].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[0].subAbilityEnabled = true;
+            }
+
+            //Left
+            if (leftUnlocked == false)
+            {
+                subAbilityUnlocks[1].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[1].subAbilityEnabled = true;
+            }
+
+            //Up
+            if (upUnlocked == false )
+            {
+                subAbilityUnlocks[2].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[2].subAbilityEnabled = true;
+            }
+
+            //Down
+            if (downUnlocked == false)
+            {
+                subAbilityUnlocks[3].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[3].subAbilityEnabled = true;
+            }
+        }
+
+        public override void abilityCheckSubAbilityUnlocks()
+        {
+            //Right
+            if (subAbilityUnlocks[0].subAbilityEnabled == false)
+            {
+                rightUnlocked = false;
+            }
+            else
+            {
+                rightUnlocked = true;
+            }
+
+            //Left
+            if (subAbilityUnlocks[1].subAbilityEnabled == false)
+            {
+                leftUnlocked = false;
+            }
+            else
+            {
+                leftUnlocked = true;
+            }
+
+            //Up
+            if (subAbilityUnlocks[2].subAbilityEnabled == false)
+            {
+                upUnlocked = false;
+            }
+            else
+            {
+                upUnlocked = true;
+            }
+
+            //Down
+            if ( subAbilityUnlocks[3].subAbilityEnabled == false)
+            {
+                downUnlocked = false;
+            }
+            else
+            {
+                downUnlocked = true;
+            }
+
+        }
 
     }
 }
