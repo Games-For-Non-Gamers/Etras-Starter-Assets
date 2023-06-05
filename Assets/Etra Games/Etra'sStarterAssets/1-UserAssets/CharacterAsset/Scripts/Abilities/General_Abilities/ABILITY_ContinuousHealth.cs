@@ -28,7 +28,7 @@ namespace Etra.StarterAssets.Abilities
 
         public void Heal(float health)
         {
-            if (damageCooldown) return;
+            if (healCooldown) return;
 
             healthSystem.Heal(health);
         }
