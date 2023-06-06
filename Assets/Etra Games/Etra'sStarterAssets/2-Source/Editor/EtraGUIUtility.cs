@@ -206,6 +206,15 @@ namespace Etra.StarterAssets.Source.Editor
             return attribute.GameplayType.HasFlag(gameplayType) &&
                 attribute.GameplayType != GameplayTypeFlags.All;
         }
+
+        public static Type[] GetRequiredComponents(Type type)
+        {
+            var attribute = type.GetCustomAttribute<AbilityUsageAttribute>();
+            if (attribute == null)
+                return Array.Empty<Type>();
+
+            return attribute.RequiredComponents;
+        }
         #endregion
 
         public static class Styles

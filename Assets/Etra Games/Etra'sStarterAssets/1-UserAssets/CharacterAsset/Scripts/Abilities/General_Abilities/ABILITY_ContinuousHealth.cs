@@ -6,12 +6,15 @@ using Etra.StarterAssets.Combat;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive), RequireComponent(typeof(ABILITY_CheckpointRespawn))]
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive, typeof(HealthSystem)), RequireComponent(typeof(ABILITY_CheckpointRespawn))]
     class ABILITY_ContinuousHealth : EtraAbilityBaseClass
     {
         [SerializeField]
+        AnimationCurve curve;
+        [SerializeField]
         float damageCooldownWaitTime, healCooldownWaitTime;
         bool damageCooldown = false, healCooldown = false;
+        int currentStep = 0;
         HealthSystem healthSystem;
         ABILITY_CheckpointRespawn checkpointRespawn;
         public override void abilityStart()
@@ -20,12 +23,14 @@ namespace Etra.StarterAssets.Abilities
             checkpointRespawn = GetComponent<ABILITY_CheckpointRespawn>();
             healthSystem.OnDamage.AddListener(OnDamage);
             healthSystem.OnHeal.AddListener(OnHeal);
-            healthSystem.OnDeath.AddListener(checkpointRespawn.teleportToCheckpoint);
+            healthSystem.OnDeath.AddListener(OnDeath);
         }
-        public void Damage(float damage)
+
+        public void Damage()
         {
             if (damageCooldown) return;
 
+            float damage = curve.keys[currentStep].value <= curve.keys.Length ? curve.keys[currentStep].value : curve.keys[curve.keys.Length - 1].value;
             healthSystem.Damage(damage);
         }
 
@@ -43,7 +48,14 @@ namespace Etra.StarterAssets.Abilities
 
         void OnHeal(float healedHealth)
         {
+            currentStep = 0;
             StartCoroutine(HealCooldown());
+        }
+
+        void OnDeath()
+        {
+            currentStep = 0;
+            checkpointRespawn.teleportToCheckpoint();
         }
 
         IEnumerator DamageCooldown()

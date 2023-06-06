@@ -592,6 +592,10 @@ namespace Etra.StarterAssets.Source.Editor
                 if (!item.state || abilityManager.gameObject.GetComponent(item.type)) continue;
 
                 abilityManager.gameObject.AddComponent(item.type);
+                foreach (var component in EtraGUIUtility.GetRequiredComponents(item.type))
+                {
+                    abilityManager.transform.GetChild(0).gameObject.AddComponent(component);
+                }
 
                 DebugLog($"{log} '{item.name}'");
             }
