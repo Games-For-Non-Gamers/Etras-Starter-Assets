@@ -1099,7 +1099,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  damageCooldownWaitTime: 0
+  damageCooldownWaitTime: 2
   healCooldownWaitTime: 0
 --- !u!1 &2200021418018817105
 GameObject:
