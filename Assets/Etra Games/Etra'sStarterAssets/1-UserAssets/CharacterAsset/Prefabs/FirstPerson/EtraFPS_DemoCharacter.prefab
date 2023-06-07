@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityEnabled: 1
-  curve:
+  damageCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
