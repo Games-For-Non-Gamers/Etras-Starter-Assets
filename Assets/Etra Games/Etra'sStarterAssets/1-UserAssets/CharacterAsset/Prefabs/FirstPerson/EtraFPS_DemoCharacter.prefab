@@ -808,6 +808,7 @@ GameObject:
   - component: {fileID: 2200021418004953511}
   - component: {fileID: 2200021418004953512}
   - component: {fileID: 2200021418004953513}
+  - component: {fileID: 8769572922059315548}
   m_Layer: 7
   m_Name: EtraAbilityManager
   m_TagString: Untagged
@@ -825,7 +826,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8136024441126204986}
   m_Father: {fileID: 2200021416797414050}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -852,6 +854,7 @@ MonoBehaviour:
   - {fileID: 2200021418004953511}
   - {fileID: 2200021418004953512}
   - {fileID: 2200021418004953513}
+  - {fileID: 8769572922059315548}
 --- !u!114 &2200021418004953504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,7 +940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityEnabled: 1
   checkpointLocation: {x: 0, y: 0, z: 0}
-  checkPointRotation: {x: 0, y: 0, z: 0, w: 0}
+  checkpointRotation: {x: 0, y: 0, z: 0, w: 0}
   setRotationToCheckpointRotation: 0
   teleportToGround: 0
   playAnimation: 1
@@ -1041,6 +1044,63 @@ MonoBehaviour:
   crouchedMovementSpeed: 1
   CrouchType: 0
   timeToCrouch: 0.25
+--- !u!114 &8769572922059315548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200021418004953515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a176dc9f93c512409880b5ba37ca99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityEnabled: 1
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 50
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2
+      value: 75
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3
+      value: 100
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageCooldownWaitTime: 0
+  healCooldownWaitTime: 0
 --- !u!1 &2200021418018817105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,15 +1525,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2200021418372949179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf851cd5385e556468badd773f7d249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputsLocked: 0
   equipSfxName: BlasterEquip
-  isEquipping: 0
-  isUnequipping: 0
+  isEquipping: 1
+  isUnequipping: 1
   launchedBullet: {fileID: 2721604698157709511, guid: 91a317a67144d3046b002e72f67fc99b, type: 3}
   shootingCooldownTime: 0.05
 --- !u!114 &2200021418372949176
@@ -1483,15 +1543,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2200021418372949179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 340798d39a0897544992cf2c86f5f949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputsLocked: 0
   equipSfxName: 
-  isEquipping: 0
-  isUnequipping: 0
+  isEquipping: 1
+  isUnequipping: 1
   lightIntensity: 2
   lightRange: 20
   lightColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1502,15 +1562,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2200021418372949179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c376119107b3e34448e3b1ccd958be0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputsLocked: 0
   equipSfxName: SwordEquip
-  isEquipping: 0
-  isUnequipping: 0
+  isEquipping: 1
+  isUnequipping: 1
   swordRange: 2.5
   swordKnockback: 5
   swordCooldown: 1
@@ -1885,3 +1945,61 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+--- !u!1 &8931841452640629100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8136024441126204986}
+  - component: {fileID: 5768641261267061381}
+  m_Layer: 7
+  m_Name: EtraComponentHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8136024441126204986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8931841452640629100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2200021418004953514}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5768641261267061381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8931841452640629100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  startingHealth: 0
+  manualDeath: 0
+  OnChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
