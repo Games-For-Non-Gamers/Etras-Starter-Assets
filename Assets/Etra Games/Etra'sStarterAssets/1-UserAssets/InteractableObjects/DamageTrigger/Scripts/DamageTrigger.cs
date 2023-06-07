@@ -5,8 +5,8 @@ using Etra.StarterAssets.Abilities;
 public class DamageTrigger : MonoBehaviour
 {
     [Header("Rendering")]
-    public bool showInEditor = true;
-    public bool showInGame = false;
+    [SerializeField] bool showInEditor = true;
+    [SerializeField] bool showInGame = false;
 
     MeshRenderer meshRenderer;
 
