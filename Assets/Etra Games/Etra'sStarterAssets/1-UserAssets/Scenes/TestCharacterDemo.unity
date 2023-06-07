@@ -248,29 +248,11 @@ PrefabInstance:
       value: EtraFPS_DemoCharacter
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 2200021418372949175, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-    - {fileID: 2200021418372949176, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-    - {fileID: 2200021418372949177, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
     - {fileID: 2200021417270400121, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
 --- !u!1 &17426549 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2200021417270400123, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-  m_PrefabInstance: {fileID: 17426548}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &17426550 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2200021418372949179, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-  m_PrefabInstance: {fileID: 17426548}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &17426551 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2200021418004953514, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-  m_PrefabInstance: {fileID: 17426548}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &17426552 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2200021418004953515, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
   m_PrefabInstance: {fileID: 17426548}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &17426553
@@ -295,94 +277,6 @@ MonoBehaviour:
     m_Bits: 1
   IgnoreTag: Player
   CameraRadius: 0.15
---- !u!114 &17426554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17426550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c376119107b3e34448e3b1ccd958be0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputsLocked: 0
-  equipSfxName: SwordEquip
-  isEquipping: 0
-  isUnequipping: 0
-  swordRange: 2.5
-  swordKnockback: 5
-  swordCooldown: 1
-  swordDamage: 3
-  hitCamShake: {x: 1, y: 0.1}
---- !u!114 &17426555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17426550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 340798d39a0897544992cf2c86f5f949, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputsLocked: 0
-  equipSfxName: 
-  isEquipping: 0
-  isUnequipping: 0
-  lightIntensity: 2
-  lightRange: 20
-  lightColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &17426556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17426550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf851cd5385e556468badd773f7d249c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputsLocked: 0
-  equipSfxName: BlasterEquip
-  isEquipping: 0
-  isUnequipping: 0
-  launchedBullet: {fileID: 2721604698157709511, guid: 91a317a67144d3046b002e72f67fc99b, type: 3}
-  shootingCooldownTime: 0.05
---- !u!114 &17426557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17426552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a176dc9f93c512409880b5ba37ca99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityEnabled: 1
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 50
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  damageCooldownWaitTime: 10
-  healCooldownWaitTime: 10
 --- !u!1 &32161592
 GameObject:
   m_ObjectHideFlags: 0
@@ -9502,64 +9396,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6958318317044482779, guid: 4c0022dfa1a9bd24897c8665f357b665, type: 3}
   m_PrefabInstance: {fileID: 1288171314}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1288623550
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1288623551}
-  - component: {fileID: 1288623552}
-  m_Layer: 7
-  m_Name: EtraComponentHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1288623551
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288623550}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 17426551}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1288623552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288623550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  startingHealth: 100
-  manualDeath: 0
-  OnChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1310601117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6958318317044482779, guid: 4c0022dfa1a9bd24897c8665f357b665, type: 3}
