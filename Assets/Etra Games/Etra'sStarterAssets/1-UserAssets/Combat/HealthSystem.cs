@@ -28,7 +28,9 @@ namespace Etra.StarterAssets.Combat
             {
                 float lastHealth = _health;
                 _health = Mathf.Clamp(value, 0, maxHealth);
-                OnChange?.Invoke(Mathf.Abs(_health - lastHealth));
+                float result = Mathf.Abs(_health - lastHealth);
+                if (result != 0)
+                    OnChange?.Invoke(result);
                 if (manualDeath)
                     return;
 
@@ -49,12 +51,15 @@ namespace Etra.StarterAssets.Combat
         #endregion
 
         #region Events
-        [Header("Events")]
         /**
           <summary>
-            Called when the health changes.
+            Called when the object is damaged.
           </summary>
+          <remarks>
+            If the health is set to the value it already has, this event won't be executed.
+          </remarks>
         */
+        [Header("Events")]
         [Tooltip("Called when the health changes")] public UnityEvent<float> OnChange;
         /**
           <summary>
