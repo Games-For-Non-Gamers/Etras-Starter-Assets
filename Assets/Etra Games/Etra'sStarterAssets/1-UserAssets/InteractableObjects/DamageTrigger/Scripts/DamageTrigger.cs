@@ -1,0 +1,53 @@
+using UnityEngine;
+using Etra.StarterAssets;
+using Etra.StarterAssets.Abilities;
+
+public class DamageTrigger : MonoBehaviour
+{
+    [Header("Rendering")]
+    public bool showInEditor = true;
+    public bool showInGame = false;
+
+    MeshRenderer meshRenderer;
+
+    private void Reset()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+    private void OnValidate()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (showInEditor)
+        {
+            meshRenderer.enabled = true;
+        }
+        else
+        {
+            meshRenderer.enabled = false;
+        }
+    }
+    private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    void Start()
+    {
+        if (showInGame)
+        {
+            meshRenderer.enabled = true;
+        }
+        else
+        {
+            meshRenderer.enabled = false;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_ContinuousHealth>()?.Damage();
+        }
+    }
+}
