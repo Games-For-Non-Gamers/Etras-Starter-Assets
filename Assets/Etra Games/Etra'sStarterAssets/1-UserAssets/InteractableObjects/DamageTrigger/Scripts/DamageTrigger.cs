@@ -10,11 +10,11 @@ public class DamageTrigger : MonoBehaviour
 
     MeshRenderer meshRenderer;
 
-    private void Reset()
+    void Reset()
     {
         meshRenderer = GetComponent<MeshRenderer>();
     }
-    private void OnValidate()
+    void OnValidate()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         if (showInEditor)
@@ -26,7 +26,7 @@ public class DamageTrigger : MonoBehaviour
             meshRenderer.enabled = false;
         }
     }
-    private void Awake()
+    void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
     }
