@@ -30,7 +30,8 @@ namespace Etra.StarterAssets.Abilities
         {
             if (damageCooldown) return;
 
-            float damage = curve.keys[currentStep].value <= curve.keys.Length ? curve.keys[currentStep].value : curve.keys[curve.keys.Length - 1].value;
+            currentStep = currentStep % curve.keys.Length;
+            float damage = curve.keys[currentStep].value;
             healthSystem.Damage(damage);
         }
 
