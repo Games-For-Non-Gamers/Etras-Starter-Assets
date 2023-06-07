@@ -56,6 +56,7 @@ namespace Etra.StarterAssets.Abilities
         {
             currentStep = 0;
             checkpointRespawn.teleportToCheckpoint();
+            healthSystem.Heal(healthSystem.maxHealth);
         }
 
         IEnumerator DamageCooldown()
