@@ -10,7 +10,7 @@ namespace Etra.StarterAssets.Abilities
     class ABILITY_ContinuousHealth : EtraAbilityBaseClass
     {
         [SerializeField]
-        AnimationCurve curve;
+        AnimationCurve damageCurve;
         [SerializeField]
         float damageCooldownWaitTime, healCooldownWaitTime;
         bool damageCooldown = false, healCooldown = false;
@@ -30,8 +30,9 @@ namespace Etra.StarterAssets.Abilities
         {
             if (damageCooldown) return;
 
-            currentStep = currentStep % curve.keys.Length;
-            float damage = curve.keys[currentStep].value;
+            currentStep = currentStep % damageCurve.keys.Length;
+            float damage = damageCurve.keys[currentStep].value;
+            currentStep++;
             healthSystem.Damage(damage);
         }
 
@@ -55,9 +56,9 @@ namespace Etra.StarterAssets.Abilities
 
         void OnDeath()
         {
-            currentStep = 0;
             checkpointRespawn.teleportToCheckpoint();
-            healthSystem.Heal(healthSystem.maxHealth);
+            healthSystem.Heal(healthSystem.maxHealth, true);
+            currentStep = 0;
         }
 
         IEnumerator DamageCooldown()
