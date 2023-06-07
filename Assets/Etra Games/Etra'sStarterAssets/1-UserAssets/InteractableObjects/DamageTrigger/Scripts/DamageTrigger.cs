@@ -2,6 +2,7 @@ using UnityEngine;
 using Etra.StarterAssets;
 using Etra.StarterAssets.Abilities;
 
+[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(Collider))]
 public class DamageTrigger : MonoBehaviour
 {
     [Header("Rendering")]
