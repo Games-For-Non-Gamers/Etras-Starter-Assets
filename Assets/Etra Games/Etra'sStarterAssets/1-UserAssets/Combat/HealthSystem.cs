@@ -8,14 +8,7 @@ namespace Etra.StarterAssets.Combat
     {
         #region Variables
         [Header("Variables")]
-        [Tooltip("The maximum health of the object")] public float maxHealth;
-        [SerializeField, Tooltip("The starting health of the object")] float startingHealth;
-        /**
-          <summary>
-            If true, <see cref="OnDeath"/> won't be called.
-          </summary>
-        */
-        [Tooltip("If true, the OnDeath event won't be called")] public bool manualDeath;
+        [field: SerializeField, Tooltip("The health of the GameObject")]
         float _health;
         /**
           <summary>
@@ -44,7 +37,13 @@ namespace Etra.StarterAssets.Combat
                 if (last && !isAlive) OnDeath?.Invoke();
             }
         }
-
+        [Tooltip("The maximum health of the object")] public float maxHealth;
+        /**
+          <summary>
+            If true, <see cref="OnDeath"/> won't be called.
+          </summary>
+        */
+        [Tooltip("If true, the OnDeath event won't be called")] public bool manualDeath;
         public bool isAlive { get; private set; }
 
         #endregion
@@ -122,9 +121,9 @@ namespace Etra.StarterAssets.Combat
 
         #region Unity Methods
 
-        void Start()
+        void OnValidate()
         {
-            health = Mathf.Min(startingHealth, maxHealth);
+            health = Mathf.Clamp(health, 0, maxHealth);
         }
 
         #endregion
