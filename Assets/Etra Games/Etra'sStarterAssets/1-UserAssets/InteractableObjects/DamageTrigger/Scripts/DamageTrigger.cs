@@ -17,14 +17,8 @@ public class DamageTrigger : MonoBehaviour
     void OnValidate()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        if (showInEditor)
-        {
-            meshRenderer.enabled = true;
-        }
-        else
-        {
-            meshRenderer.enabled = false;
-        }
+
+        meshRenderer.enabled = showInEditor;
     }
     void Awake()
     {
@@ -33,14 +27,7 @@ public class DamageTrigger : MonoBehaviour
 
     void Start()
     {
-        if (showInGame)
-        {
-            meshRenderer.enabled = true;
-        }
-        else
-        {
-            meshRenderer.enabled = false;
-        }
+        meshRenderer.enabled = showInGame;
     }
 
     void OnTriggerStay(Collider other)
