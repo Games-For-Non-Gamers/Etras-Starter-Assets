@@ -247,10 +247,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EtraFPS_DemoCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 5768641261267061381, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
-      propertyPath: _health
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2200021417270400121, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: be41c612cd84b7740a3fc85a61d526e8, type: 3}
