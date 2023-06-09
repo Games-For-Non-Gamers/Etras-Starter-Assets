@@ -24,6 +24,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         //Load third person aim camera and add it to the starter asset group
         public void Reset()
         {
+            if (this.gameObject.name == "Tempcube") { return; }
             var aimCam = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("Etra'sStarterAssetsThirdPersonAimCamera", GameObject.FindGameObjectWithTag("Player").transform.parent);
             aimVirtualCamera = aimCam.GetComponent<CinemachineVirtualCamera>();
             aimCam.AddComponent<EtraCharacterAssetCamera>();

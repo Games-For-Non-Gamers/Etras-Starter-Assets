@@ -1,8 +1,7 @@
 using Etra.StarterAssets.Items;
+using Etra.StarterAssets.Source;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables
@@ -14,18 +13,32 @@ namespace Etra.StarterAssets.Interactables
         [HideInInspector] public List<string> itemShortenedNames;
         [ListToPopup(typeof(PickupFPSUsableItem), "TMPList")]
         public string Item_To_Add;
-        private List<Item> fpsItems;
-        Item itemType;
+        private List<ItemScriptAndNameHolder> fpsItems;
+        ItemScriptAndNameHolder selectedItem;
 
         //Set the correct selected item
         private void Start()
         {
-            GetAllItems();
-            itemType = fpsItems.ElementAt(itemShortenedNames.IndexOf(Item_To_Add));
+            updateItems();
+
+            foreach (ItemScriptAndNameHolder item in fpsItems)
+            {
+                if (item.shortenedName == Item_To_Add)
+                {
+                    selectedItem = item;
+                }
+            }
+
             if (EtraCharacterMainController.Instance.etraFPSUsableItemManager == null)
             {
                 Debug.LogWarning("PickupFPSUsableItem.cs cannot function without the etraFPSUsableItemManager object.");
             }
+        }
+
+
+        private void Reset()
+        {
+            updateItems();
         }
 
         //If player runs into pickup...
@@ -34,7 +47,7 @@ namespace Etra.StarterAssets.Interactables
             if (other.gameObject.tag == "Player")
             {
                 //Add the script to the item manager
-                EtraCharacterMainController.Instance.etraFPSUsableItemManager.gameObject.AddComponent(itemType.type);
+                EtraCharacterMainController.Instance.etraFPSUsableItemManager.gameObject.AddComponent(selectedItem.script.GetType());
                 //Update the items array
                 EtraCharacterMainController.Instance.etraFPSUsableItemManager.updateUsableItemsArray();
                 //Equip the new item
@@ -45,25 +58,24 @@ namespace Etra.StarterAssets.Interactables
 
         }
 
-        #region ItemListDisplay
-        public List<string> GetAllItems()
-        {
-            //Get all EtraFPSUsableItemBaseClass
-            fpsItems = new List<Item>();
-            fpsItems = FindAllTypes<EtraFPSUsableItemBaseClass>().Select(x => new Item(x)).ToList();
 
-            List<string> temp = new List<string>();
-            foreach (var ability in fpsItems)
+        //Update the list every frame on editor selection "functionally"
+        [ContextMenu("Update Items")]
+        public void updateItems()
+        {
+            fpsItems = EtrasResourceGrabbingFunctions.GetAllItems();
+            itemShortenedNames = new List<string>();
+            foreach (ItemScriptAndNameHolder item in fpsItems)
             {
-                temp.Add(ability.shortenedName.ToString());
+                itemShortenedNames.Add(item.shortenedName);
             }
-            return temp;
+
         }
 
         //Update the list every frame on editor selection "functionally"
         public void OnBeforeSerialize()
         {
-            itemShortenedNames = GetAllItems();
+            //itemShortenedNames = GetAllItems();
             TMPList = itemShortenedNames;
         }
 
@@ -72,37 +84,6 @@ namespace Etra.StarterAssets.Interactables
 
         }
 
-        //Helper function to find all EtraFPSUsableItemBaseClass scripts
-        public static IEnumerable<Type> FindAllTypes<T>()
-        {
-            var type = typeof(T);
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(t => t != type && type.IsAssignableFrom(t));
-        }
 
-        //Helper class to find all EtraFPSUsableItemBaseClass scripts
-        class Item
-        {
-            public Item(Type type)
-            {
-                this.type = type;
-                state = false;
-                name = type.Name;
-                GenerateName();
-            }
-
-            public Type type;
-            public string name;
-            public string shortenedName;
-            public bool state;
-
-            public void GenerateName()
-            {
-                shortenedName = type.Name.Split('_').Last();
-                shortenedName = Regex.Replace(shortenedName, "([a-z])([A-Z])", "$1 $2");
-            }
-        }
-        #endregion
     }
 }

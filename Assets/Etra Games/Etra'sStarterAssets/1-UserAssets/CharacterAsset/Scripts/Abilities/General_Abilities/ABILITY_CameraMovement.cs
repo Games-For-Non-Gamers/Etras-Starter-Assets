@@ -2,6 +2,7 @@ using Etra.StarterAssets.Input;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using static Etra.StarterAssets.Abilities.EtraAbilityBaseClass;
 #endif
 
 namespace Etra.StarterAssets.Abilities
@@ -57,6 +58,18 @@ namespace Etra.StarterAssets.Abilities
         public GameObject playerCameraRoot;
         private StarterAssetsInputs _input;
 
+        //SubAbilities
+        private subAbilityUnlock[] _derivedSubAbilityUnlocks = new subAbilityUnlock[] {
+                new subAbilityUnlock("UnlockX", true) ,
+                new subAbilityUnlock("UnlockY", true) };
+
+        public override subAbilityUnlock[] subAbilityUnlocks
+        {
+            get { return _derivedSubAbilityUnlocks ?? base.subAbilityUnlocks; }
+            set { _derivedSubAbilityUnlocks = value; }
+        }
+
+
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -70,6 +83,7 @@ namespace Etra.StarterAssets.Abilities
         //Set defaults of gameplay variables 
         private void Reset()
         {
+            if (this.gameObject.name == "Tempcube") { return; }
             if (GetComponentInParent<EtraCharacterMainController>().appliedGameplayType == EtraCharacterMainController.GameplayType.FirstPerson)
             {
                 setForwardToPlayerLookDirection = true;
@@ -87,7 +101,7 @@ namespace Etra.StarterAssets.Abilities
         public override void abilityStart()
         {
             //Check OnValidate and x&y locks and set usedCameraSensitivity
-            OnValidate();
+            abilityCheckSubAbilityLocks();
             //Get references
             playerCameraRoot = GameObject.Find("EtraPlayerCameraRoot");
             _input = GetComponentInParent<StarterAssetsInputs>();
@@ -180,24 +194,62 @@ namespace Etra.StarterAssets.Abilities
 
         private void OnValidate()
         {
+            abilityCheckSubAbilityLocks();
+        }
+
+        private void abilityCheckSubAbilityLocks()
+        {
             //Set the used variable to whatever the new camera sensitivity variable is.
             usedCameraSensitivity = cameraSensitivity;
 
             //If the locks are selected, then lock a certain direction
             if (lockLookX)
             {
+                subAbilityUnlocks[0].subAbilityEnabled = false;
                 camModX = 0;
             }
             else
             {
+                subAbilityUnlocks[0].subAbilityEnabled = true;
                 camModX = 1;
             }
+
             if (lockLookY)
             {
+                subAbilityUnlocks[1].subAbilityEnabled = false;
                 camModY = 0;
             }
             else
             {
+                subAbilityUnlocks[1].subAbilityEnabled = true;
+                camModY = 1;
+            }
+        }
+
+
+        public override void abilityCheckSubAbilityUnlocks()
+        {
+
+            //If the locks are selected, then lock a certain direction
+            if (subAbilityUnlocks[0].subAbilityEnabled == false)
+            {
+                lockLookX = true;
+                camModX = 0;
+            }
+            else
+            {
+                lockLookX = false;
+                camModX = 1;
+            }
+
+            if (subAbilityUnlocks[1].subAbilityEnabled == false)
+            {
+                lockLookY = true;
+                camModY = 0;
+            }
+            else
+            {
+                lockLookY = false;
                 camModY = 1;
             }
         }
