@@ -1,5 +1,6 @@
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
+using Etra.StarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
@@ -31,7 +32,9 @@ namespace Etra.StarterAssets.Abilities
         private GameObject temporaryParent;
         private float originalDrag;
         private float originalAngularDrag;
+        private float originalMass;
         private float pickedUpDrag = 10f;
+        private float pickedUpMass = 1f;
 
 
         //References
@@ -110,9 +113,17 @@ namespace Etra.StarterAssets.Abilities
 
                                 originalAngularDrag = pickedUpObject.angularDrag;
                                 originalDrag = pickedUpObject.drag;
+                                originalMass = pickedUpObject.mass;
 
                                 pickedUpObject.angularDrag = pickedUpDrag;
                                 pickedUpObject.drag = pickedUpDrag;
+                                pickedUpObject.mass = pickedUpMass;
+
+                                if (pickedUpObject.GetComponent<IntroPhysicsBox>())
+                                {
+                                    pickedUpObject.GetComponent<IntroPhysicsBox>().runIntroEvent();
+                                }
+
                             }
                         }
                     }
@@ -130,6 +141,7 @@ namespace Etra.StarterAssets.Abilities
                     Destroy(springJoint);
                     pickedUpObject.angularDrag = originalAngularDrag;
                     pickedUpObject.drag = originalDrag;
+                    pickedUpObject.mass = originalMass;
                     pickedUpObject = null;
                     secondInteractCheck = true;
                 }

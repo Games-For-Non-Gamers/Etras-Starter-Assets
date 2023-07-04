@@ -1982,6 +1982,8 @@ MonoBehaviour:
   spinSpeed: 0.5
   baseSpin: {fileID: 1319638065765575292}
   armSpin: {fileID: 7905628096494423086}
+  impactParticle: {fileID: 7931940020800785856, guid: 508e544bf8e6f36448388603e68092fd, type: 3}
+  explosionParticle: {fileID: 1337198075554910, guid: 25c7aa9ad705fe143a4d71c1c8deb7d4, type: 3}
 --- !u!95 &2334018785757661370
 Animator:
   serializedVersion: 5
@@ -2026,7 +2028,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: RobotExplode
-    clip: {fileID: 8300000, guid: e8f7183d31e70a042a6cecaefb46a2be, type: 3}
+    clip: {fileID: 8300000, guid: d503d989c83737149adba9cedc25c10a, type: 3}
     volume: 1
     basePitch: 1
     spatialBlend: 1
@@ -2220,8 +2222,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 1.43, z: 1}
-  m_Center: {x: 0, y: -0.00000023841858, z: 0}
+  m_Size: {x: 1.2000002, y: 1.3529377, z: 1.0755088}
+  m_Center: {x: 0, y: -0.03853108, z: 0.037754286}
 --- !u!1 &7897137594454095258
 GameObject:
   m_ObjectHideFlags: 0

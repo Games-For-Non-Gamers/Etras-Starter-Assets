@@ -94,7 +94,6 @@ namespace Etra.StarterAssets.Abilities
             animating = false;
         }
 
-        Vector3 moveDown = new Vector3(0, -0.01f, 0);
         void teleportToLocation()
         {
             etraCharacterMainController.gameObject.transform.position = checkpointLocation;
@@ -110,13 +109,7 @@ namespace Etra.StarterAssets.Abilities
 
             if (teleportToGround)
             {
-                etraCharacterMainController.Grounded = false;
-                while (etraCharacterMainController.Grounded != true)
-                {
-                    etraCharacterMainController.gameObject.transform.position += moveDown;
-                    //force a grounded check
-                    etraCharacterMainController.GroundedCheck();
-                }
+                etraCharacterMainController.teleportToGround();
             }
 
 

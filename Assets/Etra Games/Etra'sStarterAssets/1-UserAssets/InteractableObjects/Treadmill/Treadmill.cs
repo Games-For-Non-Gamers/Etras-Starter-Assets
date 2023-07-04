@@ -17,12 +17,17 @@ namespace Etra.StarterAssets.Interactables
         //Variables
         public float treadmillForce = 1f;
         public float textureScrollSpeed = 0.5f;
-
+        private Renderer objectRenderer;
         //Every frame update the treadmill texture animation
+        private void Start()
+        {
+            objectRenderer = GetComponent<Renderer>();
+        }
+
         void Update()
         {
             float offsetY = Time.time * textureScrollSpeed;
-            GetComponent<Renderer>().material.mainTextureOffset = new Vector2(0, offsetY);
+            objectRenderer.material.mainTextureOffset = new Vector2(0, offsetY);
         }
 
         private void OnTriggerStay(Collider other)

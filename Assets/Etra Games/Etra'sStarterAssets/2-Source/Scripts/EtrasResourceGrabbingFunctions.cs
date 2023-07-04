@@ -229,6 +229,34 @@ namespace Etra.StarterAssets.Source
         }
 
 
-
     }
+
+    //Get grandchildren extensions
+    public static class ComponentExtensions
+    {
+        public static T[] GetComponentsInAllChildren<T>(this Component parent, bool includeInactive = false) where T : Component
+        {
+            return parent.GetComponentsInChildren<T>(includeInactive);
+        }
+
+        public static T[] GetComponentsInAllChildren<T>(this GameObject parent, bool includeInactive = false) where T : Component
+        {
+            return parent.GetComponentsInChildren<T>(includeInactive);
+        }
+
+        public static T[] GetComponentsInAllChildren<T>(this Transform parent, bool includeInactive = false) where T : Component
+        {
+            var components = parent.GetComponents<T>();
+
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                var child = parent.GetChild(i);
+                components = components.Concat(child.GetComponentsInAllChildren<T>(includeInactive)).ToArray();
+            }
+
+            return components;
+        }
+    }
+
+
 }

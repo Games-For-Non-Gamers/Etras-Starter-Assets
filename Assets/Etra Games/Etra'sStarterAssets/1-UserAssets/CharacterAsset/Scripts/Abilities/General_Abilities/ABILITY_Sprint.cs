@@ -14,8 +14,18 @@ namespace Etra.StarterAssets.Abilities
 
         public override void abilityStart()
         {
-            OnValidate();
+            movementAbility = GetComponent<ABILITY_CharacterMovement>();
         }
+
+        public override void abilityUpdate()
+        {
+            //Every frame is annoying, but currently only way to make dynamic until a switch to function
+            if (abilityEnabled)
+            {
+                movementAbility.sprintSpeed= sprintSpeed;
+            }
+        }
+
 
         private void Reset()
         {
@@ -25,7 +35,10 @@ namespace Etra.StarterAssets.Abilities
         private void OnValidate()
         {
             movementAbility = GetComponent<ABILITY_CharacterMovement>();
-            movementAbility.sprintSpeed = sprintSpeed;
+            if (abilityEnabled)
+            {
+                movementAbility.sprintSpeed = sprintSpeed;
+            }
         }
     }
 }

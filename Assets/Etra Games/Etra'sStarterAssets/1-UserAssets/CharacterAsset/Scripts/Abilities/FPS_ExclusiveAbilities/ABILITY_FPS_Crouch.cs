@@ -18,7 +18,7 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
         }
         [Header("Basics")]
         public float crouchedMovementSpeed = 1;
-        public crouchType CrouchType;
+        public crouchType CrouchType = crouchType.Hold;
         [Range(0.1f, 2)]
         [SerializeField] private float timeToCrouch = 0.25f;
 

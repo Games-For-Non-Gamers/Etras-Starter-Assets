@@ -17,6 +17,8 @@ namespace Etra.StarterAssets.Input
         public bool crouch;
         public bool interact;
         public bool dash;
+        public bool start;
+        public bool select;
 
 
 
@@ -150,6 +152,14 @@ namespace Etra.StarterAssets.Input
             Item9SelectInput(value.isPressed);
         }
 
+        public void OnStart(InputValue value)
+        {
+            StartInput(value.isPressed);
+        }
+        public void OnSelect(InputValue value)
+        {
+            SelectInput(value.isPressed);
+        }
 
 #else
 	// old input system support
@@ -317,6 +327,22 @@ namespace Etra.StarterAssets.Input
             item9Select = newItem9PressedState;
         }
 
+        public void StartInput (bool startPressedState)
+        {
+            start = startPressedState;
+        }
+
+        public void SelectInput(bool selectPressedState)
+        {
+            select = selectPressedState;
+        }
+
+
+        public void SetCursorState(bool newState)
+        {
+            Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+            cursorLocked = newState;
+        }
 
 #if !UNITY_IOS || !UNITY_ANDROID
 
@@ -325,10 +351,7 @@ namespace Etra.StarterAssets.Input
             SetCursorState(cursorLocked);
         }
 
-        private void SetCursorState(bool newState)
-        {
-            Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-        }
+
 
 #endif
 

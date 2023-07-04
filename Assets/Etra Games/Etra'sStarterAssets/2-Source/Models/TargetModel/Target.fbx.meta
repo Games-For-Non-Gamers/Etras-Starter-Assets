@@ -3,12 +3,42 @@ guid: d98e8021d4fc3744bad5c3fed153b37c
 ModelImporter:
   serializedVersion: 20300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default_Material
+    second: {fileID: 2100000, guid: c8487b6962a909540baec3bbfd4ff86a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TBlack
+    second: {fileID: 2100000, guid: 678d5c9a4c8d6bf43a16bd44288c7050, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TBlue
+    second: {fileID: 2100000, guid: 4cd7c18086b202d4da6bfed647cde231, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TRed
+    second: {fileID: 2100000, guid: 521b0909aaf296843b9598539b252f9a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TWhite
+    second: {fileID: 2100000, guid: 10e3ca167ea896842b6556f550bc57c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TYellow
+    second: {fileID: 2100000, guid: 90fa0f81111851047afa2c4f9c0804c7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6071041891734423032}
   - component: {fileID: 6071041891734423033}
   - component: {fileID: 3871181462797436969}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FPSUsableItemsCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}

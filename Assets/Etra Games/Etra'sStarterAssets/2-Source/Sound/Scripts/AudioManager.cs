@@ -1,6 +1,7 @@
 using EtrasStarterAssets;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -8,9 +9,11 @@ namespace EtrasStarterAssets
 {
     public class AudioManager : MonoBehaviour
     {
+        public bool silenceSoundsUntilTutorialBegins = true;
         public List<Sound> sounds = new List<Sound>();
         private AudioMixerGroup sfx;
         private AudioMixerGroup music;
+        [HideInInspector]public bool stopPlayingSounds = false;
 
         //If script added or reset click
         private void Reset()
@@ -36,7 +39,7 @@ namespace EtrasStarterAssets
                 s.source.pitch = s.basePitch;
                 s.source.loop = s.loop;
                 s.source.spatialBlend = s.spatialBlend;
-
+                s.source.playOnAwake = false;
                 if (s.isMusic)
                 {
                     s.source.outputAudioMixerGroup = music;
@@ -47,15 +50,43 @@ namespace EtrasStarterAssets
                 }
 
             }
+            if (GameObject.Find("NonGamerTutorialManager"))
+            {
+                if (silenceSoundsUntilTutorialBegins)
+                {
+                    stopPlayingSounds = true;
+                }
+            }
         }
 
         public void Play(string name)
         {
+            if (stopPlayingSounds)
+            {
+                return;
+            }
+
             if (sounds == null)
             {
                 Debug.LogWarning("Sound " + name + " not found!");
                 return;
             }
+            bool soundFound = false;
+            foreach (Sound so in sounds)
+            {
+                if (so.name == name)
+                {
+                    soundFound = true;
+                    break;
+                }
+
+            }
+            if (soundFound == false)
+            {
+                Debug.LogWarning("Sound " + name + " not found!");
+                return;
+            }
+
             Sound s = sounds.Find((sound) => sound.name == name);
             if (s.randomizePitch)
             {
@@ -76,6 +107,9 @@ namespace EtrasStarterAssets
                 Debug.LogWarning("Sound " + passedSound.name + " not found!");
                 return;
             }
+
+
+
             Sound s = sounds.Find((sound) => sound.name == passedSound.name);
             if (s.randomizePitch)
             {
@@ -92,11 +126,33 @@ namespace EtrasStarterAssets
                 Debug.LogWarning("Sound " + name + " not found!");
                 return;
             }
+
+            bool soundFound = false;
+            foreach (Sound so in sounds)
+            {
+                if (so.name == name)
+                {
+                    soundFound = true;
+                    break;
+                }
+
+            }
+            if (soundFound == false)
+            {
+                Debug.LogWarning("Sound " + name + " not found!");
+                return;
+            }
             Sound s = sounds.Find((sound) => sound.name == name);
             s.source.Stop();
         }
 
-
+        public void stopAllSounds()
+        {
+            foreach (Sound s in sounds)
+            {
+                s.source.Stop();
+            }
+        }
     }
 }
 

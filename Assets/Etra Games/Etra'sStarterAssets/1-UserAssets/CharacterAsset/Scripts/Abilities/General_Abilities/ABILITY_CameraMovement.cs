@@ -37,7 +37,7 @@ namespace Etra.StarterAssets.Abilities
         [Tooltip("How far in degrees can you move the camera up")]
         public float TopClamp = 70.0f;
         [Tooltip("How far in degrees can you move the camera down")]
-        public float BottomClamp = -30.0f;
+        public float BottomClamp = -70.0f;
         [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
         public float CameraAngleOverride = 0.0f;
         //Misc
@@ -119,7 +119,7 @@ namespace Etra.StarterAssets.Abilities
             //Shoot a ray towards the center of the screen
             Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
             var ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-            if (Physics.Raycast(ray, out raycastHit, 999f, aimColliderMask))
+            if (Physics.Raycast(ray, out raycastHit, 999f, aimColliderMask, QueryTriggerInteraction.Ignore))
             {
                 //If the ray hits a layer that the ray can collide with, set the hit location as the pointCharacterIsLookingAt
                 objectHit = true;

@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
   sounds:
   - name: 
     clip: {fileID: 0}
@@ -54,6 +55,7 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &3439210267053600588
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
   sounds:
   - name: Step1
     clip: {fileID: 8300000, guid: 6208cbff2c0d29345bce0ff326a9b210, type: 3}
@@ -138,6 +141,7 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &4440905647203790822
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,10 +185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
   sounds:
   - name: Jump
-    clip: {fileID: 8300000, guid: 071308dc9a5118c468cffe05d1eb60af, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 521eb8054c663cf4c877da86247a3270, type: 3}
+    volume: 0.8
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 1
@@ -193,9 +198,9 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Land
-    clip: {fileID: 8300000, guid: 521eb8054c663cf4c877da86247a3270, type: 3}
-    volume: 1
-    basePitch: 1
+    clip: {fileID: 8300000, guid: 071308dc9a5118c468cffe05d1eb60af, type: 3}
+    volume: 0.8
+    basePitch: 0.9
     spatialBlend: 0
     randomizePitch: 1
     randomPitchRange: {x: 0.95, y: 1.05}
@@ -222,6 +227,7 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &4549054607833599940
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
   sounds:
   - name: DefaultEquip
     clip: {fileID: 8300000, guid: 81380bcc93ad35c4fa027c0056808889, type: 3}
@@ -308,7 +315,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BlasterShoot
     clip: {fileID: 8300000, guid: 64a30d31cae4c774f812f13908a9fea0, type: 3}
-    volume: 1
+    volume: 0.8
     basePitch: 1
     spatialBlend: 0
     randomizePitch: 1
@@ -356,6 +363,7 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &4805442598740618316
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +503,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 7044827540119469340}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 75
     OrthographicSize: 10
     NearClipPlane: 0.2
     FarClipPlane: 500
@@ -546,7 +554,7 @@ GameObject:
   - component: {fileID: 4805442599300253127}
   - component: {fileID: 4805442599300253126}
   - component: {fileID: 4805442599300253121}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -596,7 +604,7 @@ Camera:
     height: 1
   near clip plane: 0.2
   far clip plane: 500
-  field of view: 40
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

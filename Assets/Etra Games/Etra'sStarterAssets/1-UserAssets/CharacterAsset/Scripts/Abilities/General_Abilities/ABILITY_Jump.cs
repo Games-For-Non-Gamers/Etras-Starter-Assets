@@ -99,22 +99,6 @@ namespace Etra.StarterAssets.Abilities
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
-                // fall timeout
-                if (mainController._fallTimeoutDelta >= 0.0f)
-                {
-                    mainController._fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
-
-                }
-
-
                 // if we are not grounded, do not jump
                 alteredJumpInput = false;
                 _input.jump = false;

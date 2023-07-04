@@ -11,7 +11,12 @@ namespace Etra.StarterAssets.Source.Combat
         public int projectileDamage = 1;
         private Rigidbody bulletRigidbody;
         public float bulletSpeed = 10;
-        // Start is called before the first frame update
+        [HideInInspector]
+        public GameObject hitObject;
+        [HideInInspector]
+        public Vector3 hitPoint;
+
+
         private void Awake()
         {
             var startScale = transform.localScale;
@@ -23,7 +28,7 @@ namespace Etra.StarterAssets.Source.Combat
         private void Start()
         {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
-            Invoke("DestoryAfterTime", 10f);
+            Invoke("DestroyAfterTime", 10f);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -42,17 +47,22 @@ namespace Etra.StarterAssets.Source.Combat
             colliders.Remove(other);
         }
 
-        void DestoryAfterTime()
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!collision.collider.isTrigger)
+            {
+                GetComponent<AudioManager>().Play("ProjectileBounce");
+            }
+        }
+
+
+        private void DestroyAfterTime()
         {
             DestroyBullet();
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            GetComponent<AudioManager>().Play("ProjectileBounce");
-        }
 
-        void DestroyBullet()
+        private void DestroyBullet()
         {
             MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
             foreach (MonoBehaviour c in comps)
@@ -62,24 +72,5 @@ namespace Etra.StarterAssets.Source.Combat
             }
             Destroy(gameObject);
         }
-
-        /*
-        private void OnDestroy()
-        {
-            
-            // For every object currently collided with...
-            foreach (var x in colliders)
-            {
-                // ...if the name of the object is the same as the weighted button...
-                if (x.name == "ButtonColliderAndCode")
-                {
-                    // ...close the door when projectile destroyed!
-                    x.GetComponent<Interactable_WeightedButton>().removeObject();
-                    x.GetComponent<Interactable_WeightedButton>().doorClose();
-                }
-            }
-            
-        }
-        */
     }
 }
