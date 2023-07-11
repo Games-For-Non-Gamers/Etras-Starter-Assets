@@ -824,18 +824,78 @@ namespace Etra.StarterAssets
 
         }
 
-        public float getFov()
+        public EtraCameraSettings getCameraSettings()
         {
             etraFollowCam = GameObject.Find("Etra'sStarterAssetsFollowCamera");
-            return etraFollowCam.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView;
+            CinemachineVirtualCamera camComponent = etraFollowCam.GetComponent<CinemachineVirtualCamera>();
+            EtraCameraSettings settings = new EtraCameraSettings(camComponent);
+            return settings;
         }
 
-        public void setFov(float newFov)
+        public void setCameraSettings(EtraCameraSettings camSettings)
         {
-            etraFollowCam.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView=newFov;
+            etraFollowCam = GameObject.Find("Etra'sStarterAssetsFollowCamera");
+            CinemachineVirtualCamera camComponent = etraFollowCam.GetComponent<CinemachineVirtualCamera>();
+            camSettings.applySettingsToCam(camComponent);
+        }
+
+        public void setCameraSettingsOverTime(EtraCameraSettings camSettings, float time)
+        {
+            etraFollowCam = GameObject.Find("Etra'sStarterAssetsFollowCamera");
+            CinemachineVirtualCamera camComponent = etraFollowCam.GetComponent<CinemachineVirtualCamera>();
+            camSettings.applySettingsToCamOverTime(camComponent, time);
         }
 
 
+        public class EtraCameraSettings
+        {
+            public float fov;
+            public float cameraDistance;
+            public float cameraSide;
+            public Vector3 shoulderOffset;
+            public Vector3 damping;
+            public EtraCameraSettings(CinemachineVirtualCamera cam)
+            {
+                fov = cam.m_Lens.FieldOfView;
+                Cinemachine3rdPersonFollow thirdPerson = cam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                cameraDistance = thirdPerson.CameraDistance;
+                cameraSide = thirdPerson.CameraSide;
+                shoulderOffset = thirdPerson.ShoulderOffset;
+                damping = thirdPerson.Damping;
+            }
+
+            public EtraCameraSettings(float fov, float cameraDistance, float cameraSide, Vector3 shoulderOffset, Vector3 damping)
+            {
+                this.fov = fov;
+                this.cameraDistance = cameraDistance;
+                this.cameraSide = cameraSide;
+                this.shoulderOffset = shoulderOffset;
+                this.damping = damping;
+            }
+
+
+            public void applySettingsToCam(CinemachineVirtualCamera cam)
+            {
+                cam.m_Lens.FieldOfView = fov;
+                Cinemachine3rdPersonFollow thirdPerson = cam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                thirdPerson.CameraDistance = cameraDistance;
+                thirdPerson.CameraSide = cameraSide;
+                thirdPerson.ShoulderOffset = shoulderOffset;
+                thirdPerson.Damping = damping;
+            }
+
+            public void applySettingsToCamOverTime(CinemachineVirtualCamera cam, float time)
+            {
+                EtraCameraSettings currentCamSettings = new EtraCameraSettings(cam);
+                LeanTween.value(cam.gameObject, currentCamSettings.fov, fov, time).setOnUpdate((float fovValue) => { cam.m_Lens.FieldOfView = fovValue; }).setEaseInOutSine();
+                Cinemachine3rdPersonFollow thirdPerson = cam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+                LeanTween.value(cam.gameObject, currentCamSettings.cameraDistance, cameraDistance, time).setOnUpdate((float cameraDistance) => { thirdPerson.CameraDistance = cameraDistance; ; }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.cameraSide, cameraSide, time / 3).setOnUpdate((float cameraSide) => { thirdPerson.CameraSide = cameraSide;  }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.shoulderOffset, shoulderOffset, time/3).setOnUpdate((Vector3 shoulderOffset) => { thirdPerson.ShoulderOffset = shoulderOffset;  }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.damping, damping, time/3).setOnUpdate((Vector3 damping) => { thirdPerson.Damping = damping; }).setEaseInOutSine();
+            }
+
+        }
     }
 
 }

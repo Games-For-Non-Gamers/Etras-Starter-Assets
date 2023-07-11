@@ -18,15 +18,15 @@ MonoBehaviour:
   - heading: <b>Etra's Games For Non-Gamers:</b>
     text: 
     linkText: Youtube Channel
-    url: https://www.youtube.com/@GamesForNon-Gamers
+    url: https://www.youtube.com/@Games4NonGamers
   - heading: 
     text: 
     linkText: Patreon
-    url: https://www.patreon.com/GamesForNongamers
+    url: https://www.patreon.com/Games4NonGamers
   - heading: 
     text: 
     linkText: Discord
-    url: https://discord.gg/DTRXMBYmQq
+    url: https://discord.gg/zZdGJQvNvq
   - heading: <b>VIDEO TUTORIALS:</b>
     text: 
     linkText: 'Etra''s Starter Assets: Overview'
