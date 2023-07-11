@@ -80,11 +80,6 @@ Dock Frankenstein
 
 
 ~~THIRD PARTY AUDIO:~~
-harrietniamh
-    https://freesound.org/people/harrietniamh/sounds/219673/
-    "Footsteps on Concrete" by harrietniamh is licensed under CC BY 4.0
-    This sound was modified to extract the individual footstep1, footstep2, footstep3, footstep4, jump, and land sounds.
-
 Brsjak
     https://freesound.org/people/Brsjak/sounds/482880/
     "Swoosh.wav" by Brsjack is licensed under CC BY 4.0
@@ -192,11 +187,6 @@ Pablobd
     https://freesound.org/people/Pablobd/sounds/525032/
     "Sci-Fi sliding door (height adjustable chair sounds).wav" by Pablobd is licensed under CC 0
     This sound was modified to extract the buttonPress, buttonRealease, scifiDoorOpen, and scifiDoorClose sound.
-
-jorickhoofd
-    https://freesound.org/people/jorickhoofd/sounds/160045/
-    "Metal hit with metal bar resonance" by jorickhoofd is licensed under CC 4.0
-    This sound was used for the robotHit sound.
 
 newagesoup
     https://freesound.org/people/newagesoup/sounds/347327/

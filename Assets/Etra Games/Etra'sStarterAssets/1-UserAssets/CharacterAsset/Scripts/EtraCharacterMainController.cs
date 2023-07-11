@@ -1,15 +1,22 @@
 using Cinemachine;
 using Etra.StarterAssets.Abilities;
+using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Interactables.Enemies;
 using Etra.StarterAssets.Items;
 using Etra.StarterAssets.Source;
 using Etra.StarterAssets.Source.Camera;
 using EtrasStarterAssets;
+using JetBrains.Annotations;
 using System.Collections;
+using System.Net;
 using UnityEngine;
+using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.Networking.Types;
 #endif
 
 namespace Etra.StarterAssets
