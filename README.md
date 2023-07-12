@@ -7,7 +7,7 @@ This package is an expanded combination of the lightweight Unity First Person an
 ![StarterAssetsImage](GithubImages/socialImage.png)
 
 Unity Version for this Github Root:
-2020.3.44f1
+2021.3.28f1
 
 ## Tutorial Videos
 
