@@ -57,11 +57,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Montserrat-Black-Outline
+  m_Name: Montserrat-Black-OutlineThicker
   m_EditorClassIdentifier: 
-  hashCode: 1146586908
+  hashCode: -1957549482
   material: {fileID: 7162862059672822945}
-  materialHashCode: 1159458876
+  materialHashCode: 1051168438
   m_Version: 1.1.0
   m_SourceFontFileGUID: ee802440267c37a4198938899eef7242
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: ee802440267c37a4198938899eef7242, type: 3}
@@ -5703,8 +5703,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Montserrat-Black SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_ValidKeywords:
-  - UNDERLAY_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -5762,7 +5761,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.119
+    - _OutlineWidth: 0.269
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -5781,7 +5780,7 @@ Material:
     - _TextureHeight: 1024
     - _TextureWidth: 1024
     - _UnderlayDilate: 0
-    - _UnderlayOffsetX: -0.681
+    - _UnderlayOffsetX: -0.62
     - _UnderlayOffsetY: -0.675
     - _UnderlaySoftness: 0.312
     - _VertexOffsetX: 0
@@ -5798,5 +5797,5 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

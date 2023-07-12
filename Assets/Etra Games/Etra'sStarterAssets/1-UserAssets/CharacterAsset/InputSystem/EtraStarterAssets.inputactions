@@ -712,7 +712,7 @@
                 {
                     "name": "",
                     "id": "c0d49859-c430-4cdb-a843-0eb93ffb0f0a",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
