@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Montserrat-Black-OutlineThicker2
   m_EditorClassIdentifier: 
-  hashCode: -1957549482
+  hashCode: -174623452
   material: {fileID: 7162862059672822945}
-  materialHashCode: 1051168438
+  materialHashCode: -1342028924
   m_Version: 1.1.0
   m_SourceFontFileGUID: ee802440267c37a4198938899eef7242
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: ee802440267c37a4198938899eef7242, type: 3}
@@ -5761,7 +5761,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.269
+    - _OutlineWidth: 0.33
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9

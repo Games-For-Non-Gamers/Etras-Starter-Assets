@@ -14,20 +14,21 @@ public class EtraGameplayMenus : MonoBehaviour
 
     [Header("Options")]
     public bool canPause = true;
+    public bool showBackground = true;
 
     [Header("References")]
     public GameObject background;
-    public EtraGameplayMenu pauseMenu;
-    public EtraGameplayMenu gameplayMenu;
-    public EtraGameplayMenu graphicsMenu;
-    public EtraGameplayMenu audioMenu;
+    public GameObject pauseMenu;
+    public GameObject gameplayMenu;
+    public GameObject graphicsMenu;
+    public GameObject audioMenu;
 
     bool gamePaused = false;
-    EtraGameplayMenu currentlyActiveMenu;
+    GameObject currentlyActiveMenu;
 
     //private references
     EventSystem eventSystem;
-    public InputSystemUIInputModule inputModule;
+
 
     #region PauseInput
     //************** INPUTS/CONTROLLER OR KEYBOARD SELECTION FOR PAUSE EVENT************** 
@@ -41,8 +42,16 @@ public class EtraGameplayMenus : MonoBehaviour
         if (EtraCharacterMainController.Instance)
         {
             EtraCharacterMainController.Instance.disableAllActiveAbilities();
+
+            if (playerInput == null)
+            {
+                playerInput = EtraCharacterMainController.Instance.GetComponent<PlayerInput>();
+            }
         }
         unpauseGame();
+        closeMenu(gameplayMenu);
+        closeMenu(graphicsMenu);
+        closeMenu(audioMenu);
         disableBackground();
     }
 
@@ -52,7 +61,7 @@ public class EtraGameplayMenus : MonoBehaviour
     void OnEnable()
     {
         // Enable the key action
-        keyboardEscape = new InputAction("KeyboardEnter", binding: "<Keyboard>/enter");
+        keyboardEscape = new InputAction("KeyboardEscape", binding: "<Keyboard>/escape");
         keyboardEscape.Enable();
         gamepadStart = new InputAction("GamepadStart", binding: "<Gamepad>/start");
         gamepadStart.Enable();
@@ -66,9 +75,7 @@ public class EtraGameplayMenus : MonoBehaviour
         gamepadStart.Dispose();
     }
 
-
-    bool isUsingKeyboard;
-    bool isUsingGamepad;
+    GameObject savedSelectedObject = null;
     void Update()
     {
         if (canPause)
@@ -84,30 +91,19 @@ public class EtraGameplayMenus : MonoBehaviour
         //If the game is paused check if selection should be with mouse/keyboard or gamepad
         if (gamePaused)
         {
-            checkInputDevice();
-        }
-    }
 
-    GameObject savedSelectedObject = null;
-    private void checkInputDevice()
-    {
-        if (Keyboard.current != null && (Keyboard.current.anyKey.isPressed || Mouse.current.delta.ReadValue().magnitude > 0 || Mouse.current.leftButton.isPressed))
-        {
-            if (!isUsingKeyboard)
+            if (EtraInputDeviceTracker.Instance.isUsingKeyboard)
             {
-                isUsingKeyboard = true;
-                isUsingGamepad = false;
-                savedSelectedObject = eventSystem.currentSelectedGameObject;
+                if (eventSystem.currentSelectedGameObject != null)
+                {
+                    savedSelectedObject = eventSystem.currentSelectedGameObject;
+                }
+
                 eventSystem.SetSelectedGameObject(null);
                 Cursor.visible = true;
             }
-        }
-        else if (Gamepad.current != null && IsAnyGamepadButtonPressed())
-        {
-            if (!isUsingGamepad)
+            else if (EtraInputDeviceTracker.Instance.isUsingGamepad)
             {
-                isUsingGamepad = true;
-                isUsingKeyboard = false;
                 Cursor.visible = false;
                 if (savedSelectedObject != null && savedSelectedObject.gameObject.activeInHierarchy)
                 {
@@ -115,24 +111,14 @@ public class EtraGameplayMenus : MonoBehaviour
                 }
                 else if (currentlyActiveMenu != null)
                 {
-                    eventSystem.SetSelectedGameObject(currentlyActiveMenu.firstSelectedObject.gameObject);
+                    eventSystem.SetSelectedGameObject(currentlyActiveMenu.GetComponent<EtraGameplayMenu>().firstSelectedObject.gameObject);
                 }
-
             }
+
+
         }
     }
 
-    private bool IsAnyGamepadButtonPressed()
-    {
-        foreach (var button in Gamepad.current.allControls)
-        {
-            if (button is ButtonControl buttonControl && buttonControl.isPressed)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     //************************************************************* 
     #endregion
@@ -140,8 +126,11 @@ public class EtraGameplayMenus : MonoBehaviour
     #region BackgroundImage
     void enableBackground()
     {
-        background.gameObject.SetActive(true);
-        background.GetComponent<Image>().enabled = true;
+        if (showBackground)
+        {
+            background.gameObject.SetActive(true);
+            background.GetComponent<Image>().enabled = true;
+        }
     }
 
     void disableBackground()
@@ -152,25 +141,37 @@ public class EtraGameplayMenus : MonoBehaviour
     #endregion
 
     #region MenuFunctions
-    void openMenu(EtraGameplayMenu menu)
+    void openMenu(GameObject menu)
     {
-        menu.gameObject.SetActive(true);
-        currentlyActiveMenu = menu;
-        checkInputDevice();
-        //If we are using gamepad select the new higlighted button
-        if (isUsingGamepad)
+
+        EtraGameplayMenu gameplayMenu = menu.GetComponent<EtraGameplayMenu>();
+
+        if (currentlyActiveMenu != null)
         {
-            eventSystem.SetSelectedGameObject(menu.firstSelectedObject.gameObject);
+            closeMenu(currentlyActiveMenu);
+        }
+        else
+        {
+            closeMenu(pauseMenu);
+        }
+
+        menu.SetActive(true);
+        currentlyActiveMenu = menu;
+
+        //If we are using gamepad select the new higlighted button
+        if (EtraInputDeviceTracker.Instance.isUsingGamepad)
+        {
+            eventSystem.SetSelectedGameObject(gameplayMenu.firstSelectedObject.gameObject);
             Cursor.visible = false;
         }
-        else if (isUsingKeyboard)
+        else if (EtraInputDeviceTracker.Instance.isUsingKeyboard)
         {
             eventSystem.SetSelectedGameObject(null);
             Cursor.visible = true;
         }
     }
 
-    void closeMenu(EtraGameplayMenu menu)
+    void closeMenu(GameObject menu)
     {
         menu.gameObject.SetActive(false);
     }
@@ -213,10 +214,18 @@ public class EtraGameplayMenus : MonoBehaviour
         InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
     }
 
-    void unpauseGame()
+    public void unpauseGame()
     {
         disableBackground();
-        closeMenu(pauseMenu);
+        if(currentlyActiveMenu != null)
+        {
+            closeMenu(currentlyActiveMenu);
+        }
+        else
+        {
+            closeMenu(pauseMenu);
+        }
+
         _inputs.SetCursorState(true); //lock the cursor
         Time.timeScale = 1;
         if (EtraCharacterMainController.Instance)
@@ -229,18 +238,29 @@ public class EtraGameplayMenus : MonoBehaviour
         InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
 
     }
+
+    public void backToPauseMenu()
+    {
+        openMenu(pauseMenu);
+    }
+
     #endregion
 
 
-    #region GameplayMenu
+    #region OtherMenus
     public void openGameplayMenu()
     {
-        //e
+        openMenu(gameplayMenu);
     }
 
-    public void closeGameplayMenu()
+    public void openGraphicsMenu()
     {
-        //e
+        openMenu(graphicsMenu);
+    }
+
+    public void openAudioMenu()
+    {
+        openMenu(audioMenu);
     }
 
     #endregion

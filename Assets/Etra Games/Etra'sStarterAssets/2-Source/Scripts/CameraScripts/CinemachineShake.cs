@@ -8,6 +8,7 @@ namespace Etra.StarterAssets.Source.Camera
         public static CinemachineShake Instance { get; private set; }
 
         private CinemachineVirtualCamera cinemachineVirtualCamera;
+        public bool shakeEnabled = true;
         public float shakeTimer;
         private float shakeTimerTotal;
         private float startingIntensity;
@@ -19,11 +20,29 @@ namespace Etra.StarterAssets.Source.Camera
 
         public void Start()
         {
-            ShakeCamera(0, 0);
+            ResetCamera();
+        }
+
+        public void ResetCamera()
+        {
+            var cinemachineBasicMultiChannelPerlin =
+    cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
+
+            startingIntensity = 0;
+            shakeTimerTotal = 0;
+            shakeTimer = 0;
         }
 
         public void ShakeCamera(float intensity, float time)
         {
+            if (!shakeEnabled)
+            {
+                ResetCamera();
+                return;
+            }
+
             var cinemachineBasicMultiChannelPerlin =
                 cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
@@ -36,6 +55,11 @@ namespace Etra.StarterAssets.Source.Camera
 
         public void ShakeCamera(Vector2 passedVars)
         {
+            if (!shakeEnabled)
+            {
+                ResetCamera();
+                return;
+            }
             float intensity = passedVars.x;
             float time = passedVars.y;
 
@@ -52,6 +76,7 @@ namespace Etra.StarterAssets.Source.Camera
 
         private void Update()
         {
+
             //Make sure the live camera has the shake
             if (CinemachineCore.Instance.IsLive(cinemachineVirtualCamera))
             {
