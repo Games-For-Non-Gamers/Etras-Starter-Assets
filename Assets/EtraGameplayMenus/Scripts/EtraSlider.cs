@@ -16,32 +16,37 @@ public class EtraSlider : MonoBehaviour
         TwoDecimal,
     }
 
-    void Start()
+    void OnEnable()
     {
         slider = this.GetComponent<Slider>();
 
         slider.onValueChanged.AddListener((v) => {
-            string returnedString = "";
-            switch (textNumFormat)
-            {
-                case NumberFormat.NoDecimal:
-                    returnedString = v.ToString("0");
-                    break;
-
-                case NumberFormat.OneDecimal:
-                    returnedString = v.ToString("0.0");
-                    break;
-
-                case NumberFormat.TwoDecimal:
-                    returnedString = v.ToString("0.00");
-                    break;
-            }
-
-            if (percentage)
-            {
-                returnedString += "%";
-            }
-            sliderText.text = returnedString;
+            UpdateSliderText(v);
         });
+    }
+
+    public void UpdateSliderText(float v)
+    {
+        string returnedString = "";
+        switch (textNumFormat)
+        {
+            case NumberFormat.NoDecimal:
+                returnedString = v.ToString("0");
+                break;
+
+            case NumberFormat.OneDecimal:
+                returnedString = v.ToString("0.0");
+                break;
+
+            case NumberFormat.TwoDecimal:
+                returnedString = v.ToString("0.00");
+                break;
+        }
+
+        if (percentage)
+        {
+            returnedString += "%";
+        }
+        sliderText.text = returnedString;
     }
 }

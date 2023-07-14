@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8591366072197198230}
   - component: {fileID: 3021308049600644364}
   - component: {fileID: 1532218403437107580}
+  - component: {fileID: 4916456919846087078}
   m_Layer: 7
   m_Name: EtraCharacterAssetBase
   m_TagString: Player
@@ -239,6 +240,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4916456919846087078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532218403437107568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8255893a4d3a020469e9d10186fffe3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4086865351667180493
 GameObject:
   m_ObjectHideFlags: 0

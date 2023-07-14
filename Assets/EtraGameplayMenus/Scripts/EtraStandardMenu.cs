@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EtraGameplayMenu : MonoBehaviour
+public class EtraStandardMenu : MonoBehaviour
 {
     public Button firstSelectedObject;
 

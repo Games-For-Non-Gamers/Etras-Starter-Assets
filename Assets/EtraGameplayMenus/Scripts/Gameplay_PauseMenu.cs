@@ -1,6 +1,7 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Gameplay_PauseMenu : EtraGameplayMenu
+public class Gameplay_PauseMenu : EtraStandardMenu
 {
     public void backToTitle()
     {

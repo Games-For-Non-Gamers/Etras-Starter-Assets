@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Gameplay_GameplayMenu : EtraGameplayMenu
+public class Gameplay_GameplayMenu : EtraStandardMenu
 {
     public Slider mouseSensitivity;
     public Slider joystickSensitivity;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace Etra.StarterAssets
 {
@@ -14,7 +15,7 @@ namespace Etra.StarterAssets
         [HideInInspector] public bool isUsingGamepad = false;
         private string previousDevice = "";
         private string previousGamepad = "";
-
+        List<IRunsFunctionOnControllerSwitch> objectsWithControllerSwitchFunctions;
         private void Awake()
         {
             //Set up Instance so it can be easily referenced. 
@@ -27,6 +28,27 @@ namespace Etra.StarterAssets
                 Instance = this;
             }
         }
+
+        private void Start()
+        {
+            //This is garbage but works for now. Manual drag and drop will be more efficient for later things.
+            objectsWithControllerSwitchFunctions = new List<IRunsFunctionOnControllerSwitch>();
+
+            // Find all objects in the scene
+            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+
+            // Iterate over the objects to find ones implementing the interface
+            foreach (GameObject obj in allObjects)
+            {
+                IRunsFunctionOnControllerSwitch interfaceComponent = obj.GetComponent<IRunsFunctionOnControllerSwitch>();
+
+                if (interfaceComponent != null)
+                {
+                    objectsWithControllerSwitchFunctions.Add(interfaceComponent);
+                }
+            }
+        }
+
 
         private void OnValidate()
         {
@@ -50,7 +72,12 @@ namespace Etra.StarterAssets
             CheckInputDevice();
             if (previousDevice != currentDeviceName)
             {
-                //Run Ui Switch function here.
+                previousDevice = currentDeviceName;
+
+                foreach (IRunsFunctionOnControllerSwitch obj in objectsWithControllerSwitchFunctions)
+                {
+                    obj.OnControllerSwitch(currentDeviceName);
+                }
             }
         }
 
