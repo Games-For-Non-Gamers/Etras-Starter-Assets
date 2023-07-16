@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2164076556444435402}
   - component: {fileID: 1465208721912172729}
   - component: {fileID: 1532218403437107578}
-  - component: {fileID: 8591366072197198230}
   - component: {fileID: 3021308049600644364}
   - component: {fileID: 1532218403437107580}
   - component: {fileID: 4916456919846087078}
@@ -94,21 +93,6 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
---- !u!114 &8591366072197198230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532218403437107568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923935ba8e3197841aa7eeeaa7fa6866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentDeviceName: Keyboard
-  isUsingKeyboard: 1
-  isUsingGamepad: 0
 --- !u!114 &3021308049600644364
 MonoBehaviour:
   m_ObjectHideFlags: 0

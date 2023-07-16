@@ -223,6 +223,14 @@ namespace Etra.StarterAssets.Source.Editor
                         using (new EditorGUI.DisabledScope(Application.isPlaying))
                             if (GUI.Button(nextButtonRect, _target == null ? "Create" : "Modify"))
                             {
+                                //If there is no character, set the default menu player prefs
+                                if (_target == null)
+                                {
+                                    PlayerPrefs.SetInt("etraReticleToggle",1);
+                                    PlayerPrefs.SetInt("etraScreenShakeToggle", 1);
+                                }
+
+
                                 _target = EtraCharacterCreatorCreateOrModify.
                                     CreateOrModify(_target, _gameplayType, _fpModel, _tpModel, generalAbilities, fpAbilities, tpAbilities, fpsItems);
                             }

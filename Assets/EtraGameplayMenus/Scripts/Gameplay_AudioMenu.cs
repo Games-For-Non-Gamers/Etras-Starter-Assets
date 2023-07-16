@@ -5,78 +5,56 @@ using UnityEngine.UI;
 
 public class Gameplay_AudioMenu : EtraStandardMenu
 {
-    [Header("Basic")]
-    public AudioMixer audioMixer;
-
     [Header("References")]
     public Slider master;
     public Slider sfx;
     public Slider music;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        if (audioMixer == null)
-        {
-            Debug.LogError("You must link an audio mixer to the Gameplay_AudioMenu script to use it.");
-            this.enabled= false;
-        }
+        LoadSliderValuesFromCurrentSettings();
 
 
-        if (!PlayerPrefs.HasKey("etraMasterSliderVolume"))
-        {
-            CreateAudioPrefs();
-        }
-
-        LoadSliderValuesFromPrefs();
-
+        AudioMixer audioMixer = EtraStandardMenuSettingsFunctions.GetCurrentAudioMixer();
         //Make listeners for each slider
         master.onValueChanged.AddListener((v) => {
             audioMixer.SetFloat("Master", Mathf.Log10(v)*20);
-            PlayerPrefs.SetFloat("etraMasterSliderVolume", v);
+            EtraStandardMenuSettingsFunctions.SetAudioPlayerPrefs();
         });
 
         sfx.onValueChanged.AddListener((v) => {
             audioMixer.SetFloat("SFX", Mathf.Log10(v) * 20);
-            PlayerPrefs.SetFloat("etraSFXSliderVolume", v);
+            EtraStandardMenuSettingsFunctions.SetAudioPlayerPrefs();
         });
 
         music.onValueChanged.AddListener((v) => {
             audioMixer.SetFloat("Music", Mathf.Log10(v) * 20);
-            PlayerPrefs.SetFloat("etraMusicSliderVolume", v);
+            EtraStandardMenuSettingsFunctions.SetAudioPlayerPrefs();
         });
-
     }
 
-    void CreateAudioPrefs()
+    void LoadSliderValuesFromCurrentSettings()
     {
+        AudioMixer audioMixer = EtraStandardMenuSettingsFunctions.GetCurrentAudioMixer();
         //Read all the default sliders.
         float masterVolume;
         float sfxVolume;
         float musicVolume;
 
         audioMixer.GetFloat("Master", out masterVolume);
-        PlayerPrefs.SetFloat("etraMasterSliderVolume", Mathf.Pow(10, masterVolume / 20));
+        master.value = Mathf.Pow(10, masterVolume / 20f);
 
         audioMixer.GetFloat("SFX", out sfxVolume);
-        PlayerPrefs.SetFloat("etraSFXSliderVolume", Mathf.Pow(10, sfxVolume / 20));
+        sfx.value = Mathf.Pow(10, sfxVolume / 20f);
 
         audioMixer.GetFloat("Music", out musicVolume);
-        PlayerPrefs.SetFloat("etraMusicSliderVolume", Mathf.Pow(10, musicVolume / 20));
-    }
+        music.value = Mathf.Pow(10, musicVolume / 20f);
 
-    void LoadSliderValuesFromPrefs()
-    {
-        master.value = PlayerPrefs.GetFloat("etraMasterSliderVolume");
-        sfx.value = PlayerPrefs.GetFloat("etraSFXSliderVolume");
-        music.value = PlayerPrefs.GetFloat("etraMusicSliderVolume");
+        master.GetComponent<EtraSlider>().UpdateSliderText(master.value);
+        sfx.GetComponent<EtraSlider>().UpdateSliderText(sfx.value);
+        music.GetComponent<EtraSlider>().UpdateSliderText(music.value);
 
-        audioMixer.SetFloat("Master", Mathf.Log10(master.value) * 20);
-        PlayerPrefs.SetFloat("etraMasterSliderVolume", master.value);
-        audioMixer.SetFloat("SFX", Mathf.Log10(sfx.value) * 20);
-        PlayerPrefs.SetFloat("etraSFXSliderVolume", sfx.value);
-        audioMixer.SetFloat("Music", Mathf.Log10(music.value) * 20);
-        PlayerPrefs.SetFloat("etraMusicSliderVolume", music.value);
     }
 
 }

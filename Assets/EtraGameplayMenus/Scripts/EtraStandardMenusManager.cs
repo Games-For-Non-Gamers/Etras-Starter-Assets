@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
-public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnControllerSwitch
+public class EtraStandardMenusManager : MonoBehaviour
 {
 
     [Header("Options")]
@@ -28,6 +28,7 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
     void Start() {
         //Close menus at start in case they are open in editor
         EtraStandardMenuSettingsFunctions.LoadGraphicsPlayerPrefs();
+        SetPlayerInputReferenceVariables();
         UnfreezeGame();
         closeMenu(pauseMenu);
         closeMenu(gameplayMenu);
@@ -35,20 +36,21 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
         closeMenu(audioMenu);
         disableBackground();
         //Set up player input
-        SetPlayerInputReferenceVariables();
+
     }
 
 
     #region Input For Freeze Event
+    #if ENABLE_INPUT_SYSTEM
     //************** INPUTS/CONTROLLER OR KEYBOARD SELECTION FOR FREEZE EVENT************** 
-    public PlayerInput playerInput = null;
+    public PlayerInput _playerInput = null;
     private void SetPlayerInputReferenceVariables()
     {
         eventSystem = GetComponentInChildren<EventSystem>();
 
-        if (playerInput == null)
+        if (_playerInput == null)
         {
-            playerInput = FindObjectOfType<PlayerInput>();
+            _playerInput = FindObjectOfType<PlayerInput>();
         }
     }
 
@@ -56,11 +58,16 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
     private InputAction gamepadStart;
     void OnEnable()
     {
+
         // Enable the key action
         keyboardEscape = new InputAction("KeyboardEscape", binding: "<Keyboard>/escape");
         keyboardEscape.Enable();
         gamepadStart = new InputAction("GamepadStart", binding: "<Gamepad>/start");
         gamepadStart.Enable();
+        //Subscribe to OnDeviceChange function
+
+        InputSystem.onDeviceChange += OnDeviceChange;
+
     }
 
     void OnDisable()
@@ -88,7 +95,41 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
 
         }
     }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        //If the game is paused check if selection should be with mouse/keyboard or gamepad
+        if (gameFrozen)
+        {
+            // we want to run this on controller swap
+            if (device.name.Contains("Key"))
+            {
+                if (eventSystem.currentSelectedGameObject != null)
+                {
+                    savedSelectedObject = eventSystem.currentSelectedGameObject;
+                }
+
+                eventSystem.SetSelectedGameObject(null);
+                Cursor.visible = true;
+            }
+            else //Gameplad and mobile
+            {
+                Cursor.visible = false;
+                if (savedSelectedObject != null && savedSelectedObject.gameObject.activeInHierarchy)
+                {
+                    eventSystem.SetSelectedGameObject(savedSelectedObject);
+                }
+                else if (currentlyActiveMenu != null)
+                {
+                    eventSystem.SetSelectedGameObject(currentlyActiveMenu.GetComponent<EtraStandardMenu>().firstSelectedObject.gameObject);
+                }
+            }
+
+        }
+    }
+
     //************************************************************* 
+    #endif
     #endregion
 
     #region GeneralMenuFunctions
@@ -109,17 +150,19 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
         menu.SetActive(true);
         currentlyActiveMenu = menu;
 
+        #if ENABLE_INPUT_SYSTEM
         //If we are using gamepad select the new higlighted button
-        if (EtraInputDeviceTracker.Instance.isUsingGamepad)
-        {
-            eventSystem.SetSelectedGameObject(gameplayMenu.firstSelectedObject.gameObject);
-            Cursor.visible = false;
-        }
-        else if (EtraInputDeviceTracker.Instance.isUsingKeyboard)
+        if (_playerInput.currentControlScheme.Contains("KeyboardMouse"))
         {
             eventSystem.SetSelectedGameObject(null);
             Cursor.visible = true;
         }
+        else 
+        {
+            eventSystem.SetSelectedGameObject(gameplayMenu.firstSelectedObject.gameObject);
+            Cursor.visible = false;
+        }
+        #endif 
     }
 
     void closeMenu(GameObject menu)
@@ -127,37 +170,7 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
         menu.gameObject.SetActive(false);
     }
 
-    void IRunsFunctionOnControllerSwitch.OnControllerSwitch(string newControllerName)
-    {
-        //If the game is paused check if selection should be with mouse/keyboard or gamepad
-        if (gameFrozen)
-        {
-            // we want to run this on controller swap
-            if (EtraInputDeviceTracker.Instance.isUsingKeyboard)
-            {
-                if (eventSystem.currentSelectedGameObject != null)
-                {
-                    savedSelectedObject = eventSystem.currentSelectedGameObject;
-                }
-
-                eventSystem.SetSelectedGameObject(null);
-                Cursor.visible = true;
-            }
-            else if (EtraInputDeviceTracker.Instance.isUsingGamepad)
-            {
-                Cursor.visible = false;
-                if (savedSelectedObject != null && savedSelectedObject.gameObject.activeInHierarchy)
-                {
-                    eventSystem.SetSelectedGameObject(savedSelectedObject);
-                }
-                else if (currentlyActiveMenu != null)
-                {
-                    eventSystem.SetSelectedGameObject(currentlyActiveMenu.GetComponent<EtraStandardMenu>().firstSelectedObject.gameObject);
-                }
-            }
-        }
-    }
-
+ 
     #endregion
 
     #region FreezeAndUnFreeze
@@ -184,7 +197,7 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
         gameFrozen = true;
-        playerInput.SwitchCurrentActionMap("UI");
+        _playerInput.SwitchCurrentActionMap("UI");
         InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
     }
 
@@ -203,7 +216,7 @@ public class EtraStandardMenusManager : MonoBehaviour, IRunsFunctionOnController
         Cursor.lockState = CursorLockMode.Locked;//lock the cursor
         Time.timeScale = 1;
         gameFrozen = false;
-        playerInput.SwitchCurrentActionMap("Player");
+        _playerInput.SwitchCurrentActionMap("Player");
         InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
 
     }

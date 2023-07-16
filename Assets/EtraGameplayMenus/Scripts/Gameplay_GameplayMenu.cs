@@ -3,6 +3,7 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Source.Camera;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -10,16 +11,15 @@ public class Gameplay_GameplayMenu : EtraStandardMenu
 {
     public Slider mouseSensitivity;
     public Slider joystickSensitivity;
+    public Toggle invertYToggle;
     public Toggle reticleToggle;
     public Toggle screenShakeToggle;
-    public Toggle invertYToggle;
 
-    private void Start()
+
+    private void OnEnable()
     {
         mouseSensitivity.interactable= false;
         joystickSensitivity.interactable = false;
-        reticleToggle.interactable = false;
-        screenShakeToggle.interactable = false;
         invertYToggle.interactable = false;
 
         if (EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>())
@@ -30,57 +30,28 @@ public class Gameplay_GameplayMenu : EtraStandardMenu
 
             mouseSensitivity.onValueChanged.AddListener((v) => {
                 EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>().mouseSensitivity = v;
+                LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
             });
 
             joystickSensitivity.onValueChanged.AddListener((v) => {
                 EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>().joystickSensitivity = v;
+                LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
             });
 
             invertYToggle.onValueChanged.AddListener((v) => {
                 EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>().invertY = v;
+                LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
             });
         }
 
+        reticleToggle.interactable = false;
         if (GameObject.Find("Cursor"))
         {
             reticleToggle.interactable = true;
             reticleToggle.onValueChanged.AddListener((v) => {
                 GameObject.Find("Cursor").GetComponent<Image>().enabled = v;
+                LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
             });
-        }
-
-        screenShakeToggle.onValueChanged.AddListener((v) => {
-            screenShakeToggle.interactable = true;
-            CinemachineShake.Instance.shakeEnabled = v;
-        });
-
-
-        if (EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>())
-        {
-            ABILITY_CameraMovement camAbility = EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
-            mouseSensitivity.value = camAbility.mouseSensitivity;
-            joystickSensitivity.value = camAbility.joystickSensitivity;
-            invertYToggle.isOn = false;
-        }
-        else
-        {
-            mouseSensitivity.interactable = false;
-            joystickSensitivity.interactable = false;
-        }
-
-
-        if (GameObject.Find("Cursor"))
-        {
-            reticleToggle.interactable = true;
-            if (GameObject.Find("Cursor").activeInHierarchy && GameObject.Find("Cursor").GetComponent<Image>().enabled)
-            {
-                reticleToggle.isOn = true;
-            }
-            else
-            {
-                reticleToggle.isOn = false;
-            }
-           
         }
         else
         {
@@ -89,6 +60,42 @@ public class Gameplay_GameplayMenu : EtraStandardMenu
         }
 
         screenShakeToggle.interactable = true;
+        screenShakeToggle.onValueChanged.AddListener((v) => {
+            CinemachineShake.Instance.shakeEnabled = v;
+            LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
+        });
+
+        LoadSavedEtraStandardGameplayMenuSettings.LoadGameplayPlayerPrefs();
+        LoadUiValuesFromCurrentSettings();
+
+    }
+
+    
+    void LoadUiValuesFromCurrentSettings()
+    {
+
+        if (EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>())
+        {
+            ABILITY_CameraMovement camAbility = EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
+            mouseSensitivity.value = camAbility.mouseSensitivity;
+            joystickSensitivity.value = camAbility.joystickSensitivity;
+            invertYToggle.isOn = camAbility.invertY;
+        }
+
+        if (GameObject.Find("Cursor"))
+        {
+            if (GameObject.Find("Cursor").activeInHierarchy && GameObject.Find("Cursor").GetComponent<Image>().enabled)
+            {
+                reticleToggle.isOn = true;
+            }
+            else
+            {
+                reticleToggle.isOn = false;
+            }
+
+        }
+
+
         if (CinemachineShake.Instance)
         {
             if (CinemachineShake.Instance.shakeEnabled)
@@ -102,5 +109,5 @@ public class Gameplay_GameplayMenu : EtraStandardMenu
         }
 
     }
-
+ 
 }

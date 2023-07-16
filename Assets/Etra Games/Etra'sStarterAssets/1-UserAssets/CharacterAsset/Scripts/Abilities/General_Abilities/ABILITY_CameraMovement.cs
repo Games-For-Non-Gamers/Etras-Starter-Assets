@@ -13,7 +13,9 @@ namespace Etra.StarterAssets.Abilities
 
         [Header("Basics")]
         //Camera sensitivity
+        [Range(0,3)]
         public float mouseSensitivity = 1;
+        [Range(0, 3)]
         public float joystickSensitivity = 1;
         public bool invertY;
         [HideInInspector] public float usedCameraSensitivity;
@@ -85,6 +87,7 @@ namespace Etra.StarterAssets.Abilities
         //Set defaults of gameplay variables 
         private void Reset()
         {
+            setEtraMenuPlayerPrefs();
             if (this.gameObject.name == "Tempcube") { return; }
             if (GetComponentInParent<EtraCharacterMainController>().appliedGameplayType == EtraCharacterMainController.GameplayType.FirstPerson)
             {
@@ -99,6 +102,16 @@ namespace Etra.StarterAssets.Abilities
             playerCameraRoot = GameObject.Find("EtraPlayerCameraRoot");
             OnValidate();
         }
+
+        void setEtraMenuPlayerPrefs()
+        {
+            ABILITY_CameraMovement camAbility = EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
+            PlayerPrefs.SetFloat("etraMouseSensitivity", mouseSensitivity);
+            PlayerPrefs.SetFloat("etraJoystickSensitivity", joystickSensitivity);
+            int invertYValue = camAbility.invertY ? 1 : 0;
+            PlayerPrefs.SetInt("etraInvertYToggle", invertYValue);
+        }
+       
 
         public override void abilityStart()
         {
@@ -120,6 +133,10 @@ namespace Etra.StarterAssets.Abilities
             if (invertY)
             {
                 camModY =  Mathf.Abs(camModY) *-1;
+            }
+            else
+            {
+                camModY = Mathf.Abs(camModY);
             }
 
             //Shoot a ray towards the center of the screen
@@ -195,16 +212,20 @@ namespace Etra.StarterAssets.Abilities
 
         public float updateUsedCameraSensitivity()
         {
-            if (EtraInputDeviceTracker.Instance.isUsingKeyboard)
+            # if ENABLE_INPUT_SYSTEM
+            if (_playerInput.currentControlScheme.Contains("KeyboardMouse"))
             {
                 usedCameraSensitivity = mouseSensitivity;
                 return mouseSensitivity;
-            } else if (EtraInputDeviceTracker.Instance.isUsingGamepad)
+            } else 
             {
                 usedCameraSensitivity = joystickSensitivity;
-                return mouseSensitivity;
+                return joystickSensitivity;
             }
-            Debug.LogError("Input Device invalid");
+            #else
+            usedCameraSensitivity = mouseSensitivity;
+            return mouseSensitivity;
+            #endif
             return 0;
         }
 
@@ -217,6 +238,7 @@ namespace Etra.StarterAssets.Abilities
 
         private void OnValidate()
         {
+            setEtraMenuPlayerPrefs();
             abilityCheckSubAbilityLocks();
         }
 

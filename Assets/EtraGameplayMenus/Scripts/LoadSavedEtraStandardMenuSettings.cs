@@ -8,11 +8,21 @@ public class LoadSavedEtraStandardMenuSettings : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+
+    private void Start()
+    {
+        //GAMEPLAY
         //On very first launch of game auto set graphics quality
         if (PlayerPrefs.GetString("unity.player_session_count") == "1")
         {
             EtraStandardMenuSettingsFunctions.AutomaticallySelectQuality();
         }
+        EtraStandardMenuSettingsFunctions.LoadGraphicsPlayerPrefs();
+
+        //AUDIO
+        EtraStandardMenuSettingsFunctions.LoadAudioPlayerPrefs();
     }
 
 

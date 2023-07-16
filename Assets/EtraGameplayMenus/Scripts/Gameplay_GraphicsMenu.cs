@@ -6,6 +6,32 @@ using UnityEngine.UI;
 
 public class Gameplay_GraphicsMenu : EtraStandardMenu
 {
+    //Some of the following code is modified from Steffen Itterheim's UnityResolutionDialog
+    /*
+    MIT License
+
+    Copyright(c) 2020 Steffen Itterheim
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files(the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+    */
+
+
     // UI elements
     public TMP_Dropdown quality;
     public TMP_Dropdown resolution;
@@ -87,19 +113,11 @@ public class Gameplay_GraphicsMenu : EtraStandardMenu
         resolution.ClearOptions();
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
         Resolution[] resolutions = Screen.resolutions;
-        bool isWindowed = Screen.fullScreenMode == FullScreenMode.Windowed;
-        bool isFullScreenWindow = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
-        int systemWidth = Display.main.systemWidth;
-        int systemHeight = Display.main.systemHeight;
 
         foreach (Resolution res in resolutions)
         {
             int width = res.width;
             int height = res.height;
-
-
-
-
             string resString = GetResolutionString(width, height);
             options.Add(new TMP_Dropdown.OptionData(resString));
         }

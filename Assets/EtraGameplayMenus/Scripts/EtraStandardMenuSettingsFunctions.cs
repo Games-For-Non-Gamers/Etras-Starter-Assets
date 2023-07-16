@@ -1,4 +1,6 @@
+using EtrasStarterAssets;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Timeline;
 
 public static class EtraStandardMenuSettingsFunctions 
@@ -97,7 +99,63 @@ public static class EtraStandardMenuSettingsFunctions
     #endregion
 
     #region Audio Functions
+    public static AudioMixer GetCurrentAudioMixer()
+    {
+        AudioMixer audioMixer;
+        AudioSource audioSource = UnityEngine.Object.FindObjectOfType<AudioSource>();
 
+        if (audioSource != null)
+        {
+            audioMixer = audioSource.outputAudioMixerGroup.audioMixer;
+
+            if (audioMixer != null)
+            {
+                return audioMixer;
+            }
+            Debug.LogError("No Audio Sources found in the scene. Volume settings cannot be automatically set.");
+            return null;
+        }
+        else
+        {
+            Debug.LogError("No Audio Sources found in the scene. Volume settings cannot be automatically set.");
+            return null;
+        }
+
+    }
+
+
+    public static void SetAudioPlayerPrefs()
+    {
+        //Read the slider values and set the music settings correctly. 
+        AudioMixer audioMixer = EtraStandardMenuSettingsFunctions.GetCurrentAudioMixer();
+        //Read all the default sliders.
+        float masterVolume;
+        float sfxVolume;
+        float musicVolume;
+
+        audioMixer.GetFloat("Master", out masterVolume);
+        PlayerPrefs.SetFloat("etraMasterSliderVolume", masterVolume);
+
+        audioMixer.GetFloat("SFX", out sfxVolume);
+        PlayerPrefs.SetFloat("etraSFXSliderVolume", sfxVolume);
+
+        audioMixer.GetFloat("Music", out musicVolume);
+        PlayerPrefs.SetFloat("etraMusicSliderVolume", musicVolume);
+    }
+
+    public static void LoadAudioPlayerPrefs()
+    {
+        if (!PlayerPrefs.HasKey("etraMasterSliderVolume"))
+        {
+            SetAudioPlayerPrefs();
+        }
+
+        AudioMixer audioMixer = EtraStandardMenuSettingsFunctions.GetCurrentAudioMixer();
+
+        audioMixer.SetFloat("Master", PlayerPrefs.GetFloat("etraMasterSliderVolume"));
+        audioMixer.SetFloat("SFX", PlayerPrefs.GetFloat("etraSFXSliderVolume"));
+        audioMixer.SetFloat("Music", PlayerPrefs.GetFloat("etraMusicSliderVolume"));
+    }
 
     #endregion
     //Audio

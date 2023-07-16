@@ -14,6 +14,7 @@ public class EtraSlider : MonoBehaviour
         NoDecimal,
         OneDecimal,
         TwoDecimal,
+        PercentOf0To1Range,
     }
 
     void OnEnable()
@@ -40,6 +41,10 @@ public class EtraSlider : MonoBehaviour
 
             case NumberFormat.TwoDecimal:
                 returnedString = v.ToString("0.00");
+                break;
+            case NumberFormat.PercentOf0To1Range:
+                returnedString = v.ToString("0.00");
+                returnedString = (float.Parse(returnedString) * 100).ToString(); 
                 break;
         }
 
