@@ -105,13 +105,9 @@ namespace Etra.StarterAssets.Abilities
 
         void setEtraMenuPlayerPrefs()
         {
-            ABILITY_CameraMovement camAbility = EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_CameraMovement>();
-            PlayerPrefs.SetFloat("etraMouseSensitivity", mouseSensitivity);
-            PlayerPrefs.SetFloat("etraJoystickSensitivity", joystickSensitivity);
-            int invertYValue = camAbility.invertY ? 1 : 0;
-            PlayerPrefs.SetInt("etraInvertYToggle", invertYValue);
+            //LoadSavedEtraStandardGameplayMenuSettings.SetGameplayPlayerPrefs();
         }
-       
+
 
         public override void abilityStart()
         {
