@@ -599,8 +599,6 @@ namespace Etra.StarterAssets
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private void Awake()
         {
-            Physics.autoSyncTransforms = true;
-
             //Set up Instance so it can be easily referenced. 
             if (Instance == null)
             {
@@ -610,7 +608,7 @@ namespace Etra.StarterAssets
             {
                 Instance = this;
             }
-
+            Physics.autoSyncTransforms = true;
             setChildObjects();
         }
 

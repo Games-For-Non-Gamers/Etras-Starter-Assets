@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 1071655053235588885}
   - component: {fileID: 5206192185734494286}
   m_Layer: 5
-  m_Name: EtraStandardMenusManager
+  m_Name: EtraStandardMenusManager_StarterAssets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +396,6 @@ MonoBehaviour:
   gameplayMenu: {fileID: 4907395907158454592}
   graphicsMenu: {fileID: 3188713606743103509}
   audioMenu: {fileID: 2646873249514811589}
-  playerInput: {fileID: 0}
 --- !u!114 &5206192185734494286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,7 +823,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSelectedObject: {fileID: 1682328573337021636}
-  audioMixer: {fileID: 24100000, guid: 236d568e14be7974e89f1474dda7a2eb, type: 2}
   master: {fileID: 6093045584493259361}
   sfx: {fileID: 5495834384689850925}
   music: {fileID: 7956881889516439077}
@@ -1094,7 +1092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3962138530303985495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1718,8 +1716,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6911868507616041134}
-        m_TargetAssemblyTypeName: Gameplay_PauseMenu, Assembly-CSharp
-        m_MethodName: quitGame
+        m_TargetAssemblyTypeName: Etra.StandardMenus.EtraPauseMenu, EtraStandardMenus
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1852,8 +1850,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6911868507616041134}
-        m_TargetAssemblyTypeName: Gameplay_PauseMenu, Assembly-CSharp
-        m_MethodName: backToTitle
+        m_TargetAssemblyTypeName: Etra.StandardMenus.EtraPauseMenu, EtraStandardMenus
+        m_MethodName: BackToTitle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1986,8 +1984,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1071655053235588885}
-        m_TargetAssemblyTypeName: EtraGameplayMenus, Assembly-CSharp
-        m_MethodName: openGraphicsMenu
+        m_TargetAssemblyTypeName: Etra.StandardMenus.EtraStandardMenusManager, EtraStandardMenus
+        m_MethodName: OpenGraphicsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2681,9 +2679,9 @@ MonoBehaviour:
   firstSelectedObject: {fileID: 4907395906440159722}
   mouseSensitivity: {fileID: 4907395907801238303}
   joystickSensitivity: {fileID: 821304702370359796}
+  invertYToggle: {fileID: 841584651584219831}
   reticleToggle: {fileID: 3504274205204961230}
   screenShakeToggle: {fileID: 8249733052423514217}
-  invertYToggle: {fileID: 841584651584219831}
 --- !u!1 &4907395907159205112
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,8 +3068,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1071655053235588885}
-        m_TargetAssemblyTypeName: EtraGameplayMenus, Assembly-CSharp
-        m_MethodName: openGameplayMenu
+        m_TargetAssemblyTypeName: Etra.StandardMenus.EtraStandardMenusManager, EtraStandardMenus
+        m_MethodName: OpenGameplayMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3376,8 +3374,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1071655053235588885}
-        m_TargetAssemblyTypeName: EtraGameplayMenus, Assembly-CSharp
-        m_MethodName: openAudioMenu
+        m_TargetAssemblyTypeName: Etra.StandardMenus.EtraStandardMenusManager, EtraStandardMenus
+        m_MethodName: OpenAudioMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4654,23 +4652,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943481170714, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8890991
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099205, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Name
@@ -4767,6 +4769,10 @@ PrefabInstance:
     - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: percentage
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: textNumFormat
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943728947903, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_text
@@ -5142,6 +5148,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6934546943481170714, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8890991
+      objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099205, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Name
       value: MouseSense
@@ -5386,23 +5396,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943481170714, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8890991
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099205, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Name
@@ -5500,6 +5514,10 @@ PrefabInstance:
       propertyPath: percentage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: textNumFormat
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6934546943728947903, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_text
       value: SFX
@@ -5531,27 +5549,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.35693568
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934546942567469432, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.35693568
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.35693568
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 1.7100983
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943481170714, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8890991
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099205, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Name
@@ -5655,7 +5677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: textNumFormat
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943728947903, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_text
@@ -5955,6 +5977,10 @@ PrefabInstance:
     - target: {fileID: 6934546943346344778, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943481170714, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.8890991
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099205, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Name

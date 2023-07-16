@@ -222,7 +222,6 @@ namespace Etra.StarterAssets.Abilities
             usedCameraSensitivity = mouseSensitivity;
             return mouseSensitivity;
             #endif
-            return 0;
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
