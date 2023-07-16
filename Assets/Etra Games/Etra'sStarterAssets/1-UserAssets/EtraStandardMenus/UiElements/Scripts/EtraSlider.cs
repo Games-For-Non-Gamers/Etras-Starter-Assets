@@ -47,7 +47,8 @@ namespace Etra.StandardMenus
                     break;
 
                 case NumberFormat.PercentOf0To1Range:
-                    formattedString = (value * 100).ToString("0.00");
+                    formattedString = value.ToString("0.00");
+                    formattedString = (float.Parse(formattedString) * 100).ToString();
                     break;
             }
 

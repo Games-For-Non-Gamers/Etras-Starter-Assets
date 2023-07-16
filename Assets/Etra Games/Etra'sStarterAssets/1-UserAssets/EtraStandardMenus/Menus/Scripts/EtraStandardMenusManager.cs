@@ -65,12 +65,13 @@ namespace Etra.StandardMenus
             keyboardEscape.Enable();
             gamepadStart = new InputAction("GamepadStart", binding: "<Gamepad>/start");
             gamepadStart.Enable();
-
-            InputSystem.onDeviceChange += OnDeviceChange;
+            InputSystem.onActionChange += OnActionChange;
+            //  InputSystem.onDeviceChange += OnDeviceChange;
         }
 
         void OnDisable()
         {
+            InputSystem.onActionChange -= OnActionChange;
             keyboardEscape.Disable();
             keyboardEscape.Dispose();
             gamepadStart.Disable();
@@ -79,11 +80,14 @@ namespace Etra.StandardMenus
 
         GameObject savedSelectedObject = null;
 
-        void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        string savedControlScheme = ""; 
+        void OnActionChange(object action, InputActionChange change)
         {
-            if (gameFrozen)
+            if (gameFrozen && _playerInput.currentControlScheme != savedControlScheme)
             {
-                if (device.name.Contains("Key"))
+                savedControlScheme = _playerInput.currentControlScheme;
+
+                if (_playerInput.currentControlScheme.Contains("Keyboard"))
                 {
                     if (eventSystem.currentSelectedGameObject != null)
                     {
@@ -159,7 +163,7 @@ namespace Etra.StandardMenus
             currentlyActiveMenu = menu;
 
 #if ENABLE_INPUT_SYSTEM
-            if (_playerInput.currentControlScheme.Contains("KeyboardMouse"))
+            if (_playerInput.currentControlScheme.Contains("Keyboard"))
             {
                 eventSystem.SetSelectedGameObject(null);
                 Cursor.visible = true;
@@ -248,7 +252,7 @@ namespace Etra.StandardMenus
         }
 #endregion
 
-#region Public Menu Functions
+        #region Public Menu Functions
         public void OpenPauseMenu()
         {
             OpenMenu(pauseMenu);
@@ -268,6 +272,12 @@ namespace Etra.StandardMenus
         {
             OpenMenu(audioMenu);
         }
-#endregion
+
+        public void AutoSelectGraphicsQuality()
+        {
+            EtraStandardMenuSettingsFunctions.AutomaticallySelectQuality();
+        }
+
+        #endregion
     }
 }
