@@ -83,11 +83,26 @@ namespace Etra.StandardMenus
         string savedControlScheme = ""; 
         void OnActionChange(object action, InputActionChange change)
         {
-            if (gameFrozen && _playerInput.currentControlScheme != savedControlScheme)
+            if (!gameFrozen)
+            {
+                return;
+            }
+
+            if (!_playerInput)
+            {
+                return;
+            }
+
+            if (_playerInput.currentControlScheme == null)
+            {
+                return;
+            }
+
+            if (_playerInput.currentControlScheme != savedControlScheme)
             {
                 savedControlScheme = _playerInput.currentControlScheme;
 
-                if (_playerInput.currentControlScheme.Contains("Keyboard"))
+                if (savedControlScheme.Contains("Keyboard"))
                 {
                     if (eventSystem.currentSelectedGameObject != null)
                     {
