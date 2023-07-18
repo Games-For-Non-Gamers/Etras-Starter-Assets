@@ -5571,6 +5571,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Master
       objectReference: {fileID: 0}
+    - target: {fileID: 6934546943655099224, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
     - target: {fileID: 6934546943655099226, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5654,6 +5658,14 @@ PrefabInstance:
     - target: {fileID: 6934546943655099226, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: percentage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6934546943655099227, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
+      propertyPath: textNumFormat
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6934546943728947903, guid: 96a4ed7ce102d464d9702ea25d37c1c3, type: 3}
       propertyPath: m_text
