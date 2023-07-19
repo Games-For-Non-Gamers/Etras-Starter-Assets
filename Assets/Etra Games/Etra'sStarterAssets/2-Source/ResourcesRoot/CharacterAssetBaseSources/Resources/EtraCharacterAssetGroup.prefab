@@ -57,6 +57,18 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   stopPlayingSounds: 0
+--- !u!114 &5295367673179778525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 4211378996227546416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c98a941f8054c4c87ed9be92d7d110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3439210267053600588
 GameObject:
   m_ObjectHideFlags: 0

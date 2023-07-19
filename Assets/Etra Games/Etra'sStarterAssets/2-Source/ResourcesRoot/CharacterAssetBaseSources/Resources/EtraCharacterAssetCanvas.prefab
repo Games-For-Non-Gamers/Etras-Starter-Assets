@@ -116,7 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reticle: {fileID: 5501037125453807588}
-  fpsCounter: {fileID: 0}
   screenWiper: {fileID: 0}
   screenWipeStart: {x: 1600, y: 0, z: 0}
   screenWipeEnd: {x: -1600, y: 0, z: 0}
