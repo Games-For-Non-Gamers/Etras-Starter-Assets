@@ -14,7 +14,8 @@ namespace Etra.StarterAssets.Combat
         ///   The health of the GameObject.
         /// </summary>
         /// <remarks>
-        ///   This variable's setter isn't public because it should be set by using the <see cref="Damage"/> and <see cref="Heal"/> methods.
+        ///   This variable's setter isn't public because it should be set by using the <see cref="Damage"/> and <see cref="Heal"/> methods
+        ///   or by using the inspector.
         /// </remarks>
         public float health
         {
