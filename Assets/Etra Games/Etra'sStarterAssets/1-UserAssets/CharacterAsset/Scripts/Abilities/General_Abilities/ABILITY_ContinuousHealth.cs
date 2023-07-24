@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Etra.StarterAssets;
+using UnityEngine.UI;
 using Etra.StarterAssets.Combat;
+using Etra.StarterAssets.Source;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -17,6 +18,7 @@ namespace Etra.StarterAssets.Abilities
         int currentStep = 0;
         HealthSystem healthSystem;
         ABILITY_CheckpointRespawn checkpointRespawn;
+        Image image;
         public override void abilityStart()
         {
             healthSystem = GetComponentInChildren<HealthSystem>();
@@ -24,6 +26,10 @@ namespace Etra.StarterAssets.Abilities
             healthSystem.OnDamage.AddListener(OnDamage);
             healthSystem.OnHeal.AddListener(OnHeal);
             healthSystem.OnDeath.AddListener(OnDeath);
+            healthSystem.OnChange.AddListener(OnChange);
+            image = EtrasResourceGrabbingFunctions
+                .addPrefabFromAssetsByName("DamageFilter", EtraCharacterMainController.Instance.starterAssetCanvas.transform, false, Vector3.zero, new Quaternion(0, 0, 0, 0), new Vector3(1, 1, 0))
+                .GetComponent<Image>();
         }
 
         public void Damage()
@@ -59,6 +65,13 @@ namespace Etra.StarterAssets.Abilities
             checkpointRespawn.teleportToCheckpoint();
             healthSystem.Heal(healthSystem.maxHealth, true);
             currentStep = 0;
+        }
+
+        void OnChange(float change)
+        {
+            float healthLost = healthSystem.maxHealth - healthSystem.health;
+            image.color = new Color(image.color.r, image.color.g, image.color.b, healthLost / healthSystem.maxHealth);
+            Debug.Log(image.color.a);
         }
 
         IEnumerator DamageCooldown()
