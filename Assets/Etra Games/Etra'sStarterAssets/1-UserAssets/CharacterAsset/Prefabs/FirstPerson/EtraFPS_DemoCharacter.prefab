@@ -1114,6 +1114,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageCooldownWaitTime: 2
   healCooldownWaitTime: 0
+  siblingIndex: 1
 --- !u!1 &2200021418018817105
 GameObject:
   m_ObjectHideFlags: 0
