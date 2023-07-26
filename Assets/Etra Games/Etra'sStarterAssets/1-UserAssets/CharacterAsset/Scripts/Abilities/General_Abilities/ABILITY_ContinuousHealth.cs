@@ -16,7 +16,7 @@ namespace Etra.StarterAssets.Abilities
         float damageCooldownWaitTime, healCooldownWaitTime;
         bool damageCooldown = false, healCooldown = false;
         [SerializeField, Header("Misc"), Tooltip("The index of the damage filter inside the canvas")]
-        int siblingIndex = 1;
+        int siblingIndex = 0;
         int currentStep = 0;
         HealthSystem healthSystem;
         ABILITY_CheckpointRespawn checkpointRespawn;
