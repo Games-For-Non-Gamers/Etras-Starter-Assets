@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using Etra.StarterAssets.Combat;
+using EtrasStarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables.Enemies
@@ -15,6 +16,11 @@ namespace Etra.StarterAssets.Interactables.Enemies
         [Header("Animation")]
         public GameObject baseSpin;
         public GameObject armSpin;
+
+
+        [Header("Particles")]
+        public GameObject impactParticle;
+        public GameObject explosionParticle;
 
         //References set by code
         private Animator turretAnimator;
@@ -80,8 +86,6 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 audioManager.Play("RobotAlert");
                 audioManager.Play("RobotPunch");
             }
-
-
         }
 
         // This coroutine will rotate the object back to its starting position
@@ -113,7 +117,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         public void aimAtPlayer()
         {
             //Base y rotation toward player
-            var targetDirection = target.transform.position - baseSpin.transform.position;
+            Vector3 targetDirection = target.transform.position - baseSpin.transform.position;
             float singleStep = spinSpeed * Time.deltaTime;
             Vector3 newDirection = Vector3.RotateTowards(baseSpin.transform.forward, targetDirection, singleStep, 0.0f);
             Quaternion lookRot = Quaternion.LookRotation(newDirection);
@@ -153,6 +157,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         {
             turretAnimator.SetBool("Damaged", true);
             audioManager.Play("RobotHit");
+            Instantiate(impactParticle, armSpin.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(0.01f);
             isCooling = false;
             turretAnimator.SetBool("Damaged", false);
@@ -162,12 +167,15 @@ namespace Etra.StarterAssets.Interactables.Enemies
         IEnumerator die()
         {
             playerSpotted = false;
+            audioManager.stopAllSounds();
             audioManager.Play("RobotExplode");
+            audioManager.stopPlayingSounds = true;
             turretAnimator.SetBool("Attack", false);
             turretAnimator.SetBool("Die", true);
+
             yield return new WaitForSeconds(0.33f);
             transform.GetChild(0).gameObject.SetActive(false);  //Hide model
-                                                                //TODO: Play particle here
+            Instantiate(explosionParticle, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(1.6f);
             Destroy(gameObject);
 

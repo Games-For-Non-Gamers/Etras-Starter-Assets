@@ -46,7 +46,7 @@ public class ReadmeEditor : Editor {
 	[MenuItem("Tutorial/Show Tutorial Instructions")]
 	static Readme SelectReadme() 
 	{
-		var ids = AssetDatabase.FindAssets("Readme t:Readme");
+		string[] ids = AssetDatabase.FindAssets("Readme t:Readme");
 		if (ids.Length == 1)
 		{
 			var readmeObject = AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(ids[0]));
@@ -55,12 +55,24 @@ public class ReadmeEditor : Editor {
 			
 			return (Readme)readmeObject;
 		}
-		else
-		{
-			Debug.Log("Couldn't find a readme");
-			return null;
-		}
-	}
+        if (ids.Length == 2)
+        {
+			for (int i = 0; i < ids.Length; i++)
+			{
+                var readmeObject = AssetDatabase.LoadMainAssetAtPath(AssetDatabase.GUIDToAssetPath(ids[i]));
+                Readme readme = (Readme)readmeObject;
+
+                if (readme.title == "Etra's Non-Gamer Tutorial Creator")
+                {
+                    Selection.objects = new UnityEngine.Object[] { readmeObject };
+                    return (Readme)readmeObject;
+                }
+            }
+        }
+
+        Debug.Log("Couldn't find a readme");
+        return null;
+    }
 	
 	protected override void OnHeaderGUI()
 	{

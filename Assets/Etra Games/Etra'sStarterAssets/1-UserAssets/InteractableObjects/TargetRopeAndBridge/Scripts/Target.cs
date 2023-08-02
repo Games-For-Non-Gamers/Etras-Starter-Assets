@@ -1,3 +1,4 @@
+using Etra.StarterAssets.Source;
 using System.Collections;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Etra.StarterAssets.Interactables
         EtrasStarterAssets.AudioManager audioManager;
         //Activated var
         [HideInInspector] public bool activated = false;
-
+        ParticleSystem impact;
         // This function is called when a change is made in the Inspector
         public void OnValidate()
         {
@@ -63,7 +64,7 @@ namespace Etra.StarterAssets.Interactables
             }
 
             audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
-
+            impact = this.transform.Find("Source Objects (DON'T REARRANGE)").Find("Impact").GetComponent<ParticleSystem>();
         }
 
         private void Update()
@@ -122,11 +123,7 @@ namespace Etra.StarterAssets.Interactables
         //So that's a bit wierd, but I worked with it
         public void updateRopes()
         {
-            //Don't update the ropes constantly if the game is playing
-            if (Application.isPlaying)
-            {
-                return;
-            }
+
 
             //Set the positions array size
             Vector3[] positions = new Vector3[ropePoints.Length + 2];
@@ -182,6 +179,7 @@ namespace Etra.StarterAssets.Interactables
             lineFuser.SetActive(false);
             sparker.gameObject.SetActive(true);
             LeanTween.scale(sparker.gameObject, new Vector3(0.2f, 0.2f, 0.11f), 0.05f).setEaseInOutSine();
+            impact.Play();
             yield return new WaitForSeconds(0.05f);
             audioManager.Play("TargetPop");
             audioManager.Play("BurningSparkler");
@@ -211,7 +209,7 @@ namespace Etra.StarterAssets.Interactables
                     ropeLine.SetPosition(i, newPosValue);
                     var targetDirection = ropeLine.GetPosition(i - 1) - sparker.position;
                     float singleStep = 20 / sparkRotateSpeedDivider * Time.deltaTime;
-                    Vector3 newDirection = Vector3.RotateTowards(sparker.transform.forward, targetDirection, singleStep, 0.0f);
+                    Vector3 newDirection = Vector3.RotateTowards(sparker.transform.forward, targetDirection, singleStep, 0.9f*Time.deltaTime);
                     Quaternion lookRot = Quaternion.LookRotation(newDirection);
                     sparker.transform.rotation = lookRot;
 
@@ -220,14 +218,23 @@ namespace Etra.StarterAssets.Interactables
                 ropeLine.positionCount--;
             }
 
-            LeanTween.scale(sparker.gameObject, Vector3.zero, 0.05f).setEaseInOutSine();
+
+         //   LeanTween.scale(sparker.gameObject, Vector3.zero, 0.2f).setEaseInOutSine();
+            ParticleSystem[] particles = sparker.GetComponentsInAllChildren<ParticleSystem>();
+
+            foreach (ParticleSystem particle in particles)
+            {
+                particle.Stop();
+            }
+
             yield return new WaitForSeconds(0.05f);
             audioManager.Stop("BurningSparkler");
             audioManager.Play("MedSparkle");
             ropeLine.enabled = false;
             activated = true;
-            sparker.gameObject.SetActive(false);
             bridge.checkActivate();
+            yield return new WaitForSeconds(1);
+            sparker.gameObject.SetActive(false);
         }
     }
 }

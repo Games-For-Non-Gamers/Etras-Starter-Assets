@@ -57,6 +57,11 @@ namespace Etra.StarterAssets.Abilities
         private void removeNullAbilitySlots()
         {
 
+            if (!FindObjectOfType<EtraAbilityManager>())
+            {
+                return;
+            }
+
             if (characterAbilityUpdateOrder.Length == 0)
             {
                 return;

@@ -31,6 +31,8 @@ namespace Etra.StarterAssets.Abilities
 
         public void Reset()
         {
+            if (this.gameObject.name == "Tempcube"){return; }
+
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
             var spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
@@ -92,7 +94,6 @@ namespace Etra.StarterAssets.Abilities
             animating = false;
         }
 
-        Vector3 moveDown = new Vector3(0, -0.01f, 0);
         void teleportToLocation()
         {
             etraCharacterMainController.gameObject.transform.position = checkpointLocation;
@@ -108,13 +109,7 @@ namespace Etra.StarterAssets.Abilities
 
             if (teleportToGround)
             {
-                etraCharacterMainController.Grounded = false;
-                while (etraCharacterMainController.Grounded != true)
-                {
-                    etraCharacterMainController.gameObject.transform.position += moveDown;
-                    //force a grounded check
-                    etraCharacterMainController.GroundedCheck();
-                }
+                etraCharacterMainController.teleportToGround();
             }
 
 

@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.94, z: 0}
   m_LocalScale: {x: 1, y: 0.3543586, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6761905289763717402}
   m_RootOrder: 0
@@ -52,6 +53,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -122,6 +124,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6761905289656906271}
   - {fileID: 6761905289763717402}
@@ -156,6 +159,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.04, z: 0}
   m_LocalScale: {x: 1, y: 0.019309, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6761905287990332436}
   m_RootOrder: 0
@@ -179,6 +183,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -240,6 +245,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.113, z: 0}
   m_LocalScale: {x: 0.89996, y: 0.13106515, z: 0.89996}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 272948180593099747}
   m_Father: {fileID: 6761905287990332436}
@@ -264,6 +270,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -333,6 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
   sounds:
   - name: ButtonPress
     clip: {fileID: 8300000, guid: 43559a3a818289345a7a4abf131d3768, type: 3}
@@ -364,3 +372,4 @@ MonoBehaviour:
     isMusic: 0
     loop: 0
     source: {fileID: 0}
+  stopPlayingSounds: 0

@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.06, y: 0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8670025090755503131}
   m_Father: {fileID: 7553328860832279286}
@@ -48,6 +49,7 @@ MonoBehaviour:
   swayRotation: 1
   bobOffset: 1
   bobSway: 1
+  lockInput: 0
   controllerLookAnimationReduction: 250
   startingPositionOffset: {x: 0.06, y: 0.06, z: 0}
   startingRotationOffset: {x: 0, y: 0, z: 0, w: 1}
@@ -88,6 +90,7 @@ Transform:
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0.028, y: -0.097, z: 0}
   m_LocalScale: {x: 2.559, y: 9.681, z: 2.559}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8670025090755503131}
   m_RootOrder: 0
@@ -111,6 +114,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -168,6 +172,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.2362, y: -0.34, z: 0.512}
   m_LocalScale: {x: 0.76757, y: 0.76757, z: 0.76757}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2835717266462403937}
   m_Father: {fileID: 7449406887297584630}
@@ -193,6 +198,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7553328860832279285
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +225,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7449406887297584630}
   m_Father: {fileID: 0}

@@ -24,6 +24,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         //Load third person aim camera and add it to the starter asset group
         public void Reset()
         {
+            if (this.gameObject.name == "Tempcube") { return; }
             var aimCam = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("Etra'sStarterAssetsThirdPersonAimCamera", GameObject.FindGameObjectWithTag("Player").transform.parent);
             aimVirtualCamera = aimCam.GetComponent<CinemachineVirtualCamera>();
             aimCam.AddComponent<EtraCharacterAssetCamera>();
@@ -49,8 +50,11 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             {
                 //If aim pressed activate aim camera and change sensitivity variable
                 aimVirtualCamera.gameObject.SetActive(true);
+
+                camMoveScript.aimSensitivity = aimSensitivity * camMoveScript.updateUsedCameraSensitivity(); ;
+
                 camMoveScript.usedCameraSensitivity = 1; // nullify cam sensitivity and just go by aim sensitivity
-                camMoveScript.aimSensitivity = aimSensitivity;
+
 
                 //Rotate character toward look direction
                 var worldAimTarget = camMoveScript.pointCharacterIsLookingAt;
@@ -63,7 +67,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             {
                 //If aim let go, deactivate aim camera and change sensitivity variable
                 charMoveScript.rotateTowardMoveDirection = true;
-                camMoveScript.usedCameraSensitivity = camMoveScript.cameraSensitivity;
+                camMoveScript.usedCameraSensitivity = camMoveScript.updateUsedCameraSensitivity();
                 camMoveScript.aimSensitivity = 1;  // nullify aim sensitivity and just go by base cam sensitivity
                 aimVirtualCamera.gameObject.SetActive(false);
             }

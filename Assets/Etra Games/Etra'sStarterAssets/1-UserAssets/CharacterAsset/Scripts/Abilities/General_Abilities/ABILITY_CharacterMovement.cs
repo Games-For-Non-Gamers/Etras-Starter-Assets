@@ -4,6 +4,7 @@ using Etra.StarterAssets.Source;
 using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -12,7 +13,7 @@ namespace Etra.StarterAssets.Abilities
     {
         [Header("Basics")]
         [Tooltip("Move speed of the character in m/s")]
-        public float moveSpeed = 2.0f;
+        public float moveSpeed = 3.0f;
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
         public bool rotateTowardMoveDirection = false;
@@ -31,6 +32,7 @@ namespace Etra.StarterAssets.Abilities
         [HideInInspector] public Vector2 passedMovementInput;
         private StarterAssetsInputs _input;
         private CharacterController _controller;
+        private bool _hasSprint;
         private ABILITY_Sprint sprintSource;
         private GameObject _mainCamera;
         private Animator _animator;
@@ -48,11 +50,24 @@ namespace Etra.StarterAssets.Abilities
         [HideInInspector] public bool isCrouched = false; //Set by Ability_Crouch if it exists.
         [HideInInspector] public float crouchSpeed;//Set by Ability_Crouch if it exists.
 
+        //SubAbilities
+        private subAbilityUnlock[] _derivedSubAbilityUnlocks = new subAbilityUnlock[] {
+                new subAbilityUnlock("UnlockRight", true) ,
+                new subAbilityUnlock("UnlockLeft", true) ,
+                new subAbilityUnlock("UnlockUp", true) ,
+                new subAbilityUnlock("UnlockDown", true) };
+
+        public override subAbilityUnlock[] subAbilityUnlocks
+        {
+            get { return _derivedSubAbilityUnlocks ?? base.subAbilityUnlocks; }
+            set { _derivedSubAbilityUnlocks = value; }
+        }
 
 
         //Set gameplay var defaults based on gameplay type
         private void Reset()
         {
+            if (this.gameObject.name == "Tempcube") { return; }
             if (GetComponentInParent<EtraCharacterMainController>().appliedGameplayType == EtraCharacterMainController.GameplayType.FirstPerson)
             {
                 rotateTowardMoveDirection = false;
@@ -65,6 +80,7 @@ namespace Etra.StarterAssets.Abilities
 
         public override void abilityStart()
         {
+  
             //Set Refences
             if (_mainCamera == null)
             {
@@ -81,12 +97,13 @@ namespace Etra.StarterAssets.Abilities
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
             //Set Sprint speed if Sprint is an attached script
-            if (gameObject.GetComponent<ABILITY_Sprint>() != null)
+            if (gameObject.GetComponent<ABILITY_Sprint>())
             {
-                sprintSource = gameObject.GetComponent<ABILITY_Sprint>();
-                sprintSource.sprintSpeed = sprintSpeed;
-            }
-            else { sprintSpeed = moveSpeed; }
+                if (gameObject.GetComponent<ABILITY_Sprint>().abilityEnabled == false)
+                {
+                    sprintSpeed = moveSpeed;
+                }
+            }   
         }
 
         float stepTime = 0;
@@ -137,6 +154,7 @@ namespace Etra.StarterAssets.Abilities
             }
             passedMovementInput = new Vector2(inputX, inputY);
 
+
             //Set correct speed based off of sprint or crouch modifiers
             float targetSpeed;
             targetSpeed = _input.sprint ? sprintSpeed : moveSpeed;
@@ -171,7 +189,7 @@ namespace Etra.StarterAssets.Abilities
                     }
 
                     stepTime += Time.deltaTime;
-                    if (stepTime > nextStepThreshold * Mathf.Max(Mathf.Abs(passedMovementInput.x), Mathf.Abs(passedMovementInput.y)))
+                    if (stepTime  > nextStepThreshold ) 
                     {
                         PlayFootstepFps();
                         stepTime = 0.0f;
@@ -219,7 +237,7 @@ namespace Etra.StarterAssets.Abilities
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, rotateTowardMoveDirectionSpeed);
-                var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+                var targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward ;
 
                 // if there is a move input rotate player when the player is moving
                 if (rotateTowardMoveDirection)
@@ -248,8 +266,98 @@ namespace Etra.StarterAssets.Abilities
             foostepSoundManager.Play(foostepSoundManager.sounds[stepSoundCount++ % foostepSoundManager.sounds.Count]);
         }
 
+        private void OnValidate()
+        {
+            abilityCheckSubAbilityLocks();
+        }
 
 
+        public void abilityCheckSubAbilityLocks()
+        {
+            //Right
+            if (rightUnlocked == false)
+            {
+                subAbilityUnlocks[0].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[0].subAbilityEnabled = true;
+            }
+
+            //Left
+            if (leftUnlocked == false)
+            {
+                subAbilityUnlocks[1].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[1].subAbilityEnabled = true;
+            }
+
+            //Up
+            if (upUnlocked == false )
+            {
+                subAbilityUnlocks[2].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[2].subAbilityEnabled = true;
+            }
+
+            //Down
+            if (downUnlocked == false)
+            {
+                subAbilityUnlocks[3].subAbilityEnabled = false;
+            }
+            else
+            {
+                subAbilityUnlocks[3].subAbilityEnabled = true;
+            }
+        }
+
+        public override void abilityCheckSubAbilityUnlocks()
+        {
+            //Right
+            if (subAbilityUnlocks[0].subAbilityEnabled == false)
+            {
+                rightUnlocked = false;
+            }
+            else
+            {
+                rightUnlocked = true;
+            }
+
+            //Left
+            if (subAbilityUnlocks[1].subAbilityEnabled == false)
+            {
+                leftUnlocked = false;
+            }
+            else
+            {
+                leftUnlocked = true;
+            }
+
+            //Up
+            if (subAbilityUnlocks[2].subAbilityEnabled == false)
+            {
+                upUnlocked = false;
+            }
+            else
+            {
+                upUnlocked = true;
+            }
+
+            //Down
+            if ( subAbilityUnlocks[3].subAbilityEnabled == false)
+            {
+                downUnlocked = false;
+            }
+            else
+            {
+                downUnlocked = true;
+            }
+
+        }
 
     }
 }

@@ -232,6 +232,12 @@ namespace Etra.StarterAssets.Source.Editor
                 fontSize = 14,
             };
 
+            public static GUIStyle StandardText = new GUIStyle(EditorStyles.miniBoldLabel)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                fontSize = 14,
+            };
+
             public static GUIStyle Header => new GUIStyle(EditorStyles.whiteLargeLabel)
             {
                 fontSize = 18,

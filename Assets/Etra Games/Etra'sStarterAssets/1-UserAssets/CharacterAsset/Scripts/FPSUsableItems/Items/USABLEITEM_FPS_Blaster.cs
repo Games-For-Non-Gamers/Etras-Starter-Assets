@@ -2,6 +2,7 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using Etra.StarterAssets.Source.Camera;
+using Etra.StarterAssets.Source.Combat;
 using EtrasStarterAssets;
 using System.Collections;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace Etra.StarterAssets.Items
         Transform bulletSpawnPos;
         ABILITY_CameraMovement camMoveScript;
         AudioManager fpsItemAudioManager;
-
+        public Vector3 lookAtPosIncludingTrigger;
         private void Reset()
         {
             // Set example projectile default when this component is added
@@ -61,6 +62,7 @@ namespace Etra.StarterAssets.Items
             gunAnimator = referenceToBlasterTransform.GetComponentInChildren<Animator>();
             bulletSpawnPos = GameObject.Find("EtraFPSGunFireLocation").transform;
             camMoveScript = GameObject.Find("EtraAbilityManager").GetComponent<ABILITY_CameraMovement>();
+            starterAssetsInputs.shoot = false;
         }
 
 
@@ -78,17 +80,33 @@ namespace Etra.StarterAssets.Items
                 fpsItemAudioManager.Play("BlasterShoot");
                 var aimDir = (camMoveScript.pointCharacterIsLookingAt - bulletSpawnPos.position).normalized;
 
+
+                GameObject bullet;
                 //If gun is in wall, spawn the physical bullets inside of the player camera root (blaster is right at player camera root).
                 if (Vector3.Distance(referenceToBlasterTransform.position, camMoveScript.pointCharacterIsLookingAt) < 1.2f) //1.2f is the clipping length
                 {
-                    Instantiate(launchedBullet.transform, referenceToBlasterTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    bullet = Instantiate(launchedBullet, referenceToBlasterTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
                 }
                 //Otherwise, spawn them from gun tip.
                 else
                 {
-                    Instantiate(launchedBullet.transform, bulletSpawnPos.transform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    bullet =Instantiate(launchedBullet, bulletSpawnPos.transform.position, Quaternion.LookRotation(aimDir, Vector3.up));
                 }
 
+                //Get point for particles
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                var ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+                RaycastHit raycastHit;
+                if (Physics.Raycast(ray, out raycastHit, 999f))
+                {
+                    lookAtPosIncludingTrigger = raycastHit.point;
+                    if (bullet.GetComponent<BulletProjectile>())
+                    {
+                        bullet.GetComponent<BulletProjectile>().hitObject = raycastHit.collider.gameObject;
+                        bullet.GetComponent<BulletProjectile>().hitPoint = raycastHit.point;
+                    }
+
+                }
 
                 gunCooling = true;
                 CinemachineShake.Instance.ShakeCamera(1f, .1f);

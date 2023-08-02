@@ -7,7 +7,7 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
     [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Dash : EtraAbilityBaseClass
     {
-        public float dashRange = 50.0f;
+        public float dashRange = 70.0f;
         public float dashCooldown = 1f;
         public int damageFromDash = 2;
 

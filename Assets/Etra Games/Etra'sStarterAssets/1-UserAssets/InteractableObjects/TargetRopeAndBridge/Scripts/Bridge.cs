@@ -8,12 +8,17 @@ namespace Etra.StarterAssets.Interactables
     {
         //Variables
         public Target[] targets;
+        public float startRotation = -70;
+        public float loweredRotation = 0;
+
+        public float delayBeforeLower = 0.5f;
         public float timeToLower = 1;
         private bool bridgeLowered = false;
         EtrasStarterAssets.AudioManager audioManager;
 
         private void Start()
         {
+            LeanTween.rotateLocal(transform.GetChild(0).gameObject, new Vector3 (startRotation,0,0), 0);
             // Check this at start so the bridge automatically lowers if no targets are connected
             checkActivate();
             audioManager = GetComponentInChildren<EtrasStarterAssets.AudioManager>();
@@ -48,11 +53,11 @@ namespace Etra.StarterAssets.Interactables
         {
             bridgeLowered = true;
             //Second delay before the bridge lowers
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(delayBeforeLower);
             audioManager.Play("BridgeFall");
             //Rotate correct anchor point
-            LeanTween.rotate(transform.GetChild(0).GetChild(0).gameObject, Vector3.zero, timeToLower).setEaseInOutSine();
-            yield return new WaitForSeconds(1);
+            LeanTween.rotateLocal(transform.GetChild(0).gameObject, new Vector3 (loweredRotation, 0,0), timeToLower).setEaseInOutSine();
+            yield return new WaitForSeconds(timeToLower);
             audioManager.Play("MedSparkle");
         }
 
