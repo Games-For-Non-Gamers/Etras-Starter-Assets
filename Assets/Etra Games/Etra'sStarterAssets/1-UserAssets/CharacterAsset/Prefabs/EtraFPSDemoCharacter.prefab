@@ -1,5 +1,64 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3391257459756372719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6930275834455654745}
+  - component: {fileID: 316332102426743460}
+  m_Layer: 7
+  m_Name: EtraComponentHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6930275834455654745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391257459756372719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4818394729073191886}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316332102426743460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391257459756372719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50a4726cfdb63546a60cf6e0a668bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  maxHealth: 100
+  manualDeath: 0
+  OnChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4818394728619899168
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +517,7 @@ GameObject:
   - component: {fileID: 4818394729073191885}
   - component: {fileID: 4818394729073191884}
   - component: {fileID: 4818394729073191887}
+  - component: {fileID: 8302848018044820381}
   m_Layer: 7
   m_Name: EtraAbilityManager
   m_TagString: Untagged
@@ -476,7 +536,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6930275834455654745}
   m_Father: {fileID: 4818394728927901944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -503,6 +564,7 @@ MonoBehaviour:
   - {fileID: 4818394729073191885}
   - {fileID: 4818394729073191884}
   - {fileID: 4818394729073191887}
+  - {fileID: 8302848018044820381}
 --- !u!114 &4818394729073191892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,7 +652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityEnabled: 1
   checkpointLocation: {x: 0, y: 0, z: 0}
-  checkPointRotation: {x: 0, y: 0, z: 0, w: 0}
+  checkpointRotation: {x: 0, y: 0, z: 0, w: 0}
   setRotationToCheckpointRotation: 0
   teleportToGround: 0
   playAnimation: 1
@@ -694,6 +756,55 @@ MonoBehaviour:
   crouchedMovementSpeed: 1
   CrouchType: 1
   timeToCrouch: 0.25
+--- !u!114 &8302848018044820381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818394729073191873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a176dc9f93c512409880b5ba37ca99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityEnabled: 1
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 25
+      inSlope: 50
+      outSlope: 50
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 50
+      inSlope: 50
+      outSlope: 50
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 75
+      inSlope: 50
+      outSlope: 50
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageCooldownWaitTime: 2
+  healCooldownWaitTime: 0
+  siblingIndex: 0
 --- !u!1 &4818394729242005161
 GameObject:
   m_ObjectHideFlags: 0

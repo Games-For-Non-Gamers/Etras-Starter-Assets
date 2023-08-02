@@ -18,7 +18,7 @@ namespace Etra.StarterAssets.Source.Editor
     public class EtraCharacterCreatorCreateOrModify : MonoBehaviour
     {
 
-        public static EtraCharacterMainController CreateOrModify(GameplayType _gameplayType, Model _fpModel, Model _tpModel, List<Type> abilitiesPlayerHas,  List<Type>abilitiesPlayerIsTaught)
+        public static EtraCharacterMainController CreateOrModify(GameplayType _gameplayType, Model _fpModel, Model _tpModel, List<Type> abilitiesPlayerHas, List<Type> abilitiesPlayerIsTaught)
         {
 
             //Combine the Ability lists and get their names
@@ -37,31 +37,31 @@ namespace Etra.StarterAssets.Source.Editor
 
             //just the generateAbilitiesAndItems() function from char controller
             //**************************************************************
-                List<Ability> generalAbilities = new List<Ability>();
-                List<Ability> fpAbilities = new List<Ability>();
-                List<Ability> tpAbilities = new List<Ability>();
-                List<Ability> fpsItems = new List<Ability>();
-                //Initialize abilities
-                generalAbilities = EtraGUIUtility.FindAllTypes<EtraAbilityBaseClass>()
-                    .Select(x => new Ability(x))
+            List<Ability> generalAbilities = new List<Ability>();
+            List<Ability> fpAbilities = new List<Ability>();
+            List<Ability> tpAbilities = new List<Ability>();
+            List<Ability> fpsItems = new List<Ability>();
+            //Initialize abilities
+            generalAbilities = EtraGUIUtility.FindAllTypes<EtraAbilityBaseClass>()
+                .Select(x => new Ability(x))
+            .ToList();
+
+            fpAbilities = generalAbilities
+                .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
+            .ToList();
+
+            tpAbilities = generalAbilities
+                .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
                 .ToList();
 
-                fpAbilities = generalAbilities
-                    .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.FirstPerson))
+            generalAbilities = generalAbilities
+            .Except(fpAbilities)
+                .Except(tpAbilities)
                 .ToList();
-
-                tpAbilities = generalAbilities
-                    .Where(x => EtraGUIUtility.CheckForUsage(x.type, GameplayTypeFlags.ThirdPerson))
-                    .ToList();
-
-                generalAbilities = generalAbilities
-                .Except(fpAbilities)
-                    .Except(tpAbilities)
-                    .ToList();
-                //Initialize items
-                fpsItems = EtraGUIUtility.FindAllTypes<EtraFPSUsableItemBaseClass>()
-                    .Select(x => new Ability(x))
-                    .ToList();
+            //Initialize items
+            fpsItems = EtraGUIUtility.FindAllTypes<EtraFPSUsableItemBaseClass>()
+                .Select(x => new Ability(x))
+                .ToList();
             //**************************************************************
 
             //Go through each list and enable the abilities if they are in abilitiesToAdd
@@ -152,7 +152,7 @@ namespace Etra.StarterAssets.Source.Editor
                                     .Concat(new usableItemScriptAndPrefab[] { new usableItemScriptAndPrefab(component) })
                                     .ToArray();
 
-                              //  DebugLog($"Adding item '{item.name}'");
+                                //  DebugLog($"Adding item '{item.name}'");
                             }
 
                             break;
@@ -198,6 +198,11 @@ namespace Etra.StarterAssets.Source.Editor
                 if (!item.state || abilityManager.gameObject.GetComponent(item.type)) continue;
 
                 abilityManager.gameObject.AddComponent(item.type);
+
+                foreach (var component in EtraGUIUtility.GetRequiredComponents(item.type))
+                {
+                    abilityManager.transform.Find("EtraComponentHolder")?.gameObject.AddComponent(component);
+                }
 
                 //DebugLog($"{log} '{item.name}'");
             }
