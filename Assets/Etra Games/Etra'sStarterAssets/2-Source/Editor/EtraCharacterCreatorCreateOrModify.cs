@@ -199,9 +199,11 @@ namespace Etra.StarterAssets.Source.Editor
 
                 abilityManager.gameObject.AddComponent(item.type);
 
+                var componentHolder = abilityManager.transform.Find("EtraComponentHolder")!;
                 foreach (var component in EtraGUIUtility.GetRequiredComponents(item.type))
                 {
-                    abilityManager.transform.Find("EtraComponentHolder")?.gameObject.AddComponent(component);
+                    if (componentHolder.GetComponent(component) == null)
+                        componentHolder.gameObject.AddComponent(component);
                 }
 
                 //DebugLog($"{log} '{item.name}'");

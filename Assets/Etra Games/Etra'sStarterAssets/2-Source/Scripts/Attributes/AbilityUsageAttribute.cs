@@ -31,13 +31,7 @@ namespace Etra.StarterAssets
         {
             GameplayType = gameplayType;
             AbilityType = abilityType;
-            List<Type> requiredComponentsList = new List<Type>();
-            for (int i = 0; i < requiredComponents.Length; i++)
-            {
-                if (requiredComponents[i].IsSubclassOf(typeof(Component)))
-                    requiredComponentsList.Add(requiredComponents[i]);
-            }
-            RequiredComponents = requiredComponentsList.ToArray();
+            RequiredComponents = requiredComponents.Distinct().Where(component => component.IsSubclassOf(typeof(Component))).ToArray();
         }
 
         public GameplayTypeFlags GameplayType { get; private set; }
