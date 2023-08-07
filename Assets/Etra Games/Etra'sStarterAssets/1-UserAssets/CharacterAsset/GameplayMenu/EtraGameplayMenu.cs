@@ -15,6 +15,8 @@ namespace Etra.StarterAssets
         public Toggle reticleToggle;
         public Toggle screenShakeToggle;
 
+        public bool saveElementsWithoutApplying = false;
+
         private void OnEnable()
         {
             // Disable interactability of UI elements by default

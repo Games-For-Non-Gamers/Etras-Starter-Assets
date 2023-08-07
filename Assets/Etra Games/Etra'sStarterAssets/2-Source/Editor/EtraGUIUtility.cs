@@ -202,8 +202,10 @@ namespace Etra.StarterAssets.Source.Editor
             var attribute = type.GetCustomAttribute<AbilityUsageAttribute>();
             if (attribute == null)
                 return gameplayType == GameplayTypeFlags.All;
+            if (gameplayType == GameplayTypeFlags.All)
+                return attribute.GameplayType == GameplayTypeFlags.All;
 
-            return attribute.GameplayType.HasFlag(gameplayType) &&
+            return attribute.GameplayType.HasFlag(gameplayType) && 
                 attribute.GameplayType != GameplayTypeFlags.All;
         }
         #endregion

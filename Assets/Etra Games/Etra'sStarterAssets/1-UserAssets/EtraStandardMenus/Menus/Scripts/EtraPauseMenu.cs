@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Etra.StandardMenus
@@ -7,6 +8,7 @@ namespace Etra.StandardMenus
         // Go back to the title scene
         public void BackToTitle()
         {
+            Time.timeScale = 1;
             SceneManager.LoadScene(0);
         }
 

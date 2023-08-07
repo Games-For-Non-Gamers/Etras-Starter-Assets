@@ -36,7 +36,7 @@ namespace Etra.StarterAssets.Abilities
         private ABILITY_Sprint sprintSource;
         private GameObject _mainCamera;
         private Animator _animator;
-        private bool _hasAnimator;
+        [HideInInspector]public  bool _hasAnimator;
         private int _animIDSpeed;
         private int _animIDMotionSpeed;
         private float _speed;
@@ -104,6 +104,19 @@ namespace Etra.StarterAssets.Abilities
                     sprintSpeed = moveSpeed;
                 }
             }   
+        }
+
+        public void setAnimator(bool enabled)
+        {
+            if (enabled)
+            {
+                _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(FindObjectOfType<EtraCharacterMainController>().modelParent);
+                if (_hasAnimator) { _animator = FindObjectOfType<EtraCharacterMainController>().modelParent.GetComponentInChildren<Animator>(); }
+            }
+            else
+            {
+                _hasAnimator = false;
+            }
         }
 
         float stepTime = 0;

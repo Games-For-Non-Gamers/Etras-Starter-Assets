@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using static Etra.StarterAssets.AbilityUsageAttribute;
@@ -235,6 +237,29 @@ namespace Etra.StarterAssets.Abilities
                 }
             }
         }
+
+
+        public void activateAbilities(List<string> abilitiesShortenedName)
+        {
+            foreach (EtraAbilityBaseClass ability in characterAbilityUpdateOrder)
+            {
+                if (abilitiesShortenedName.Contains(GenerateShortenedName(ability.GetType().ToString())))
+                {
+                    ability.abilityEnabled = true;
+                }
+            }
+        }
+
+
+        public string GenerateShortenedName(string fileName)
+        {
+            string toReturn = fileName;
+            toReturn = toReturn.Split('_').Last();
+
+            toReturn = Regex.Replace(toReturn, "([a-z])([A-Z])", "$1 $2");
+            return toReturn;
+        }
+
     }
 }
 

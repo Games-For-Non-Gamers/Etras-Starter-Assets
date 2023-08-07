@@ -4,6 +4,10 @@ using UnityEditor;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using EtrasStarterAssets;
+using Etra.StarterAssets.Abilities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Etra.StarterAssets.Items
 {
@@ -19,6 +23,7 @@ namespace Etra.StarterAssets.Items
 
         #region Functions to update The usableItems Array
         //Run this function whenever an item is added
+        [ContextMenu("updateUsableItemsArray")]
         public void updateUsableItemsArray()
         {
             removeNullItemSlots();
@@ -87,10 +92,9 @@ namespace Etra.StarterAssets.Items
                         i = usableItems.Length;
                     }
                 }
-
                 if (slotsNeedRemoved)
                 {
-                    usableItems = removeElementFromArray(elementToPass);
+                    removeElementFromArray(elementToPass);
                 }
 
             }
@@ -98,10 +102,9 @@ namespace Etra.StarterAssets.Items
 
         }
 
-        private usableItemScriptAndPrefab[] removeElementFromArray(int elementToSkip)
+        private void removeElementFromArray(int elementToSkip)
         {
             usableItemScriptAndPrefab[] shortenedArray = new usableItemScriptAndPrefab[usableItems.Length - 1];
-
             int iterator = 0;
             for (int i = 0; i < usableItems.Length; i++)
             {
@@ -112,7 +115,7 @@ namespace Etra.StarterAssets.Items
                 }
             }
 
-            return shortenedArray;
+            usableItems = shortenedArray;
         }
 
         private void increaseAbilityArrayWithNewElement(usableItemScriptAndPrefab abilityToAdd)
@@ -483,8 +486,42 @@ namespace Etra.StarterAssets.Items
                     EtraCharacterMainController.Instance.GetComponentInChildren<FPSUsableItemSwayAndBobAnimations>().lockInput = false;
                 }
             }
+        }
+
+        public void activateAbilities(List<string> abilitiesShortenedName)
+        {
+
+            for (int i = 0; i < usableItems.Length; i++)
+            {
+                if (!abilitiesShortenedName.Contains(GenerateShortenedName(usableItems[i].script.GetType().ToString())))
+                {
+                    usableItems[i].script.toDelete = true;
+                    usableItems[i].script = null;
+                }
+            }
+
+            EtraFPSUsableItemBaseClass[] items =GetComponents<EtraFPSUsableItemBaseClass>();
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i].toDelete)
+                {
+                    Destroy(items[i]);
+                }
+            }
+
+            updateUsableItemsArray();
 
 
+        }
+
+        public string GenerateShortenedName(string fileName)
+        {
+            string toReturn = fileName;
+            toReturn = toReturn.Split('_').Last();
+
+            toReturn = Regex.Replace(toReturn, "([a-z])([A-Z])", "$1 $2");
+            return toReturn;
         }
 
     }

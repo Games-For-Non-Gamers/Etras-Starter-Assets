@@ -5,6 +5,7 @@ using EtrasStarterAssets;
 
 namespace Etra.StarterAssets.Abilities
 {
+    [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_ActivateInteract : EtraAbilityBaseClass
     {
 

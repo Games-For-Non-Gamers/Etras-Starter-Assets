@@ -11,6 +11,9 @@ namespace Etra.StandardMenus
         [Header("Options")]
         public bool canFreeze = true;
         public bool showBackground = true;
+        public bool editCursor = true;
+        public bool inGame = true;
+
 
         [Header("References")]
         public GameObject background;
@@ -21,6 +24,7 @@ namespace Etra.StandardMenus
 
         bool gameFrozen = false;
         GameObject currentlyActiveMenu;
+
 
         // Private references
         EventSystem eventSystem;
@@ -50,7 +54,7 @@ namespace Etra.StandardMenus
 
         void SetPlayerInputReferenceVariables()
         {
-            eventSystem = GetComponentInChildren<EventSystem>();
+            eventSystem = FindObjectOfType<EventSystem>();
 
             if (_playerInput == null)
             {
@@ -110,11 +114,19 @@ namespace Etra.StandardMenus
                     }
 
                     eventSystem.SetSelectedGameObject(null);
-                    Cursor.visible = true;
+                    if (editCursor)
+                    {
+                        Cursor.visible = true;
+                    }
+                    
                 }
                 else
                 {
-                    Cursor.visible = false;
+                    if (editCursor)
+                    {
+                        Cursor.visible = false;
+                    }
+                    
 
                     if (savedSelectedObject != null && savedSelectedObject.gameObject.activeInHierarchy)
                     {
@@ -131,7 +143,7 @@ namespace Etra.StandardMenus
 
         void Update()
         {
-            if (canFreeze)
+            if (canFreeze && inGame)
             {
         #if ENABLE_INPUT_SYSTEM
                 if (keyboardEscape.triggered || gamepadStart.triggered)
@@ -147,7 +159,7 @@ namespace Etra.StandardMenus
             }
         }
 
-        void PauseInputResults()
+        public void PauseInputResults()
         {
             eventSystem.SetSelectedGameObject(null);
             FreezeOrUnfreeze();
@@ -160,95 +172,115 @@ namespace Etra.StandardMenus
 
 #endregion
 
-#region General Menu Functions
-        void OpenMenu(GameObject menu)
-        {
-            EtraStandardMenu gameplayMenu = menu.GetComponent<EtraStandardMenu>();
+        #region General Menu Functions
+                void OpenMenu(GameObject menu)
+                {
+                    EtraStandardMenu gameplayMenu = menu.GetComponent<EtraStandardMenu>();
 
-            if (currentlyActiveMenu != null)
-            {
-                CloseMenu(currentlyActiveMenu);
-            }
-            else
-            {
-                CloseMenu(pauseMenu);
-            }
+                    if (currentlyActiveMenu != null)
+                    {
+                        CloseMenu(currentlyActiveMenu);
+                    }
+                    else
+                    {
+                        CloseMenu(pauseMenu);
+                    }
 
-            menu.SetActive(true);
-            currentlyActiveMenu = menu;
+                    menu.SetActive(true);
+                    currentlyActiveMenu = menu;
 
-#if ENABLE_INPUT_SYSTEM
-            if (_playerInput.currentControlScheme.Contains("Keyboard"))
-            {
-                eventSystem.SetSelectedGameObject(null);
-                Cursor.visible = true;
-            }
-            else
-            {
-                eventSystem.SetSelectedGameObject(gameplayMenu.firstSelectedObject.gameObject);
-                Cursor.visible = false;
-            }
-#endif
-        }
+        #if ENABLE_INPUT_SYSTEM
+                    if (_playerInput.currentControlScheme.Contains("Keyboard"))
+                    {
+                        eventSystem.SetSelectedGameObject(null);
+                        if (editCursor)
+                        {
+                            Cursor.visible = true;
+                        }
 
-        void CloseMenu(GameObject menu)
-        {
-            menu.gameObject.SetActive(false);
-        }
-#endregion
+                    }
+                    else
+                    {
+                        eventSystem.SetSelectedGameObject(gameplayMenu.firstSelectedObject.gameObject);
+                        if (editCursor)
+                        {
+                            Cursor.visible = false;
 
-#region Freeze and Unfreeze
-        void FreezeOrUnfreeze()
-        {
-            if (!canFreeze)
-            {
-                return;
-            }
+                        }
+                    }
+        #endif
+                }
 
-            if (!gameFrozen)
-            {
-                FreezeGame();
-            }
-            else if (gameFrozen)
-            {
-                UnfreezeGame();
-            }
-        }
-
-        void FreezeGame()
-        {
-            EnableBackground();
-            Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
-            gameFrozen = true;
-            #if ENABLE_INPUT_SYSTEM
-            _playerInput.SwitchCurrentActionMap("UI");
-            InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
-            #endif
-        }
-
-        public void UnfreezeGame()
-        {
-            DisableBackground();
-
-            if (currentlyActiveMenu != null)
-            {
-                CloseMenu(currentlyActiveMenu);
-            }
-            else
-            {
-                CloseMenu(pauseMenu);
-            }
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Time.timeScale = 1;
-            gameFrozen = false;
-            #if ENABLE_INPUT_SYSTEM
-            _playerInput.SwitchCurrentActionMap("Player");
-            InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
-            #endif
-        }
+                void CloseMenu(GameObject menu)
+                {
+                    menu.gameObject.SetActive(false);
+                }
         #endregion
+
+        #region Freeze and Unfreeze
+                void FreezeOrUnfreeze()
+                {
+                    if (!canFreeze)
+                    {
+                        return;
+                    }
+
+                    if (!gameFrozen)
+                    {
+                        FreezeGame();
+                    }
+                    else if (gameFrozen)
+                    {
+                        UnfreezeGame();
+                    }
+                }
+
+                void FreezeGame()
+                {
+                    EnableBackground();
+                    if (editCursor)
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                    }
+                    gameFrozen = true;
+                    #if ENABLE_INPUT_SYSTEM
+                    if (inGame)
+                    {
+                        Time.timeScale = 0;
+                        _playerInput.SwitchCurrentActionMap("UI");
+
+                        InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+                    }
+                    #endif
+                }
+
+                public void UnfreezeGame()
+                {
+                    eventSystem.SetSelectedGameObject(null);
+                    DisableBackground();
+
+                    if (currentlyActiveMenu != null)
+                    {
+                        CloseMenu(currentlyActiveMenu);
+                    }
+                    else
+                    {
+                        CloseMenu(pauseMenu);
+                    }
+                    if (editCursor)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                    }
+
+                    gameFrozen = false;
+                    #if ENABLE_INPUT_SYSTEM
+                    if (inGame) {
+                Time.timeScale = 1;
+                _playerInput.SwitchCurrentActionMap("Player"); 
+                    InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;}
+                    #endif
+                }
+                #endregion
 
         #region Background Image
         void EnableBackground()

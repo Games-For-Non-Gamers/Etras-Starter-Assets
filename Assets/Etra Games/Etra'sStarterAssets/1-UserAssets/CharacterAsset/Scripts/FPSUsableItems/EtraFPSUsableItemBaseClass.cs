@@ -7,6 +7,7 @@ namespace Etra.StarterAssets.Items
     {
         public abstract string getNameOfPrefabToLoad(); //Require the name of loaded prefab in all scripts
         public bool inputsLocked = false;
+        [HideInInspector]public bool toDelete = false;
         public string equipSfxName = "";
 
         #region Default Equip and Unequip Animations
