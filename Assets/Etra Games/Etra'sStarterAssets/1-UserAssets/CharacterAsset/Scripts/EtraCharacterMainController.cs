@@ -76,8 +76,6 @@ namespace Etra.StarterAssets
         public float Gravity = -15.0f;
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
-        [Tooltip("The maximum slope of an object the character can climb up")]
-        public float maxWalkableSlope = 45;
         [Tooltip("If the player startes grounded")]
         public bool teleportToGroundAtStart = true;
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -341,133 +339,15 @@ namespace Etra.StarterAssets
             _animIDFreeFall = Animator.StringToHash("FreeFall");
         }
         #endregion
+
         #region Grounded and Gravity Functions
-
-        public RaycastHit hit;
-        bool stuckOnWallSlope = false;
-        Vector3 flatBeamToTarget;
-        Vector3 lastStableStandingPosition;
-        Collider colliderPlayerStuckOn;
-        int hitAngle;
-        Vector3 raycastDebugStart;
-        Vector3 raycastDebugEnd;
-        bool hasStableStand = false;
-
-
-
         public void GroundedCheck()
         {
-            updateSlope();  //Get ground slope angle for slide ability if we add it
 
-            //Make Overlap sphere at certain position
+            // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-            Collider[] hitcolliders = new Collider[5];//max colliders to check
-            //We are using Physics.OverlapSphereNonAlloc to save on peformance since we need to do annoying slide checks
-            int hitColliderCount = Physics.OverlapSphereNonAlloc(spherePosition, GroundedRadius, hitcolliders, GroundLayers, QueryTriggerInteraction.Ignore);
-            if (hitColliderCount > 0)
-            {
-                //This whole section exists to make sure the character is not grounded on any 46-89 degree surface. 
-                //Without a special clause for this, the player can jump up objects with sharp angles.
-
-                //This variable checks if any collider the player is on, can be stood on top of, or if it is too angled
-                hasStableStand = false;
-
-                for (int i = 0; i< hitColliderCount; i++)
-                {
-                    Vector3 target;
-                    float controllerHeightMultiplier;
-                    float lineLength;
-                    if (hitcolliders[i] is MeshCollider meshCollider && !meshCollider.convex)
-                    {
-                        //If a non-convex mesh collider is hit, it is hard to get it's angle since you can't get its contact point.
-                        //The next best thing we can go off of is the position of the object
-                        target = hitcolliders[i].transform.position;
-                        controllerHeightMultiplier = 0.05f;
-                        lineLength = _controller.radius * 2;
-                    }
-                    else
-                    {
-                        //for all other colliders we can get the contact point of the object
-                        target = hitcolliders[i].ClosestPoint(transform.position);
-                        controllerHeightMultiplier = 0.05f;
-                        lineLength = _controller.radius;
-                    }
-                   
-                    //Make a flat raycast toward the target
-                    flatBeamToTarget = new Vector3(target.x, 0, target.z)  - new Vector3(transform.position.x, 0, transform.position.z);
-                    //The range of the raycast is only in the sphere collider where the character can start climbing walls.
-                    //The beam starts from 5%  of player height
-
-                    Vector3 raycastOrigin = transform.position + new Vector3(0, _controller.height * controllerHeightMultiplier, 0);
-                    //This raycast checks if there is an object in between the bottom of the capsule collider from it's radius
-                    //Basically if an object is in the less thick bottom of the collider
-                    if (Physics.Raycast(raycastOrigin, flatBeamToTarget.normalized, out hit, lineLength, GroundLayers, QueryTriggerInteraction.Ignore))
-                    {
-
-                        //Check if the angle is larger than the max walkable slope
-                        hitAngle = (int)Vector3.Angle(Vector3.up, hit.normal);
-                        if (hitAngle > maxWalkableSlope)
-                        {
-                            hasStableStand = false;
-                            stuckOnWallSlope = true;
-                            colliderPlayerStuckOn = hitcolliders[i];
-
-                        }
-                        //If the angle is walkable, then apply grounded and break from the loop. There is no need to check the other colliders
-                        else
-                        {
-                            hasStableStand = true;
-                            break;
-                        }
-
-                        //Regardless of the angle stability collider, if colliding with a non-convex mesh collider, check if there is a floor under the player
-                        if (hitcolliders[i] is MeshCollider meshCollider1 && !meshCollider1.convex)
-                        {
-                            if (!Physics.Raycast(raycastOrigin, Vector3.down, out hit, lineLength, GroundLayers, QueryTriggerInteraction.Ignore))
-                            {
-                                hasStableStand = false;
-                            }
-                        }
-
-                        //DEBUG
-                        /*
-                        Debug.Log(flatBeamToTarget.normalized);
-                        raycastDebugStart = raycastOrigin;
-                        raycastDebugEnd = hit.point;
-                        Debug.Log($"{hitAngle}");
-                        */
-
-                    }
-                    else // if the Raycast is out of range, apply grounded and break from the loop.There is no need to check the other colliders
-                    {
-                        hasStableStand = true;
-                        break;
-                    }
-
-                }
-            }
-            else //If the sphere is hitting no colliders then set grounded to false
-            {
-                stuckOnWallSlope = false; //They are not stuck on the wall if they are not touching anything
-                hasStableStand = false;
-            }
-
-            //Make stuckOnWallSlope false if an earlier object homehow triggered this and was later corrected
-            if (hasStableStand)
-            {
-                stuckOnWallSlope = false;
-                Grounded = true;
-            }
-            else
-            {
-                Grounded = false;
-            }
-
-            if (!stuckOnWallSlope)
-            {
-                lastStableStandingPosition = this.transform.position;
-                colliderPlayerStuckOn = null;
-            }
+            //Vector3 spherePosition = new Vector3(characterController.center.x, characterController.center.y - GroundedOffset, transform.position.z);
+            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 
             // update animator if using character
             if (_hasAnimator)
@@ -477,26 +357,19 @@ namespace Etra.StarterAssets
         }
 
 
-        void updateSlope()
-        {
-            RaycastHit slopeHit;
-            if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, characterHeight * 0.5f + 0.3f))
-            {
-                currentSlopeAngle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            }
-        }
-
-        bool pauseGravityGain = false;
         bool jumpReset = true;
-        Collider savedStuckCollider;
+        bool startGameLandSfxOff = true;
         private void ApplyGravity()
         {
             if (Grounded)
             {
+                // reset the fall timeout timer
+                _fallTimeoutDelta = FallTimeout;
 
                 // update animator if using character
                 if (_hasAnimator)
                 {
+                    _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
                 }
 
@@ -506,7 +379,6 @@ namespace Etra.StarterAssets
                     _verticalVelocity = -2f;
                 }
 
-                //This jump reset code is to prevent repeatedly jumping in singular frames.
                 if (jumpReset == true)
                 {
 
@@ -514,103 +386,35 @@ namespace Etra.StarterAssets
                     {
                         abilityJump.lockJump = false;
                     }
-      
-                    jumpReset = false;
 
-                    //Only play sfx and animation if falling longer than the FallTimeout
-                    if (_fallTimeoutDelta < 0.0f)
+                    if (startGameLandSfxOff)
                     {
-                        if (_hasAnimator)
-                        {
-                            _animator.SetBool(_animIDJump, false);
-                        }
-                        else
-                        {
-                                abilitySoundManager.Play("Land");
-                        }
-
+                        startGameLandSfxOff = false;
+                        jumpReset = false;
+                    }
+                    else if (!startGameLandSfxOff)
+                    {
+                        abilitySoundManager.Play("Land");
+                        jumpReset = false;
                         if (landingShakeEnabled) { CinemachineShake.Instance.ShakeCamera(landingShake); }
                     }
-
                 }
-                //Regardless of jump ability,  reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
+
             }
             else
             {
-                // Decrease the fall timeout till it triggers at >0
-                if (_fallTimeoutDelta >= 0.0f)
-                {
-                    _fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
-
-                }
-                //Reset the  jump ability
                 jumpReset = true;
             }
 
-            // Regardless of the player being grounded, apply gravity over time, and tilt with slopes 
+            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
             if (_verticalVelocity < _terminalVelocity)
             {
-                if (!pauseGravityGain)
-                {
-                    _verticalVelocity += Gravity * Time.deltaTime;
-                }
-                
-                if (!stuckOnWallSlope)
-                {
-                    pauseGravityGain = false;
-                    addConstantForceToEtraCharacter(new Vector3(0, _verticalVelocity, 0));
-                }
-                else // player is on sloped wall or falling off an edge
-                {
-                    Vector3 angledForce = Vector3.ProjectOnPlane(flatBeamToTarget, hit.normal).normalized;
-                    if (hitAngle != 90) // If the player is on a sloped wall
-                    {
-
-                        if (Physics.Raycast(transform.position, Vector3.down, out hit, characterHeight * 0.1f) && currentSlopeAngle > 1 && currentSlopeAngle < maxWalkableSlope)
-                        {
-                        }
-                        else
-                        {
-                            savedStuckCollider = null;
-                            addConstantForceToEtraCharacter(angledForce * _verticalVelocity);
-                        }
-                    }
-                    else
-                    {
-                        savedStuckCollider = colliderPlayerStuckOn;
-
-                        if (savedStuckCollider is MeshCollider meshCollider && !meshCollider.convex)
-                        {
-                            pauseGravityGain = true;//The is to prevent crazy grabity buildup in set clipping states
-                            //If they are touching a non-convex mesh collider the angle is more difficult to figure, so we have to guess
-                            //since we only know the mesh transform, and not mesh raycast point of contact
-                            Vector3 towardLastStablePoint = new Vector3(lastStableStandingPosition.x, 0, lastStableStandingPosition.z) - new Vector3(transform.position.x, 0, transform.position.z);
-                            addConstantForceToEtraCharacter((towardLastStablePoint.normalized) * -0.25f);
-                            addConstantForceToEtraCharacter((flatBeamToTarget.normalized) * -0.25f);
-                        }
-                        else
-                        {
-                            //for all other colliders we can get the contact point of the object and simply add a force opposite of that
-                            addConstantForceToEtraCharacter((flatBeamToTarget.normalized) * -1);
-                        }
-                        
-                    }
-                    
-                }
-                
+                _verticalVelocity += Gravity * Time.deltaTime;
             }
 
-        }
 
+
+        }
 
 
         private void OnDrawGizmosSelected()
@@ -624,11 +428,9 @@ namespace Etra.StarterAssets
 
             // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
-            Gizmos.DrawLine(raycastDebugStart, raycastDebugEnd);
         }
 
         #endregion
-
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //MAIN FUNCTIONS
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -658,7 +460,6 @@ namespace Etra.StarterAssets
             _hasAnimator = EtrasResourceGrabbingFunctions.TryGetComponentInChildren<Animator>(modelParent);
             if (_hasAnimator) { _animator = modelParent.GetComponentInChildren<Animator>(); }
             _controller = GetComponent<CharacterController>();
-            maxWalkableSlope = _controller.slopeLimit;
             characterHeight = _controller.height;
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
@@ -670,10 +471,12 @@ namespace Etra.StarterAssets
         public void teleportToGround()
         {
             Vector3 moveDown = new Vector3(0, -0.01f, 0);
+            RaycastHit hit;
             if (teleportToGroundAtStart)
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 100f,  GroundLayers, QueryTriggerInteraction.Ignore))
                 {
+
                     Grounded = false;
                     while (Grounded != true)
                     {
@@ -695,9 +498,7 @@ namespace Etra.StarterAssets
             GroundedCheck();
             ApplyGravity();
             //Apply vertical velocity from gravity or jump every frame
-   
-
-            
+            addConstantForceToEtraCharacter(new Vector3(0.0f, _verticalVelocity, 0.0f));
             updateImpulseVariables();
 
         }
