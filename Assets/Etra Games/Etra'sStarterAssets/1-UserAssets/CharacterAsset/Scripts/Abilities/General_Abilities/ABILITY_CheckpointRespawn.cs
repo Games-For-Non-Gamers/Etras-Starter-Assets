@@ -32,11 +32,10 @@ namespace Etra.StarterAssets.Abilities
         public void Reset()
         {
             if (this.gameObject.name == "Tempcube"){return; }
-
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
             var spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
-            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenPosition();
+            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenWiperState();
         }
 
         private GameObject _mainCamera;

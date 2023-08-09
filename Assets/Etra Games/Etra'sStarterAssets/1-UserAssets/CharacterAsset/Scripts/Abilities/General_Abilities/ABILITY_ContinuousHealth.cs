@@ -4,37 +4,59 @@ using UnityEngine;
 using UnityEngine.UI;
 using Etra.StarterAssets.Combat;
 using Etra.StarterAssets.Source;
+using UnityEngine.SceneManagement;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive, typeof(HealthSystem)), RequireComponent(typeof(ABILITY_CheckpointRespawn))]
+    [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive, typeof(HealthSystem))]
     class ABILITY_ContinuousHealth : EtraAbilityBaseClass
     {
         [SerializeField, Header("Main variables")]
         AnimationCurve damageCurve;
         [SerializeField]
-        float damageCooldownWaitTime, healCooldownWaitTime;
+        float damageCooldownWaitTime = 0.5f;
+        float healCooldownWaitTime = 0;
         bool damageCooldown = false, healCooldown = false;
-        [SerializeField, Header("Misc"), Tooltip("The index of the damage filter inside the canvas")]
-        int siblingIndex = 0;
         int currentStep = 0;
         HealthSystem healthSystem;
         ABILITY_CheckpointRespawn checkpointRespawn;
-        Image image;
+        [HideInInspector]public GameObject healthFilter;
+         Image image;
         float animationTime;
+
+
+        public void Reset()
+        {
+            if (this.gameObject.name == "Tempcube") { return; }
+            transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
+            
+            healthFilter = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("DamageFilter", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
+            damageCurve = new AnimationCurve();
+            damageCurve.AddKey(0, 25);
+            //Set above the cursor, but behind everything else
+            if (healthFilter.gameObject.transform.parent.childCount >1)
+            {
+                healthFilter.gameObject.transform.SetSiblingIndex(1);
+            }
+        }
+
         public override void abilityStart()
         {
+
+            image = healthFilter.GetComponent<Image>();
+
             healthSystem = GetComponentInChildren<HealthSystem>();
             healthSystem.OnDamage.AddListener(OnDamage);
             healthSystem.OnHeal.AddListener(OnHeal);
             healthSystem.OnDeath.AddListener(OnDeath);
             healthSystem.OnChange.AddListener(OnChange);
-            checkpointRespawn = GetComponent<ABILITY_CheckpointRespawn>();
-            animationTime = checkpointRespawn.animationTime * .5f;
-            image = EtrasResourceGrabbingFunctions
-                .addPrefabFromAssetsByName("DamageFilter", EtraCharacterMainController.Instance.starterAssetCanvas.transform, false, Vector3.zero, new Quaternion(0, 0, 0, 0), new Vector3(1, 1, 0))
-                .GetComponent<Image>();
-            image.transform.SetSiblingIndex(siblingIndex);
+
+            if (GetComponent<ABILITY_CheckpointRespawn>())
+            {
+                checkpointRespawn = GetComponent<ABILITY_CheckpointRespawn>();
+                animationTime = checkpointRespawn.animationTime * .5f;
+            }
+
         }
 
         public void Damage()
@@ -67,9 +89,17 @@ namespace Etra.StarterAssets.Abilities
 
         void OnDeath()
         {
-            healthSystem.manualDeath = true;
-            checkpointRespawn.teleportToCheckpoint();
-            StartCoroutine(Respawn());
+            if (checkpointRespawn)
+            {
+                healthSystem.manualDeath = true;
+                checkpointRespawn.teleportToCheckpoint();
+                StartCoroutine(Respawn());
+            }
+            else
+            {
+                //Reload current scene 
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
 
         void OnChange(float change)

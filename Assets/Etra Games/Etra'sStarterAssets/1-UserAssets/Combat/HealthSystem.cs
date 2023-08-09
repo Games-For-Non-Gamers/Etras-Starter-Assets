@@ -9,7 +9,7 @@ namespace Etra.StarterAssets.Combat
         #region Variables
         [Header("Variables")]
         [SerializeField, Tooltip("The health of the GameObject")]
-        float _health;
+        float _health = 100;
         /// <summary>
         ///   The health of the GameObject.
         /// </summary>
@@ -38,7 +38,7 @@ namespace Etra.StarterAssets.Combat
                 if (last && !isAlive) OnDeath?.Invoke();
             }
         }
-        [Tooltip("The maximum health of the object")] public float maxHealth;
+        [Tooltip("The maximum health of the object")] public float maxHealth = 100;
         /// <summary>
         ///   If true, <see cref="OnDeath"/> won't be called.
         /// </summary>
