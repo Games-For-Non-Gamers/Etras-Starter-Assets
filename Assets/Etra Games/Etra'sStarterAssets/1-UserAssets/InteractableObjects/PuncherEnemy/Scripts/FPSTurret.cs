@@ -24,7 +24,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
 
         //References set by code
         private Animator turretAnimator;
-        private GameObject target;
+        GameObject target;
         private HealthSystem healthSystem;
         private bool playerSpotted = false;
         // This variable will be used to prevent the turret from taking damage while it's still in the cooldown period.
@@ -35,9 +35,10 @@ namespace Etra.StarterAssets.Interactables.Enemies
         void Start()
         {
             audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
+            if (target == null)
+            target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
             turretAnimator = GetComponent<Animator>();
             healthSystem = GetComponent<HealthSystem>();
-            target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
             startingRotation = baseSpin.transform.rotation.eulerAngles;
             backToIdle();
 
@@ -199,21 +200,21 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 // Wait for a random amount of time between 5 and 11 seconds.
                 float idleWait = Random.Range(5, 11);
                 yield return new WaitForSeconds(idleWait);
-                audioManager.Play("RobotIdle");
+                //audioManager.Play("RobotIdle");
                 // Choose a random taunt animation to play.
                 int whichTaunt = Random.Range(0, 2);
                 stopSounds();
                 if (whichTaunt == 0)
                 {
                     turretAnimator.SetBool("Taunt1", true);
-                    audioManager.Play("RobotTaunt1");
+              //      audioManager.Play("RobotTaunt1");
                     yield return new WaitForSeconds(4.25f);
                     turretAnimator.SetBool("Taunt1", false);
                 }
                 else if (whichTaunt == 1)
                 {
                     turretAnimator.SetBool("Taunt2", true);
-                    audioManager.Play("RobotTaunt2");
+            //        audioManager.Play("RobotTaunt2");
                     yield return new WaitForSeconds(2.25f);
                     turretAnimator.SetBool("Taunt2", false);
                 }

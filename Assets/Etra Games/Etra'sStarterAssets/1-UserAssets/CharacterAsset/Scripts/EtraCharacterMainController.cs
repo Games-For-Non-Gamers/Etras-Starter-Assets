@@ -89,7 +89,7 @@ namespace Etra.StarterAssets
         [Header("Cam Shake")]
         public bool landingShakeEnabled = true;
         public Vector2 landingShake = new Vector2(1f, 0.1f);
-        
+
 
 
 
@@ -255,7 +255,7 @@ namespace Etra.StarterAssets
                     break;
             }
 
-            
+
             //Destroy the current character model
             foreach (Transform child in modelParent)
             {
@@ -299,7 +299,7 @@ namespace Etra.StarterAssets
             starterAssetCanvas = GetComponentInChildren<StarterAssetsCanvas>();
             etraAbilityManager = GetComponentInChildren<EtraAbilityManager>();
 
-            if (etraAbilityManager.GetComponent<ABILITY_Jump>() !=null)
+            if (etraAbilityManager.GetComponent<ABILITY_Jump>() != null)
             {
                 abilityJump = etraAbilityManager.GetComponent<ABILITY_Jump>();
             }
@@ -474,7 +474,7 @@ namespace Etra.StarterAssets
             RaycastHit hit;
             if (teleportToGroundAtStart)
             {
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, 100f,  GroundLayers, QueryTriggerInteraction.Ignore))
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, 100f, GroundLayers, QueryTriggerInteraction.Ignore))
                 {
 
                     Grounded = false;
@@ -640,7 +640,7 @@ namespace Etra.StarterAssets
             {
                 etraFPSUsableItemManager.enableFPSItemInputs();
             }
-            
+
         }
 
         public void enableAllActiveAbilitiesAndSubAblities()
@@ -649,11 +649,11 @@ namespace Etra.StarterAssets
             foreach (EtraAbilityBaseClass ability in etraAbilityManager.characterAbilityUpdateOrder)
             {
 
-                    for (int i = 0; i < ability.subAbilityUnlocks.Length; i++)
-                    {
-                        ability.subAbilityUnlocks[i].subAbilityEnabled = true;
-                    }
-                    ability.abilityCheckSubAbilityUnlocks();
+                for (int i = 0; i < ability.subAbilityUnlocks.Length; i++)
+                {
+                    ability.subAbilityUnlocks[i].subAbilityEnabled = true;
+                }
+                ability.abilityCheckSubAbilityUnlocks();
             }
 
         }
@@ -724,13 +724,12 @@ namespace Etra.StarterAssets
                 LeanTween.value(cam.gameObject, currentCamSettings.fov, fov, time).setOnUpdate((float fovValue) => { cam.m_Lens.FieldOfView = fovValue; }).setEaseInOutSine();
                 Cinemachine3rdPersonFollow thirdPerson = cam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
                 LeanTween.value(cam.gameObject, currentCamSettings.cameraDistance, cameraDistance, time).setOnUpdate((float cameraDistance) => { thirdPerson.CameraDistance = cameraDistance; ; }).setEaseInOutSine();
-                LeanTween.value(cam.gameObject, currentCamSettings.cameraSide, cameraSide, time / 3).setOnUpdate((float cameraSide) => { thirdPerson.CameraSide = cameraSide;  }).setEaseInOutSine();
-                LeanTween.value(cam.gameObject, currentCamSettings.shoulderOffset, shoulderOffset, time/3).setOnUpdate((Vector3 shoulderOffset) => { thirdPerson.ShoulderOffset = shoulderOffset;  }).setEaseInOutSine();
-                LeanTween.value(cam.gameObject, currentCamSettings.damping, damping, time/3).setOnUpdate((Vector3 damping) => { thirdPerson.Damping = damping; }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.cameraSide, cameraSide, time / 3).setOnUpdate((float cameraSide) => { thirdPerson.CameraSide = cameraSide; }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.shoulderOffset, shoulderOffset, time / 3).setOnUpdate((Vector3 shoulderOffset) => { thirdPerson.ShoulderOffset = shoulderOffset; }).setEaseInOutSine();
+                LeanTween.value(cam.gameObject, currentCamSettings.damping, damping, time / 3).setOnUpdate((Vector3 damping) => { thirdPerson.Damping = damping; }).setEaseInOutSine();
             }
 
         }
     }
 
 }
-
