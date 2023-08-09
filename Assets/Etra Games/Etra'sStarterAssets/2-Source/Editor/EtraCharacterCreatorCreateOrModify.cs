@@ -107,12 +107,17 @@ namespace Etra.StarterAssets.Source.Editor
                     GameplayType.ThirdPerson => tpAbilities,
                     _ => new List<Ability>(),
                 })
-                .Select(x => x.type)
+                .Select(x => x.type.GetType())
                 .ToList();
 
             foreach (var item in abilityManager.characterAbilityUpdateOrder)
+            {
                 if (item != null && !selectAbilityScriptTypes.Contains(item.GetType()))
+                {
                     DestroyImmediate(item, true);
+                }
+            }
+                    
 
             abilityManager.characterAbilityUpdateOrder = new EtraAbilityBaseClass[0];
 
@@ -133,6 +138,12 @@ namespace Etra.StarterAssets.Source.Editor
                     {
                         case true:
                             //TODO: don't
+
+                            if (GameObject.Find("EtraFPSUsableItemManagerPrefab"))
+                            {
+                                DestroyImmediate(GameObject.Find("EtraFPSUsableItemManagerPrefab"));
+                            }
+
                             var itemManager = FindObjectOfType<EtraFPSUsableItemManager>() ??
                                 EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("EtraFPSUsableItemManagerPrefab", _target.transform)
                                 .GetComponent<EtraFPSUsableItemManager>();
@@ -175,6 +186,8 @@ namespace Etra.StarterAssets.Source.Editor
                     var usableItemManager = FindObjectOfType<EtraFPSUsableItemManager>();
                     if (usableItemManager != null)
                         DestroyImmediate(usableItemManager.gameObject, true);
+
+
 
                     var itemCamera = GameObject.Find("FPSUsableItemsCamera");
                     if (itemCamera != null)

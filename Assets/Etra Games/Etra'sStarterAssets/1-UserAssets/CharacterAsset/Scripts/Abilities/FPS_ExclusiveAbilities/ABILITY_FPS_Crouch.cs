@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities.FirstPerson
 {
-    [RequireComponent(typeof(ABILITY_CharacterMovement))]
     [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.FirstPerson)]
     public class ABILITY_FPS_Crouch : EtraAbilityBaseClass
     {

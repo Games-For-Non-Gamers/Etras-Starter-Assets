@@ -60,7 +60,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &5501037124964846597
 MonoBehaviour:
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reticle: {fileID: 5501037125453807588}
   screenWiper: {fileID: 0}
+  healthFilter: {fileID: 0}
   screenWipeStart: {x: 1600, y: 0, z: 0}
   screenWipeEnd: {x: -1600, y: 0, z: 0}
   fpsCounterOn: 0

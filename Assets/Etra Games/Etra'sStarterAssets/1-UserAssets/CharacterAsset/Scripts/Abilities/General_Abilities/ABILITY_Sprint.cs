@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities
 {
-    [RequireComponent(typeof(ABILITY_CharacterMovement))]
-
     [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Sprint : EtraAbilityBaseClass
     {

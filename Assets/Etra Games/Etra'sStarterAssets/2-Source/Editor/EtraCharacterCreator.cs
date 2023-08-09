@@ -299,9 +299,28 @@ namespace Etra.StarterAssets.Source.Editor
 
                     break;
                 case 2: //"General Abilities" PAGE
-                    GUILayout.Label("General Abilities", s_header);
+
+                    using (new GUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label("General Abilities", s_header);
+
+                        using (var change = new EditorGUI.ChangeCheckScope()) {
+                            if(GUILayout.Button("All\nOff", GUILayout.Width(40f), GUILayout.Height(40f))){
+                                foreach (var item in generalAbilities)
+                                    item.state = false;
+                            }
+                            if(GUILayout.Button("All\nOn", GUILayout.Width(40f), GUILayout.Height(40f))) {
+                                foreach (var item in generalAbilities)
+                                    item.state = true;
+                            }
+                            GUILayout.Space(2.5f);
+                        }
+                    }
+
                     foreach (var item in generalAbilities)
-                        item.AbilityGUI();
+                    item.AbilityGUI();
+
+
                     break;
                 case 3: //"Genre Specific Abilities" PAGE
                     string header = _gameplayType switch
@@ -318,7 +337,29 @@ namespace Etra.StarterAssets.Source.Editor
                         _ => new List<Ability>(),
                     };
 
-                    GUILayout.Label(header, s_header);
+                    using (new GUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label(header, s_header);
+
+                        using (var change = new EditorGUI.ChangeCheckScope())
+                        {
+                            if (GUILayout.Button("All\nOff", GUILayout.Width(40f), GUILayout.Height(40f)))
+                            {
+                                foreach (var item in specificAbilities)
+                                    item.state = false;
+                            }
+                            if (GUILayout.Button("All\nOn", GUILayout.Width(40f), GUILayout.Height(40f)))
+                            {
+                                foreach (var item in specificAbilities)
+                                    item.state = true;
+                            }
+                            GUILayout.Space(2.5f);
+                        }
+                    }
+
+
+
+
                     foreach (var item in specificAbilities)
                         item.AbilityGUI();
 
@@ -326,7 +367,27 @@ namespace Etra.StarterAssets.Source.Editor
                     {
                         EditorGUILayout.Space();
 
-                        GUILayout.Label("First Person Items", s_header);
+
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            GUILayout.Label("First Person Items", s_header);
+
+                            using (var change = new EditorGUI.ChangeCheckScope())
+                            {
+                                if (GUILayout.Button("All\nOff", GUILayout.Width(40f), GUILayout.Height(40f)))
+                                {
+                                    foreach (var item in fpsItems)
+                                        item.state = false;
+                                }
+                                if (GUILayout.Button("All\nOn", GUILayout.Width(40f), GUILayout.Height(40f)))
+                                {
+                                    foreach (var item in fpsItems)
+                                        item.state = true;
+                                }
+                                GUILayout.Space(2.5f);
+                            }
+                        }
+
                         foreach (var item in fpsItems)
                             item.AbilityGUI();
                     }

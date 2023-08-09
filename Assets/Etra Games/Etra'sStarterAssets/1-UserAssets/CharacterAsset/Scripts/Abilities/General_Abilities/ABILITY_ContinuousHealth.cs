@@ -29,7 +29,10 @@ namespace Etra.StarterAssets.Abilities
         {
             if (this.gameObject.name == "Tempcube") { return; }
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
-            
+            if (GameObject.Find("DamageFilter"))
+            {
+                DestroyImmediate(GameObject.Find("DamageFilter"));
+            }
             healthFilter = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("DamageFilter", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             damageCurve = new AnimationCurve();
             damageCurve.AddKey(0, 25);

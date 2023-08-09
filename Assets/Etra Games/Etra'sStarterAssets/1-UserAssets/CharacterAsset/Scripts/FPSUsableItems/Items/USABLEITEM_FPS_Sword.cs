@@ -114,12 +114,15 @@ namespace Etra.StarterAssets.Items
 
                 if (hitObject != null && hitObject.GetComponent<Rigidbody>() != null)
                 {
-                    var hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
-                    if (hitBody.isKinematic == false && Vector3.Distance(Camera.main.transform.position, camMoveScript.pointCharacterIsLookingAt) < swordRange)
+                    if (camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>())
                     {
-                        var charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
-                        hitBody.AddForce(charController.transform.forward * swordKnockback, ForceMode.Impulse);
-                        CinemachineShake.Instance.ShakeCamera(hitCamShake);
+                        var hitBody = camMoveScript.raycastHit.transform.gameObject.GetComponent<Rigidbody>();
+                        if (hitBody.isKinematic == false && Vector3.Distance(Camera.main.transform.position, camMoveScript.pointCharacterIsLookingAt) < swordRange)
+                        {
+                            var charController = EtraCharacterMainController.Instance.GetComponent<CharacterController>();
+                            hitBody.AddForce(charController.transform.forward * swordKnockback, ForceMode.Impulse);
+                            CinemachineShake.Instance.ShakeCamera(hitCamShake);
+                        }
                     }
 
                 }
