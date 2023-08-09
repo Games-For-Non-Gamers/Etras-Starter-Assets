@@ -2,6 +2,7 @@ using EtrasStarterAssets;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Etra.StarterAssets.Source
 {
@@ -30,7 +31,8 @@ namespace Etra.StarterAssets.Source
         public void setInitialScreenWiperState()
         {
             screenWiperRect = screenWiper.GetComponent<RectTransform>();
-            screenWiper.gameObject.SetActive(false);
+            screenWiper.gameObject.SetActive(true);
+            screenWiperRect.GetComponent<Image>().enabled = false;
             screenWiperRect.localPosition = screenWipeStart;
         }
 
@@ -48,7 +50,7 @@ namespace Etra.StarterAssets.Source
             }
             if (screenWipeIsAnimating) { return; }
             screenWipeIsAnimating = true;
-            screenWiper.gameObject.gameObject.SetActive(true);
+            screenWiperRect.GetComponent<Image>().enabled = true;
             StartCoroutine(screenWipeAnimation(time));
         }
 
@@ -57,7 +59,7 @@ namespace Etra.StarterAssets.Source
             screenWiper.GetComponent<AudioManager>().Play("ScreenWipe");
             LeanTween.move(screenWiperRect, screenWipeEnd, time).setEaseInOutSine();
             yield return new WaitForSeconds(time);
-            screenWiper.gameObject.gameObject.SetActive(false);
+            screenWiperRect.GetComponent<Image>().enabled = false;
             screenWiperRect.localPosition = screenWipeStart;
             screenWipeIsAnimating = false;
         }

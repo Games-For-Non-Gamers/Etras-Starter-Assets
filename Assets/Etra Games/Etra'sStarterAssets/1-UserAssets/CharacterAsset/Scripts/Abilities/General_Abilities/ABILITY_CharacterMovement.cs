@@ -20,6 +20,8 @@ namespace Etra.StarterAssets.Abilities
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float rotateTowardMoveDirectionSpeed = 0.12f;
+        [HideInInspector]public bool isSprinting = false;
+
 
         [Header("Locks")]
         public bool upUnlocked = true;
@@ -32,8 +34,6 @@ namespace Etra.StarterAssets.Abilities
         [HideInInspector] public Vector2 passedMovementInput;
         private StarterAssetsInputs _input;
         private CharacterController _controller;
-        private bool _hasSprint;
-        private ABILITY_Sprint sprintSource;
         private GameObject _mainCamera;
         private Animator _animator;
         [HideInInspector]public  bool _hasAnimator;
@@ -76,6 +76,10 @@ namespace Etra.StarterAssets.Abilities
             {
                 rotateTowardMoveDirection = true;
             }
+        }
+        private void Awake()
+        {
+            sprintSpeed = moveSpeed;
         }
 
         public override void abilityStart()
@@ -170,7 +174,7 @@ namespace Etra.StarterAssets.Abilities
 
             //Set correct speed based off of sprint or crouch modifiers
             float targetSpeed;
-            targetSpeed = _input.sprint ? sprintSpeed : moveSpeed;
+            targetSpeed = isSprinting ? sprintSpeed : moveSpeed;
             if (isCrouched)
             {
                 targetSpeed = crouchSpeed;

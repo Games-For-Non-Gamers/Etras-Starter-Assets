@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.SceneManagement;
-using UObject = UnityEngine.Object;
-using System.Reflection;
-using static Etra.StarterAssets.Items.EtraFPSUsableItemManager;
 using static Etra.StarterAssets.EtraCharacterMainController;
 using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Items;
-using Etra.StarterAssets.Source;
 
 //From Dock Frankenstein
 ////https://www.youtube.com/channel/UCq_7pbSyOvrurXLAMi_Ss1w

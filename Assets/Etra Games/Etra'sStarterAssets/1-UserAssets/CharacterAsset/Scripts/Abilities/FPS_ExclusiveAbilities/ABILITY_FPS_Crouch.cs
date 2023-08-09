@@ -62,15 +62,15 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
         private bool crouchReleased = false;
 
 
-        private void Reset()
-        {
-            OnValidate();
-        }
+
 
         private void OnValidate()
         {
-            movementAbility = GetComponent<ABILITY_CharacterMovement>();
-            movementAbility.crouchSpeed = crouchedMovementSpeed;
+            if (GetComponent<ABILITY_CharacterMovement>())
+            {
+                movementAbility = GetComponent<ABILITY_CharacterMovement>();
+                movementAbility.crouchSpeed = crouchedMovementSpeed;
+            }
         }
 
 
