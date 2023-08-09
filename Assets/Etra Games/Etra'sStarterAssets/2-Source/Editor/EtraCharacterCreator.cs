@@ -226,7 +226,7 @@ namespace Etra.StarterAssets.Source.Editor
                                 //If there is no character, set the default menu player prefs
                                 if (_target == null)
                                 {
-                                    PlayerPrefs.SetInt("etraReticleToggle",1);
+                                    PlayerPrefs.SetInt("etraReticleToggle", 1);
                                     PlayerPrefs.SetInt("etraScreenShakeToggle", 1);
                                 }
 
@@ -234,9 +234,9 @@ namespace Etra.StarterAssets.Source.Editor
                                 _target = EtraCharacterCreatorCreateOrModify.
                                     CreateOrModify(_target, _gameplayType, _fpModel, _tpModel, generalAbilities, fpAbilities, tpAbilities, fpsItems);
                             }
-                                
-                            if (!Preferences.KeepOpened)
-                                CloseWindow();
+
+                        if (!Preferences.KeepOpened)
+                            CloseWindow();
                         break;
                 }
             }
@@ -488,14 +488,14 @@ namespace Etra.StarterAssets.Source.Editor
         }
 
 
-            public void CreateOrModify(Type taughtAbilities, Type newAbilities)
-            {
+        public void CreateOrModify(Type taughtAbilities, Type newAbilities)
+        {
 
 
 
-            }
+        }
 
-           
+
         #endregion
 
         #region Utility

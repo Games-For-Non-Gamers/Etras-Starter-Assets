@@ -13,13 +13,13 @@ namespace Etra.StarterAssets.Abilities
         public enum AbilityLockTiming
         {
             LockActiveAbilitiesTillAnimationEnd,
-            lockActiveAbilitiesTillTeleport,
+            LockActiveAbilitiesTillTeleport,
             DontLockActiveAbilities
         }
 
         [Header("Basics")]
         public Vector3 checkpointLocation;
-        public Quaternion checkPointRotation;
+        public Quaternion checkpointRotation;
         [HideInInspector] public bool setRotationToCheckpointRotation;
         [HideInInspector] public bool teleportToGround;
         public bool playAnimation = true;
@@ -32,11 +32,10 @@ namespace Etra.StarterAssets.Abilities
         public void Reset()
         {
             if (this.gameObject.name == "Tempcube"){return; }
-
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
             var spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
-            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenPosition();
+            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenWiperState();
         }
 
         private GameObject _mainCamera;
@@ -82,7 +81,7 @@ namespace Etra.StarterAssets.Abilities
             etraCharacterMainController.starterAssetCanvas.screenWipe(animationTime);
             yield return new WaitForSeconds(animationTime / 2);
             teleportToLocation();
-            if (abilityLockTiming == AbilityLockTiming.lockActiveAbilitiesTillTeleport)
+            if (abilityLockTiming == AbilityLockTiming.LockActiveAbilitiesTillTeleport)
             {
                 etraCharacterMainController.enableAllActiveAbilities();
             }
@@ -100,11 +99,11 @@ namespace Etra.StarterAssets.Abilities
             if (setRotationToCheckpointRotation)
             {
                 etraCharacterMainController.transform.forward = Vector3.right;
-                etraCharacterMainController.gameObject.transform.rotation = checkPointRotation;
-                etraCameraMovement.playerCameraRoot.transform.rotation = checkPointRotation;
+                etraCharacterMainController.gameObject.transform.rotation = checkpointRotation;
+                etraCameraMovement.playerCameraRoot.transform.rotation = checkpointRotation;
 
-                etraCameraMovement._cinemachineTargetPitch = checkPointRotation.eulerAngles.x;
-                etraCameraMovement._cinemachineTargetYaw = checkPointRotation.eulerAngles.y;
+                etraCameraMovement._cinemachineTargetPitch = checkpointRotation.eulerAngles.x;
+                etraCameraMovement._cinemachineTargetYaw = checkpointRotation.eulerAngles.y;
             }
 
             if (teleportToGround)

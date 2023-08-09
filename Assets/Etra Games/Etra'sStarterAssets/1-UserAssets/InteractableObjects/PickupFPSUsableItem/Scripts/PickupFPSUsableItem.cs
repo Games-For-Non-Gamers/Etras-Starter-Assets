@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables
 {
-
     public class PickupFPSUsableItem : MonoBehaviour, ISerializationCallbackReceiver
     {
         public static List<string> TMPList;
@@ -81,9 +80,7 @@ namespace Etra.StarterAssets.Interactables
 
         public void OnAfterDeserialize()
         {
-
+            //why is this here?
         }
-
-
     }
 }

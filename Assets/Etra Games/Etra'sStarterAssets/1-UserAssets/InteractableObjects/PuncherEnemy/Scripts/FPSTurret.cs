@@ -1,12 +1,15 @@
-﻿using EtrasStarterAssets;
 using System.Collections;
+using Etra.StarterAssets.Combat;
+using EtrasStarterAssets;
 using UnityEngine;
 
 namespace Etra.StarterAssets.Interactables.Enemies
 {
-    public class FPSTurret : Enemy
+    public class FPSTurret : MonoBehaviour
     {
-        
+
+
+        public Vector3 startingRotation;
         public float knockbackForce = 150;
         public float spinSpeed = 0.5f;
 
@@ -21,11 +24,11 @@ namespace Etra.StarterAssets.Interactables.Enemies
 
         //References set by code
         private Animator turretAnimator;
-        GameObject target;
-        private bool dieOnce = true;
+        private GameObject target;
+        private HealthSystem healthSystem;
         private bool playerSpotted = false;
-        Vector3 startingRotation;
-
+        // This variable will be used to prevent the turret from taking damage while it's still in the cooldown period.
+        bool isCooling = false;
         EtrasStarterAssets.AudioManager audioManager;
 
         // Start is called before the first frame update
@@ -33,7 +36,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         {
             audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
             turretAnimator = GetComponent<Animator>();
-            if(target == null)
+            healthSystem = GetComponent<HealthSystem>();
             target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
             startingRotation = baseSpin.transform.rotation.eulerAngles;
             backToIdle();
@@ -44,6 +47,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         bool animStarted = false; //Anim started flag keeps the code from generate a tween every frame
         public virtual void Update()
         {
+
 
             if (playerSpotted)
             {
@@ -82,8 +86,6 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 audioManager.Play("RobotAlert");
                 audioManager.Play("RobotPunch");
             }
-            
-            //e
         }
 
         // This coroutine will rotate the object back to its starting position
@@ -94,7 +96,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 audioManager.Play("RobotDismiss");
                 alertReset = true;
             }
-                
+
             // Set animStarted flag to true
             animStarted = true;
             // Rotate the object back to its starting position using LeanTween
@@ -110,6 +112,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
             // Add an impulse force to the EtraCharacter to launch the player
             EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(armSpin.transform.forward + new Vector3(0, 0.3f, 0), knockbackForce);
         }
+
 
         public void aimAtPlayer()
         {
@@ -131,35 +134,22 @@ namespace Etra.StarterAssets.Interactables.Enemies
             armSpin.transform.localEulerAngles = xRotation;
         }
 
-
-
-        // This variable will be used to prevent the turret from taking damage while it's still in the cooldown period.
-        bool isCooling = false;
-        // This method will be called when the turret takes damage.
         public void takeDamage(int damage)
         {
-            // If the turret is still in cooldown, do nothing.
-            if (isCooling)
-            {
-                return;
-            }
-            // Reduce the health of the turret by the amount of damage received.
-            health = health - damage;
+            if (isCooling) return;
 
-            // If the turret's health reaches 0, start the death animation.
-            if (health <= 0)
-            {
-                if (dieOnce)
-                {
-                    dieOnce = false;
-                    StartCoroutine("die");
-                }
-            }
-            else // Otherwise, start the damage animation.
-            {
-                isCooling = true;
-                StartCoroutine("damageAnimation");
-            }
+            healthSystem.Damage(damage);
+        }
+
+        public void OnDamage(float hp)
+        {
+            isCooling = true;
+            StartCoroutine("damageAnimation");
+        }
+
+        public void OnDeath()
+        {
+            StartCoroutine("die");
         }
 
         // This coroutine will play the damage animation for a short amount of time.
@@ -206,24 +196,24 @@ namespace Etra.StarterAssets.Interactables.Enemies
         {
             while (true)
             {
-              //  audioManager.Play("RobotIdle");
                 // Wait for a random amount of time between 5 and 11 seconds.
                 float idleWait = Random.Range(5, 11);
                 yield return new WaitForSeconds(idleWait);
+                audioManager.Play("RobotIdle");
                 // Choose a random taunt animation to play.
                 int whichTaunt = Random.Range(0, 2);
                 stopSounds();
                 if (whichTaunt == 0)
                 {
                     turretAnimator.SetBool("Taunt1", true);
-                   // audioManager.Play("RobotTaunt1");
+                    audioManager.Play("RobotTaunt1");
                     yield return new WaitForSeconds(4.25f);
                     turretAnimator.SetBool("Taunt1", false);
                 }
                 else if (whichTaunt == 1)
                 {
                     turretAnimator.SetBool("Taunt2", true);
-                   // audioManager.Play("RobotTaunt2");
+                    audioManager.Play("RobotTaunt2");
                     yield return new WaitForSeconds(2.25f);
                     turretAnimator.SetBool("Taunt2", false);
                 }
@@ -243,7 +233,6 @@ namespace Etra.StarterAssets.Interactables.Enemies
             audioManager.Stop("RobotTaunt1");
             audioManager.Stop("RobotTaunt2");
         }
-
 
     }
 }

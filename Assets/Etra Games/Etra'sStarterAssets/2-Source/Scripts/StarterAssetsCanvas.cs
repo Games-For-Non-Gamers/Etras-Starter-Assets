@@ -10,6 +10,7 @@ namespace Etra.StarterAssets.Source
         //Get the child objects
         public RectTransform reticle;
         public GameObject screenWiper;
+        public GameObject healthFilter;
         private RectTransform screenWiperRect;
         public Vector3 screenWipeStart = new Vector3(1600, 0, 0);
         public Vector3 screenWipeEnd = new Vector3(-1600, 0, 0);
@@ -22,16 +23,20 @@ namespace Etra.StarterAssets.Source
             //Hide the screen swiper at the start of the game if it exists
             if (screenWiper != null)
             {
-                setInitialScreenPosition();
+                setInitialScreenWiperState();
             }
         }
 
-        public void setInitialScreenPosition()
+        public void setInitialScreenWiperState()
         {
             screenWiperRect = screenWiper.GetComponent<RectTransform>();
             screenWiper.gameObject.SetActive(false);
             screenWiperRect.localPosition = screenWipeStart;
         }
+
+
+
+
 
         bool screenWipeIsAnimating = false;
         public void screenWipe(float time)
