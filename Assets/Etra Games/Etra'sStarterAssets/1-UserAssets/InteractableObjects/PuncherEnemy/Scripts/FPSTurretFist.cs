@@ -15,17 +15,16 @@ namespace Etra.StarterAssets.Interactables.Enemies
             if (other.gameObject.CompareTag("Player"))
             {
                 mainScript.launchPlayer(other.gameObject);
-                if (other.GetComponentInChildren<ABILITY_ContinuousHealth>())
+                if (other.GetComponentInChildren<ABILITY_Health>())
                 {
-                    other.GetComponentInChildren<ABILITY_ContinuousHealth>().Damage();
+                    other.GetComponentInChildren<ABILITY_Health>().Damage(mainScript.damage);
                 }
             }
 
             //If a damageable thing is hit (like another puncher), deal damage to it
             if (!cooldown)
             {
-                var isDamageableCheck = other.gameObject.GetComponent<HealthSystem>();
-                if (isDamageableCheck != null)
+                if (other.gameObject.TryGetComponent<HealthSystem>(out var isDamageableCheck))
                 {
                     isDamageableCheck.Damage(1);
                     //Wait one second before applying damage again with that fist

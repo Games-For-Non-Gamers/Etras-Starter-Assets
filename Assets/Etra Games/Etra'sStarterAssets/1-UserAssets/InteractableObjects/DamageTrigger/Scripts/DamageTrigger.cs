@@ -6,6 +6,8 @@ using Etra.StarterAssets.Combat;
 [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(Collider))]
 public class DamageTrigger : MonoBehaviour
 {
+    [SerializeField, Tooltip("Amount of damage to deal")]
+    float damage = 25f;
     [Header("Rendering")]
     [SerializeField] bool showInEditor = true;
     [SerializeField] bool showInGame = false;
@@ -64,8 +66,10 @@ public class DamageTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EtraCharacterMainController.Instance.etraAbilityManager.GetComponent<ABILITY_ContinuousHealth>()?.Damage();
-            //TODO: add support for hp based health when it's implemented
+            if (EtraCharacterMainController.Instance.etraAbilityManager.TryGetComponent<ABILITY_Health>(out var ability))
+            {
+                ability.Damage(damage);
+            }
         }
     }
 }

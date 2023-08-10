@@ -22,6 +22,9 @@ namespace Etra.StarterAssets.Interactables.Enemies
         public GameObject impactParticle;
         public GameObject explosionParticle;
 
+        [Header("Damage")]
+        public float damage = 25f;
+
         //References set by code
         private Animator turretAnimator;
         GameObject target;
@@ -36,7 +39,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         {
             audioManager = GetComponent<EtrasStarterAssets.AudioManager>();
             if (target == null)
-            target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
+                target = EtraCharacterMainController.Instance.modelParent.gameObject.transform.GetChild(0).transform.gameObject;
             turretAnimator = GetComponent<Animator>();
             healthSystem = GetComponent<HealthSystem>();
             startingRotation = baseSpin.transform.rotation.eulerAngles;
@@ -207,14 +210,14 @@ namespace Etra.StarterAssets.Interactables.Enemies
                 if (whichTaunt == 0)
                 {
                     turretAnimator.SetBool("Taunt1", true);
-              //      audioManager.Play("RobotTaunt1");
+                    //      audioManager.Play("RobotTaunt1");
                     yield return new WaitForSeconds(4.25f);
                     turretAnimator.SetBool("Taunt1", false);
                 }
                 else if (whichTaunt == 1)
                 {
                     turretAnimator.SetBool("Taunt2", true);
-            //        audioManager.Play("RobotTaunt2");
+                    //        audioManager.Play("RobotTaunt2");
                     yield return new WaitForSeconds(2.25f);
                     turretAnimator.SetBool("Taunt2", false);
                 }

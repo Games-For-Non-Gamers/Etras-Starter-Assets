@@ -9,37 +9,34 @@ using UnityEngine.SceneManagement;
 namespace Etra.StarterAssets.Abilities
 {
     [AbilityUsage(EtraCharacterMainController.GameplayTypeFlags.All, AbilityUsageAttribute.AbilityTypeFlag.Passive, typeof(HealthSystem))]
-    class ABILITY_ContinuousHealth : EtraAbilityBaseClass
+    class ABILITY_Health : EtraAbilityBaseClass
     {
         [SerializeField, Header("Main variables")]
-        AnimationCurve damageCurve;
-        [SerializeField]
         float damageCooldownWaitTime = 0.5f;
-        float healCooldownWaitTime = 0;
+        [SerializeField]
+        float healCooldownWaitTime = 0f;
         bool damageCooldown = false, healCooldown = false;
-        int currentStep = 0;
         HealthSystem healthSystem;
         ABILITY_CheckpointRespawn checkpointRespawn;
-        [HideInInspector]public GameObject healthFilter;
-         Image image;
+        [HideInInspector]
+        public GameObject healthFilter;
+        Image image;
         float animationTime;
 
 
         public void Reset()
         {
-            if (this.gameObject.name == "Tempcube") { return; }
+            if (gameObject.name == "Tempcube") { return; }
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
             if (GameObject.Find("DamageFilter"))
             {
                 DestroyImmediate(GameObject.Find("DamageFilter"));
             }
             healthFilter = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("DamageFilter", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
-            damageCurve = new AnimationCurve();
-            damageCurve.AddKey(0, 25);
             //Set above the cursor, but behind everything else
-            if (healthFilter.gameObject.transform.parent.childCount >1)
+            if (healthFilter.transform.parent.childCount > 1)
             {
-                healthFilter.gameObject.transform.SetSiblingIndex(1);
+                healthFilter.transform.SetSiblingIndex(1);
             }
         }
 
@@ -62,19 +59,24 @@ namespace Etra.StarterAssets.Abilities
 
         }
 
-        public void Damage()
+        /// <summary>
+        /// Damages the player.
+        /// </summary>
+        /// <param name="damage">The amount of damage the player will take.</param>
+        public void Damage(float damage)
         {
-            if (damageCooldown || healthSystem.manualDeath) return;
+            if (damageCooldown) return;
 
-            currentStep = currentStep % damageCurve.keys.Length;
-            float damage = damageCurve.keys[currentStep].value;
-            currentStep++;
             healthSystem.Damage(damage);
         }
 
+        /// <summary>
+        /// Heals the player.
+        /// </summary>
+        /// <param name="health">How much health the player will gain.</param>
         public void Heal(float health)
         {
-            if (healCooldown || healthSystem.manualDeath) return;
+            if (healCooldown) return;
 
             healthSystem.Heal(health);
         }
@@ -86,7 +88,6 @@ namespace Etra.StarterAssets.Abilities
 
         void OnHeal(float healedHealth)
         {
-            currentStep = 0;
             StartCoroutine(HealCooldown());
         }
 
@@ -129,7 +130,6 @@ namespace Etra.StarterAssets.Abilities
         {
             yield return new WaitForSeconds(animationTime);
             healthSystem.Heal(healthSystem.maxHealth, true);
-            currentStep = 0;
             healthSystem.manualDeath = false;
         }
     }
