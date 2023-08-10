@@ -76,7 +76,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
         // This method is called when the player is detected
         public virtual void playerDetected()
         {
-            StopCoroutine("idleTaunts");
+            StopCoroutine(idleTaunts());
             // Set the PlayerSpotted and Attack parameters of the turretAnimator
             turretAnimator.SetBool("PlayerSpotted", true);
             turretAnimator.SetBool("Attack", true);
@@ -148,12 +148,12 @@ namespace Etra.StarterAssets.Interactables.Enemies
         public void OnDamage(float hp)
         {
             isCooling = true;
-            StartCoroutine("damageAnimation");
+            StartCoroutine(damageAnimation());
         }
 
         public void OnDeath()
         {
-            StartCoroutine("die");
+            StartCoroutine(die());
         }
 
         // This coroutine will play the damage animation for a short amount of time.
@@ -191,7 +191,7 @@ namespace Etra.StarterAssets.Interactables.Enemies
             turretAnimator.SetBool("PlayerSpotted", false);
             turretAnimator.SetBool("Attack", false);
             playerSpotted = false;
-            StartCoroutine("idleTaunts");
+            StartCoroutine(idleTaunts());
 
         }
 
