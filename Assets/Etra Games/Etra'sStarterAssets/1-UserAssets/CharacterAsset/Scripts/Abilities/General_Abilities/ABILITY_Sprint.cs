@@ -4,6 +4,7 @@ using Etra.StarterAssets.Source.Camera;
 using Etra.StarterAssets.Source;
 using System.Collections;
 using UnityEngine;
+using UnityEditor;
 
 namespace Etra.StarterAssets.Abilities
 {
@@ -28,20 +29,22 @@ namespace Etra.StarterAssets.Abilities
 
         [Header("Stamina")]
         public bool usingStamina = false;
-        public StaminaUiType staminaUiType;
         public float secondsToSprint = 7f;
         public float recoveryDelay = 1f;
         public float secondsToRecover = 6f;
-        public bool isRecovering;
-        public bool completelyOutOfStamina = false;
-        public float currentStamina;
+        bool isRecovering;
+        bool completelyOutOfStamina = false;
+        float currentStamina;
+
+        [Header ("Stamina Ui")]
+        public StaminaUiType staminaUiType = StaminaUiType.None;
+        public bool hideUiInEditor = false;
+
 
         StarterAssetsInputs _input;
         ABILITY_CharacterMovement movementAbility;
         SprintStaminaSliderUi sprintStaminaSliderUi;
         bool sprintInputHeld = false; // Track if sprint input is held
-
-
 
         public override void abilityStart()
         {
@@ -59,6 +62,17 @@ namespace Etra.StarterAssets.Abilities
                     sprintStaminaSliderUi = FindObjectOfType<SprintStaminaSliderUi>();
                     break;
             }
+
+            if (hideUiInEditor)
+            {
+                switch (staminaUiType)
+                {
+                    case StaminaUiType.ToCenterSlider:
+                        sprintStaminaSliderUi.showUi();
+                        break;
+                }
+            }
+
         }
 
         private Coroutine staminaRecoveryCoroutine;
@@ -73,15 +87,25 @@ namespace Etra.StarterAssets.Abilities
             }
 #endif
 
-            switch (staminaUiType)
-            {
-                case StaminaUiType.ToCenterSlider:
-                    sprintStaminaSliderUi.sliderValue = currentStamina/secondsToSprint;
-                    break;
-            }
-
             if (usingStamina)
             {
+
+                switch (staminaUiType)
+                {
+                    case StaminaUiType.ToCenterSlider:
+                        sprintStaminaSliderUi.sliderValue = currentStamina / secondsToSprint;
+                        if (movementAbility.isSprinting)
+                        {
+                            sprintStaminaSliderUi.setGuyIconToSprint(true);
+                        }
+                        else
+                        {
+                            sprintStaminaSliderUi.setGuyIconToSprint(false);
+                        }
+
+                        break;
+                }
+
                 switch (sprintType)
                 {
                     case SprintType.Hold:
@@ -100,10 +124,11 @@ namespace Etra.StarterAssets.Abilities
                             movementAbility.isSprinting = false;
                             if (currentStamina < secondsToSprint && !isRecovering)
                             {
-                                if (staminaRecoveryCoroutine == null)
+                                if (staminaRecoveryCoroutine != null)
                                 {
-                                    staminaRecoveryCoroutine = StartCoroutine(StartStaminaRecovery());
+                                    StopCoroutine(staminaRecoveryCoroutine);
                                 }
+                                staminaRecoveryCoroutine = StartCoroutine(StartStaminaRecovery());
                             }
                         }
                         break;
@@ -113,18 +138,53 @@ namespace Etra.StarterAssets.Abilities
                         {
                             sprintInputHeld = true;
                             movementAbility.isSprinting = !movementAbility.isSprinting;
-                            currentStamina -= Time.deltaTime;
                         }
                         else if (!_input.sprint)
                         {
-                            if (currentStamina <= 0)
-                            {
-                                completelyOutOfStamina = true;
-                            }
                             sprintInputHeld = false;
                         }
+
+                        if (movementAbility.isSprinting)
+                        {
+                            currentStamina -= Time.deltaTime;
+                            if (currentStamina <= 0)
+                            {
+                                movementAbility.isSprinting = false;
+                                completelyOutOfStamina = true;
+                            }
+                        }
+                        else
+                        {
+                            if (currentStamina < secondsToSprint && !isRecovering)
+                            {
+                                if (staminaRecoveryCoroutine != null)
+                                {
+                                    StopCoroutine(staminaRecoveryCoroutine);
+                                }
+                                staminaRecoveryCoroutine = StartCoroutine(StartStaminaRecovery());
+                            }
+                        }
+
                         break;
                 }
+
+
+                if (movementAbility.isSprinting)
+                {
+                    if (staminaRecoveryCoroutine != null)
+                    {
+                        StopCoroutine(staminaRecoveryCoroutine);
+                        isRecovering = false;
+                    }
+                }
+                else
+                {
+                    if (staminaRecoveryCoroutine == null)
+                    {
+                        staminaRecoveryCoroutine = StartCoroutine(StartStaminaRecovery());
+                    }
+                }
+
             }
             else
             {
@@ -159,6 +219,11 @@ namespace Etra.StarterAssets.Abilities
         IEnumerator StartStaminaRecovery()
         {
             isRecovering = true;
+            if (completelyOutOfStamina)
+            {
+                StartCoroutine(OutOfStaminaAnimation());
+            }
+
             yield return new WaitForSeconds(recoveryDelay);
             float staminaRecoveryRate = secondsToSprint / secondsToRecover;
 
@@ -173,6 +238,26 @@ namespace Etra.StarterAssets.Abilities
             staminaRecoveryCoroutine = null; // Reset the coroutine reference
         }
 
+        IEnumerator OutOfStaminaAnimation()
+        {
+            switch (staminaUiType)
+            {
+                case StaminaUiType.ToCenterSlider:
+                    sprintStaminaSliderUi.setOutOfStaminaColors();
+                    while (completelyOutOfStamina)
+                    {
+                        sprintStaminaSliderUi.sliderBar.SetActive(true);
+                        yield return new WaitForSeconds(0.15f);
+                        sprintStaminaSliderUi.sliderBar.SetActive(false);
+                        yield return new WaitForSeconds(0.15f);
+                    }
+                    sprintStaminaSliderUi.sliderBar.SetActive(true);
+                    sprintStaminaSliderUi.setAsDefaultColors();
+                    break;
+            }
+
+        }
+
         private void OnValidate()
         {
             if (GetComponent<ABILITY_CharacterMovement>())
@@ -184,21 +269,70 @@ namespace Etra.StarterAssets.Abilities
                 }
             }
 
+            if (hideUiInEditor)
+            {
+                switch (staminaUiType)
+                {
+                    case StaminaUiType.ToCenterSlider:
+                        if (FindObjectOfType<SprintStaminaSliderUi>())
+                        {
+                            FindObjectOfType<SprintStaminaSliderUi>().hideUi();
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                switch (staminaUiType)
+                {
+                    case StaminaUiType.ToCenterSlider:
+                        if (FindObjectOfType<SprintStaminaSliderUi>())
+                        {
+                            FindObjectOfType<SprintStaminaSliderUi>().showUi();
+                        }
+                        break;
+                }
+            }
+        }
+
+        public void updateUi()
+        {
+            //Destroy all Ui's
+            if (FindObjectOfType<SprintStaminaSliderUi>())
+            {
+                DestroyImmediate(FindObjectOfType<SprintStaminaSliderUi>().gameObject);
+            }
+
+            //Ad new ones if needed
             switch (staminaUiType)
             {
                 case StaminaUiType.ToCenterSlider:
                     if (this.gameObject.name == "Tempcube") { return; }
-                    transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
-                    if (GameObject.Find("SprintStaminaToCenterSliderUi"))
-                    {
-                        DestroyImmediate(GameObject.Find("SprintStaminaToCenterSliderUi"));
-                    }
-                    GameObject sprintStaminaSliderUiBase = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("SprintStaminaToCenterSliderUi", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
-                    sprintStaminaSliderUi = sprintStaminaSliderUiBase.GetComponent<SprintStaminaSliderUi>();
-
+                    transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects();
+                    EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("SprintStaminaToCenterSliderUi", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
+                    sprintStaminaSliderUi = FindObjectOfType<SprintStaminaSliderUi>();
                     break;
             }
+        }
 
+    }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(ABILITY_Sprint))]
+    public class ABILITY_SprintEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            ABILITY_Sprint script = (ABILITY_Sprint)target;
+
+            if (GUILayout.Button("Update/Reset Ui Type"))
+            {
+                script.updateUi();
+            }
         }
     }
+#endif
+
 }
