@@ -47,6 +47,8 @@ namespace Etra.StarterAssets.Abilities
             {
                 case InteractUiType.MidBottomScreenCircle:
                     interactCircleUi = FindObjectOfType<InteractCircleUi>();
+                    interactCircleUi.sliderValue = 0;
+                    interactCircleUi.hideUi();
                     break;
             }
         }
@@ -103,7 +105,6 @@ namespace Etra.StarterAssets.Abilities
                         if (starterAssetsInputs.interact)
                         {
                             holdingInteract = true;
-                            buttonPressed = true;
                             // Interact with the object
 
                             heldTime += Time.deltaTime;
@@ -124,7 +125,7 @@ namespace Etra.StarterAssets.Abilities
                                     heldTime = 0;
                                     starterAssetsInputs.interact = false;
                                     objectThatIsLookedAt.transform.gameObject.GetComponent<ObjectInteraction>().Interact();
-
+                                    buttonPressed = true;
                                     //Nice fade out, and set slider val to 0, ignore new held. reset after holdingInteract = false
                                     switch (interactUiType)
                                     {
@@ -138,6 +139,7 @@ namespace Etra.StarterAssets.Abilities
                             }
                             else
                             {
+                                buttonPressed = true;
                                 objectThatIsLookedAt.transform.gameObject.GetComponent<ObjectInteraction>().Interact();
                             }
                         }
@@ -145,6 +147,14 @@ namespace Etra.StarterAssets.Abilities
                         {
                             holdingInteract = false;
                             heldTime = 0;
+
+                            switch (interactUiType)
+                            {
+                                case InteractUiType.MidBottomScreenCircle:
+                                    interactCircleUi.sliderValue = 0;
+                                    break;
+                            }
+
                         }
 
                         if (buttonPressed == true && holdingInteract == false)
@@ -167,6 +177,7 @@ namespace Etra.StarterAssets.Abilities
                             {
                                 case InteractUiType.MidBottomScreenCircle:
                                     interactCircleUi.hideUi();
+                                    interactCircleUi.sliderValue = 0;
                                     break;
                             }
 
@@ -186,6 +197,7 @@ namespace Etra.StarterAssets.Abilities
                     {
                         case InteractUiType.MidBottomScreenCircle:
                             interactCircleUi.hideUi();
+                            interactCircleUi.sliderValue = 0;
                             break;
                     }
                 }

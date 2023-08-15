@@ -35,8 +35,6 @@ namespace Etra.StarterAssets.Source.Interactions
             }
 
         }
-
-
         public void Interact()
         {
             // Call the event

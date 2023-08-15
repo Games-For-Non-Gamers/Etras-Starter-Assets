@@ -74,6 +74,7 @@ namespace Etra.StarterAssets
         //************************
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
+        public bool gravityActive = true;
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
         [Tooltip("If the player startes grounded")]
@@ -407,7 +408,7 @@ namespace Etra.StarterAssets
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            if (_verticalVelocity < _terminalVelocity && gravityActive)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
@@ -496,9 +497,13 @@ namespace Etra.StarterAssets
         {
             //Calculate Grounded and gravity
             GroundedCheck();
-            ApplyGravity();
+            if (gravityActive)
+            {
+                ApplyGravity();
             //Apply vertical velocity from gravity or jump every frame
-            addConstantForceToEtraCharacter(new Vector3(0.0f, _verticalVelocity, 0.0f));
+                addConstantForceToEtraCharacter(new Vector3(0.0f, _verticalVelocity, 0.0f));
+            }
+
             updateImpulseVariables();
 
         }

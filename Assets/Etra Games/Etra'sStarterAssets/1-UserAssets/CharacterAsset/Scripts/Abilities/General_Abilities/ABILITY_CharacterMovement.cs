@@ -1,3 +1,4 @@
+using Codice.CM.Client.Differences;
 using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
@@ -17,6 +18,8 @@ namespace Etra.StarterAssets.Abilities
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
         public bool rotateTowardMoveDirection = false;
+        [HideInInspector] public Vector3 movementDirection;
+        [HideInInspector] public bool preventMovement = false;
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float rotateTowardMoveDirectionSpeed = 0.12f;
@@ -262,9 +265,13 @@ namespace Etra.StarterAssets.Abilities
                     // rotate to face input direction relative to camera position
                     transform.parent.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
+                movementDirection = targetDirection.normalized;
 
                 // move the player
-                EtraCharacterMainController.Instance.addConstantForceToEtraCharacter(targetDirection.normalized * _speed);
+                if (!preventMovement)
+                {
+                    EtraCharacterMainController.Instance.addConstantForceToEtraCharacter(movementDirection * _speed);
+                }
 
             }
 

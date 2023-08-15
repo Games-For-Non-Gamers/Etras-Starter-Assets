@@ -9,10 +9,10 @@ namespace Etra.StarterAssets
     {
         public void showUi()
         {
-            foreach (Image image in transform.GetComponentsInChildren<Image>()) { image.enabled = true; LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 1), 0); }
-            foreach (Text text in transform.GetComponentsInChildren<Text>()) { text.enabled = true; LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 1), 0).setEaseInOutSine(); }
-            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>()) { tmp.enabled = true; LeanTween.alphaText(tmp.rectTransform, 1, 0).setEaseInOutSine(); }
-        }
+            foreach (Image image in transform.GetComponentsInChildren<Image>()) { image.enabled = true; image.color = new Color(image.color.r, image.color.g, image.color.b, 1); }
+            foreach (Text text in transform.GetComponentsInChildren<Text>()) { text.enabled = true; text.color = new Color(text.color.r, text.color.g, text.color.b, 1); }
+            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>()) { tmp.enabled = true; tmp.color = new Color(tmp.color.r, tmp.color.g, tmp.color.b, 1); }
+        }            
         public void hideUi()
         {
             foreach (Image image in transform.GetComponentsInChildren<Image>()) { image.enabled = false; }
@@ -39,21 +39,26 @@ namespace Etra.StarterAssets
 
         public void fadeOutUi(float time)
         {
+            
             foreach (Image image in transform.GetComponentsInChildren<Image>())
             {
-                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 0), time).setEaseInOutSine();
-                image.enabled = false;
+                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(image));
             }
             foreach (Text text in transform.GetComponentsInChildren<Text>())
             {
-                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 0), time).setEaseInOutSine();
-                text.enabled = false;
+                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(text));
             }
+            
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                LeanTween.colorText(tmp.rectTransform, new Color(tmp.color.r, tmp.color.g, tmp.color.b, 0), time).setEaseInOutSine();
-                tmp.enabled = false;
+                LeanTween.alphaText(tmp.rectTransform, 0, time).setEaseInOutSine().setOnComplete(() => disableComponent(tmp)); 
             }
         }
+
+        void disableComponent(MonoBehaviour c)
+        {
+            c.enabled = false;
+        }
+
     }
 }

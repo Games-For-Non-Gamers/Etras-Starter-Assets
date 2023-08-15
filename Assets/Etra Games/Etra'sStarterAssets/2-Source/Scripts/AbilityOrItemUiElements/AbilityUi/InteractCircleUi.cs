@@ -28,6 +28,7 @@ namespace Etra.StarterAssets
             OnValidate();
         }
 
+
         private void OnValidate()
         {
             //Values

@@ -109,7 +109,7 @@ namespace Etra.StarterAssets.Abilities
                 switch (sprintType)
                 {
                     case SprintType.Hold:
-                        if (_input.sprint && currentStamina > 0 && !completelyOutOfStamina)
+                        if (_input.sprint && currentStamina > 0 && !completelyOutOfStamina && movementAbility.passedMovementInput != Vector2.zero)
                         {
                             movementAbility.isSprinting = true;
                             currentStamina -= Time.deltaTime;
@@ -144,7 +144,7 @@ namespace Etra.StarterAssets.Abilities
                             sprintInputHeld = false;
                         }
 
-                        if (movementAbility.isSprinting)
+                        if (movementAbility.isSprinting && movementAbility.passedMovementInput != Vector2.zero)
                         {
                             currentStamina -= Time.deltaTime;
                             if (currentStamina <= 0)
@@ -183,6 +183,12 @@ namespace Etra.StarterAssets.Abilities
                     {
                         staminaRecoveryCoroutine = StartCoroutine(StartStaminaRecovery());
                     }
+                }
+
+
+                if (movementAbility.passedMovementInput == Vector2.zero)
+                {
+                    movementAbility.isSprinting = false;
                 }
 
             }
