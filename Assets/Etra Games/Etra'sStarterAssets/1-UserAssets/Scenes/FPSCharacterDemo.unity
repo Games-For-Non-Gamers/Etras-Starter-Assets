@@ -5306,7 +5306,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1496455577}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &339858507
 BoxCollider:
@@ -7030,7 +7030,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1496455577}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &465761065
 BoxCollider:
@@ -22887,9 +22887,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: LadderHeight (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4993235629655569430, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: jumpAtEnd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993235629655569430, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: jumpOffLadder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993235629655569430, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: ladderAttachType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993235629655569430, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: ladderWalkClimbSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993235629655569430, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: ladderSprintClimbSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886022530223880845, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: isInteractable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8904545246747950192, guid: e001f809524a76b42a3849616f1d3984, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8904545246747950192, guid: e001f809524a76b42a3849616f1d3984, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22930,6 +22954,10 @@ PrefabInstance:
     - target: {fileID: 8904545246747950192, guid: e001f809524a76b42a3849616f1d3984, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036693791654605825, guid: e001f809524a76b42a3849616f1d3984, type: 3}
+      propertyPath: isInteractable
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e001f809524a76b42a3849616f1d3984, type: 3}
@@ -23662,7 +23690,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1496455577}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1459456075
 BoxCollider:
@@ -24812,12 +24840,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 801864472}
-  - {fileID: 340589257}
   - {fileID: 465761064}
   - {fileID: 2129887701}
   - {fileID: 339858506}
-  - {fileID: 1394752226}
   - {fileID: 1459456074}
+  - {fileID: 340589257}
+  - {fileID: 1394752226}
   - {fileID: 354253313}
   m_Father: {fileID: 939149763}
   m_RootOrder: 1
@@ -24835,7 +24863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8904545246747950192, guid: e001f809524a76b42a3849616f1d3984, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8904545246747950192, guid: e001f809524a76b42a3849616f1d3984, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36267,7 +36295,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1496455577}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2129887702
 BoxCollider:

@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8904545246747950192}
-  - component: {fileID: 2873499860615154612}
   - component: {fileID: 4993235629655569430}
+  - component: {fileID: 7886022530223880845}
+  - component: {fileID: 2873499860615154612}
   - component: {fileID: 717981842}
+  - component: {fileID: 847011293073455040}
+  - component: {fileID: 6441612790884959784}
   m_Layer: 0
   m_Name: LadderHeight
   m_TagString: Untagged
@@ -37,19 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2873499860615154612
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38002071766515196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6, y: 2, z: 0.1}
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &4993235629655569430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,9 +55,11 @@ MonoBehaviour:
   ladderWalkClimbSpeed: 250
   ladderSprintClimbSpeed: 500
   jumpAwayFromLadderForce: 20
-  canClimb: 1
-  jumpAtEnd: 1
-  overwrittenJumpHeight: 0
+  canClimbLadder: 1
+  ladderAttachType: 0
+  jumpOffLadder: 0
+  jumpAtEnd: 0
+  ladderMovement: 0
   ladderAttach:
     m_PersistentCalls:
       m_Calls: []
@@ -77,6 +69,64 @@ MonoBehaviour:
   ladderTopReached:
     m_PersistentCalls:
       m_Calls: []
+  standardAudioManager: {fileID: 847011293073455040}
+  footstepAudioManager: {fileID: 6441612790884959784}
+  ladderBodyInteraction: {fileID: 7886022530223880845}
+  ladderTopInteraction: {fileID: 9036693791654605825}
+--- !u!114 &7886022530223880845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38002071766515196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3371b15fd7f920209b02d6066fb9b478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractable: 0
+  timeToInteract: 0
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4993235629655569430}
+        m_TargetAssemblyTypeName: Etra.StarterAssets.Interactables.Ladder, Etra.StarterAssets
+        m_MethodName: attachToLadder
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &2873499860615154612
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38002071766515196}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 2, z: 0.1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!65 &717981842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90,6 +140,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 0.2}
   m_Center: {x: 0, y: 1, z: 0.1}
+--- !u!114 &847011293073455040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38002071766515196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
+  sounds:
+  - name: LadderAttach
+    clip: {fileID: 8300000, guid: 7543b2b2ea825df4f90bfad942ace07c, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  stopPlayingSounds: 0
+--- !u!114 &6441612790884959784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38002071766515196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
+  sounds:
+  - name: LadderStep1
+    clip: {fileID: 8300000, guid: 4fc41969e124a2946a7e3df1b5b82b8d, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.2
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: LadderStep2
+    clip: {fileID: 8300000, guid: 66c7cba92b1486747a07482508966ddc, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.2
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: LadderStep3
+    clip: {fileID: 8300000, guid: 2bb9e83d053003a48a34ba3bbeddb199, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.2
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: LadderStep4
+    clip: {fileID: 8300000, guid: 31b3b4c25b0bea64d847692fc6b03b4b, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 0.2
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &153500258568729078
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,10 +934,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3545634380322995313}
-  - component: {fileID: 8943478871251264407}
-  - component: {fileID: 898616503382184184}
-  - component: {fileID: 8187063484808853347}
   - component: {fileID: 894380093360572013}
+  - component: {fileID: 9036693791654605825}
+  - component: {fileID: 8187063484808853347}
   m_Layer: 0
   m_Name: LadderTopTrigger
   m_TagString: Untagged
@@ -830,69 +959,6 @@ Transform:
   m_Father: {fileID: 8904545246747950192}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8943478871251264407
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132454628188921420}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &898616503382184184
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132454628188921420}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8187063484808853347
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132454628188921420}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 3.8327825, z: 1}
-  m_Center: {x: 0, y: -0.66060245, z: 0}
 --- !u!114 &894380093360572013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,3 +972,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOverlappingPlayer: 0
+--- !u!114 &9036693791654605825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132454628188921420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3371b15fd7f920209b02d6066fb9b478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractable: 0
+  timeToInteract: 0
+  onPress:
+    m_PersistentCalls:
+      m_Calls: []
+  onHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &8187063484808853347
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132454628188921420}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 3.8327825, z: 1}
+  m_Center: {x: 0, y: -0.66060245, z: 0}
