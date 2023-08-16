@@ -559,13 +559,13 @@ namespace Etra.StarterAssets
             int emptyIndex = -1;
             for (int i = 0; i < appliedForces.Length; i++)
             {
-                if (appliedForces[i].Equals(Vector3.zero))
+                if (appliedForces[i].Equals(Vector3.zero)) //If applied force slot is empty
                 {
-                    emptyIndex = i;
-                    i = appliedForces.Length;
+                    emptyIndex = i; //Mark the empty index
+                    i = appliedForces.Length; //End loop
                 }
 
-                if (i == appliedForces.Length - 1)
+                if (i == appliedForces.Length - 1) //If there are no empty indexes then give a warning and return
                 {
                     Debug.Log("Cannot add any more forces to character controller in this singular frame. To add more forces to the character" +
                         " please increase APPLIED_FORCES_AMOUNT in EtraCharacterMainController.cs .");
@@ -733,6 +733,7 @@ namespace Etra.StarterAssets
                 LeanTween.value(cam.gameObject, currentCamSettings.shoulderOffset, shoulderOffset, time / 3).setOnUpdate((Vector3 shoulderOffset) => { thirdPerson.ShoulderOffset = shoulderOffset; }).setEaseInOutSine();
                 LeanTween.value(cam.gameObject, currentCamSettings.damping, damping, time / 3).setOnUpdate((Vector3 damping) => { thirdPerson.Damping = damping; }).setEaseInOutSine();
             }
+
 
         }
     }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 847011293073455040}
   - component: {fileID: 6441612790884959784}
   m_Layer: 0
-  m_Name: LadderHeight
+  m_Name: LadderHeight2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfce7a966b7e4d941aecb6e771069269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ladderWalkClimbSpeed: 250
-  ladderSprintClimbSpeed: 500
+  ladderWalkClimbSpeed: 1
+  ladderSprintClimbSpeed: 2
   jumpAwayFromLadderForce: 20
   canClimbLadder: 1
   ladderAttachType: 0
@@ -138,8 +138,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 0.2}
-  m_Center: {x: 0, y: 1, z: 0.1}
+  m_Size: {x: 1, y: 2, z: 0.18527031}
+  m_Center: {x: 0, y: 1, z: 0.092635155}
 --- !u!114 &847011293073455040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,7 +988,19 @@ MonoBehaviour:
   timeToInteract: 0
   onPress:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4993235629655569430}
+        m_TargetAssemblyTypeName: Etra.StarterAssets.Interactables.Ladder, Etra.StarterAssets
+        m_MethodName: attachToLadder
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onHover:
     m_PersistentCalls:
       m_Calls: []
@@ -1012,5 +1024,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 3.8327825, z: 1}
-  m_Center: {x: 0, y: -0.66060245, z: 0}
+  m_Size: {x: 1, y: 3.8327825, z: 2.0873623}
+  m_Center: {x: 0, y: -0.66060245, z: -0.54368114}

@@ -69,8 +69,7 @@ namespace Etra.StandardMenus
             keyboardEscape.Enable();
             gamepadStart = new InputAction("GamepadStart", binding: "<Gamepad>/start");
             gamepadStart.Enable();
-            InputSystem.onActionChange += OnActionChange;
-            //  InputSystem.onDeviceChange += OnDeviceChange;
+           // InputSystem.onActionChange += OnActionChange;
         }
 
         void OnDisable()
@@ -237,6 +236,7 @@ namespace Etra.StandardMenus
 
         void FreezeGame()
         {
+            
             EnableBackground();
             if (editCursor)
             {
@@ -244,6 +244,7 @@ namespace Etra.StandardMenus
             }
             gameFrozen = true;
 #if ENABLE_INPUT_SYSTEM
+            InputSystem.onActionChange += OnActionChange;
             if (inGame)
             {
                 Time.timeScale = 0;
@@ -280,6 +281,7 @@ namespace Etra.StandardMenus
                 _playerInput.SwitchCurrentActionMap("Player");
                 InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
             }
+            InputSystem.onActionChange -= OnActionChange;
 #endif
         }
         #endregion

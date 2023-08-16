@@ -133,13 +133,7 @@ namespace Etra.StarterAssets.Abilities
             //Make variables to recieve movement input from
             float inputX = _input.move.x;
             float inputY = _input.move.y;
-
-            //Nullify inputs if this ability is disabled
-            if (!abilityEnabled)
-            {
-                inputX = 0;
-                inputY = 0;
-            }
+            
 
             if (!(rightUnlocked && leftUnlocked && upUnlocked && downUnlocked))
             {
@@ -194,7 +188,7 @@ namespace Etra.StarterAssets.Abilities
                 targetSpeed = 0.0f;
                 stepTime = 0.0f;
             }
-            else if (!_hasAnimator) // if there is no animator that plays the footstep sound, run it manually with a timer
+            else if (!_hasAnimator && abilityEnabled) // if there is no animator that plays the footstep sound, run it manually with a timer
             {
                 if (EtraCharacterMainController.Instance.Grounded)
                 {
@@ -268,7 +262,7 @@ namespace Etra.StarterAssets.Abilities
                 movementDirection = targetDirection.normalized;
 
                 // move the player
-                if (!preventMovement)
+                if (!preventMovement && abilityEnabled)
                 {
                     EtraCharacterMainController.Instance.addConstantForceToEtraCharacter(movementDirection * _speed);
                 }
@@ -276,7 +270,7 @@ namespace Etra.StarterAssets.Abilities
             }
 
             // update animator if using armature
-            if (_hasAnimator)
+            if (_hasAnimator && abilityEnabled)
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);

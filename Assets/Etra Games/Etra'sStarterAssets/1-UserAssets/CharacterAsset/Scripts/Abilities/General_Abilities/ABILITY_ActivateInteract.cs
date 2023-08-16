@@ -52,22 +52,27 @@ namespace Etra.StarterAssets.Abilities
                     break;
             }
         }
-
+        //need to do own raycast which checks for triggers
+        LayerMask allLayersMask = ~0;
         public override void abilityLateUpdate()
         {
             if (!enabled)
             {
                 return;
             }
+            RaycastHit raycastHit;
+            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            var ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+  
             //If the object is in range
-            if (interactDistance > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, camMoveScript.pointCharacterIsLookingAt))
+            if (Physics.Raycast(ray, out raycastHit, interactDistance, allLayersMask, QueryTriggerInteraction.Collide) && interactDistance > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, raycastHit.point))
             {
-                if (camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>()) //Check if the object has the ObjectInteraction script
+                if (raycastHit.transform.GetComponent<ObjectInteraction>()) //Check if the object has the ObjectInteraction script
                 {
                     //interactDistance
-                    var interaction = camMoveScript.raycastHit.transform.GetComponent<ObjectInteraction>(); // Get the object's interaction script
+                    var interaction = raycastHit.transform.GetComponent<ObjectInteraction>(); // Get the object's interaction script
 
-                    var objectThatIsLookedAt = camMoveScript.raycastHit.transform.gameObject;
+                    var objectThatIsLookedAt = raycastHit.transform.gameObject;
 
                     if (interaction.isInteractable)
                     {
@@ -186,13 +191,8 @@ namespace Etra.StarterAssets.Abilities
                         previousObject = null; // Set the previous object to null
                     }
                 }
-            }
-            else
-            {
-                if (previousObject != null)
+                else
                 {
-                    previousObject.onEndHover.Invoke(); // Call the previous object's onEndHover event
-                    previousObject.onEndInteract.Invoke(); // Call the previous object's onEndInteract event
                     switch (interactUiType)
                     {
                         case InteractUiType.MidBottomScreenCircle:
@@ -200,9 +200,29 @@ namespace Etra.StarterAssets.Abilities
                             interactCircleUi.sliderValue = 0;
                             break;
                     }
+                    if (previousObject != null)
+                    {
+                        previousObject.onEndHover.Invoke(); // Call the previous object's onEndHover event
+                        previousObject.onEndInteract.Invoke(); // Call the previous object's onEndInteract event
+                    }
+                    previousObject = null;
                 }
-
-                previousObject = null; // Set the previous object to null
+            }
+            else
+            {
+                switch (interactUiType)
+                {
+                    case InteractUiType.MidBottomScreenCircle:
+                        interactCircleUi.hideUi();
+                        interactCircleUi.sliderValue = 0;
+                        break;
+                }
+                if (previousObject != null)
+                {
+                    previousObject.onEndHover.Invoke(); // Call the previous object's onEndHover event
+                    previousObject.onEndInteract.Invoke(); // Call the previous object's onEndInteract event
+                }
+                previousObject = null;
             }
         }
 

@@ -104,12 +104,7 @@ namespace Etra.StarterAssets.Abilities
             etraCharacterMainController.gameObject.transform.position = checkpointLocation;
             if (setRotationToCheckpointRotation)
             {
-                etraCharacterMainController.transform.forward = Vector3.right;
-                etraCharacterMainController.gameObject.transform.rotation = checkpointRotation;
-                etraCameraMovement.playerCameraRoot.transform.rotation = checkpointRotation;
-
-                etraCameraMovement._cinemachineTargetPitch = checkpointRotation.eulerAngles.x;
-                etraCameraMovement._cinemachineTargetYaw = checkpointRotation.eulerAngles.y;
+                etraCameraMovement.manualSetCharacterAndCameraRotation(checkpointRotation);
             }
 
             if (teleportToGround)

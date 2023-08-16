@@ -79,6 +79,11 @@ Dock Frankenstein
     The MIT License
 
 
+~~THIRD PARTY GRAPHICS:~~
+Freepik
+     <a href="https://www.flaticon.com/free-icons/walker" title="walker icons">Walker icons created by Freepik - Flaticon</a>
+     <a href="https://www.flaticon.com/free-icons/walk" title="walk icons">Walk icons created by Freepik - Flaticon</a>
+
 ~~THIRD PARTY AUDIO:~~
 Brsjak
     https://freesound.org/people/Brsjak/sounds/482880/
@@ -217,7 +222,9 @@ Sonnis-Bottle Rocket Fx
 Sonnis-Gamemaster Audio
     "bullet_impact_metal_heavy_08" by Gamemaster Audio is licensed under Unlimited User License
      This sound was modified to extract the robotHit sound.
-
+Sonnis-Timothy McHugh
+    "Barefoot on metal" by Gamemaster Audio is licensed under Unlimited User License
+     This sound was modified to extract all ladder climbing sounds sound.
 
 
 ~~APPENDIX - REFERENCED LICENSES:~~ 
