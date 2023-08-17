@@ -340,7 +340,7 @@
                     "id": "d1d171b6-19d8-47a6-ba3a-71b6a8e7b3c0",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "InvertVector2(invertX=false),StickDeadzone,ScaleVector2(x=300,y=300)",
+                    "processors": "InvertVector2(invertX=false),StickDeadzone,ScaleVector2(x=100,y=100)",
                     "groups": "Gamepad",
                     "action": "Look",
                     "isComposite": false,
@@ -382,7 +382,7 @@
                 {
                     "name": "",
                     "id": "c7a093e0-0c4d-4127-ba9c-3ae7004068e0",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

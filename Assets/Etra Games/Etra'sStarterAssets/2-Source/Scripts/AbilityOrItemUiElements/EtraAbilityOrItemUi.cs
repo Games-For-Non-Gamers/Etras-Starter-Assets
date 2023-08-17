@@ -33,8 +33,10 @@ namespace Etra.StarterAssets
             }
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>()) {
                 tmp.enabled = true;
-                LeanTween.alphaText(tmp.rectTransform, 1, time).setEaseInOutSine();
+                Color color = tmp.color;
+                LeanTween.value(this.gameObject, color.a, 1, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; });
             }
+
         }
 
         public void fadeOutUi(float time)
@@ -51,7 +53,10 @@ namespace Etra.StarterAssets
             
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                LeanTween.alphaText(tmp.rectTransform, 0, time).setEaseInOutSine().setOnComplete(() => disableComponent(tmp)); 
+                tmp.enabled = true;
+                Color color = tmp.color;
+                LeanTween.value(this.gameObject, color.a, 0, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; }).setOnComplete(() => disableComponent(tmp));
+
             }
         }
 
