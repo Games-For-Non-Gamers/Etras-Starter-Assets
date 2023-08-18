@@ -304,12 +304,15 @@ namespace Etra.StarterAssets.Source.Editor
                     {
                         GUILayout.Label("General Abilities", s_header);
 
-                        using (var change = new EditorGUI.ChangeCheckScope()) {
-                            if(GUILayout.Button("All\nOff", GUILayout.Width(40f), GUILayout.Height(40f))){
+                        using (var change = new EditorGUI.ChangeCheckScope())
+                        {
+                            if (GUILayout.Button("All\nOff", GUILayout.Width(40f), GUILayout.Height(40f)))
+                            {
                                 foreach (var item in generalAbilities)
                                     item.state = false;
                             }
-                            if(GUILayout.Button("All\nOn", GUILayout.Width(40f), GUILayout.Height(40f))) {
+                            if (GUILayout.Button("All\nOn", GUILayout.Width(40f), GUILayout.Height(40f)))
+                            {
                                 foreach (var item in generalAbilities)
                                     item.state = true;
                             }
@@ -318,7 +321,7 @@ namespace Etra.StarterAssets.Source.Editor
                     }
 
                     foreach (var item in generalAbilities)
-                    item.AbilityGUI();
+                        item.AbilityGUI();
 
 
                     break;
@@ -633,9 +636,9 @@ namespace Etra.StarterAssets.Source.Editor
                 get
                 {
                     if (_keepOpened == null)
-                        _keepOpened = EditorPrefs.GetBool(_KEEP_OPENED_KEY, false);
+                        _keepOpened = EditorPrefs.GetBool(_KEEP_OPENED_KEY, true);
 
-                    return _keepOpened ?? false;
+                    return _keepOpened ?? true;
                 }
                 set
                 {
