@@ -161,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1372266102601523759}
   - component: {fileID: 6148629983180352585}
+  - component: {fileID: 410735528444428707}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -194,8 +195,49 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.001743847, y: 0.01, z: 0.020901619}
-  m_Center: {x: 0, y: -0.004999999, z: 0.01045081}
+  m_Size: {x: 0.0015290206, y: 0.009999997, z: 0.02090162}
+  m_Center: {x: 0.00007976945, y: -0.0050223502, z: 0.01045082}
+--- !u!114 &410735528444428707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929679233209476599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3371b15fd7f920209b02d6066fb9b478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractable: 1
+  timeToInteract: 0
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5661271153538628476}
+        m_TargetAssemblyTypeName: Etra.StarterAssets.Door, Etra.StarterAssets
+        m_MethodName: doorInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndHover:
+    m_PersistentCalls:
+      m_Calls: []
+  onInteracting:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1955857308032706273
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +604,64 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4261354482916272769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6126301242975206118}
+  - component: {fileID: 4978987716796171431}
+  - component: {fileID: 5989152574402159496}
+  m_Layer: 0
+  m_Name: AutoOpenHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6126301242975206118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4261354482916272769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1.2, y: 1, z: 3.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7785260112781417764}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4978987716796171431
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4261354482916272769}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5989152574402159496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4261354482916272769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4233f122882a2244982477ba7e92b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4671046191306834595
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,8 +843,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0010502439, y: 0.0005793658, z: 0.02136665}
-  m_Center: {x: 0.000000019930303, y: 0.0057103, z: 0.0006833248}
+  m_Size: {x: 0.0010502439, y: 0.0005793658, z: 0.021938253}
+  m_Center: {x: 0.000000019930303, y: 0.0057103, z: 0.0009691283}
 --- !u!65 &1443692541776105056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -756,8 +856,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0010502439, y: 0.0010395064, z: 0.021450475}
-  m_Center: {x: 0.000000019930303, y: -0.005534995, z: 0.00072523917}
+  m_Size: {x: 0.0010502439, y: 0.0010395064, z: 0.021913173}
+  m_Center: {x: 0.000000019930303, y: -0.005534995, z: 0.0009565867}
 --- !u!65 &216555419068211687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -769,8 +869,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0010502439, y: 0.012, z: 0.00068513694}
-  m_Center: {x: 0.000000019930303, y: 0, z: 0.0116574345}
+  m_Size: {x: 0.0010502439, y: 0.012, z: 0.00006885969}
+  m_Center: {x: 0.000000019930303, y: 0, z: 0.011965573}
 --- !u!1 &5393431607320515379
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,8 +1029,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7785260112781417764}
+  - component: {fileID: 5661271153538628476}
+  - component: {fileID: 8563720858771891023}
   m_Layer: 0
-  m_Name: StarterDoor 1
+  m_Name: StarterDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -949,9 +1051,67 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6480366423044527414}
+  - {fileID: 6126301242975206118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5661271153538628476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785260112781417765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07fec61f205a5c844be5633526e49337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openedRotation: -115
+  timeToOpenAndClose: 0.5
+  startOpened: 0
+  doorUsable: 1
+  openType: 0
+  closeType: 0
+  timeToCloseAfterTime: 3
+  rotationAxis: {fileID: 1149681576399444237}
+  doorInteracation: {fileID: 410735528444428707}
+  autoOpenHitboxes: {fileID: 5989152574402159496}
+--- !u!114 &8563720858771891023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785260112781417765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10d9b6d879748499838bb462e075de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  silenceSoundsUntilTutorialBegins: 1
+  sounds:
+  - name: DoorOpen
+    clip: {fileID: 8300000, guid: 1679aace7047155448aa37ef690cbb7e, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: DoorClose
+    clip: {fileID: 8300000, guid: a5989e6da4ddcff43be75b1e7b4d558d, type: 3}
+    volume: 1
+    basePitch: 1
+    spatialBlend: 1
+    randomizePitch: 1
+    randomPitchRange: {x: 0.95, y: 1.05}
+    isMusic: 0
+    loop: 0
+    source: {fileID: 0}
+  stopPlayingSounds: 0
 --- !u!1 &8118442122728150624
 GameObject:
   m_ObjectHideFlags: 0
