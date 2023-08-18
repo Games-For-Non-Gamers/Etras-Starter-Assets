@@ -19,7 +19,9 @@ namespace Etra.StarterAssets
         {
             Never,
             InteractClose,
-            CloseAfterTime
+            ExternalInteract,
+            CloseAfterTime,
+
         }
 
         [Header("Basics")]
@@ -126,6 +128,10 @@ namespace Etra.StarterAssets
                             StopCoroutine(closeDoorRoutine);
                         }
                         closeDoorRoutine = StartCoroutine(closeDoorAnimation());
+                        break;
+
+                    case CloseType.ExternalInteract:
+                        StartCoroutine(closeDoorAnimation());
                         break;
 
                     case CloseType.Never:

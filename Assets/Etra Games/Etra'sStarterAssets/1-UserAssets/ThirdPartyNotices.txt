@@ -79,10 +79,23 @@ Dock Frankenstein
     The MIT License
 
 
-~~THIRD PARTY GRAPHICS:~~
+~~THIRD PARTY IMAGES:~~
 Freepik
      <a href="https://www.flaticon.com/free-icons/walker" title="walker icons">Walker icons created by Freepik - Flaticon</a>
      <a href="https://www.flaticon.com/free-icons/walk" title="walk icons">Walk icons created by Freepik - Flaticon</a>
+
+~~THIRD PARTY MODELS:~~
+Amine 
+    https://skfb.ly/oFAAD
+    "3 Doors Pack" by Amine is licensed under CC BY 4.0
+    This model is used for the Interactable Doors.
+
+RockDutyFree_models
+    https://skfb.ly/owqw
+    "Fna F Security Breach Button" by RockDutyFree_models is licensed under CC BY 4.0
+    This model was modified to create the Wall Button.
+
+
 
 ~~THIRD PARTY AUDIO:~~
 Brsjak
@@ -223,8 +236,11 @@ Sonnis-Gamemaster Audio
     "bullet_impact_metal_heavy_08" by Gamemaster Audio is licensed under Unlimited User License
      This sound was modified to extract the robotHit sound.
 Sonnis-Timothy McHugh
-    "Barefoot on metal" by Gamemaster Audio is licensed under Unlimited User License
-     This sound was modified to extract all ladder climbing sounds sound.
+    "Barefoot on metal" by Timothy McHugh is licensed under Unlimited User License
+     This sound was modified to extract all ladder climbing sounds.
+Sonnis-Varazuvi 
+    "door28" by Varazuvi is licensed under Unlimited User License
+     This sound was modified to extract all door open and close sounds.
 
 
 ~~APPENDIX - REFERENCED LICENSES:~~ 
