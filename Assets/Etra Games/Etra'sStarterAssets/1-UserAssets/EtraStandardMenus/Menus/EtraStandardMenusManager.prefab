@@ -335,7 +335,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &1071655053235588891
 MonoBehaviour:
@@ -393,6 +393,9 @@ MonoBehaviour:
   showBackground: 1
   editCursor: 1
   inGame: 1
+  pauseAndUnpauseAudio: 1
+  audioGroupsToPause:
+  - {fileID: -4492404474812651914, guid: 76551c8472bb2734bbef07c3a76c3579, type: 2}
   background: {fileID: 4907395907807885960}
   pauseMenu: {fileID: 4907395907525998196}
   gameplayMenu: {fileID: 4907395907158454592}

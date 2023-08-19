@@ -24,8 +24,8 @@ namespace Etra.StarterAssets.Abilities
             MidBottomScreenCircle
         }
         [Header("UI")]
-        public InteractUiType interactUiType = InteractUiType.None; // The distance you can interact with an object
-        public bool hideUiInEditor = false;
+        public InteractUiType interactUiType = InteractUiType.MidBottomScreenCircle; // The distance you can interact with an object
+        public bool hideUiInEditor = true;
 
         //Private variables
         private ObjectInteraction previousObject; // Previous object gotten in the raycast
@@ -254,6 +254,10 @@ namespace Etra.StarterAssets.Abilities
             }
         }
 
+        private void Reset()
+        {
+            updateUi();
+        }
         public void updateUi()
         {
             //Destroy all Ui's

@@ -266,6 +266,7 @@ namespace Etra.StarterAssets.Abilities
 
         private void OnValidate()
         {
+
             if (GetComponent<ABILITY_CharacterMovement>())
             {
                 movementAbility = GetComponent<ABILITY_CharacterMovement>();
@@ -301,6 +302,10 @@ namespace Etra.StarterAssets.Abilities
             }
         }
 
+        private void Reset()
+        {
+            updateUi();
+        }
         public void updateUi()
         {
             //Destroy all Ui's

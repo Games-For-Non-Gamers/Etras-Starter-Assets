@@ -1,5 +1,7 @@
 Etra's Starter Assets Audio Leveling Guidelines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dialogue
+(-3db)
 Interactables
 (-3db to -7db)
 All FPS Item sfx are at -5db for now

@@ -16,7 +16,8 @@ namespace Etra.StarterAssets.Source
         public Vector3 screenWipeStart = new Vector3(1600, 0, 0);
         public Vector3 screenWipeEnd = new Vector3(-1600, 0, 0);
         public bool fpsCounterOn = false;
-        
+        public TextMeshProUGUI speakerLabel;
+        public TextMeshProUGUI dialogueLabel;
 
 
         private void Start()
@@ -25,6 +26,16 @@ namespace Etra.StarterAssets.Source
             if (screenWiper != null)
             {
                 setInitialScreenWiperState();
+            }
+
+            if (speakerLabel != null)
+            {
+                speakerLabel.enabled = false;
+            }
+
+            if (dialogueLabel != null)
+            {
+                dialogueLabel.enabled = false;
             }
         }
 

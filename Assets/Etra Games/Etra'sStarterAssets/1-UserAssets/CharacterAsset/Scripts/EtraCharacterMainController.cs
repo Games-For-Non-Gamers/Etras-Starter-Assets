@@ -124,7 +124,7 @@ namespace Etra.StarterAssets
         private GameObject _mainCamera;
         private AudioManager abilitySoundManager;
         private StarterAssetsInputs inputs;
-
+        [HideInInspector]public AudioManager currentDialoguePlayer;
         //************************
         //Externally called function variables
         //************************
@@ -686,6 +686,7 @@ namespace Etra.StarterAssets
         }
 
 
+
         public class EtraCameraSettings
         {
             public float fov;
@@ -693,6 +694,7 @@ namespace Etra.StarterAssets
             public float cameraSide;
             public Vector3 shoulderOffset;
             public Vector3 damping;
+
             public EtraCameraSettings(CinemachineVirtualCamera cam)
             {
                 fov = cam.m_Lens.FieldOfView;
@@ -733,7 +735,6 @@ namespace Etra.StarterAssets
                 LeanTween.value(cam.gameObject, currentCamSettings.shoulderOffset, shoulderOffset, time / 3).setOnUpdate((Vector3 shoulderOffset) => { thirdPerson.ShoulderOffset = shoulderOffset; }).setEaseInOutSine();
                 LeanTween.value(cam.gameObject, currentCamSettings.damping, damping, time / 3).setOnUpdate((Vector3 damping) => { thirdPerson.Damping = damping; }).setEaseInOutSine();
             }
-
 
         }
     }

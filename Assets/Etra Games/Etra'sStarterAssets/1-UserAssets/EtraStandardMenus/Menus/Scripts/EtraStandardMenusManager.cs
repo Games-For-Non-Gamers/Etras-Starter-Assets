@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -13,6 +14,8 @@ namespace Etra.StandardMenus
         public bool showBackground = true;
         public bool editCursor = true;
         public bool inGame = true;
+        public bool pauseAndUnpauseAudio = true;
+        public AudioMixerGroup[] audioGroupsToPause;
 
 
         [Header("References")]
@@ -27,6 +30,7 @@ namespace Etra.StandardMenus
 
 
         // Private references
+        AudioSource[] allAudioSources;
         EventSystem eventSystem;
 #if ENABLE_INPUT_SYSTEM
         PlayerInput _playerInput;
@@ -36,6 +40,10 @@ namespace Etra.StandardMenus
         {
             // Close menus at start in case they are open in the editor
             EtraStandardMenuSettingsFunctions.LoadGraphicsPlayerPrefs();
+            if (pauseAndUnpauseAudio)
+            {
+                allAudioSources = FindObjectsOfType<AudioSource>();
+            }
 #if ENABLE_INPUT_SYSTEM
             SetPlayerInputReferenceVariables();
 #endif
@@ -226,18 +234,26 @@ namespace Etra.StandardMenus
 
             if (!gameFrozen)
             {
-                FreezeGame();
+                FreezeGame(true);
             }
             else if (gameFrozen)
             {
-                UnfreezeGame();
+                UnfreezeGame(true);
             }
         }
 
-        void FreezeGame()
+        public void FreezeGame()
         {
-            
-            EnableBackground();
+            FreezeGame(false);
+        }
+
+        void FreezeGame(bool inPauseMenu)
+        {
+
+            if (inPauseMenu)
+            {
+                EnableBackground();
+            }
             if (editCursor)
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -251,14 +267,41 @@ namespace Etra.StandardMenus
                 _playerInput.SwitchCurrentActionMap("UI");
 
                 InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+                if (pauseAndUnpauseAudio)
+                {
+                    foreach (AudioSource a in allAudioSources)
+                    {
+                        if (a!= null)
+                        {
+                            foreach (AudioMixerGroup group in audioGroupsToPause)
+                            {
+                                if (a.outputAudioMixerGroup == group && a.isPlaying)
+                                {
+                                    a.Pause();
+                                    break; // Exit the loop once an AudioSource is found and paused
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
+
 #endif
         }
 
         public void UnfreezeGame()
         {
+            UnfreezeGame(false);
+        }
+
+        void UnfreezeGame(bool inPauseMenu)
+        {
             eventSystem.SetSelectedGameObject(null);
-            DisableBackground();
+            if (inPauseMenu)
+            {
+                DisableBackground();
+            }
 
             if (currentlyActiveMenu != null)
             {
@@ -280,6 +323,23 @@ namespace Etra.StandardMenus
                 Time.timeScale = 1;
                 _playerInput.SwitchCurrentActionMap("Player");
                 InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
+                if (pauseAndUnpauseAudio)
+                {
+                    foreach (AudioSource a in allAudioSources)
+                    {
+                        if (a != null)
+                        {
+                            foreach (AudioMixerGroup group in audioGroupsToPause)
+                            {
+                                if (a.outputAudioMixerGroup == group)
+                                {
+                                    a.UnPause();
+                                    break; // Exit the loop once an AudioSource is found and unpaused
+                                }
+                            }
+                        }
+                    }
+                }
             }
             InputSystem.onActionChange -= OnActionChange;
 #endif
