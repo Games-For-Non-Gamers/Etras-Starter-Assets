@@ -26,9 +26,9 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         {
             if (this.gameObject.name == "Tempcube") { return; }
 
-            if (GameObject.Find("sStarterAssetsThirdPersonAimCamera"))
+            if (GameObject.Find("Etra'sStarterAssetsThirdPersonAimCamera"))
             {
-                DestroyImmediate(GameObject.Find("sStarterAssetsThirdPersonAimCamera"));
+                DestroyImmediate(GameObject.Find("Etra'sStarterAssetsThirdPersonAimCamera"));
             }
 
             var aimCam = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("Etra'sStarterAssetsThirdPersonAimCamera", GameObject.FindGameObjectWithTag("Player").transform.parent);

@@ -729,8 +729,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Joystick Sensitivity
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 21d5b7af12250d44e9b725d200fa4c4d, type: 2}
-  m_sharedMaterial: {fileID: 7162862059672822945, guid: 21d5b7af12250d44e9b725d200fa4c4d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ebe392f84ec0b294fbd5dc6e26355048, type: 2}
+  m_sharedMaterial: {fileID: 7162862059672822945, guid: ebe392f84ec0b294fbd5dc6e26355048, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

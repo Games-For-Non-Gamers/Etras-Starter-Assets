@@ -15,18 +15,10 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 44a17a5b205fcd349a24700e6f5615bd, type: 3}
   title: Etra's Starter Assets
   sections:
-  - heading: <b>Etra's Games For Non-Gamers:</b>
+  - heading: <b>NEW ABILITY COMMISIONS AND PAID SUPPORT:</b>
     text: 
-    linkText: Youtube Channel
-    url: https://www.youtube.com/@Games4NonGamers
-  - heading: 
-    text: 
-    linkText: Patreon
+    linkText: "<b>\u2192Free Patreon Tier\u2190</b>"
     url: https://www.patreon.com/Games4NonGamers
-  - heading: 
-    text: 
-    linkText: Discord
-    url: https://discord.gg/zZdGJQvNvq
   - heading: <b>VIDEO TUTORIALS:</b>
     text: 
     linkText: 'Etra''s Starter Assets: Overview'
@@ -35,6 +27,14 @@ MonoBehaviour:
     text: 
     linkText: 'Etra''s Starter Assets: Modding'
     url: https://youtu.be/q26z6KW1geI
+  - heading: <b>Etra's Games For Non-Gamers:</b>
+    text: 
+    linkText: Youtube Channel
+    url: https://www.youtube.com/@Games4NonGamers
+  - heading: 
+    text: 
+    linkText: Discord
+    url: https://discord.gg/zZdGJQvNvq
   - heading: About Etra's Starter Assets
     text: 'Etra''s Starter Assets is an expanded combination of the Unity First Person
       and Third Person Starter Assets. A new Character Creator, Ability System, and

@@ -295,5 +295,21 @@ namespace Etra.StarterAssets.Abilities
             }
         }
 
+        public void manualSetCharacterAndCameraRotation(Vector3 rotation)
+        {
+            manualSetCharacterAndCameraRotation(Quaternion.Euler(rotation));
+        }
+
+        public void manualSetCharacterAndCameraRotation(Quaternion rotation)
+        {
+            EtraCharacterMainController etraCharacterMainController = GetComponentInParent<EtraCharacterMainController>();
+            etraCharacterMainController.transform.forward = Vector3.right;
+            etraCharacterMainController.gameObject.transform.rotation = rotation;
+            this.playerCameraRoot.transform.rotation = rotation;
+
+            this._cinemachineTargetPitch = rotation.eulerAngles.x;
+            this._cinemachineTargetYaw = rotation.eulerAngles.y;
+        }
+
     }
 }

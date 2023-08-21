@@ -4,7 +4,6 @@ using UnityEditor;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using EtrasStarterAssets;
-using Etra.StarterAssets.Abilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;

@@ -2,6 +2,7 @@ using EtrasStarterAssets;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Etra.StarterAssets.Source
 {
@@ -15,7 +16,9 @@ namespace Etra.StarterAssets.Source
         public Vector3 screenWipeStart = new Vector3(1600, 0, 0);
         public Vector3 screenWipeEnd = new Vector3(-1600, 0, 0);
         public bool fpsCounterOn = false;
-        
+        public TextMeshProUGUI speakerLabel;
+        public TextMeshProUGUI dialogueLabel;
+        public Image popupFadeBackground;
 
 
         private void Start()
@@ -25,12 +28,23 @@ namespace Etra.StarterAssets.Source
             {
                 setInitialScreenWiperState();
             }
+
+            if (speakerLabel != null)
+            {
+                speakerLabel.enabled = false;
+            }
+
+            if (dialogueLabel != null)
+            {
+                dialogueLabel.enabled = false;
+            }
         }
 
         public void setInitialScreenWiperState()
         {
             screenWiperRect = screenWiper.GetComponent<RectTransform>();
-            screenWiper.gameObject.SetActive(false);
+            screenWiper.gameObject.SetActive(true);
+            screenWiperRect.GetComponent<Image>().enabled = false;
             screenWiperRect.localPosition = screenWipeStart;
         }
 
@@ -48,7 +62,7 @@ namespace Etra.StarterAssets.Source
             }
             if (screenWipeIsAnimating) { return; }
             screenWipeIsAnimating = true;
-            screenWiper.gameObject.gameObject.SetActive(true);
+            screenWiperRect.GetComponent<Image>().enabled = true;
             StartCoroutine(screenWipeAnimation(time));
         }
 
@@ -57,7 +71,7 @@ namespace Etra.StarterAssets.Source
             screenWiper.GetComponent<AudioManager>().Play("ScreenWipe");
             LeanTween.move(screenWiperRect, screenWipeEnd, time).setEaseInOutSine();
             yield return new WaitForSeconds(time);
-            screenWiper.gameObject.gameObject.SetActive(false);
+            screenWiperRect.GetComponent<Image>().enabled = false;
             screenWiperRect.localPosition = screenWipeStart;
             screenWipeIsAnimating = false;
         }

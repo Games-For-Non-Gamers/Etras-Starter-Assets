@@ -15,11 +15,13 @@ namespace Etra.StarterAssets.Source.Interactions
         */
 
         public bool isInteractable = true; // Whether the object is interactable
+        public float timeToInteract = 0;
+
         public UnityEvent onPress; // The event that is called when a full successful interaction is made
-        public UnityEvent onInteract; // The event that is called when the object is interacted with
-        public UnityEvent onEndInteract; // The event that is called when the interaction is released
         public UnityEvent onHover; // The event that is called when the object is hovered over
         public UnityEvent onEndHover; // The event that is called when the object is no longer hovered over
+        public UnityEvent onInteracting; // The event that is called when the object is interacted with
+        public UnityEvent onEndInteract; // The event that is called when the interaction is released
 
         EtrasStarterAssets.AudioManager audioManager;
         bool hasManager;
@@ -33,12 +35,10 @@ namespace Etra.StarterAssets.Source.Interactions
             }
 
         }
-
-
         public void Interact()
         {
             // Call the event
-            onInteract.Invoke();
+            onInteracting.Invoke();
         }
 
         public void SetInteractable(bool interactable)

@@ -74,6 +74,7 @@ namespace Etra.StarterAssets
         //************************
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
+        public bool gravityActive = true;
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
         [Tooltip("If the player startes grounded")]
@@ -123,7 +124,7 @@ namespace Etra.StarterAssets
         private GameObject _mainCamera;
         private AudioManager abilitySoundManager;
         private StarterAssetsInputs inputs;
-
+        [HideInInspector]public AudioManager currentDialoguePlayer;
         //************************
         //Externally called function variables
         //************************
@@ -407,7 +408,7 @@ namespace Etra.StarterAssets
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            if (_verticalVelocity < _terminalVelocity && gravityActive)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
@@ -496,9 +497,13 @@ namespace Etra.StarterAssets
         {
             //Calculate Grounded and gravity
             GroundedCheck();
-            ApplyGravity();
+            if (gravityActive)
+            {
+                ApplyGravity();
             //Apply vertical velocity from gravity or jump every frame
-            addConstantForceToEtraCharacter(new Vector3(0.0f, _verticalVelocity, 0.0f));
+                addConstantForceToEtraCharacter(new Vector3(0.0f, _verticalVelocity, 0.0f));
+            }
+
             updateImpulseVariables();
 
         }
@@ -554,13 +559,13 @@ namespace Etra.StarterAssets
             int emptyIndex = -1;
             for (int i = 0; i < appliedForces.Length; i++)
             {
-                if (appliedForces[i].Equals(Vector3.zero))
+                if (appliedForces[i].Equals(Vector3.zero)) //If applied force slot is empty
                 {
-                    emptyIndex = i;
-                    i = appliedForces.Length;
+                    emptyIndex = i; //Mark the empty index
+                    i = appliedForces.Length; //End loop
                 }
 
-                if (i == appliedForces.Length - 1)
+                if (i == appliedForces.Length - 1) //If there are no empty indexes then give a warning and return
                 {
                     Debug.Log("Cannot add any more forces to character controller in this singular frame. To add more forces to the character" +
                         " please increase APPLIED_FORCES_AMOUNT in EtraCharacterMainController.cs .");
@@ -681,6 +686,7 @@ namespace Etra.StarterAssets
         }
 
 
+
         public class EtraCameraSettings
         {
             public float fov;
@@ -688,6 +694,7 @@ namespace Etra.StarterAssets
             public float cameraSide;
             public Vector3 shoulderOffset;
             public Vector3 damping;
+
             public EtraCameraSettings(CinemachineVirtualCamera cam)
             {
                 fov = cam.m_Lens.FieldOfView;

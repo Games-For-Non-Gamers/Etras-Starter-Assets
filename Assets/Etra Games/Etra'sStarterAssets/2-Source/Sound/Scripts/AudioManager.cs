@@ -12,6 +12,7 @@ namespace EtrasStarterAssets
         public bool silenceSoundsUntilTutorialBegins = true;
         public List<Sound> sounds = new List<Sound>();
         private AudioMixerGroup sfx;
+        private AudioMixerGroup dialogue;
         private AudioMixerGroup music;
         [HideInInspector]public bool stopPlayingSounds = false;
 
@@ -27,8 +28,9 @@ namespace EtrasStarterAssets
         void Awake()
         {
             AudioMixer mixer = Resources.Load("StarterAssetsAudioMixer") as AudioMixer;
-            music = mixer.FindMatchingGroups("Music")[0];
             sfx = mixer.FindMatchingGroups("SFX")[0];
+            dialogue = mixer.FindMatchingGroups("Dialogue")[0];
+            music = mixer.FindMatchingGroups("Music")[0];
 
             foreach (Sound s in sounds)
             {
@@ -43,6 +45,10 @@ namespace EtrasStarterAssets
                 if (s.isMusic)
                 {
                     s.source.outputAudioMixerGroup = music;
+                }
+                else if (s.isDialogue)
+                {
+                    s.source.outputAudioMixerGroup = dialogue;
                 }
                 else
                 {

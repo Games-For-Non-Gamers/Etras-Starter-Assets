@@ -20,6 +20,7 @@ namespace EtrasStarterAssets
         public bool randomizePitch = true;
         public Vector2 randomPitchRange = new Vector2(0.95f, 1.05f);
 
+        public bool isDialogue = false;
         public bool isMusic = false;
         public bool loop = false;
 
