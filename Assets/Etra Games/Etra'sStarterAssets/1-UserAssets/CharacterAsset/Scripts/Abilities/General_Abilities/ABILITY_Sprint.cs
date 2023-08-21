@@ -302,10 +302,6 @@ namespace Etra.StarterAssets.Abilities
             }
         }
 
-        private void Reset()
-        {
-            updateUi();
-        }
         public void updateUi()
         {
             //Destroy all Ui's

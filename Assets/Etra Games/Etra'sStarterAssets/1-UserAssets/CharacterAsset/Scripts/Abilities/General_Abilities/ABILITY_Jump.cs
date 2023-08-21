@@ -25,7 +25,6 @@ namespace Etra.StarterAssets.Abilities
         //The variables here are (intensity, time)
         public Vector2 jumpingShake = new Vector2(1f, 0.1f);
 
-
         //References
         private Animator _animator;
         private StarterAssetsInputs _input;
@@ -87,12 +86,12 @@ namespace Etra.StarterAssets.Abilities
                 jumpInput = false;
             }
 
-            if (mainController.Grounded && mainController.gravityActive)
+            if (mainController.Grounded  && mainController.gravityActive)
             {
 
-                if (jumpInput && _jumpTimeoutDelta <= 0.0f && lockJump == false)
+                if (jumpInput && _jumpTimeoutDelta <= 0.0f )
                 {
-                    jump();
+                        jump();
                 }
 
                 // jump timeout
@@ -100,6 +99,7 @@ namespace Etra.StarterAssets.Abilities
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
+
             }
             else if (!mainController.gravityActive)
             {
@@ -110,6 +110,22 @@ namespace Etra.StarterAssets.Abilities
             }
             else
             {
+                // reset the jump timeout timer
+                _jumpTimeoutDelta = JumpTimeout;
+
+                // fall timeout
+                if (mainController._fallTimeoutDelta >= 0.0f)
+                {
+                    mainController._fallTimeoutDelta -= Time.deltaTime;
+                }
+                else
+                {
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDFreeFall, true);
+                    }
+                }
 
 
                 // if we are not grounded, do not jump
@@ -126,12 +142,15 @@ namespace Etra.StarterAssets.Abilities
 
         public void jump(float height)
         {
-            lockJump = true;
+            if (lockJump)
+            {
+                return;
+            }
             if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
             // the square root of H * -2 * G = how much velocity needed to reach desired height
             mainController._verticalVelocity = Mathf.Sqrt(height * -2f * mainController.Gravity);
             // update animator if using character
-
+    
             if (_hasAnimator)
             {
                 _animator.SetBool(_animIDJump, true);
@@ -140,6 +159,7 @@ namespace Etra.StarterAssets.Abilities
             {
                 abilitySoundManager.Play("Jump");
             }
+
         }
 
         public void jumpLaunch(Vector3 direction, float force)
@@ -160,6 +180,7 @@ namespace Etra.StarterAssets.Abilities
                 if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
                 if (_hasAnimator)
                 {
+                    Debug.Log("e");
                     _animator.SetBool(_animIDJump, true);
                 }
                 else
@@ -170,5 +191,7 @@ namespace Etra.StarterAssets.Abilities
 
             EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(direction, force);
         }
+
+
     }
 }

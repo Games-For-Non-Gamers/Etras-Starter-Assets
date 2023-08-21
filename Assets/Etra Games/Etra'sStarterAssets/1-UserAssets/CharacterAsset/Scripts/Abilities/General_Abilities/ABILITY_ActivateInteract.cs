@@ -24,7 +24,7 @@ namespace Etra.StarterAssets.Abilities
             MidBottomScreenCircle
         }
         [Header("UI")]
-        public InteractUiType interactUiType = InteractUiType.MidBottomScreenCircle; // The distance you can interact with an object
+        public  InteractUiType interactUiType = InteractUiType.None; 
         public bool hideUiInEditor = true;
 
         //Private variables
@@ -35,13 +35,12 @@ namespace Etra.StarterAssets.Abilities
 
         //References
         StarterAssetsInputs starterAssetsInputs;
-        ABILITY_CameraMovement camMoveScript;
         InteractCircleUi interactCircleUi;
 
         public override void abilityStart()
         {
             starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
-            camMoveScript = GameObject.Find("EtraAbilityManager").GetComponent<ABILITY_CameraMovement>();
+            mainController = FindObjectOfType<EtraCharacterMainController>();
 
             switch (interactUiType)
             {
@@ -65,7 +64,7 @@ namespace Etra.StarterAssets.Abilities
             var ray = Camera.main.ScreenPointToRay(screenCenterPoint);
   
             //If the object is in range
-            if (Physics.Raycast(ray, out raycastHit, interactDistance, allLayersMask, QueryTriggerInteraction.Collide) && interactDistance > Vector3.Distance(camMoveScript.playerCameraRoot.transform.position, raycastHit.point))
+            if (Physics.Raycast(ray, out raycastHit, 99f, allLayersMask, QueryTriggerInteraction.Collide) && interactDistance > Vector3.Distance(mainController.modelParent.transform.position, raycastHit.point))
             {
                 if (raycastHit.transform.GetComponent<ObjectInteraction>()) //Check if the object has the ObjectInteraction script
                 {
@@ -105,7 +104,7 @@ namespace Etra.StarterAssets.Abilities
                         }
 
                         previousObject = interaction; // Set the previous object to the current object
-
+                        //e
 
                         if (starterAssetsInputs.interact)
                         {
@@ -254,10 +253,6 @@ namespace Etra.StarterAssets.Abilities
             }
         }
 
-        private void Reset()
-        {
-            updateUi();
-        }
         public void updateUi()
         {
             //Destroy all Ui's
@@ -266,7 +261,7 @@ namespace Etra.StarterAssets.Abilities
                 DestroyImmediate(FindObjectOfType<InteractCircleUi>().gameObject);
             }
 
-            //Ad new ones if needed
+            //Add new ones if neededr
             switch (interactUiType)
             {
                 case InteractUiType.MidBottomScreenCircle:

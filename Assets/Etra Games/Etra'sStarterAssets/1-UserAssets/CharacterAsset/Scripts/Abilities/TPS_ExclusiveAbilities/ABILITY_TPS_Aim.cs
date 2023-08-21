@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Etra.StarterAssets.Abilities.ThirdPerson
 {
-    [RequireComponent(typeof(ABILITY_CameraMovement))]
 
     [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.ThirdPerson)]
     public class ABILITY_TPS_Aim : EtraAbilityBaseClass
