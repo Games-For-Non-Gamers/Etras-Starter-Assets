@@ -1,4 +1,3 @@
-using Codice.CM.Client.Differences;
 using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
