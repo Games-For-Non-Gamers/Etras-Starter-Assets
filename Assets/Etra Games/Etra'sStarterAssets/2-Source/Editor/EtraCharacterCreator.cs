@@ -228,10 +228,11 @@ namespace Etra.StarterAssets.Source.Editor
 
                                 _target = EtraCharacterCreatorCreateOrModify.
                                     CreateOrModify(_target, _gameplayType, _fpModel, _tpModel, generalAbilities, fpAbilities, tpAbilities, fpsItems);
-                            }
 
-                        if (!Preferences.KeepOpened)
-                            CloseWindow();
+                                if (!Preferences.KeepOpened) {
+                                    CloseWindow();
+                                }
+                            }
                         break;
                 }
             }

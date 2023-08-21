@@ -25,7 +25,7 @@ namespace Etra.StandardMenus
         public GameObject graphicsMenu;
         public GameObject audioMenu;
 
-        bool gameFrozen = false;
+        [HideInInspector]public bool gameFrozen = false;
         GameObject currentlyActiveMenu;
 
 
@@ -40,10 +40,6 @@ namespace Etra.StandardMenus
         {
             // Close menus at start in case they are open in the editor
             EtraStandardMenuSettingsFunctions.LoadGraphicsPlayerPrefs();
-            if (pauseAndUnpauseAudio)
-            {
-                allAudioSources = FindObjectsOfType<AudioSource>();
-            }
 #if ENABLE_INPUT_SYSTEM
             SetPlayerInputReferenceVariables();
 #endif
@@ -267,8 +263,10 @@ namespace Etra.StandardMenus
                 _playerInput.SwitchCurrentActionMap("UI");
 
                 InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+
                 if (pauseAndUnpauseAudio)
                 {
+                    allAudioSources = FindObjectsOfType<AudioSource>();
                     foreach (AudioSource a in allAudioSources)
                     {
                         if (a!= null)
@@ -325,6 +323,7 @@ namespace Etra.StandardMenus
                 InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
                 if (pauseAndUnpauseAudio)
                 {
+                    allAudioSources = FindObjectsOfType<AudioSource>();
                     foreach (AudioSource a in allAudioSources)
                     {
                         if (a != null)

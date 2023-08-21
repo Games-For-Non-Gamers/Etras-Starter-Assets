@@ -18,6 +18,7 @@ namespace Etra.StarterAssets.Source
         public bool fpsCounterOn = false;
         public TextMeshProUGUI speakerLabel;
         public TextMeshProUGUI dialogueLabel;
+        public Image popupFadeBackground;
 
 
         private void Start()

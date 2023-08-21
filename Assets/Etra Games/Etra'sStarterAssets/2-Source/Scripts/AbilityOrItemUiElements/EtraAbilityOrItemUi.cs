@@ -65,5 +65,49 @@ namespace Etra.StarterAssets
             c.enabled = false;
         }
 
+
+        //Ignore Timescale variation
+        public void fadeInUiIgnoreTimescale(float time)
+        {
+            foreach (Image image in transform.GetComponentsInChildren<Image>())
+            {
+                image.enabled = true;
+                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 1), time).setEaseInOutSine().setIgnoreTimeScale(true);
+            }
+            foreach (Text text in transform.GetComponentsInChildren<Text>())
+            {
+                text.enabled = true;
+                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 1), time).setEaseInOutSine().setIgnoreTimeScale(true);
+            }
+            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                tmp.enabled = true;
+                Color color = tmp.color;
+                LeanTween.value(this.gameObject, color.a, 1, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; }).setIgnoreTimeScale(true); 
+            }
+
+        }
+
+        public void fadeOutUiIgnoreTimescale(float time)
+        {
+
+            foreach (Image image in transform.GetComponentsInChildren<Image>())
+            {
+                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(image));
+            }
+            foreach (Text text in transform.GetComponentsInChildren<Text>())
+            {
+                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 0), time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(() => disableComponent(text));
+            }
+
+            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                tmp.enabled = true;
+                Color color = tmp.color;
+                LeanTween.value(this.gameObject, color.a, 0, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; }).setIgnoreTimeScale(true).setOnComplete(() => disableComponent(tmp));
+            }
+        }
+
+
     }
 }
