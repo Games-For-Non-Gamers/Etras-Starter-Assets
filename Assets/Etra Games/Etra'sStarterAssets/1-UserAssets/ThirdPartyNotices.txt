@@ -1,6 +1,70 @@
 The "Etra's Starter Assets" asset, is under the Unity Asset Store EULA. However, the following components or contributions are under their own respective licences listed below.
 
 
+~~THIRD PARTY CONTRIBUTIONS:~~
+Dock Frankenstein
+    Contributions:
+    -Standing Button Model
+    -Character Creation Window
+    Licence:
+    https://www.youtube.com/channel/UCq_7pbSyOvrurXLAMi_Ss1w
+    Copyright (c) 2023 Dock Frankenstein
+    The MIT License
+
+Perry
+    Contributions:
+    -Health System
+    -Bug fixes and new user support
+    https://www.youtube.com/channel/UCkJPT3tqkc-R_2qVGqJpdog
+    Licence:
+    Copyright (c) 2022 Perry
+    The MIT License
+
+
+Buffalou
+    Contributions:
+    -FPSUsableItemSwayAndBobAnimations.cs
+    https://www.youtube.com/@buffalou
+    Licence:
+    Copyright (c) 2022 BuffaLou
+    The MIT License
+
+CodyCantEatThis
+    Contributions:
+    -Voxel Character Models
+    -VoxelAnimator.cs
+    https://www.youtube.com/@CodyCantEatThis
+    Licence:
+    Copyright (c) 2023 CodyCantEatThis
+    The MIT License
+
+Krissy
+    Contributions:
+    -Treadmill Model
+    -Treadmill_Interactable.cs
+    -Weighted Button Model
+    -Interactable_WeightedButton.cs
+    Kris#0001
+    Licence:
+    Copyright (c) 2023 Krissy
+    The MIT License
+
+aMySour
+    Contributions:
+    -Standing Button Model
+    -ObjectInteraction.cs
+    -SciFi Door Model
+    -SciFiDoor.cs
+    -Physics Grabber Model
+    -USABLEITEM_FPS_Physics_Grabber.cs
+    -Blaster muzzle flash particle system
+    https://www.youtube.com/@aMySour
+    Licence:
+    Copyright (c) 2023 amysour
+    The MIT License
+
+
+
 ~~THIRD PARTY COMPONENTS:~~
 Starter Assets - First Person Character Controller
     Etra Games/Etra'sStarterAssets/2-Source/ThirdParty/StarterAssets-FPC:
@@ -25,59 +89,6 @@ Montserrat-Black Google Font
     https://github.com/JulietaUla/Montserrat
     Copyright (c) 2011 The Montserrat Project Authors
     OFL License
-
-
-~~THIRD PARTY CONTRIBUTIONS:~~
-Buffalou
-    Contributions:
-    -FPSUsableItemSwayAndBobAnimations.cs
-    Licence:
-    https://www.youtube.com/@buffalou
-    Copyright (c) 2022 BuffaLou
-    The MIT License
-
-CodyCantEatThis
-    Contributions:
-    -Voxel Character Models
-    -VoxelAnimator.cs
-    Licence:
-    https://www.youtube.com/@CodyCantEatThis
-    Copyright (c) 2023 CodyCantEatThis
-    The MIT License
-
-Krissy
-    Contributions:
-    -Treadmill Model
-    -Treadmill_Interactable.cs
-    -Weighted Button Model
-    -Interactable_WeightedButton.cs
-    Licence:
-    Kris#0001
-    Copyright (c) 2023 Krissy
-    The MIT License
-
-aMySour
-    Contributions:
-    -Standing Button Model
-    -ObjectInteraction.cs
-    -SciFi Door Model
-    -SciFiDoor.cs
-    -Physics Grabber Model
-    -USABLEITEM_FPS_Physics_Grabber.cs
-    -Blaster muzzle flash particle system
-    Licence:
-    https://www.youtube.com/@aMySour
-    Copyright (c) 2023 amysour
-    The MIT License
-
-Dock Frankenstein
-    Contributions:
-    -Standing Button Model
-    Licence:
-    https://www.youtube.com/channel/UCq_7pbSyOvrurXLAMi_Ss1w
-    Copyright (c) 2023 Dock Frankenstein
-    The MIT License
-
 
 ~~THIRD PARTY IMAGES:~~
 Freepik

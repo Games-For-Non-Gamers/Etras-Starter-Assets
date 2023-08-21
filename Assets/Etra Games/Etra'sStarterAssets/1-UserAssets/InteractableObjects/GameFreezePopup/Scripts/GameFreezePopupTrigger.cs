@@ -12,7 +12,6 @@ namespace Etra.StarterAssets
 {
     public class GameFreezePopupTrigger : MonoBehaviour
     {
-        public InputActionReference test;
         public string defaultPopupSfx;
 
         public List<GameFreezeEntry> eventList;
@@ -25,11 +24,8 @@ namespace Etra.StarterAssets
         EtraCharacterMainController mainController;
 
         int currentEventNum = -1;
-
-        private List<InputAction> dynamicActions = new List<InputAction>();
         private bool[] inputPressed;
         private int inputsPressedCount = 0;
-        private bool waitingForRelease = false;
 
         private void Start()
         {
@@ -70,7 +66,7 @@ namespace Etra.StarterAssets
             {
                 StopAllCoroutines();
                 // You can destroy the GameObject here if needed
-                //  Destroy(gameObject);
+                 Destroy(gameObject);
             }
         }
 
@@ -80,9 +76,24 @@ namespace Etra.StarterAssets
         IEnumerator playNextPopupEventCoroutine(int entryNum) //different trigger setup
         {
             GameFreezeEntry entry = eventList[entryNum];
+            if (currentPopup != null)
+            {
+                if (currentPopup.GetComponent<EtraPopup>())
+                {
+                    if (entry.playDefaultAnimation)
+                    {
+                        currentPopup.GetComponent<EtraPopup>().fadeOutUiIgnoreTimescale(0.1f);
+                        yield return new WaitForSecondsIgnoreTimeScale(0.1f);
+                    }
+                    Destroy(currentPopup);
+                }
+            }
+
             switch (entry.chosenEvent)
             {
+
                 case GameFreezeEntry.GameFreezeEvents.Freeze:
+                    audioManager.stopAllSounds();
                     mainController.disableAllActiveAbilities();
                     bool cursorState = menuManager.editCursor;
                     menuManager.editCursor = false;
@@ -108,20 +119,6 @@ namespace Etra.StarterAssets
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.Popup:
-
-                    if (currentPopup != null)
-                    {
-                        if (currentPopup.GetComponent<EtraPopup>())
-                        {
-                            if (entry.playDefaultAnimation)
-                            {
-                                currentPopup.GetComponent<EtraPopup>().fadeInUiIgnoreTimescale(0.1f);
-                                yield return new WaitForSecondsIgnoreTimeScale(0.1f);
-                            }
-                            Destroy(currentPopup);
-                        }
-                    }
-
                     currentPopup = Instantiate(entry.popupToAdd.gameObject, Vector3.zero, Quaternion.identity);
                     currentPopup.transform.SetParent(starterCanvas.popupFadeBackground.transform.parent);
                     currentPopup.transform.SetAsLastSibling();
@@ -133,7 +130,7 @@ namespace Etra.StarterAssets
 
                     if (entry.playDefaultAnimation)
                     {
-                        LeanTween.scale(currentPopup, Vector3.zero, 0).setEaseInOutSine().setIgnoreTimeScale(true);
+                        currentPopup.transform.localScale = Vector3.zero;
                         LeanTween.scale(currentPopup, Vector3.one, 0.25f).setEaseOutBack().setIgnoreTimeScale(true);
                     }
 
@@ -144,7 +141,8 @@ namespace Etra.StarterAssets
                             playNextPopupEvent();
                             break;
                         case GameFreezeEntry.AdvanceType.WaitForInput:
-                            WaitForInput(entry.inputsNeededToAdvance);
+                            yield return new WaitTillButtonsPressed(entry.inputsNeededToAdvance);
+                            playNextPopupEvent();
                             break;
                         case GameFreezeEntry.AdvanceType.External:
                             break;
@@ -153,6 +151,7 @@ namespace Etra.StarterAssets
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.AdditionalSfx:
+                    audioManager.stopAllSounds();
                     foreach (string sfx in entry.sfxToPlay)
                     {
                         audioManager.Play(sfx);
@@ -161,18 +160,22 @@ namespace Etra.StarterAssets
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.LockMouse:
+                    _playerInput.SwitchCurrentActionMap("Player");
+
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                     playNextPopupEvent();
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.UnlockMouse:
+                    _playerInput.SwitchCurrentActionMap("UI");
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     playNextPopupEvent();
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.Unfreeze:
+                    audioManager.stopAllSounds();
                     mainController.enableAllActiveAbilities();
                     menuManager.UnfreezeGame();
                     menuManager.canFreeze = true;
@@ -196,7 +199,8 @@ namespace Etra.StarterAssets
                     break;
 
                 case GameFreezeEntry.GameFreezeEvents.WaitForInput:
-                    WaitForInput(entry.inputsNeededToAdvance);
+                    yield return new WaitTillButtonsPressed(entry.inputsNeededToAdvance);
+                    playNextPopupEvent();
                     break;
             }
         }
@@ -265,75 +269,70 @@ namespace Etra.StarterAssets
             currentPopup.GetComponent<EtraPopup>().continueText.text = continueText;
         }
 
+
         private void WaitForInput(InputActionReference[] inputsNeededToAdvance)
         {
+
             inputPressed = new bool[inputsNeededToAdvance.Length];
             int numberOfInputs = inputsNeededToAdvance.Length;
             inputsPressedCount = 0;
 
-            // Create and enable dynamic input actions
+            // Register a callback for each input in the array.
             for (int i = 0; i < numberOfInputs; i++)
             {
-                InputActionReference actionReference = inputsNeededToAdvance[i];
-                InputAction dynamicAction = new InputAction($"{actionReference.action.name}_DynamicAction"); // Create a unique name for the dynamic action
-                dynamicAction.AddBinding(actionReference.action.bindings[0].path, actionReference.action.expectedControlType);
-                dynamicAction.Enable();
-                dynamicActions.Add(dynamicAction);
-
                 int currentIndex = i;
-
-                dynamicAction.performed += ctx => InputPerformed(currentIndex);
-                dynamicAction.canceled += ctx => InputCanceled(currentIndex);
+                inputsNeededToAdvance[i].action.performed += ctx => InputPerformed(currentIndex, ref inputsPressedCount);
+                inputsNeededToAdvance[i].action.canceled += ctx => InputCanceled(currentIndex, ref inputsPressedCount);
             }
+
+            // Entry may be changing
+            StartCoroutine(WaitForAllInputs(numberOfInputs));
         }
 
-        private void InputPerformed(int index)
+        //May not work in frozen time
+        private void InputPerformed(int index, ref int inputsPressedCount)
         {
             inputPressed[index] = true;
             inputsPressedCount++;
 
-            if (inputsPressedCount == dynamicActions.Count && !waitingForRelease)
+            if (inputsPressedCount == inputPressed.Length)
             {
-                waitingForRelease = true;
+                // All inputs have been pressed simultaneously.
                 playNextPopupEvent();
             }
         }
 
-        private void InputCanceled(int index)
+        private void InputCanceled(int index, ref int inputsPressedCount)
         {
             inputPressed[index] = false;
             inputsPressedCount--;
-
-            if (inputsPressedCount == 0)
-            {
-                waitingForRelease = false;
-            }
         }
 
-        private void Update()
+        private IEnumerator WaitForAllInputs(int numberOfInputs)
         {
             if (menuManager.gameFrozen)
             {
-                bool allInputsPressed = true;
-
-                for (int i = 0; i < dynamicActions.Count; i++)
+                while (inputsPressedCount < numberOfInputs)
                 {
-                    if (dynamicActions[i].ReadValue<float>() < 0.5f)
-                    {
-                        allInputsPressed = false;
-                        break;
-                    }
-                }
-
-                if (allInputsPressed)
-                {
-                    if (!waitingForRelease)
-                    {
-                        waitingForRelease = true;
-                        playNextPopupEvent();
-                    }
+                    yield return new WaitForSecondsRealtime(0.01f);
                 }
             }
+            else
+            {
+                // Wait until all inputs are pressed.
+                while (inputsPressedCount < numberOfInputs)
+                {
+                    yield return null;
+                }
+            }
+            // Reset pressed inputs and inputsPressedCount.
+            for (int i = 0; i < inputPressed.Length; i++)
+            {
+                inputPressed[i] = false;
+            }
+            inputsPressedCount = 0;
+
         }
     }
+
 }

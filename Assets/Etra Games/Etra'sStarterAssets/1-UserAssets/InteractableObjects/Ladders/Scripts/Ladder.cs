@@ -2,28 +2,18 @@ using Etra.StarterAssets.Abilities;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source.Interactions;
 using EtrasStarterAssets;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Etra.StarterAssets.Interactables
 {
     public class Ladder : MonoBehaviour
     {
-
-        /* ladder tuern and lock
-             case AnimationEvents.UnlockPlayer:
-                 etraCharacterMainController.enableAllActiveAbilities();
-                 break;
-
-             case AnimationEvents.LockPlayer:
-                 etraCharacterMainController.disableAllActiveAbilities();
-                 break;
-  * 
-  */
-
-
 
         public enum LadderAttach
         {
@@ -86,6 +76,7 @@ namespace Etra.StarterAssets.Interactables
 
         void Start()
         {
+            transform.forward = transform.rotation * Vector3.forward;
             ladderBodyInteraction.isInteractable = false;
             ladderTopInteraction.isInteractable = false;
             if (LadderMovement.AnimateAndLock == ladderMovement)
@@ -149,27 +140,42 @@ namespace Etra.StarterAssets.Interactables
             }
         }
 
-
         IEnumerator attachToLadderAnimation(bool fromAbove)
         {
             ladderTopInteraction.isInteractable = false;
-            //Z minus doesn't work, gotta do forward minus, fix this.
+
+            Vector3 ladderForward = -transform.forward; // Get the ladder's forward vector and reverse it
+
+            Quaternion targetRotation = Quaternion.LookRotation(ladderForward, Vector3.up);
             if (!fromAbove)
             {
-                LeanTween.move(mainController.gameObject, new Vector3(this.transform.position.x, mainController.transform.position.y, this.transform.position.z - 0.4f), 2f).setEaseInOutSine();
-                LeanTween.rotate(camRoot, new Vector3(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z), 2f).setEaseInOutSine();
+                Vector3 targetPosition = transform.position - ladderForward * 0.4f;
+
+                LeanTween.move(mainController.gameObject, new Vector3(targetPosition.x, mainController.transform.position.y, targetPosition.z), 2f).setEaseInOutSine();
+
+
+
+                LeanTween.rotate(camRoot, targetRotation.eulerAngles, 2f).setEaseInOutSine();
                 yield return new WaitForSeconds(2);
             }
             else
             {
-                LeanTween.move(mainController.gameObject, new Vector3(this.transform.position.x, mainController.transform.position.y, this.transform.position.z - 0.4f), 2f).setEaseInSine();
-                LeanTween.rotate(camRoot, new Vector3(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z), 2f).setEaseInOutSine();
+                Vector3 targetPosition = transform.position - ladderForward * 0.4f;
+
+                LeanTween.move(mainController.gameObject, new Vector3(targetPosition.x, mainController.transform.position.y, targetPosition.z), 2f).setEaseInSine();
+
+
+
+                LeanTween.rotate(camRoot, targetRotation.eulerAngles, 2f).setEaseInOutSine();
                 yield return new WaitForSeconds(2);
+
                 float yVal = mainController.transform.position.y - 0.5f;
-                LeanTween.move(mainController.gameObject, new Vector3(this.transform.position.x, yVal, this.transform.position.z - 0.4f), 1f).setEaseOutSine();
+                targetPosition = transform.position - ladderForward * 0.4f;
+
+                LeanTween.move(mainController.gameObject, new Vector3(targetPosition.x, yVal, targetPosition.z), 1f).setEaseOutSine();
                 yield return new WaitForSeconds(1);
             }
-            cameraAbility.manualSetCharacterAndCameraRotation(new Vector3(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z));
+            cameraAbility.manualSetCharacterAndCameraRotation(targetRotation.eulerAngles);
             ladderFinalAttach();
         }
 

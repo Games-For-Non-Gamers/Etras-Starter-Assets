@@ -22,6 +22,7 @@ namespace Etra.StarterAssets.Source.Editor
 {
     public class EtraCharacterCreator : EditorWindow, IHasCustomMenu
     {
+        const string PACKAGE_VERSION = "Version 1.4.0 - August 2023";
         const int PAGE_LIMIT = 4;
         const string PAGE_SESSION_KEY = "etra_character_creator_page";
         const float DEFAULT_WINDOW_WIDTH = 400f;
@@ -254,25 +255,45 @@ namespace Etra.StarterAssets.Source.Editor
             switch (Page)
             {
                 case 0: //"Etra's Character Creator" PAGE
-                    GUILayout.Label("Etra's Character Creator", s_title);
 
-                    int linkIndex = GUILayout.SelectionGrid(-1, new string[] { "Documentation", "Discord", "Tutorials" }, 3);
+                    GUIStyle boldLabelStyle;
+                    boldLabelStyle = new GUIStyle(GUI.skin.label);
+                    boldLabelStyle.fontStyle = FontStyle.Bold;
+                    boldLabelStyle.alignment = TextAnchor.MiddleCenter;
 
-                    //This will definetely not work on Unity 2019
-                    if (linkIndex != -1)
-                        Application.OpenURL(linkIndex switch
-                        {
-                            0 => "Assets\\Etra Games\\Etra'sStarterAssets\\1-UserAssets\\Etra'sStarterAssets_Documentation.pdf",
-                            1 => "https://discord.gg/d3AzQDGj4C",
-                            2 => "https://www.youtube.com/playlist?list=PLvmCfejZtwhO7w1sI0DAMHWqrr6JMABpD",
-                            _ => string.Empty,
-                        });
+                    GUILayout.Label("(Etra's Character Creator)", s_title);
+
+
+                        int linkIndex = GUILayout.SelectionGrid(-1, new string[] { "Discord", "-> Free PATREON Tier <-", "Tutorials" }, 3);
+
+                        if (linkIndex != -1)
+                            Application.OpenURL(linkIndex switch
+                            {
+                                0 => "https://discord.gg/d3AzQDGj4C",
+                                1 => "https://www.patreon.com/Games4NonGamers",
+                                2 => "https://www.youtube.com/playlist?list=PLvmCfejZtwhO7w1sI0DAMHWqrr6JMABpD",
+                                _ => string.Empty,
+                            });
+                    
 
                     EditorGUILayout.Space(2f);
 
                     using (new GUILayout.VerticalScope(s_descriptionBackground))
-                        GUILayout.Label("Welcome to the Etra's Starter Assets: Character Creator! \n\nThis setup wizard will allow you to create and modify the character controller, along with its different abilities. \n\nEvery setting is dynamically generated, so your own abilities and items will also show up here. \n\nIf you feel stuck at any point, you can ask for help on our discord server (link above).", s_wrappedLabel);
+                        GUILayout.Label("Welcome to the Etra's Starter Assets: Character Creator! \n\nThis setup wizard will allow you to create and modify the character controller, along with its different abilities. Every setting is dynamically generated, so your own abilities and items will also show up here.\n\nIf you have ability or item requests you can commision them or get paid support on the Patreon. \n\nIf you feel stuck at any point, check out the tutorials videos and ask for help on our discord server. You can also contribute your own abilities and items in the discord server!(links above)\n\nHope you enjoy! \n~Luke (Etra) Bender", s_wrappedLabel);
 
+                    int linkIndex1 = GUILayout.SelectionGrid(-1, new string[] {  "Credits and Wonderful Contributors :]" }, 1);
+
+                    if (linkIndex1 != -1)
+                        Application.OpenURL(linkIndex1 switch
+                        {
+                            0 => "Assets\\Etra Games\\Etra'sStarterAssets\\1-UserAssets\\ThirdPartyNotices.txt",
+                            _ => string.Empty,
+                        });
+
+
+                    GUILayout.BeginArea(new Rect(0, position.height - 70, position.width, 20));
+                    GUILayout.Label(PACKAGE_VERSION);
+                    GUILayout.EndArea();
                     break;
                 case 1: //"Character Type" PAGE
 

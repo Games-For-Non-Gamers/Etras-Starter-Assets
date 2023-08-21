@@ -25,38 +25,33 @@ namespace Etra.StarterAssets
             foreach (Image image in transform.GetComponentsInChildren<Image>())
             {
                 image.enabled = true;
-                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 1), time).setEaseInOutSine();
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = image.color; newColor.a = alphaValue; image.color = newColor; }).setEaseInOutSine();
             }
-            foreach (Text text in transform.GetComponentsInChildren<Text>()) {
+            foreach (Text text in transform.GetComponentsInChildren<Text>())
+            {
                 text.enabled = true;
-                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 1), time).setEaseInOutSine();
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = text.color; newColor.a = alphaValue; text.color = newColor; }).setEaseInOutSine();
             }
-            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>()) {
+            foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
+            {
                 tmp.enabled = true;
-                Color color = tmp.color;
-                LeanTween.value(this.gameObject, color.a, 1, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; });
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = tmp.color; newColor.a = alphaValue; tmp.color = newColor; }).setEaseInOutSine();
             }
-
         }
 
         public void fadeOutUi(float time)
         {
-            
             foreach (Image image in transform.GetComponentsInChildren<Image>())
             {
-                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(image));
+                LeanTween.value(1, 0, time).setOnUpdate((float alphaValue) => { Color newColor = image.color; newColor.a = alphaValue; image.color = newColor; }).setEaseInOutSine().setOnComplete(() => { image.enabled = false; });
             }
             foreach (Text text in transform.GetComponentsInChildren<Text>())
             {
-                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(text));
+                LeanTween.value(1, 0, time).setOnUpdate((float alphaValue) => { Color newColor = text.color; newColor.a = alphaValue; text.color = newColor; }).setEaseInOutSine().setOnComplete(() => { text.enabled = false; });
             }
-            
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                tmp.enabled = true;
-                Color color = tmp.color;
-                LeanTween.value(this.gameObject, color.a, 0, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; }).setOnComplete(() => disableComponent(tmp));
-
+                LeanTween.value(1, 0, time).setOnUpdate((float alphaValue) => { Color newColor = tmp.color; newColor.a = alphaValue; tmp.color = newColor; }).setEaseInOutSine().setOnComplete(() => { tmp.enabled = false; });
             }
         }
 
@@ -72,20 +67,18 @@ namespace Etra.StarterAssets
             foreach (Image image in transform.GetComponentsInChildren<Image>())
             {
                 image.enabled = true;
-                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 1), time).setEaseInOutSine().setIgnoreTimeScale(true);
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = image.color; newColor.a = alphaValue; image.color = newColor; }).setEaseInOutSine().setIgnoreTimeScale(true);
             }
             foreach (Text text in transform.GetComponentsInChildren<Text>())
             {
                 text.enabled = true;
-                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 1), time).setEaseInOutSine().setIgnoreTimeScale(true);
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = text.color; newColor.a = alphaValue; text.color = newColor; }).setEaseInOutSine().setIgnoreTimeScale(true);
             }
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
             {
                 tmp.enabled = true;
-                Color color = tmp.color;
-                LeanTween.value(this.gameObject, color.a, 1, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; tmp.color = color; }).setIgnoreTimeScale(true); 
+                LeanTween.value(0, 1, time).setOnUpdate((float alphaValue) => { Color newColor = tmp.color; newColor.a = alphaValue; tmp.color = newColor; }).setEaseInOutSine().setIgnoreTimeScale(true);
             }
-
         }
 
         public void fadeOutUiIgnoreTimescale(float time)
@@ -93,11 +86,15 @@ namespace Etra.StarterAssets
 
             foreach (Image image in transform.GetComponentsInChildren<Image>())
             {
-                LeanTween.color(image.rectTransform, new Color(image.color.r, image.color.g, image.color.b, 0), time).setEaseInOutSine().setOnComplete(() => disableComponent(image));
+                image.enabled = true;
+                Color color = image.color;
+                LeanTween.value(this.gameObject, color.a, 0, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; image.color = color; }).setIgnoreTimeScale(true).setOnComplete(() => disableComponent(image));
             }
             foreach (Text text in transform.GetComponentsInChildren<Text>())
             {
-                LeanTween.colorText(text.rectTransform, new Color(text.color.r, text.color.g, text.color.b, 0), time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(() => disableComponent(text));
+                text.enabled = true;
+                Color color = text.color;
+                LeanTween.value(this.gameObject, color.a, 0, time).setOnUpdate((float alphaValue) => { color.a = alphaValue; text.color = color; }).setIgnoreTimeScale(true).setOnComplete(() => disableComponent(text));
             }
 
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>())
