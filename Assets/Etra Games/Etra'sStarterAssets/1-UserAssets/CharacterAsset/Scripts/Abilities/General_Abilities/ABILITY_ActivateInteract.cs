@@ -93,11 +93,11 @@ namespace Etra.StarterAssets.Abilities
                                     interactCircleUi.showUi();
                                     if (objectThatIsLookedAt.transform.gameObject.GetComponent<ObjectInteraction>().timeToInteract > 0)
                                     {
-                                        interactCircleUi.sliderVisibility(true);
+                                        interactCircleUi.SliderVisibility(true);
                                     }
                                     else
                                     {
-                                        interactCircleUi.sliderVisibility(false);
+                                        interactCircleUi.SliderVisibility(false);
                                     }
                                     break;
                             }

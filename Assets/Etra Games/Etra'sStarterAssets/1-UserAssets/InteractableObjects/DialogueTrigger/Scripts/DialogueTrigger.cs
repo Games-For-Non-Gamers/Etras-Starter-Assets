@@ -9,7 +9,7 @@ namespace Etra.StarterAssets
 {
     public class DialogueTrigger : MonoBehaviour
     {
-        public static DialogueTrigger prevDialogueTrigger;
+        public static DialogueTrigger prevDialogueTrigger; // Keeps track of the previous dialogue trigger
         public List<DialogueEntry> dialogueList;
         bool dialogueStarted = false;
         AudioManager audioManager;
@@ -19,12 +19,12 @@ namespace Etra.StarterAssets
 
         private void Start()
         {
+            // Get references to necessary components
             audioManager = GetComponent<AudioManager>();
             EtraCharacterMainController mainController = FindAnyObjectByType<EtraCharacterMainController>();
             speakerLabel = mainController.starterAssetCanvas.speakerLabel;
             dialogueLabel = mainController.starterAssetCanvas.dialogueLabel;
         }
-
 
         private void OnTriggerEnter(Collider other)
         {
@@ -32,6 +32,7 @@ namespace Etra.StarterAssets
             {
                 if (!dialogueStarted)
                 {
+                    // Stop the previous dialogue, if any
                     if (prevDialogueTrigger != null)
                     {
                         prevDialogueTrigger.StopAllCoroutines();
@@ -41,6 +42,7 @@ namespace Etra.StarterAssets
 
                     prevDialogueTrigger = this;
 
+                    // Hide the trigger object and start the dialogue
                     hidePickup();
                     dialogueStarted = true;
                     StartCoroutine(playDialogue());
@@ -57,7 +59,6 @@ namespace Etra.StarterAssets
 
         IEnumerator playDialogue()
         {
-
             foreach (DialogueEntry entry in dialogueList)
             {
                 if (!canPlayText)
@@ -85,15 +86,11 @@ namespace Etra.StarterAssets
                     case DialogueEntry.DialogueEvents.Wait:
                         yield return new WaitForSeconds(entry.timeTillNextEvent);
                         break;
-
                 }
-
             }
             speakerLabel.enabled = false;
             dialogueLabel.enabled = false;
             yield return null;
-
-
         }
 
         IEnumerator destroyObjectTimer()
@@ -103,12 +100,10 @@ namespace Etra.StarterAssets
             {
                 waitTime += entry.timeTillNextEvent;
             }
-            waitTime += 5f;
+            waitTime += 5f; // Add extra time before destroying the object
 
             yield return new WaitForSeconds(waitTime);
             Destroy(gameObject);
         }
     }
-
-
 }

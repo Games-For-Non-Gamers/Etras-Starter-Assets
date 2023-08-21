@@ -1,21 +1,28 @@
 using UnityEngine;
 
-public class WaitForSecondsIgnoreTimeScale : CustomYieldInstruction
+namespace Etra.StarterAssets
 {
-    private float startTime;
-    private float duration;
-
-    public WaitForSecondsIgnoreTimeScale(float seconds)
+    public class WaitForSecondsIgnoreTimeScale : CustomYieldInstruction
     {
-        startTime = Time.realtimeSinceStartup;
-        duration = seconds;
-    }
+        private float startTime;
+        private float duration;
 
-    public override bool keepWaiting
-    {
-        get
+        public WaitForSecondsIgnoreTimeScale(float seconds)
         {
-            return Time.realtimeSinceStartup < (startTime + duration);
+            startTime = Time.realtimeSinceStartup;
+            duration = seconds;
+        }
+
+        public override bool keepWaiting
+        {
+            get
+            {
+                // Calculate the current time without considering time scale
+                float currentTime = Time.realtimeSinceStartup;
+
+                // Check if the time duration has passed
+                return currentTime < (startTime + duration);
+            }
         }
     }
 }

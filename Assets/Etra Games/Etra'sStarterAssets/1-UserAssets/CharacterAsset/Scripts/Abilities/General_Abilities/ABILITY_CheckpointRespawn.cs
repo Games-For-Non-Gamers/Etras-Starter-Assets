@@ -41,7 +41,7 @@ namespace Etra.StarterAssets.Abilities
             transform.parent.GetComponent<EtraCharacterMainController>().setChildObjects(); //string prefabName, Transform parent, bool allowDuplicates, Vector3 localPos, Quaternion localRot, Vector3 localScale
             var spawnedScreenWiper = EtrasResourceGrabbingFunctions.addPrefabFromAssetsByName("ScreenWiper", gameObject.transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.transform, false, Vector3.zero, Quaternion.identity, Vector3.one);
             transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.screenWiper = spawnedScreenWiper;
-            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.setInitialScreenWiperState();
+            transform.parent.GetComponent<EtraCharacterMainController>().starterAssetCanvas.SetInitialScreenWiperState();
         }
 
         private GameObject _mainCamera;
@@ -84,7 +84,7 @@ namespace Etra.StarterAssets.Abilities
             {
                 etraCharacterMainController.disableAllActiveAbilities();
             }
-            etraCharacterMainController.starterAssetCanvas.screenWipe(animationTime);
+            etraCharacterMainController.starterAssetCanvas.ScreenWipe(animationTime);
             yield return new WaitForSeconds(animationTime / 2);
             teleportToLocation();
             if (abilityLockTiming == AbilityLockTiming.LockActiveAbilitiesTillTeleport)

@@ -7,44 +7,45 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
     [AbilityUsageAttribute(EtraCharacterMainController.GameplayTypeFlags.All)]
     public class ABILITY_Dash : EtraAbilityBaseClass
     {
+        [Header("Basic")]
         public float dashRange = 70.0f;
         public float dashCooldown = 1f;
         public int damageFromDash = 2;
 
-        private float _dashTimeoutDelta = 0;
+        //private
+        private float dashTimeoutDelta = 0;
         private bool cooling;
 
-        //references
-        private GameObject _mainCamera;
+        // References
+        private StarterAssetsInputs inputs;
         private AudioManager abilitySoundManager;
-        StarterAssetsInputs _inputs;
 
         public override void abilityStart()
         {
-            _inputs = GetComponentInParent<StarterAssetsInputs>();
+            inputs = GetComponentInParent<StarterAssetsInputs>();
             mainController = GetComponentInParent<EtraCharacterMainController>();
-            //Get sfx manager
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            abilitySoundManager = _mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
+
+            // Get SFX manager
+            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            abilitySoundManager = mainCamera.transform.Find("AbilitySfx").GetComponent<AudioManager>();
         }
 
         public override void abilityUpdate()
         {
-
-            if (!enabled || !abilityEnabled)
+            if (!abilityEnabled)
             {
-                _inputs.dash = false;
+                inputs.dash = false;
                 return;
             }
 
-            if (_dashTimeoutDelta > 0.0f)
+            if (dashTimeoutDelta > 0.0f)
             {
-                _dashTimeoutDelta -= Time.deltaTime;
+                dashTimeoutDelta -= Time.deltaTime;
             }
-            else if (_dashTimeoutDelta < 0.0f && cooling)
+            else if (dashTimeoutDelta < 0.0f && cooling)
             {
                 cooling = false;
-                _inputs.dash = false;
+                inputs.dash = false;
             }
 
             if (cooling)
@@ -52,18 +53,24 @@ namespace Etra.StarterAssets.Abilities.FirstPerson
                 return;
             }
 
-            if (_inputs.dash)
+            if (inputs.dash)
             {
-                //EtraCharacterMainController.Instance.addImpulseForceToEtraCharacter(transform.forward, dashRange);
-                EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown / 2);
-                abilitySoundManager.Play("Dash");
-                _dashTimeoutDelta = dashCooldown;
-                cooling = true;
-
+                // Perform the dash ability
+                PerformDash();
             }
-
-
         }
 
+        private void PerformDash()
+        {
+            // Apply the impulse force and damage
+            EtraCharacterMainController.Instance.addImpulseForceWithDamageToEtraCharacter(transform.forward, dashRange, damageFromDash, dashCooldown / 2);
+
+            // Play the dash sound effect
+            abilitySoundManager.Play("Dash");
+
+            // Set the dash cooldown and mark as cooling down
+            dashTimeoutDelta = dashCooldown;
+            cooling = true;
+        }
     }
 }

@@ -63,7 +63,7 @@ namespace Etra.StarterAssets
         }
 
         // Clean up the cloned actions when they are no longer needed
-        private void OnDestroy()
+        public void Dispose()
         {
             for (int i = 0; i < clonedActions.Length; i++)
             {

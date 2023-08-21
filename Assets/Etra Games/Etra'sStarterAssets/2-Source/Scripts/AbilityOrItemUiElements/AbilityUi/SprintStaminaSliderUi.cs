@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Etra.StarterAssets
 {
     public class SprintStaminaSliderUi : EtraAbilityOrItemUi
@@ -27,79 +28,75 @@ namespace Etra.StarterAssets
         public Image background;
         public Image movingGuyIcon;
 
-
+        // Reset values and customization on script reset.
         private void Reset()
         {
             OnValidate();
         }
 
+        // Update values and customization whenever inspector values change.
         private void OnValidate()
         {
-            //Values
+            // Values
             rightmostSlider.value = sliderValue;
             leftmostSlider.value = sliderValue;
 
-            //Customization
-            if (isRunning)
-            {
-                movingGuyIcon.sprite = runningGuySprite;
-            }
-            else
-            {
-                movingGuyIcon.sprite = walkingGuySprite;
-            }
+            // Customization based on whether running or walking.
+            movingGuyIcon.sprite = isRunning ? runningGuySprite : walkingGuySprite;
 
-            //Colors
+            // Colors
             background.color = backgroundColor;
-
-            background.gameObject.GetComponent<Outline>().effectColor = outlineColor;
-            movingGuyIcon.gameObject.GetComponent<Outline>().effectColor = new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0.5f);
+            ApplyOutlineColor(background.gameObject.GetComponent<Outline>(), outlineColor);
+            ApplyOutlineColor(movingGuyIcon.gameObject.GetComponent<Outline>(), new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0.5f));
 
             movingGuyIcon.color = fillColor;
             rightSliderFill.color = fillColor;
             leftSliderFill.color = fillColor;
         }
 
+        // Update slider values during runtime.
         private void Update()
         {
-            //Values
             rightmostSlider.value = sliderValue;
             leftmostSlider.value = sliderValue;
         }
 
-        public void setAsDefaultColors()
+        // Set colors to default values.
+        public void SetAsDefaultColors()
         {
-            background.gameObject.GetComponent<Outline>().effectColor = outlineColor;
-            movingGuyIcon.gameObject.GetComponent<Outline>().effectColor = new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0.5f);
+            ApplyOutlineColor(background.gameObject.GetComponent<Outline>(), outlineColor);
+            ApplyOutlineColor(movingGuyIcon.gameObject.GetComponent<Outline>(), new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0.5f));
 
             movingGuyIcon.color = fillColor;
             rightSliderFill.color = fillColor;
             leftSliderFill.color = fillColor;
         }
 
-        public void setOutOfStaminaColors()
+        // Set colors to out of stamina values.
+        public void SetOutOfStaminaColors()
         {
-            background.gameObject.GetComponent<Outline>().effectColor = noStaminaOutlineColor;
-            movingGuyIcon.gameObject.GetComponent<Outline>().effectColor = new Color(noStaminaOutlineColor.r, noStaminaOutlineColor.g, noStaminaOutlineColor.b, 0.5f);
+            ApplyOutlineColor(background.gameObject.GetComponent<Outline>(), noStaminaOutlineColor);
+            ApplyOutlineColor(movingGuyIcon.gameObject.GetComponent<Outline>(), new Color(noStaminaOutlineColor.r, noStaminaOutlineColor.g, noStaminaOutlineColor.b, 0.5f));
 
             movingGuyIcon.color = noStaminaFillColor;
             rightSliderFill.color = noStaminaFillColor;
             leftSliderFill.color = noStaminaFillColor;
         }
 
-        public void setGuyIconToSprint(bool sprinting)
+        // Set the guy icon based on sprinting status.
+        public void SetGuyIconToSprint(bool sprinting)
         {
-            if (sprinting)
-            {
-                movingGuyIcon.sprite = runningGuySprite;
-                isRunning = true;
-            }
-            else
-            {
-                movingGuyIcon.sprite = walkingGuySprite;
-                isRunning = false;
-            }
+            movingGuyIcon.sprite = sprinting ? runningGuySprite : walkingGuySprite;
+            isRunning = sprinting;
         }
 
+        // Helper function to apply outline color to an Outline component.
+        private void ApplyOutlineColor(Outline outlineComponent, Color color)
+        {
+            if (outlineComponent != null)
+            {
+                outlineComponent.effectColor = color;
+            }
+        }
     }
 }

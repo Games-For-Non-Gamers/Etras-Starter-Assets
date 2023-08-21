@@ -2,15 +2,17 @@ using Etra.StarterAssets;
 using TMPro;
 using UnityEngine;
 
-public class EtraPopup : EtraAbilityOrItemUi
+namespace Etra.StarterAssets
 {
-    public TextMeshProUGUI popupText;
-    public TextMeshProUGUI continueText;
-    public void UpdateText(string popup, string continueTxt)
+    public class EtraPopup : EtraAbilityOrItemUi
     {
-        popupText.text = popup;
-        continueText.text = continueTxt;
+        public TextMeshProUGUI popupText;
+        public TextMeshProUGUI continueText;
+        public void UpdateText(string popup, string continueTxt)
+        {
+            popupText.text = popup;
+            continueText.text = continueTxt;
+        }
     }
-
-
 }
+

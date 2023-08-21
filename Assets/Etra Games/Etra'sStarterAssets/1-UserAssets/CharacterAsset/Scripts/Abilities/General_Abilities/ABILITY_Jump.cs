@@ -71,7 +71,7 @@ namespace Etra.StarterAssets.Abilities
 
 
         }
-   
+
 
         [HideInInspector]
         public bool lockJump = false;
@@ -79,19 +79,19 @@ namespace Etra.StarterAssets.Abilities
         {
             jumpInput = _input.jump;
 
-            //If ability is disabled do not take jump input
+            // If ability is disabled do not take jump input
             if (!abilityEnabled)
             {
                 _input.jump = false;
                 jumpInput = false;
             }
 
-            if (mainController.Grounded  && mainController.gravityActive)
+            if (mainController.Grounded && mainController.gravityActive)
             {
 
-                if (jumpInput && _jumpTimeoutDelta <= 0.0f )
+                if (jumpInput && _jumpTimeoutDelta <= 0.0f)
                 {
-                        jump();
+                    jump();
                 }
 
                 // jump timeout
@@ -99,14 +99,12 @@ namespace Etra.StarterAssets.Abilities
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
-
             }
             else if (!mainController.gravityActive)
             {
-                //Keep the jump input at its value to be used by other scripts if gravity is being messed with
+                // Keep the jump input at its value to be used by other scripts if gravity is being messed with
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
-
             }
             else
             {
@@ -127,12 +125,10 @@ namespace Etra.StarterAssets.Abilities
                     }
                 }
 
-
                 // if we are not grounded, do not jump
                 jumpInput = false;
                 _input.jump = false;
             }
-
         }
 
         public void jump()
@@ -142,20 +138,21 @@ namespace Etra.StarterAssets.Abilities
 
         public void jump(float height)
         {
-            if (lockJump)
-            {
-                return;
-            }
-            if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
-            // the square root of H * -2 * G = how much velocity needed to reach desired height
-            mainController._verticalVelocity = Mathf.Sqrt(height * -2f * mainController.Gravity);
-            // update animator if using character
-    
             if (_hasAnimator)
             {
                 _animator.SetBool(_animIDJump, true);
             }
-            else
+
+            if (lockJump) // Only allow jumping if lockJump is false
+            {
+                return;
+            }
+            lockJump = true;
+            if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
+            // the square root of H * -2 * G = how much velocity needed to reach desired height
+            mainController._verticalVelocity = Mathf.Sqrt(height * -2f * mainController.Gravity);
+            // update animator if using character
+            if (!_hasAnimator)
             {
                 abilitySoundManager.Play("Jump");
             }

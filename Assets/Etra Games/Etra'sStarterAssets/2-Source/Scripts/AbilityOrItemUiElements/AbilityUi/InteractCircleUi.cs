@@ -15,42 +15,41 @@ namespace Etra.StarterAssets
         public Color backgroundColor = new Color(0.05660379f, 0.05660379f, 0.05660379f);
 
         [Header("Elements")]
-        public Slider slider; // don't filp active
+        public Slider slider; // Don't make inactive
         public TextMeshProUGUI leftText;
         public TextMeshProUGUI rightText;
         public Image fill;
         public Image outerBorder;
         public Image innerBorder;
 
-
         private void Reset()
         {
             OnValidate();
         }
 
-
         private void OnValidate()
         {
-            //Values
+            // Set slider value
             slider.value = sliderValue;
 
-            //Colors
+            // Set element colors
             fill.color = fillColor;
-            outerBorder.color = backgroundColor; 
+            outerBorder.color = backgroundColor;
             innerBorder.color = backgroundColor;
         }
 
         private void Update()
         {
-            //Values
+            // Update slider value
             slider.value = sliderValue;
         }
-        public void sliderVisibility(bool visibility)
+
+        // Control the visibility of slider-related elements
+        public void SliderVisibility(bool visibility)
         {
             fill.enabled = visibility;
             outerBorder.enabled = visibility;
             innerBorder.enabled = visibility;
         }
-
     }
 }

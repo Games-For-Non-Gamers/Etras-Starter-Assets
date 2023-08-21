@@ -8,20 +8,19 @@ namespace Etra.StarterAssets
 {
     public class Door : MonoBehaviour
     {
+        //Enums
         public enum OpenType
         {
             DoorInteract,
             ExternalInteract,
             AutoOpen,
         }
-
         public enum CloseType
         {
             Never,
             InteractClose,
             ExternalInteract,
             CloseAfterTime,
-
         }
 
         [Header("Basics")]
@@ -33,18 +32,21 @@ namespace Etra.StarterAssets
         public CloseType closeType = CloseType.Never;
         public float timeToCloseAfterTime = 3f;
 
-        [Header ("References")]
+        [Header("References")]
         public GameObject rotationAxis;
         public ObjectInteraction doorInteracation;
         public DoorAutoOpenHitbox autoOpenHitboxes;
+        Coroutine closeDoorRoutine;
 
-        //Internal
+
+        // private
         bool doorOpened = false;
         bool doorMoving = false;
         AudioManager audioManager;
 
         private void Start()
         {
+            //Set starting state and get references
             if (startOpened == false)
             {
                 LeanTween.rotateLocal(rotationAxis, Vector3.zero, 0);
@@ -52,13 +54,12 @@ namespace Etra.StarterAssets
             }
             else
             {
-                LeanTween.rotateLocal(rotationAxis, new Vector3(0,0, openedRotation), 0);
+                LeanTween.rotateLocal(rotationAxis, new Vector3(0, 0, openedRotation), 0);
                 doorOpened = true;
             }
 
             audioManager = GetComponent<AudioManager>();
             openTypeSettings();
-
         }
 
         private void OnValidate()
@@ -66,13 +67,14 @@ namespace Etra.StarterAssets
             openTypeSettings();
         }
 
+        //Activate the proper interaction objects or scripts.
         void openTypeSettings()
         {
             switch (openType)
             {
                 case OpenType.DoorInteract:
                     autoOpenHitboxes.gameObject.SetActive(false);
-                    doorInteracation.isInteractable= true;
+                    doorInteracation.isInteractable = true;
                     break;
 
                 case OpenType.ExternalInteract:
@@ -84,12 +86,10 @@ namespace Etra.StarterAssets
                     autoOpenHitboxes.gameObject.SetActive(true);
                     doorInteracation.isInteractable = false;
                     break;
-
             }
         }
 
-
-        Coroutine closeDoorRoutine;
+        //This is the function called by external
         public void doorInteract()
         {
             if (doorMoving || !doorUsable)
@@ -111,9 +111,8 @@ namespace Etra.StarterAssets
                         StartCoroutine(openDoorAnimation());
                         break;
                 }
-
-            } // Door open
-            else
+            }
+            else  // Door open
             {
                 switch (closeType)
                 {
@@ -122,7 +121,8 @@ namespace Etra.StarterAssets
                         doorInteracation.isInteractable = false;
                         break;
 
-                    case CloseType.CloseAfterTime: // Reset the timer if more open commands are recieved like with auto open
+                    case CloseType.CloseAfterTime:
+                        // Reset the timer if more open commands are received like with auto open
                         if (closeDoorRoutine != null)
                         {
                             StopCoroutine(closeDoorRoutine);
@@ -137,13 +137,10 @@ namespace Etra.StarterAssets
                     case CloseType.Never:
                         return;
                 }
-
-
             }
-
         }
 
-        //Animation for bridge lowering
+        // Animation for opening the door
         IEnumerator openDoorAnimation()
         {
             audioManager.Play("DoorOpen");
@@ -168,6 +165,7 @@ namespace Etra.StarterAssets
             }
         }
 
+        // Animation for closing the door
         IEnumerator closeDoorAnimation()
         {
             if (closeType == CloseType.CloseAfterTime)

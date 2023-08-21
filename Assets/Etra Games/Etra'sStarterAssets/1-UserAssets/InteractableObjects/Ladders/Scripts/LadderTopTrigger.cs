@@ -2,31 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LadderTopTrigger : MonoBehaviour
+namespace Etra.StarterAssets.Interactables
 {
-    public bool isOverlappingPlayer = false;
 
-    private void OnTriggerEnter(Collider other)
+    public class LadderTopTrigger : MonoBehaviour
     {
-        if (other.gameObject.CompareTag("Player"))
+        public bool isOverlappingPlayer = false;
+
+        private void OnTriggerEnter(Collider other)
         {
-            isOverlappingPlayer = true;
+            if (other.gameObject.CompareTag("Player"))
+            {
+                isOverlappingPlayer = true;
+            }
         }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        private void OnTriggerStay(Collider other)
         {
-            isOverlappingPlayer = true;
+            if (other.gameObject.CompareTag("Player"))
+            {
+                isOverlappingPlayer = true;
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        private void OnTriggerExit(Collider other)
         {
-            isOverlappingPlayer = false;
+            if (other.gameObject.CompareTag("Player"))
+            {
+                isOverlappingPlayer = false;
+            }
         }
     }
 }

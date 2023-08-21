@@ -1,4 +1,3 @@
-using Codice.Client.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +6,13 @@ namespace Etra.StarterAssets
 {
     public class EtraAbilityOrItemUi : MonoBehaviour
     {
+        //Misc
+        void disableComponent(MonoBehaviour c)
+        {
+            c.enabled = false;
+        }
+
+        //Immediate hide or show
         public void showUi()
         {
             foreach (Image image in transform.GetComponentsInChildren<Image>()) { image.enabled = true; image.color = new Color(image.color.r, image.color.g, image.color.b, 1); }
@@ -20,6 +26,7 @@ namespace Etra.StarterAssets
             foreach (TextMeshProUGUI tmp in transform.GetComponentsInChildren<TextMeshProUGUI>()) { tmp.enabled = false; }
         }
 
+        //Fade in or out over time
         public void fadeInUi(float time)
         {
             foreach (Image image in transform.GetComponentsInChildren<Image>())
@@ -53,11 +60,6 @@ namespace Etra.StarterAssets
             {
                 LeanTween.value(1, 0, time).setOnUpdate((float alphaValue) => { Color newColor = tmp.color; newColor.a = alphaValue; tmp.color = newColor; }).setEaseInOutSine().setOnComplete(() => { tmp.enabled = false; });
             }
-        }
-
-        void disableComponent(MonoBehaviour c)
-        {
-            c.enabled = false;
         }
 
 

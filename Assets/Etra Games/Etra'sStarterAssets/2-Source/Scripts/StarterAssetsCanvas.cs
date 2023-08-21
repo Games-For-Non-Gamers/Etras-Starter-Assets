@@ -8,7 +8,7 @@ namespace Etra.StarterAssets.Source
 {
     public class StarterAssetsCanvas : MonoBehaviour
     {
-        //Get the child objects
+        // Child objects
         public RectTransform reticle;
         public GameObject screenWiper;
         public GameObject healthFilter;
@@ -20,13 +20,12 @@ namespace Etra.StarterAssets.Source
         public TextMeshProUGUI dialogueLabel;
         public Image popupFadeBackground;
 
-
         private void Start()
         {
-            //Hide the screen swiper at the start of the game if it exists
+            // Hide the objects at the start of the game if they exist
             if (screenWiper != null)
             {
-                setInitialScreenWiperState();
+                SetInitialScreenWiperState();
             }
 
             if (speakerLabel != null)
@@ -40,7 +39,7 @@ namespace Etra.StarterAssets.Source
             }
         }
 
-        public void setInitialScreenWiperState()
+        public void SetInitialScreenWiperState()
         {
             screenWiperRect = screenWiper.GetComponent<RectTransform>();
             screenWiper.gameObject.SetActive(true);
@@ -48,25 +47,29 @@ namespace Etra.StarterAssets.Source
             screenWiperRect.localPosition = screenWipeStart;
         }
 
+        private bool screenWipeIsAnimating = false;
 
-
-
-
-        bool screenWipeIsAnimating = false;
-        public void screenWipe(float time)
+        // Perform a screen wipe animation
+        public void ScreenWipe(float time)
         {
             if (screenWiper == null)
             {
-                Debug.LogError("The screen wiper is missing and the animation cannot be played\n" +
-            "Please re-add ABILITY_CheckpointRespawn to your character."); return;
+                Debug.LogError("The screen wiper is missing, and the animation cannot be played. Please re-add ABILITY_CheckpointRespawn to your character.");
+                return;
             }
-            if (screenWipeIsAnimating) { return; }
+
+            if (screenWipeIsAnimating)
+            {
+                return;
+            }
+
             screenWipeIsAnimating = true;
             screenWiperRect.GetComponent<Image>().enabled = true;
-            StartCoroutine(screenWipeAnimation(time));
+            StartCoroutine(ScreenWipeAnimation(time));
         }
 
-        IEnumerator screenWipeAnimation(float time)
+        // Coroutine for the screen wipe animation
+        private IEnumerator ScreenWipeAnimation(float time)
         {
             screenWiper.GetComponent<AudioManager>().Play("ScreenWipe");
             LeanTween.move(screenWiperRect, screenWipeEnd, time).setEaseInOutSine();
@@ -75,7 +78,5 @@ namespace Etra.StarterAssets.Source
             screenWiperRect.localPosition = screenWipeStart;
             screenWipeIsAnimating = false;
         }
-
-
     }
 }

@@ -12,20 +12,24 @@ namespace Etra.StarterAssets
 {
     public class GameFreezePopupTrigger : MonoBehaviour
     {
+        //public
         public string defaultPopupSfx;
-
         public List<GameFreezeEntry> eventList;
 
+        //private
+        int currentEventNum = -1;
+        private bool[] inputPressed;
+        private int inputsPressedCount = 0;
+        GameObject currentPopup;
+        GameFreezeEntry savedEntry;
+
+        //references
         AudioManager audioManager;
         EtraStandardMenusManager menuManager;
         StarterAssetsCanvas starterCanvas;
         float fadeAmount;
         PlayerInput _playerInput;
         EtraCharacterMainController mainController;
-
-        int currentEventNum = -1;
-        private bool[] inputPressed;
-        private int inputsPressedCount = 0;
 
         private void Start()
         {
@@ -55,6 +59,7 @@ namespace Etra.StarterAssets
             GetComponent<BoxCollider>().enabled = false;
         }
 
+        //Cycle through the full eventList
         public void playNextPopupEvent()
         {
             currentEventNum++;
@@ -70,8 +75,7 @@ namespace Etra.StarterAssets
             }
         }
 
-        GameObject currentPopup;
-        GameFreezeEntry savedEntry;
+
 
         IEnumerator playNextPopupEventCoroutine(int entryNum) //different trigger setup
         {
