@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Etra Games/Etra'sStarterAssets/1-UserAssets/Scenes/StarterAssetsTitleScene.unity
+    guid: 380568610a5dba64eb3cb31f59352c3d
+  - enabled: 1
     path: Assets/Etra Games/Etra'sStarterAssets/1-UserAssets/Scenes/FPSCharacterDemo.unity
     guid: 256769920e9044840af722b74e30b92b
   - enabled: 1

@@ -6,7 +6,7 @@ namespace Etra.StarterAssets
 {
     public class OpenLink : MonoBehaviour
     {
-        public string urlToOpen = "https://patreon.com/Games4Nongamers"; // Change this to the URL you want to open.
+        public string urlToOpen = "https://www.patreon.com/Games4NonGamers/shop"; // Change this to the URL you want to open.
 
         public void OpenURL()
         {

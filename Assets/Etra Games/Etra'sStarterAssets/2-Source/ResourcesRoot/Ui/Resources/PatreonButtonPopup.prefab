@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54c9133f38ee2441adc787285596224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urlToOpen: https://patreon.com/Games4Nongamers
+  urlToOpen: https://www.patreon.com/Games4NonGamers/shop
 --- !u!1 &7400417275812905953
 GameObject:
   m_ObjectHideFlags: 0

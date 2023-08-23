@@ -293,7 +293,7 @@ namespace Etra.StandardMenus
             UnfreezeGame(false);
         }
 
-        void UnfreezeGame(bool inPauseMenu)
+        public void UnfreezeGame(bool inPauseMenu)
         {
             eventSystem.SetSelectedGameObject(null);
             if (inPauseMenu)

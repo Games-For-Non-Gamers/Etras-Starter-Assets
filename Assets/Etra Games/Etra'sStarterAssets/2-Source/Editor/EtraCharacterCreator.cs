@@ -275,7 +275,7 @@ namespace Etra.StarterAssets.Source.Editor
                         Application.OpenURL(linkIndex switch
                         {
                             0 => "https://discord.gg/d3AzQDGj4C",
-                            1 => "https://www.patreon.com/Games4NonGamers",
+                            1 => "https://www.patreon.com/Games4NonGamers/shop",
                             2 => "https://www.youtube.com/playlist?list=PLvmCfejZtwhO7w1sI0DAMHWqrr6JMABpD",
                             _ => string.Empty,
                         });
