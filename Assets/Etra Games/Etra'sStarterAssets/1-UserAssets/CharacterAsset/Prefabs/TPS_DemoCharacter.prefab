@@ -13941,6 +13941,7 @@ GameObject:
   - component: {fileID: 2375727065351197201}
   - component: {fileID: 2375727065351197198}
   - component: {fileID: 2375727065351197199}
+  - component: {fileID: 3230251893052192515}
   m_Layer: 7
   m_Name: EtraAbilityManager
   m_TagString: Untagged
@@ -13988,6 +13989,7 @@ MonoBehaviour:
   - {fileID: 2375727065351197201}
   - {fileID: 2375727065351197198}
   - {fileID: 2375727065351197199}
+  - {fileID: 3230251893052192515}
 --- !u!114 &2375727065351197209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14209,6 +14211,42 @@ MonoBehaviour:
   abilityEnabled: 0
   aimSensitivity: 0.5
   aimVirtualCamera: {fileID: 2375727064974458386}
+--- !u!114 &3230251893052192515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375727065351197185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8240da3c74a106845a2c54b647f09677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityEnabled: 1
+  CrouchType: 1
+  crouchedMovementSpeed: 1.5
+  crouchCameraHeight: 0.5
+  changeCameraViewOnObstacleDetection: 1
+  cameraClampOnCantStandup: {x: 5, y: -5}
+  occlusionCamera: {fileID: 0}
+  autoCrouchDetection: 1
+  autoCrouchRaycastOrigin: {x: 0, y: 0.3, z: 0.5}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  autoCrouchDetectionMask:
+    serializedVersion: 2
+    m_Bits: 1
+  OnCrouch:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStandUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChangeState:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2375727065352714543
 GameObject:
   m_ObjectHideFlags: 0
