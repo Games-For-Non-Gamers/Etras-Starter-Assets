@@ -37,8 +37,8 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         [SerializeField] private Vector3 autoCrouchRaycastOriginOffset = new Vector3(0,0.3f,0.5f);
 
         // Layer Masks
-        [SerializeField] private  LayerMask obstacleMask;
-        [SerializeField] private  LayerMask autoCrouchDetectionMask;
+        [SerializeField] private  LayerMask obstacleMask = 1 << 0 ;
+        [SerializeField] private  LayerMask autoCrouchDetectionMask = 1 << 0 ;
 
         [Header("Unity Events")]
         public UnityEvent OnCrouch;
@@ -50,7 +50,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         private bool m_PrevCrouchState;
 
         // Floats
-        private float m_DefaultStandingHeight = 2f;
+        private float m_DefaultStandingHeight;
         private float m_CrouchHeight = 0.5f;
         private float m_DefaultCameraHeight;
 
@@ -133,11 +133,14 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             if (m_IsCrouching) return false;
             var rayCastOrigin = _autoCrouchRaycastOriginTemp.transform.position;
             var rayCastOriginlocalPosition = _autoCrouchRaycastOriginTemp.transform.localPosition;
-
+            Vector3 boxHalfExtents = m_CharacterController.bounds.extents/2f;
+            
             var isAboveStandingHeight = Physics.Raycast(rayCastOrigin, Vector3.up,
                 m_DefaultStandingHeight - rayCastOriginlocalPosition.y, autoCrouchDetectionMask);
-            var isAboveCrouchHeight = Physics.Raycast(rayCastOrigin, Vector3.up,
-                m_CrouchHeight - rayCastOriginlocalPosition.y, autoCrouchDetectionMask);
+
+            var isAboveCrouchHeight = Physics.CheckBox(rayCastOrigin + Vector3.up * ((m_CrouchHeight - rayCastOriginlocalPosition.y) / 2f),
+                boxHalfExtents, Quaternion.identity, autoCrouchDetectionMask);
+            
             return isAboveStandingHeight && !isAboveCrouchHeight;
         }
 
