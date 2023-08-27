@@ -123,9 +123,16 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
 
             if (changeCameraViewOnObstacleDetection) occlusionCamera.gameObject.SetActive(m_IsCrouching && !CanStandUp());
             if (autoCrouchDetection && DetectCrouchableObstacle() && !m_IsCrouching) Crouch();
-            if (CanStandUp() || !m_IsCrouching) return;
-            m_CameraMovement.TopClamp = cameraClampOnCantStandup.x;
-            m_CameraMovement.BottomClamp = cameraClampOnCantStandup.y;
+            if (!CanStandUp() && m_IsCrouching)
+            {
+                m_CameraMovement.TopClamp = cameraClampOnCantStandup.x;
+                m_CameraMovement.BottomClamp = cameraClampOnCantStandup.y;
+            }
+            else
+            {
+                m_CameraMovement.TopClamp = m_DefaultCameraClampValues.x;
+                m_CameraMovement.BottomClamp = m_DefaultCameraClampValues.y;
+            }
         }
 
         private bool DetectCrouchableObstacle()

@@ -397,7 +397,11 @@ namespace Etra.StarterAssets
                     {
                         abilitySoundManager.Play("Land");
                         jumpReset = false;
-                        if (landingShakeEnabled) { CinemachineShake.Instance.ShakeCamera(landingShake); }
+                        if (landingShakeEnabled)
+                        {
+                            if(CinemachineShake.Instance != null)
+                                CinemachineShake.Instance.ShakeCamera(landingShake);
+                        }
                     }
                 }
 
