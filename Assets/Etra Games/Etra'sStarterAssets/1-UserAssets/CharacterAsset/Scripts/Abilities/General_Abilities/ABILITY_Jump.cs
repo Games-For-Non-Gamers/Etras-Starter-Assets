@@ -148,7 +148,11 @@ namespace Etra.StarterAssets.Abilities
                 return;
             }
             lockJump = true;
-            if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
+            if (jumpShakeEnabled)
+            {
+                if(CinemachineShake.Instance != null)
+                    CinemachineShake.Instance.ShakeCamera(jumpingShake);
+            }
             // the square root of H * -2 * G = how much velocity needed to reach desired height
             mainController._verticalVelocity = Mathf.Sqrt(height * -2f * mainController.Gravity);
             // update animator if using character
@@ -174,7 +178,11 @@ namespace Etra.StarterAssets.Abilities
 
             if (playEffects)
             {
-                if (jumpShakeEnabled) { CinemachineShake.Instance.ShakeCamera(jumpingShake); }
+                if (jumpShakeEnabled)
+                {
+                    if(CinemachineShake.Instance != null)
+                        CinemachineShake.Instance.ShakeCamera(jumpingShake);
+                }
                 if (_hasAnimator)
                 {
                     Debug.Log("e");
