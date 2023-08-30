@@ -1,10 +1,10 @@
-using System;
+using System.Collections.Generic;
 using Cinemachine;
+using Etra.StarterAssets.Abilities.FirstPerson;
 using Etra.StarterAssets.Input;
 using Etra.StarterAssets.Source;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Etra.StarterAssets.Abilities.ThirdPerson
 {
@@ -22,6 +22,12 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
         [Header("Basics")] [SerializeField] private crouchType CrouchType = crouchType.Hold;
         [SerializeField] private float crouchedMovementSpeed = 1.5f;
         [SerializeField] private float crouchCameraHeight = 0.5f;
+        [SerializeField]
+        [Tooltip("Prohibits to Dash and Jump during crouching")]
+        private bool blockDashAndJumpAbilities = true;
+        [SerializeField]
+        [Tooltip("When Crouching, these abilities will be disabled.")]
+        private List<EtraAbilityBaseClass> abilitiesToBlockWhileCrouching = new List<EtraAbilityBaseClass>();
 
         [Header("Stay Crouched on Obstacle Detection")] [SerializeField]
         private bool changeCameraViewOnObstacleDetection = true;
@@ -200,6 +206,7 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             m_CharacterController.center = m_CrouchCenter;
             
             ChangeCameraRoot(crouchCameraHeight);
+            BlockAbilities(true);
             
         }
 
@@ -220,8 +227,9 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             m_CameraMovement.TopClamp = m_DefaultCameraClampValues.x;
             m_CameraMovement.BottomClamp = m_DefaultCameraClampValues.y;
             ChangeCameraRoot(m_DefaultCameraHeight);
+            BlockAbilities(false);
         }
-
+        
         private void ChangeCameraRoot(float newHeight)
         {
             var camLocalPos =  m_CameraRoot.localPosition;
@@ -236,5 +244,50 @@ namespace Etra.StarterAssets.Abilities.ThirdPerson
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(transform.localPosition + autoCrouchRaycastOriginOffset, m_CrouchHeight/2);
         }
+        
+        private void OnValidate()
+        {
+            if (blockDashAndJumpAbilities)
+            {
+                ABILITY_Jump jumpComponent;
+                if (TryGetComponent(out jumpComponent))
+                {
+                    if(!abilitiesToBlockWhileCrouching.Contains(jumpComponent))
+                        abilitiesToBlockWhileCrouching.Add(jumpComponent);
+                }
+  
+                ABILITY_Dash dashComponent;
+                if (TryGetComponent(out dashComponent))
+                {
+                    if(!abilitiesToBlockWhileCrouching.Contains(dashComponent))
+                        abilitiesToBlockWhileCrouching.Add(dashComponent);
+                }
+            }
+            else
+            {
+                ABILITY_Jump jumpComponent;
+                if (TryGetComponent(out jumpComponent))
+                {
+                    if(abilitiesToBlockWhileCrouching.Contains(jumpComponent))
+                        abilitiesToBlockWhileCrouching.Remove(jumpComponent);
+                }
+  
+                ABILITY_Dash dashComponent;
+                if (TryGetComponent(out dashComponent))
+                {
+                    if(abilitiesToBlockWhileCrouching.Contains(dashComponent))
+                        abilitiesToBlockWhileCrouching.Remove(dashComponent);
+                }
+            }
+        }
+ 
+        private void BlockAbilities(bool b)
+        {
+            foreach (var ability in abilitiesToBlockWhileCrouching)
+            {
+                ability.abilityEnabled = !b;
+            }
+        }
+        
     }
 }
