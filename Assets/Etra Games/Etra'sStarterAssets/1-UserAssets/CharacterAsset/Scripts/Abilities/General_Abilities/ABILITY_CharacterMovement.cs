@@ -194,11 +194,11 @@ namespace Etra.StarterAssets.Abilities
                     float nextStepThreshold;
                     if (_input.sprint)
                     {
-                        nextStepThreshold = 0.333f;
+                        nextStepThreshold = 0.75f;
                     }
                     else
                     {
-                        nextStepThreshold = 0.5f;
+                        nextStepThreshold = 0.9f;
                     }
 
                     stepTime += Time.deltaTime;
